@@ -108,11 +108,11 @@
                 },
                 "BlockX": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The X-coordinate in the room where the player should spawn."
+                    "description": "The X-coordinate in the room where the player should spawn. If the room contains a save station, then this value will not be taken into consideration."
                 },
                 "BlockY": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The Y-coordinate in the room where the player should spawn."
+                    "description": "The Y-coordinate in the room where the player should spawn. If the room contains a save station, then this value will not be taken into consideration."
                 }
             },
             "required": [
