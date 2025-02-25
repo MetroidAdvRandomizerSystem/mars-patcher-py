@@ -267,10 +267,10 @@ class MarsschemaStartinglocation(typ.TypedDict):
     """The room ID of the starting location."""
 
     BlockX: Typeu8
-    """The X-coordinate in the room where the player should spawn."""
+    """The X-coordinate in the room where the player should spawn. If the room contains a save station, then this value will not be taken into consideration."""
 
     BlockY: Typeu8
-    """The Y-coordinate in the room where the player should spawn."""
+    """The Y-coordinate in the room where the player should spawn. If the room contains a save station, then this value will not be taken into consideration."""
 
 
 MarsschemaStartingitemsSecuritylevelsItem = typ.Literal[
