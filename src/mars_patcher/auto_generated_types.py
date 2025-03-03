@@ -23,7 +23,6 @@ Areaidkey = typ.Literal[
     '5',
     '6'
 ]
-
 Minimapidkey = typ.Literal[
     '0',
     '1',
@@ -37,7 +36,6 @@ Minimapidkey = typ.Literal[
     '9',
     '10'
 ]
-
 Sectorid: typ.TypeAlias = typ.Annotated[int, '1 <= value <= 6']
 Shortcutsectorlist: typ.TypeAlias = typ.Annotated[list[Sectorid], 'len() == 6']
 Huerotation: typ.TypeAlias = typ.Annotated[int, '0 <= value <= 360']
@@ -64,7 +62,6 @@ Validsources = typ.Literal[
     'WaveCoreX',
     'Ridley'
 ]
-
 Validitems = typ.Literal[
     'None',
     'Level0',
@@ -96,7 +93,6 @@ Validitems = typ.Literal[
     'IceTrap',
     'InfantMetroid'
 ]
-
 Validitemsprites = typ.Literal[
     'Empty',
     'Missiles',
@@ -130,7 +126,6 @@ Validitemsprites = typ.Literal[
     'ShinyPowerBombTank',
     'InfantMetroid'
 ]
-
 Validabilities = typ.Literal[
     'Missiles',
     'MorphBall',
@@ -151,7 +146,6 @@ Validabilities = typ.Literal[
     'ScrewAttack',
     'IceBeam'
 ]
-
 Validelevatortops = typ.Literal[
     'OperationsDeckTop',
     'MainHubToSector1',
@@ -164,7 +158,6 @@ Validelevatortops = typ.Literal[
     'HabitationDeckTop',
     'Sector1ToRestrictedLab'
 ]
-
 Validelevatorbottoms = typ.Literal[
     'OperationsDeckBottom',
     'MainHubBottom',
@@ -177,7 +170,6 @@ Validelevatorbottoms = typ.Literal[
     'Sector5ToMainHub',
     'Sector6ToMainHub'
 ]
-
 Validlanguages = typ.Literal[
     'JapaneseKanji',
     'JapaneseHiragana',
@@ -187,8 +179,8 @@ Validlanguages = typ.Literal[
     'Italian',
     'Spanish'
 ]
-
 Messagelanguages: typ.TypeAlias = dict[Validlanguages, str]
+
 class Itemmessages(typ.TypedDict, total=False):
     Languages: Messagelanguages
     Centered: bool = True
@@ -203,7 +195,6 @@ class BlocklayerItem(typ.TypedDict, total=False):
     Value: Typeu10
     """The value that should be used to edit the room. For backgrounds, this is calculated via `((Row-1) * ColumnsInTileset) + (Column-1)`."""
 
-
 Blocklayer: typ.TypeAlias = typ.Annotated[list[BlocklayerItem], 'Unique items']
 Hintlocks = typ.Literal[
     'OPEN',
@@ -215,8 +206,8 @@ Hintlocks = typ.Literal[
     'RED'
 ]
 
-
 # Schema entries
+
 class MarsschemaLocationsMajorlocationsItem(typ.TypedDict):
     Source: Validsources
     """Valid major locations."""
@@ -271,7 +262,6 @@ class MarsschemaStartinglocation(typ.TypedDict):
 
     BlockY: Typeu8
     """The Y-coordinate in the room where the player should spawn. If the room contains a save station, then this value will not be taken into consideration."""
-
 
 MarsschemaStartingitemsSecuritylevelsItem = typ.Literal[
     0,
@@ -333,7 +323,6 @@ class MarsschemaSectorshortcuts(typ.TypedDict):
     RightAreas: Shortcutsectorlist
     """Destination areas on the right side of sectors"""
 
-
 MarsschemaDoorlocksItemLocktype = typ.Literal[
     'Open',
     'Level0',
@@ -354,7 +343,6 @@ class MarsschemaDoorlocksItem(typ.TypedDict):
     LockType: MarsschemaDoorlocksItemLocktype
     """The type of cover on the hatch."""
 
-
 MarsschemaPalettesRandomizeKey = typ.Literal[
     'Tilesets',
     'Enemies',
@@ -371,7 +359,6 @@ class MarsschemaPalettesRandomize(typ.TypedDict, total=False):
 
     HueMax: Huerotation = None
     """The maximum value to use for rotating palette hues. If not specified, the patcher will randomly generate one."""
-
 
 
 MarsschemaPalettesColorspace = typ.Literal[
@@ -454,7 +441,6 @@ class MarsschemaNavigationtext(typ.TypedDict, total=False):
     """Assigns the ship specific text."""
 
 
-
 MarsschemaCreditstextItemLinetype = typ.Literal[
     'Blank',
     'Blue',
@@ -475,7 +461,6 @@ class MarsschemaCreditstextItem(typ.TypedDict, total=False):
 
     Centered: bool = True
     """Centers the text horizontally when true."""
-
 
 MarsschemaNavstationlocksKey = typ.Literal[
     'MainDeckWest',
@@ -626,6 +611,5 @@ class Marsschema(typ.TypedDict, total=False):
 
     RevealHiddenTiles: bool = False
     """When enabled, reveals normally hidden blocks that are breakable by upgrades. Hidden pickup tanks are not revealed regardless of this setting."""
-
 
 MarsSchema: typ.TypeAlias = Marsschema
