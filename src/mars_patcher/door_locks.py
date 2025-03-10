@@ -13,9 +13,7 @@ from mars_patcher.constants.game_data import (
 from mars_patcher.constants.minimap_tiles import (
     ALL_DOOR_TILE_IDS,
     ALL_DOOR_TILES,
-    ANY_DOOR_EDGE,
-    AnyEdge,
-    ColorDoor,
+    ColoredDoor,
     Edge,
 )
 from mars_patcher.minimap import Minimap
@@ -202,7 +200,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
 
                 minimap_areas = [area]
                 if area == 0:
-                    minimap_areas = [0, 9]  # main deck seemingly has two maps?
+                    minimap_areas = [0, 9]  # Main deck seemingly has two maps?
                 for minimap_area in minimap_areas:
                     map_tile = minimap_changes[minimap_area][minimap_x, minimap_y, room]
                     if facing_right:
@@ -275,13 +273,13 @@ def fix_hatch_lock_events(
 def change_minimap_tiles(
     rom: Rom, minimap_changes: dict[AreaId, dict[MinimapLocation, MinimapLockChanges]]
 ):
-    MAP_EDGES: dict[HatchLock, AnyEdge] = {
+    MAP_EDGES: dict[HatchLock, Edge | ColoredDoor] = {
         HatchLock.OPEN: Edge.DOOR,
         HatchLock.LEVEL_0: Edge.DOOR,
-        HatchLock.LEVEL_1: ColorDoor.BLUE,
-        HatchLock.LEVEL_2: ColorDoor.GREEN,
-        HatchLock.LEVEL_3: ColorDoor.YELLOW,
-        HatchLock.LEVEL_4: ColorDoor.RED,
+        HatchLock.LEVEL_1: ColoredDoor.BLUE,
+        HatchLock.LEVEL_2: ColoredDoor.GREEN,
+        HatchLock.LEVEL_3: ColoredDoor.YELLOW,
+        HatchLock.LEVEL_4: ColoredDoor.RED,
         HatchLock.LOCKED: Edge.DOOR,
         # HatchLock.LOCKED: Edge.WALL,
     }
@@ -293,13 +291,13 @@ def change_minimap_tiles(
 
                 tile_data = ALL_DOOR_TILES[tile_id]
 
-                # account for h_flip before changing edges
+                # Account for h_flip before changing edges
                 left = tile_changes.get("left")
                 right = tile_changes.get("right")
                 if h_flip:
                     left, right = right, left
 
-                # replace edges
+                # Replace edges
                 edges = tile_data.edges
                 if left is not None:
                     edges = edges._replace(left=MAP_EDGES[left])
@@ -309,19 +307,19 @@ def change_minimap_tiles(
                 new_tile_data = og_new_tile_data
 
                 if new_tile_data not in ALL_DOOR_TILE_IDS:
-                    # try flipping horizontally
+                    # Try flipping horizontally
                     new_tile_data = og_new_tile_data.h_flip()
                     if new_tile_data in ALL_DOOR_TILE_IDS:
                         h_flip = not h_flip
 
                 if new_tile_data not in ALL_DOOR_TILE_IDS:
-                    # try flipping vertically
+                    # Try flipping vertically
                     new_tile_data = og_new_tile_data.v_flip()
                     if new_tile_data in ALL_DOOR_TILE_IDS:
                         v_flip = not v_flip
 
                 if new_tile_data not in ALL_DOOR_TILE_IDS:
-                    # try flipping it both ways
+                    # Try flipping it both ways
                     new_tile_data = og_new_tile_data.v_flip()
                     new_tile_data = new_tile_data.h_flip()
                     if new_tile_data in ALL_DOOR_TILE_IDS:
@@ -333,13 +331,13 @@ def change_minimap_tiles(
                         "Could not edit map tile door icons for "
                         f"area {area} room {room:X}. ({x:X}, {y:X})."
                     )
-                    logging.debug(f"  Desired tile: {str(og_new_tile_data)}")
+                    logging.debug(f"  Desired tile: {og_new_tile_data.as_str}")
                     logging.debug("  Falling back to unlocked doors.")
 
-                    # try replacing with open doors
-                    if (left is not None) and (tile_data.edges.left in ANY_DOOR_EDGE):
+                    # Try replacing with open doors
+                    if (left is not None) and tile_data.edges.left.is_door:
                         edges = edges._replace(left=Edge.DOOR)
-                    if (right is not None) and (tile_data.edges.right in ANY_DOOR_EDGE):
+                    if (right is not None) and tile_data.edges.right.is_door:
                         edges = edges._replace(right=Edge.DOOR)
                     new_tile_data = og_new_tile_data._replace(edges=edges)
 
