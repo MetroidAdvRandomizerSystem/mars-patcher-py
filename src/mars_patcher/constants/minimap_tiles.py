@@ -12,12 +12,6 @@ class Edge(Enum):
     SHORTCUT = "S"
     DOOR = "D"
 
-    # aliases
-    X = EMPTY
-    W = WALL
-    S = SHORTCUT
-    D = DOOR
-
 
 class ColorDoor(Enum):
     BLUE = "B"
@@ -25,22 +19,27 @@ class ColorDoor(Enum):
     YELLOW = "Y"
     RED = "R"
 
-    # aliases
-    B = BLUE
-    G = GREEN
-    Y = YELLOW
-    R = RED
+
+AnyEdge = Edge | ColorDoor
 
 
 # aliases for ease of definition
-X = Edge.X
-W = Edge.W
-S = Edge.S
-D = Edge.D
-BLUE = ColorDoor.B
-GREEN = ColorDoor.G
-YELLOW = ColorDoor.Y
-RED = ColorDoor.R
+X = Edge.EMPTY
+W = Edge.WALL
+S = Edge.SHORTCUT
+D = Edge.DOOR
+BLUE = ColorDoor.BLUE
+GREEN = ColorDoor.GREEN
+YELLOW = ColorDoor.YELLOW
+RED = ColorDoor.RED
+
+ANY_DOOR_EDGE: set[AnyEdge] = {
+    Edge.DOOR,
+    BLUE,
+    GREEN,
+    YELLOW,
+    RED,
+}
 
 
 class Content(Enum):
@@ -56,24 +55,11 @@ class Content(Enum):
     GUNSHIP = "G"
     GUNSHIP_EDGE = "P"
 
-    # aliases
-    X = EMPTY
-    N = NAVIGATION
-    S = SAVE
-    R = RECHARGE
-    H = HIDDEN_RECHARGE
-    D = DATA
-    I = ITEM
-    O = OBTAINED_ITEM
-    B = BOSS
-    G = GUNSHIP
-    P = GUNSHIP_EDGE
-
 
 class TileEdges(NamedTuple):
     top: Edge = Edge.WALL
-    left: Edge | ColorDoor = Edge.WALL
-    right: Edge | ColorDoor = Edge.WALL
+    left: AnyEdge = Edge.WALL
+    right: AnyEdge = Edge.WALL
     bottom: Edge = Edge.WALL
 
     def __str__(self):
