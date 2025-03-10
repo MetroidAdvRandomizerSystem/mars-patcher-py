@@ -295,13 +295,13 @@ def samus_palettes(rom: Rom) -> list[tuple[int, int]]:
     """Returns a list of (address, row count) pairs for all of Samus's palettes."""
     if rom.game == Game.MF:
         if rom.region == Region.U:
-            return [(0x28DD7C, 0x5E), (0x28EAFC, 0x70)]
+            return [(0x28DD7C, 0x5E), (0x28EAFC, 0x70), (0x565D48, 3)]
         elif rom.region == Region.E:
-            return [(0x28E3D8, 0x5E), (0x28F158, 0x70)]
+            return [(0x28E3D8, 0x5E), (0x28F158, 0x70), (0x5663A4, 3)]
         elif rom.region == Region.J:
-            return [(0x290084, 0x5E), (0x290E04, 0x70)]
+            return [(0x290084, 0x5E), (0x290E04, 0x70), (0x568424, 3)]
         elif rom.region == Region.C:
-            return [(0x2900C8, 0x5E), (0x290E48, 0x70)]
+            return [(0x2900C8, 0x5E), (0x290E48, 0x70), (0x56CC68, 3)]
     elif rom.game == Game.ZM:
         if rom.region == Region.U:
             return [(0x2376A8, 0xA3)]
