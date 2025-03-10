@@ -5,6 +5,19 @@ from typing import NamedTuple
 
 from typing_extensions import Self
 
+# String Format
+# <top><left><right><bottom>_<top-left><top-right><bottom-left><bottom-right>_<content>
+
+# Chunk 1 (tile edges)
+# - see Edge and ColoredDoor for values
+
+# Chunk 2 (tile corners)
+# - C: corner pixel
+# - x: none
+
+# Chunk 3 (tile content)
+# - see Content for values
+
 
 # Edges
 class Edge(Enum):
@@ -139,6 +152,32 @@ class Content(Enum):
     GUNSHIP = "G"
     GUNSHIP_EDGE = "P"
 
+    @property
+    def can_h_flip(self) -> bool:
+        exclude = {
+            Content.NAVIGATION,
+            Content.SAVE,
+            Content.RECHARGE,
+            Content.HIDDEN_RECHARGE,
+            Content.DATA,
+            Content.GUNSHIP,
+            Content.GUNSHIP_EDGE,
+        }
+        return self not in exclude
+
+    @property
+    def can_v_flip(self) -> bool:
+        exclude = {
+            Content.NAVIGATION,
+            Content.SAVE,
+            Content.RECHARGE,
+            Content.HIDDEN_RECHARGE,
+            Content.GUNSHIP,
+            Content.GUNSHIP_EDGE,
+            Content.BOSS,
+        }
+        return self not in exclude
+
 
 # Tile
 class MapTile(NamedTuple):
@@ -162,6 +201,9 @@ class MapTile(NamedTuple):
         )
 
     def h_flip(self) -> MapTile:
+        if not self.content.can_h_flip:
+            raise ValueError(f"Cannot h_flip tile with contents {self.content}")
+
         return MapTile(
             edges=self.edges.h_flip(),
             corners=self.corners.h_flip(),
@@ -169,6 +211,9 @@ class MapTile(NamedTuple):
         )
 
     def v_flip(self) -> MapTile:
+        if not self.content.can_v_flip:
+            raise ValueError(f"Cannot v_flip tile with contents {self.content}")
+
         return MapTile(
             edges=self.edges.v_flip(),
             corners=self.corners.v_flip(),

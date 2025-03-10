@@ -306,27 +306,34 @@ def change_minimap_tiles(
                 og_new_tile_data = tile_data._replace(edges=edges)
                 new_tile_data = og_new_tile_data
 
-                if new_tile_data not in ALL_DOOR_TILE_IDS:
+                def tile_exists() -> bool:
+                    return new_tile_data in ALL_DOOR_TILE_IDS
+
+                if new_tile_data.content.can_h_flip and not tile_exists():
                     # Try flipping horizontally
                     new_tile_data = og_new_tile_data.h_flip()
-                    if new_tile_data in ALL_DOOR_TILE_IDS:
+                    if tile_exists():
                         h_flip = not h_flip
 
-                if new_tile_data not in ALL_DOOR_TILE_IDS:
+                if new_tile_data.content.can_v_flip and not tile_exists():
                     # Try flipping vertically
                     new_tile_data = og_new_tile_data.v_flip()
-                    if new_tile_data in ALL_DOOR_TILE_IDS:
+                    if tile_exists():
                         v_flip = not v_flip
 
-                if new_tile_data not in ALL_DOOR_TILE_IDS:
+                if (
+                    new_tile_data.content.can_h_flip
+                    and new_tile_data.content.can_v_flip
+                    and not tile_exists()
+                ):
                     # Try flipping it both ways
                     new_tile_data = og_new_tile_data.v_flip()
                     new_tile_data = new_tile_data.h_flip()
-                    if new_tile_data in ALL_DOOR_TILE_IDS:
+                    if tile_exists():
                         v_flip = not v_flip
                         h_flip = not h_flip
 
-                if new_tile_data not in ALL_DOOR_TILE_IDS:
+                if not tile_exists():
                     logging.debug(
                         "Could not edit map tile door icons for "
                         f"area {area} room {room:X}. ({x:X}, {y:X})."
@@ -341,12 +348,12 @@ def change_minimap_tiles(
                         edges = edges._replace(right=Edge.DOOR)
                     new_tile_data = og_new_tile_data._replace(edges=edges)
 
-                    if new_tile_data not in ALL_DOOR_TILE_IDS:
+                    if tile_exists():
                         logging.debug("  Still no luck. Using vanilla tile.")
 
                     logging.debug("")
 
-                if new_tile_data in ALL_DOOR_TILE_IDS:
+                if tile_exists():
                     minimap.set_tile_value(
                         x,
                         y,
