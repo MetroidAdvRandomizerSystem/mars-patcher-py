@@ -7,7 +7,7 @@ from mars_patcher.auto_generated_types import MarsSchema
 from mars_patcher.connections import Connections
 from mars_patcher.credits import write_credits
 from mars_patcher.data import get_data_path
-from mars_patcher.door_locks import remove_door_colors_on_minimap, set_door_locks
+from mars_patcher.door_locks import set_door_locks
 from mars_patcher.item_patcher import ItemPatcher, set_required_metroid_count, set_tank_increments
 from mars_patcher.level_edits import apply_level_edits
 from mars_patcher.locations import LocationSettings
@@ -121,11 +121,6 @@ def patch(
             conns = Connections(rom)
         conns.set_shortcut_connections(patch_data["SectorShortcuts"])
 
-    # Door locks
-    if door_locks := patch_data.get("DoorLocks", []):
-        status_update("Writing door locks...", -1)
-        set_door_locks(rom, door_locks)
-
     # Hints
     if nav_text := patch_data.get("NavigationText", {}):
         status_update("Writing navigation text...", -1)
@@ -172,17 +167,23 @@ def patch(
     if patch_data.get("UnexploredMap"):
         apply_unexplored_map(rom)
 
+        # TODO: https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/pull/217
+        # if not "HideDoorsOnMinimap" in patch_data:
+        #     apply_reveal_unexplored_doors(rom)
+
     if patch_data.get("RevealHiddenTiles"):
         apply_reveal_hidden_tiles(rom)
-
-    if patch_data.get("DoorLocks") or "HideDoorsOnMinimap" in patch_data:
-        remove_door_colors_on_minimap(rom)
 
     if "LevelEdits" in patch_data:
         apply_level_edits(rom, patch_data["LevelEdits"])
 
     if "MinimapEdits" in patch_data:
         apply_minimap_edits(rom, patch_data["MinimapEdits"])
+
+    # Door locks
+    if door_locks := patch_data.get("DoorLocks", []):
+        status_update("Writing door locks...", -1)
+        set_door_locks(rom, door_locks)
 
     write_seed_hash(rom, patch_data["SeedHash"])
 

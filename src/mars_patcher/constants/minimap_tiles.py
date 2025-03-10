@@ -1,326 +1,400 @@
-# Format
-# <top><left><right><bottom>_<top-left><top-right><bottom-left><bottom-right>_<content>
+from __future__ import annotations
 
-# Chunk 1 (tile edges)
-# - W: wall
-# - D: door
-# - S: shortcut
-# - x: none
+from enum import Enum
+from typing import NamedTuple
 
-# Chunk 2 (tile corners)
-# - C: corner pixel
-# - x: none
+# ruff: noqa: E741
 
-# Chunk 3 (tile content)
-# - N: navigation room
-# - S: save room
-# - R: recharge room
-# - H: hidden recharge room
-# - D: data room
-# - I: item
-# - B: boss
-# - G: gunship
-# - P: gunship edge
-# - x: none
 
-COLORED_DOOR_TILES = {
-    0x005: "WDxx_xxxx_x",
-    0x006: "DDxx_xxxx_x",
-    0x007: "DDxx_xxxC_x",
-    0x008: "DDDD_xxxx_x",
-    0x009: "DDDx_xxxx_x",
-    0x00A: "WDxx_xxxx_x",
-    0x00B: "DDxx_xxxx_x",
-    0x00C: "DDxx_xxxC_x",
-    0x00D: "DDDD_xxxx_x",
-    0x00E: "DDDx_xxxx_x",
-    0x00F: "WDxx_xxxx_x",
-    0x010: "DDxx_xxxx_x",
-    0x011: "DDxx_xxxC_x",
-    0x012: "DDDD_xxxx_x",
-    0x013: "DDDx_xxxx_x",
-    0x014: "WDxx_xxxx_x",
-    0x015: "DDxx_xxxx_x",
-    0x016: "DDxx_xxxC_x",
-    0x017: "DDDD_xxxx_x",
-    0x018: "DDDx_xxxx_x",
-    0x019: "DDDx_xxxx_x",
-    0x01A: "DDDx_xxxx_x",
-    0x01B: "DDDx_xxxx_x",
-    0x01C: "DDDx_xxxx_x",
-    0x01D: "DDDx_xxxx_x",
-    0x01E: "DDDx_xxxx_x",
-    0x01F: "DDDD_xxxx_x",
-    0x025: "xDxx_xxxx_x",
-    0x026: "xDxx_xCxC_x",
-    0x027: "DDWD_xxxx_x",
-    0x028: "DDDx_xxxx_x",
-    0x029: "DDDW_xxxx_x",
-    0x02A: "xDxx_xxxx_x",
-    0x02B: "xDxx_xCxC_x",
-    0x02C: "DDWD_xxxx_x",
-    0x02D: "DDDx_xxxx_x",
-    0x02E: "DDDW_xxxx_x",
-    0x02F: "xDxx_xxxx_x",
-    0x030: "xDxx_xCxC_x",
-    0x031: "DDWD_xxxx_x",
-    0x032: "DDDx_xxxx_x",
-    0x033: "DDDW_xxxx_x",
-    0x034: "xDxx_xxxx_x",
-    0x035: "xDxx_xCxC_x",
-    0x036: "DDWD_xxxx_x",
-    0x037: "DDDx_xxxx_x",
-    0x038: "DDDW_xxxx_x",
-    0x039: "DDDW_xxxx_x",
-    0x03A: "DDDW_xxxx_x",
-    0x03B: "DDDW_xxxx_x",
-    0x03C: "DDDW_xxxx_x",
-    0x03D: "DDDW_xxxx_x",
-    0x03E: "DDDW_xxxx_x",
-    0x03F: "DDDD_xxxx_x",
-    0x045: "WDxW_xxxx_x",
-    0x046: "DDxD_xxxx_x",
-    0x047: "DDxW_xxxx_x",
-    0x048: "WDWW_xxxx_x",
-    0x049: "WDDW_xxxx_x",
-    0x04A: "WDxW_xxxx_x",
-    0x04B: "DDxD_xxxx_x",
-    0x04C: "DDxW_xxxx_x",
-    0x04D: "WDWW_xxxx_x",
-    0x04E: "WDDW_xxxx_x",
-    0x04F: "WDxW_xxxx_x",
-    0x050: "DDxD_xxxx_x",
-    0x051: "DDxW_xxxx_x",
-    0x052: "WDWW_xxxx_x",
-    0x053: "WDDW_xxxx_x",
-    0x054: "WDxW_xxxx_x",
-    0x055: "DDxD_xxxx_x",
-    0x056: "DDxW_xxxx_x",
-    0x057: "WDWW_xxxx_x",
-    0x058: "WDDW_xxxx_x",
-    0x059: "WDDW_xxxx_x",
-    0x05A: "WDDW_xxxx_x",
-    0x05B: "WDDW_xxxx_x",
-    0x05C: "WDDW_xxxx_x",
-    0x05D: "WDDW_xxxx_x",
-    0x05E: "WDDW_xxxx_x",
-    0x05F: "DDDD_xxxx_x",
-    0x065: "DDWx_xxxx_x",
-    0x066: "WDDx_xxxx_x",
-    0x068: "WDWx_xxxx_x",
-    0x069: "WDDx_xxxx_x",
-    0x06A: "DDWx_xxxx_x",
-    0x06B: "WDDx_xxxx_x",
-    0x06C: "WDxx_xxxC_x",
-    0x06D: "WDWx_xxxx_x",
-    0x06E: "WDDx_xxxx_x",
-    0x06F: "DDWx_xxxx_x",
-    0x070: "WDDx_xxxx_x",
-    0x072: "WDWx_xxxx_x",
-    0x073: "WDDx_xxxx_x",
-    0x074: "DDWx_xxxx_x",
-    0x075: "WDDx_xxxx_x",
-    0x077: "WDWx_xxxx_x",
-    0x078: "WDDx_xxxx_x",
-    0x079: "WDDx_xxxx_x",
-    0x07A: "WDDx_xxxx_x",
-    0x07B: "WDDx_xxxx_x",
-    0x07C: "WDDx_xxxx_x",
-    0x07D: "WDDx_xxxx_x",
-    0x07E: "WDDx_xxxx_x",
-    0x07F: "DDDD_xxxx_x",
-    0x085: "DDWW_xxxx_x",
-    0x086: "xDDx_xxxx_x",
-    0x088: "xDWx_xxxx_x",
-    0x089: "xDDx_xxxx_x",
-    0x08A: "DDWW_xxxx_x",
-    0x08B: "xDDx_xxxx_x",
-    0x08D: "xDWx_xxxx_x",
-    0x08E: "xDDx_xxxx_x",
-    0x08F: "DDWW_xxxx_x",
-    0x090: "xDDx_xxxx_x",
-    0x092: "xDWx_xxxx_x",
-    0x093: "xDDx_xxxx_x",
-    0x094: "DDWW_xxxx_x",
-    0x095: "xDDx_xxxx_x",
-    0x096: "DDDD_xxxx_x",
-    0x097: "xDWx_xxxx_x",
-    0x098: "xDDx_xxxx_x",
-    0x099: "xDDx_xxxx_x",
-    0x09A: "xDDx_xxxx_x",
-    0x09B: "xDDx_xxxx_x",
-    0x09C: "xDDx_xxxx_x",
-    0x09D: "xDDx_xxxx_x",
-    0x09E: "xDDx_xxxx_x",
-    0x09F: "DDDD_xxxx_x",
-    0x0E6: "WDDW_xxxx_x",
-    0x0E7: "DDDW_xxxx_x",
-    0x0E8: "DDDD_xxxx_x",
-    0x0EA: "DDxx_xxxC_x",
-    0x0EB: "WDDW_xxxx_x",
-    0x0EC: "DDDW_xxxx_x",
-    0x0ED: "DDDD_xxxx_x",
-    0x0EF: "DDxx_xxxC_x",
-    0x0F0: "WDDW_xxxx_x",
-    0x0F1: "DDDW_xxxx_x",
-    0x0F2: "DDDD_xxxx_x",
-    0x0F4: "DDxx_xxxC_x",
-    0x0F5: "WDDW_xxxx_x",
-    0x0F6: "DDDW_xxxx_x",
-    0x0F7: "DDDD_xxxx_x",
-    0x0F8: "WDxx_xxxC_x",
-    0x128: "WDDW_xxxx_R",
-    0x140: "WDWW_xxxx_R",
-    0x141: "WWDW_xxxx_R",
-    0x142: "WDDW_xxxx_R",
-    0x143: "WDWW_xxxx_R",
-    0x144: "WWDW_xxxx_R",
-    0x145: "WDDW_xxxx_R",
-    0x146: "WDWW_xxxx_R",
-    0x147: "WWDW_xxxx_R",
-    0x148: "WDDW_xxxx_R",
-    0x149: "WDWW_xxxx_R",
-    0x14A: "WWDW_xxxx_R",
-    0x14B: "WDDW_xxxx_R",
-    0x14C: "WDWW_xxxx_N",
-    0x14D: "WWDW_xxxx_N",
-    0x14E: "WDDW_xxxx_N",
-    0x14F: "WDWW_xxxx_N",
-    0x150: "WWDW_xxxx_N",
-    0x151: "WDDW_xxxx_N",
-    0x152: "WDWW_xxxx_N",
-    0x153: "WWDW_xxxx_N",
-    0x154: "WDDW_xxxx_N",
-    0x155: "WDWW_xxxx_N",
-    0x156: "WWDW_xxxx_N",
-    0x157: "WDDW_xxxx_N",
-    0x15E: "WDDW_xxxx_R",
-    0x160: "WDWW_xxxx_D",
-    0x161: "WWDW_xxxx_D",
-    0x162: "WDDW_xxxx_D",
-    0x163: "WDWW_xxxx_D",
-    0x164: "WWDW_xxxx_D",
-    0x165: "WDDW_xxxx_D",
-    0x166: "WDWW_xxxx_D",
-    0x167: "WWDW_xxxx_D",
-    0x168: "WDDW_xxxx_D",
-    0x169: "WDWW_xxxx_D",
-    0x16A: "WWDW_xxxx_D",
-    0x16B: "WDDW_xxxx_D",
-    0x17E: "WDDW_xxxx_S",
-    0x17F: "WDDW_xxxx_S",
-    0x198: "WDWW_xxxx_I",
-    0x199: "WDWW_xxxx_O",
-    0x19E: "WDWW_xxxx_I",
-    0x19F: "WDWW_xxxx_O",
-    0x1AC: "WDDW_xxxx_I",
-    0x1AD: "WDDW_xxxx_O",
+class Edge(Enum):
+    EMPTY = "x"
+    WALL = "W"
+    SHORTCUT = "S"
+    DOOR = "D"
+
+    # aliases
+    X = EMPTY
+    W = WALL
+    S = SHORTCUT
+    D = DOOR
+
+
+class ColorDoor(Enum):
+    BLUE = "B"
+    GREEN = "G"
+    YELLOW = "Y"
+    RED = "R"
+
+    # aliases
+    B = BLUE
+    G = GREEN
+    Y = YELLOW
+    R = RED
+
+
+# aliases for ease of definition
+X = Edge.X
+W = Edge.W
+S = Edge.S
+D = Edge.D
+BLUE = ColorDoor.B
+GREEN = ColorDoor.G
+YELLOW = ColorDoor.Y
+RED = ColorDoor.R
+
+
+class Content(Enum):
+    EMPTY = "x"
+    NAVIGATION = "N"
+    SAVE = "S"
+    RECHARGE = "R"
+    HIDDEN_RECHARGE = "H"
+    DATA = "D"
+    ITEM = "I"
+    OBTAINED_ITEM = "O"
+    BOSS = "B"
+    GUNSHIP = "G"
+    GUNSHIP_EDGE = "P"
+
+    # aliases
+    X = EMPTY
+    N = NAVIGATION
+    S = SAVE
+    R = RECHARGE
+    H = HIDDEN_RECHARGE
+    D = DATA
+    I = ITEM
+    O = OBTAINED_ITEM
+    B = BOSS
+    G = GUNSHIP
+    P = GUNSHIP_EDGE
+
+
+class TileEdges(NamedTuple):
+    top: Edge = Edge.WALL
+    left: Edge | ColorDoor = Edge.WALL
+    right: Edge | ColorDoor = Edge.WALL
+    bottom: Edge = Edge.WALL
+
+    def __str__(self):
+        return f"{self.top.value}{self.left.value}{self.right.value}{self.bottom.value}"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({str(self)})"
+
+    def h_flip(self) -> TileEdges:
+        return TileEdges(
+            top=self.top,
+            left=self.right,
+            right=self.left,
+            bottom=self.bottom,
+        )
+
+    def v_flip(self) -> TileEdges:
+        return TileEdges(
+            top=self.bottom,
+            left=self.left,
+            right=self.right,
+            bottom=self.top,
+        )
+
+
+class TileCorners(NamedTuple):
+    top_left: bool = False
+    top_right: bool = False
+    bottom_left: bool = False
+    bottom_right: bool = False
+
+    def __str__(self):
+        def s(corner: bool) -> str:
+            return "C" if corner else "x"
+
+        return f"{s(self.top_left)}{s(self.top_right)}{s(self.bottom_left)}{s(self.bottom_right)}"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({str(self)})"
+
+    def h_flip(self) -> TileCorners:
+        return TileCorners(
+            top_left=self.top_right,
+            top_right=self.top_left,
+            bottom_left=self.bottom_right,
+            bottom_right=self.bottom_left,
+        )
+
+    def v_flip(self) -> TileCorners:
+        return TileCorners(
+            top_left=self.bottom_left,
+            top_right=self.bottom_right,
+            bottom_left=self.top_left,
+            bottom_right=self.top_right,
+        )
+
+
+class MapTile(NamedTuple):
+    edges: TileEdges = TileEdges()
+    corners: TileCorners = TileCorners()
+    content: Content = Content.EMPTY
+
+    def __str__(self) -> str:
+        return f"{self.edges}_{self.corners}_{self.content.value}"
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({str(self)})"
+
+    def h_flip(self) -> MapTile:
+        return MapTile(
+            edges=self.edges.h_flip(),
+            corners=self.corners.h_flip(),
+            content=self.content,
+        )
+
+    def v_flip(self) -> MapTile:
+        return MapTile(
+            edges=self.edges.v_flip(),
+            corners=self.corners.v_flip(),
+            content=self.content,
+        )
+
+
+def _tile(
+    top: Edge,
+    left: Edge | ColorDoor,
+    right: Edge | ColorDoor,
+    bottom: Edge,
+    top_left: bool = False,
+    top_right: bool = False,
+    bottom_left: bool = False,
+    bottom_right: bool = False,
+    content: Content = Content.EMPTY,
+) -> MapTile:
+    return MapTile(
+        edges=TileEdges(top, left, right, bottom),
+        corners=TileCorners(top_left, top_right, bottom_left, bottom_right),
+        content=content,
+    )
+
+
+ROW_SIZE = 0x20
+COLOR_PAIRS = [
+    (BLUE, GREEN),
+    (BLUE, RED),
+    (BLUE, YELLOW),
+    (GREEN, RED),
+    (GREEN, YELLOW),
+    (RED, YELLOW),
+]
+COLOR_BATCHES = [(BLUE, 0x005), (GREEN, 0x00A), (RED, 0x00F), (YELLOW, 0x014)]
+
+COLORED_DOOR_TILES: dict[int, MapTile] = {}
+
+
+def basic_color_tiles(start: int, color: ColorDoor):
+    row = ROW_SIZE
+    tiles = {
+        row * 0 + 0: _tile(W, color, X, X),
+        row * 0 + 1: _tile(D, color, X, X),
+        row * 0 + 2: _tile(D, color, X, X, bottom_right=True),
+        row * 0 + 3: _tile(D, color, color, D),
+        row * 0 + 4: _tile(D, color, color, X),
+        row * 1 + 0: _tile(X, color, X, X),
+        row * 1 + 1: _tile(X, color, X, X, top_right=True, bottom_right=True),
+        row * 1 + 2: _tile(D, color, W, D),
+        row * 1 + 3: _tile(D, color, D, X),
+        row * 1 + 4: _tile(D, color, color, W),
+        row * 2 + 0: _tile(W, color, X, W),
+        row * 2 + 1: _tile(D, color, X, D),
+        row * 2 + 2: _tile(D, color, X, W),
+        row * 2 + 3: _tile(W, color, W, W),
+        row * 2 + 4: _tile(W, color, color, W),
+        row * 3 + 0: _tile(D, color, W, X),
+        row * 3 + 1: _tile(W, color, D, X),
+        # row * 3 + 2: tile(),
+        row * 3 + 3: _tile(W, color, W, X),
+        row * 3 + 4: _tile(W, color, color, X),
+        row * 4 + 0: _tile(D, color, W, W),
+        row * 4 + 1: _tile(X, color, D, X),
+        # row * 4 + 2: tile()
+        row * 4 + 3: _tile(X, color, W, X),
+        row * 4 + 4: _tile(X, color, color, X),
+    }
+    return {start + offset: tile for offset, tile in tiles.items()}
+
+
+# the 5x5 blocks on the top
+for color, offset in COLOR_BATCHES:
+    COLORED_DOOR_TILES.update(basic_color_tiles(offset, color))
+
+# the 6x5 block near the top right
+for row, (top, bottom) in enumerate([(D, X), (D, W), (W, W), (W, X), (X, X)]):
+    for col, (left, right) in enumerate(COLOR_PAIRS):
+        COLORED_DOOR_TILES[0x019 + row * ROW_SIZE + col] = _tile(top, left, right, bottom)
+
+# the 1x5 block at the very top right
+for i, (left, right) in enumerate(COLOR_PAIRS[:-1]):
+    COLORED_DOOR_TILES[0x01F + i * ROW_SIZE] = _tile(D, left, right, D)
+# this one didn't fit in the nice grid pattern so it's in a weird spot
+for left, right in COLOR_PAIRS[-1:]:
+    COLORED_DOOR_TILES[0x096] = _tile(D, left, right, D)
+
+# the few colored tiles on row 7
+for color, offset in COLOR_BATCHES:
+    start = ROW_SIZE * 7 + offset
+    if color != BLUE:
+        COLORED_DOOR_TILES[start] = _tile(D, color, X, X, bottom_right=True)
+    COLORED_DOOR_TILES[start + 1] = _tile(W, D, color, W)
+    COLORED_DOOR_TILES[start + 2] = _tile(D, D, color, W)
+    COLORED_DOOR_TILES[start + 3] = _tile(D, D, color, D)
+COLORED_DOOR_TILES[0x0F8] = _tile(W, YELLOW, X, X, bottom_right=True)
+COLORED_DOOR_TILES[0x06C] = _tile(W, GREEN, X, X, bottom_right=True)
+
+
+def special_room_tiles(offset: int, color: ColorDoor, content: Content):
+    return {
+        offset + 0: _tile(W, color, W, W, content=content),  # left door
+        offset + 1: _tile(W, W, color, W, content=content),  # right door
+        offset + 2: _tile(W, color, color, W, content=content),  # both doors
+    }
+
+
+# special rooms
+for i, (color, _) in enumerate(COLOR_BATCHES):
+    COLORED_DOOR_TILES.update(special_room_tiles(0x140 + i * 3, color, Content.RECHARGE))
+    COLORED_DOOR_TILES.update(special_room_tiles(0x14C + i * 3, color, Content.NAVIGATION))
+    COLORED_DOOR_TILES.update(special_room_tiles(0x160 + i * 3, color, Content.DATA))
+
+# random exceptions that don't fit into any other category
+COLORED_DOOR_TILES.update(
+    {
+        0x128: _tile(W, RED, D, W, content=Content.RECHARGE),
+        0x15E: _tile(W, D, YELLOW, W, content=Content.RECHARGE),
+        0x17E: _tile(W, RED, RED, W, content=Content.SAVE),
+        0x17F: _tile(W, YELLOW, D, W, content=Content.SAVE),
+        0x198: _tile(W, BLUE, W, W, content=Content.ITEM),
+        0x199: _tile(W, BLUE, W, W, content=Content.OBTAINED_ITEM),
+        0x19E: _tile(W, GREEN, W, W, content=Content.ITEM),
+        0x19F: _tile(W, GREEN, W, W, content=Content.OBTAINED_ITEM),
+        0x1AC: _tile(W, YELLOW, YELLOW, W, content=Content.ITEM),
+        0x1AD: _tile(W, YELLOW, YELLOW, W, content=Content.OBTAINED_ITEM),
+    }
+)
+
+COLORED_DOOR_TILE_IDS = {tile: idx for idx, tile in COLORED_DOOR_TILES.items()}
+
+
+NORMAL_DOOR_TILE_IDS = {
+    _tile(W, W, X, X): 0x000,
+    _tile(W, X, X, X): 0x001,
+    _tile(D, W, X, X): 0x002,
+    _tile(D, X, X, X): 0x003,
+    _tile(D, W, X, X, bottom_right=True): 0x004,
+    _tile(X, W, X, X): 0x020,
+    _tile(X, D, X, X): 0x021,
+    _tile(W, X, X, X, bottom_left=True, bottom_right=True): 0x022,
+    _tile(X, W, X, X, top_right=True, bottom_right=True): 0x023,
+    _tile(D, W, W, D): 0x024,
+    _tile(W, W, X, W): 0x040,
+    _tile(W, X, X, W): 0x041,
+    _tile(D, W, X, D): 0x042,
+    _tile(D, W, X, W): 0x043,
+    _tile(D, X, X, D): 0x044,
+    _tile(D, W, W, X): 0x060,
+    _tile(W, D, W, X): 0x061,
+    _tile(W, D, D, X): 0x062,
+    _tile(W, W, W, X): 0x063,
+    _tile(D, X, X, W): 0x064,
+    _tile(D, W, W, W): 0x080,
+    _tile(X, D, W, X): 0x081,
+    _tile(X, D, D, X): 0x082,
+    _tile(X, W, W, X): 0x083,
+    _tile(W, D, D, W): 0x084,
+    _tile(W, W, W, W): 0x087,
+    _tile(W, S, D, W, content=Content.ITEM): 0x0B4,
+    _tile(W, S, D, W): 0x0B6,
+    _tile(D, D, X, W): 0x0E0,
+    _tile(D, D, X, D): 0x0E1,
+    _tile(D, D, W, X): 0x0E2,
+    _tile(D, D, D, X): 0x0E3,
+    _tile(W, W, X, X, bottom_right=True): 0x0E4,
+    _tile(X, W, X, X, bottom_right=True): 0x0E5,
+    _tile(D, X, X, X, bottom_left=True, bottom_right=True): 0x100,
+    _tile(X, D, X, X, top_right=True, bottom_right=True): 0x101,
+    _tile(D, D, X, X, bottom_right=True): 0x102,
+    # tile(D, W, X, X, br=True): 0x103,  # dupe of 0x004
+    _tile(W, D, X, X, bottom_right=True): 0x104,
+    _tile(X, D, X, X, top_right=True): 0x105,
+    _tile(X, X, D, W, content=Content.BOSS): 0x108,
+    _tile(W, D, X, W, content=Content.BOSS): 0x109,
+    _tile(X, X, D, X, content=Content.BOSS): 0x10D,
+    _tile(X, D, X, W, content=Content.BOSS): 0x10F,
+    _tile(D, D, W, W): 0x120,
+    _tile(D, D, D, W): 0x121,
+    _tile(D, D, W, D): 0x122,
+    _tile(D, D, D, D): 0x123,
+    _tile(W, D, W, W): 0x124,
+    _tile(W, D, X, X): 0x125,
+    _tile(X, X, X, X): 0x126,
+    _tile(W, X, X, X, bottom_right=True): 0x127,
+    _tile(W, D, X, W, content=Content.GUNSHIP_EDGE): 0x129,
+    _tile(W, X, W, W, content=Content.GUNSHIP): 0x12A,
+    _tile(W, D, X, W): 0x12B,
+    _tile(D, D, X, X): 0x12C,
+    _tile(W, D, W, W, content=Content.HIDDEN_RECHARGE): 0x138,
+    _tile(W, W, D, W, content=Content.HIDDEN_RECHARGE): 0x139,
+    _tile(W, D, D, W, content=Content.HIDDEN_RECHARGE): 0x13A,
+    _tile(W, D, W, W, content=Content.RECHARGE): 0x158,
+    _tile(W, W, D, W, content=Content.RECHARGE): 0x159,
+    _tile(W, D, D, W, content=Content.RECHARGE): 0x15A,
+    _tile(W, D, W, W, content=Content.DATA): 0x15B,
+    _tile(W, W, D, W, content=Content.DATA): 0x15C,
+    _tile(W, D, D, W, content=Content.DATA): 0x15D,
+    _tile(W, D, W, W, content=Content.NAVIGATION): 0x178,
+    _tile(W, W, D, W, content=Content.NAVIGATION): 0x179,
+    _tile(W, D, D, W, content=Content.NAVIGATION): 0x17A,
+    _tile(W, D, W, W, content=Content.SAVE): 0x17B,
+    _tile(W, W, D, W, content=Content.SAVE): 0x17C,
+    _tile(W, D, D, W, content=Content.SAVE): 0x17D,
+    _tile(W, D, W, W, content=Content.ITEM): 0x180,
+    _tile(W, D, W, W, content=Content.OBTAINED_ITEM): 0x181,
+    _tile(W, W, X, W, content=Content.ITEM): 0x182,
+    _tile(W, W, X, W, content=Content.OBTAINED_ITEM): 0x183,
+    _tile(W, D, D, W, content=Content.ITEM): 0x184,
+    _tile(W, D, D, W, content=Content.OBTAINED_ITEM): 0x185,
+    _tile(W, W, X, X, content=Content.ITEM): 0x186,
+    _tile(W, W, X, X, content=Content.OBTAINED_ITEM): 0x187,
+    _tile(W, D, X, W, content=Content.ITEM): 0x188,
+    _tile(W, D, X, W, content=Content.OBTAINED_ITEM): 0x189,
+    _tile(X, W, X, X, content=Content.ITEM): 0x18A,
+    _tile(X, W, X, X, content=Content.OBTAINED_ITEM): 0x18B,
+    _tile(X, D, X, X, content=Content.ITEM): 0x18C,
+    _tile(X, D, X, X, content=Content.OBTAINED_ITEM): 0x18D,
+    _tile(W, D, X, X, content=Content.ITEM): 0x18E,
+    _tile(W, D, X, X, content=Content.OBTAINED_ITEM): 0x18F,
+    _tile(W, X, X, X, content=Content.ITEM): 0x190,
+    _tile(W, X, X, X, content=Content.OBTAINED_ITEM): 0x191,
+    _tile(W, X, X, W, content=Content.ITEM): 0x192,
+    _tile(W, X, X, W, content=Content.OBTAINED_ITEM): 0x193,
+    _tile(W, W, W, X, content=Content.ITEM): 0x194,
+    _tile(W, W, W, X, content=Content.OBTAINED_ITEM): 0x195,
+    _tile(D, D, D, W, content=Content.ITEM): 0x196,
+    _tile(D, D, D, W, content=Content.OBTAINED_ITEM): 0x197,
+    _tile(X, D, D, W, content=Content.ITEM): 0x19A,
+    _tile(X, D, D, W, content=Content.OBTAINED_ITEM): 0x19B,
+    _tile(W, W, D, X, content=Content.ITEM): 0x19C,
+    _tile(W, W, D, X, content=Content.OBTAINED_ITEM): 0x19D,
+    _tile(X, W, W, D, content=Content.ITEM): 0x1A0,
+    _tile(X, W, W, D, content=Content.OBTAINED_ITEM): 0x1A1,
+    _tile(W, W, W, D, content=Content.ITEM): 0x1A2,
+    _tile(W, W, W, D, content=Content.OBTAINED_ITEM): 0x1A3,
+    _tile(X, X, X, X, content=Content.ITEM): 0x1A4,
+    _tile(X, X, X, X, content=Content.OBTAINED_ITEM): 0x1A5,
+    _tile(W, W, X, D, content=Content.ITEM): 0x1A6,
+    _tile(W, W, X, D, content=Content.OBTAINED_ITEM): 0x1A7,
+    _tile(X, W, W, X, content=Content.ITEM): 0x1A8,
+    _tile(X, W, W, X, content=Content.OBTAINED_ITEM): 0x1A9,
+    _tile(D, D, W, W, content=Content.ITEM): 0x1AA,
+    _tile(D, D, W, W, content=Content.OBTAINED_ITEM): 0x1AB,
 }
 
-NORMAL_DOOR_TILES = {
-    "WWxx_xxxx_x": 0x000,
-    "Wxxx_xxxx_x": 0x001,
-    "DWxx_xxxx_x": 0x002,
-    "Dxxx_xxxx_x": 0x003,
-    "DWxx_xxxC_x": 0x004,
-    "xWxx_xxxx_x": 0x020,
-    "xDxx_xxxx_x": 0x021,
-    "Wxxx_xxCC_x": 0x022,
-    "xWxx_xCxC_x": 0x023,
-    "DWWD_xxxx_x": 0x024,
-    "WWxW_xxxx_x": 0x040,
-    "WxxW_xxxx_x": 0x041,
-    "DWxD_xxxx_x": 0x042,
-    "DWxW_xxxx_x": 0x043,
-    "DxxD_xxxx_x": 0x044,
-    "DWWx_xxxx_x": 0x060,
-    "WDWx_xxxx_x": 0x061,
-    "WDDx_xxxx_x": 0x062,
-    "WWWx_xxxx_x": 0x063,
-    "DxxW_xxxx_x": 0x064,
-    "DWWW_xxxx_x": 0x080,
-    "xDWx_xxxx_x": 0x081,
-    "xDDx_xxxx_x": 0x082,
-    "xWWx_xxxx_x": 0x083,
-    "WDDW_xxxx_x": 0x084,
-    "WWWW_xxxx_x": 0x087,
-    "DDxW_xxxx_x": 0x0E0,
-    "DDxD_xxxx_x": 0x0E1,
-    "DDWx_xxxx_x": 0x0E2,
-    "DDDx_xxxx_x": 0x0E3,
-    "WWxx_xxxC_x": 0x0E4,
-    "xWxx_xxxC_x": 0x0E5,
-    "Dxxx_xxCC_x": 0x100,
-    "xDxx_xCxC_x": 0x101,
-    "DDxx_xxxC_x": 0x102,
-    # "DWxx_xxxC_x": 0x103,  # dupe of 0x004
-    "WDxx_xxxC_x": 0x104,
-    "xDxx_xCxx_x": 0x105,
-    "DDWW_xxxx_x": 0x120,
-    "DDDW_xxxx_x": 0x121,
-    "DDWD_xxxx_x": 0x122,
-    "DDDD_xxxx_x": 0x123,
-    "WDWW_xxxx_x": 0x124,
-    "WDxx_xxxx_x": 0x125,
-    "xxxx_xxxx_x": 0x126,
-    "Wxxx_xxxC_x": 0x127,
-    "WDxW_xxxx_P": 0x129,
-    "WxWW_xxxx_G": 0x12A,
-    "WDxW_xxxx_x": 0x12B,
-    "DDxx_xxxx_x": 0x12C,
-    "WDWW_xxxx_H": 0x138,
-    "WWDW_xxxx_H": 0x139,
-    "WDDW_xxxx_H": 0x13A,
-    "WDWW_xxxx_R": 0x158,
-    "WWDW_xxxx_R": 0x159,
-    "WDDW_xxxx_R": 0x15A,
-    "WDWW_xxxx_D": 0x15B,
-    "WWDW_xxxx_D": 0x15C,
-    "WDDW_xxxx_D": 0x15D,
-    "WDWW_xxxx_N": 0x178,
-    "WWDW_xxxx_N": 0x179,
-    "WDDW_xxxx_N": 0x17A,
-    "WDWW_xxxx_S": 0x17B,
-    "WWDW_xxxx_S": 0x17C,
-    "WDDW_xxxx_S": 0x17D,
-    "WDWW_xxxx_I": 0x180,
-    "WDWW_xxxx_O": 0x181,
-    "WWxW_xxxx_I": 0x182,
-    "WWxW_xxxx_O": 0x183,
-    "WDDW_xxxx_I": 0x184,
-    "WDDW_xxxx_O": 0x185,
-    "WWxx_xxxx_I": 0x186,
-    "WWxx_xxxx_O": 0x187,
-    "WDxW_xxxx_I": 0x188,
-    "WDxW_xxxx_O": 0x189,
-    "xWxx_xxxx_I": 0x18A,
-    "xWxx_xxxx_O": 0x18B,
-    "xDxx_xxxx_I": 0x18C,
-    "xDxx_xxxx_O": 0x18D,
-    "WDxx_xxxx_I": 0x18E,
-    "WDxx_xxxx_O": 0x18F,
-    "Wxxx_xxxx_I": 0x190,
-    "Wxxx_xxxx_O": 0x191,
-    "WxxW_xxxx_I": 0x192,
-    "WxxW_xxxx_O": 0x193,
-    "WWWx_xxxx_I": 0x194,
-    "WWWx_xxxx_O": 0x195,
-    "DDDW_xxxx_I": 0x196,
-    "DDDW_xxxx_O": 0x197,
-    "xDDW_xxxx_I": 0x19A,
-    "xDDW_xxxx_O": 0x19B,
-    "WWDx_xxxx_I": 0x19C,
-    "WWDx_xxxx_O": 0x19D,
-    "xWWD_xxxx_I": 0x1A0,
-    "xWWD_xxxx_O": 0x1A1,
-    "WWWD_xxxx_I": 0x1A2,
-    "WWWD_xxxx_O": 0x1A3,
-    "xxxx_xxxx_I": 0x1A4,
-    "xxxx_xxxx_O": 0x1A5,
-    "WWxD_xxxx_I": 0x1A6,
-    "WWxD_xxxx_O": 0x1A7,
-    "xWWx_xxxx_I": 0x1A8,
-    "xWWx_xxxx_O": 0x1A9,
-    "DDWW_xxxx_I": 0x1AA,
-    "DDWW_xxxx_O": 0x1AB,
-}
+ALL_DOOR_TILE_IDS = COLORED_DOOR_TILE_IDS | NORMAL_DOOR_TILE_IDS
+ALL_DOOR_TILES = {idx: tile for tile, idx in ALL_DOOR_TILE_IDS.items()}

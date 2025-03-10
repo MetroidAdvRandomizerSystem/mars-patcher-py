@@ -52,6 +52,14 @@ class RoomEntry:
     def load_clip(self) -> BlockLayer:
         return BlockLayer(self.rom, self.clip_ptr())
 
+    @property
+    def map_x(self) -> int:
+        return self.rom.read_8(self.addr + 0x35)
+
+    @property
+    def map_y(self) -> int:
+        return self.rom.read_8(self.addr + 0x36)
+
 
 class BlockLayer:
     def __enter__(self) -> BlockLayer:
