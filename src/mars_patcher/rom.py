@@ -82,7 +82,7 @@ class Rom:
         },
     }
 
-    def __init__(self, path: str):
+    def __init__(self, path: Union[str, PathLike[str]]):
         # Read file
         with open(path, "rb") as f:
             self.data = bytearray(f.read())

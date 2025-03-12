@@ -1,5 +1,7 @@
 import json
-from typing import Callable
+import typing
+from os import PathLike
+from typing import Callable, Union
 
 from jsonschema import validate
 
@@ -33,7 +35,7 @@ from mars_patcher.starting import set_starting_items, set_starting_location
 from mars_patcher.text import write_seed_hash
 
 
-def validate_patch_data(patch_data: dict) -> None:
+def validate_patch_data(patch_data: dict) -> MarsSchema:
     """
     Validates whether the specified patch_data satisfies the schema for it.
 
@@ -43,11 +45,12 @@ def validate_patch_data(patch_data: dict) -> None:
     with open(get_data_path("schema.json")) as f:
         schema = json.load(f)
     validate(patch_data, schema)
+    return typing.cast(MarsSchema, patch_data)
 
 
 def patch(
-    input_path: str,
-    output_path: str,
+    input_path: Union[str, PathLike[str]],
+    output_path: Union[str, PathLike[str]],
     patch_data: MarsSchema,
     status_update: Callable[[str, float], None],
 ) -> None:
