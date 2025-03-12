@@ -1,9 +1,6 @@
 import argparse
-import copy
 import json
-import typing
 
-from mars_patcher.auto_generated_types import MarsSchema
 from mars_patcher.patcher import patch, validate_patch_data
 
 
