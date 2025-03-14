@@ -8,6 +8,7 @@ from mars_patcher.constants.game_data import minimap_ptrs
 if TYPE_CHECKING:
     from types import TracebackType
 
+    from mars_patcher.common_types import MinimapId
     from mars_patcher.rom import Rom
 
 MINIMAP_DIM = 32
@@ -16,7 +17,7 @@ MINIMAP_DIM = 32
 class Minimap:
     """Class for reading/writing minimap data and setting tiles."""
 
-    def __init__(self, rom: Rom, id: int):
+    def __init__(self, rom: Rom, id: MinimapId):
         self.rom = rom
         self.pointer = minimap_ptrs(rom) + (id * 4)
         addr = rom.read_ptr(self.pointer)

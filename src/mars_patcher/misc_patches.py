@@ -89,3 +89,7 @@ def apply_anti_softlock_edits(rom: Rom) -> None:
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
     rom.write_8(ReservedConstants.REVEAL_HIDDEN_TILES_ADDR, 1)
+
+
+def apply_reveal_unexplored_doors(rom: Rom) -> None:
+    apply_patch_in_asm_path(rom, "unhidden_map_doors.ips")

@@ -1,14 +1,22 @@
+import logging
+from collections import defaultdict
 from enum import Enum
+from typing import Annotated, TypedDict
 
 from mars_patcher.auto_generated_types import MarsschemaDoorlocksItem
+from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
 from mars_patcher.constants.game_data import (
     area_doors_ptrs,
     hatch_lock_event_count,
     hatch_lock_events,
-    minimap_count,
 )
-from mars_patcher.constants.minimap_tiles import COLORED_DOOR_TILES, NORMAL_DOOR_TILES
-from mars_patcher.minimap import MINIMAP_DIM, Minimap
+from mars_patcher.constants.minimap_tiles import (
+    ALL_DOOR_TILE_IDS,
+    ALL_DOOR_TILES,
+    ColoredDoor,
+    Edge,
+)
+from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
 
@@ -58,9 +66,20 @@ for lock, vals in CLIP_VALUES.items():
     for val in vals:
         CLIP_TO_HATCH_LOCK[val] = lock
 
+
 EXCLUDED_DOORS = {
     (0, 0xB4),  # Restricted lab escape
 }
+
+HatchSlot = Annotated[int, "0 <= value <= 5"]
+
+MinimapLocation = tuple[int, int, RoomId]
+"""`(X, Y, RoomId)`"""
+
+
+class MinimapLockChanges(TypedDict, total=False):
+    left: HatchLock
+    right: HatchLock
 
 
 # TODO:
@@ -68,33 +87,48 @@ EXCLUDED_DOORS = {
 # - Split into more than one function for readability
 def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
     door_locks = parse_door_lock_data(data)
+
     # Go through all doors in game in order
     doors_ptrs = area_doors_ptrs(rom)
-    loaded_rooms: dict[tuple[int, int], RoomEntry] = {}
+    loaded_rooms: dict[AreaRoomPair, RoomEntry] = {}
+
     # (AreaID, RoomID): (BG1, Clipdata)
-    loaded_bg1_and_clip: dict[tuple[int, int], tuple[BlockLayer, BlockLayer]] = {}
+    loaded_bg1_and_clip: dict[AreaRoomPair, tuple[BlockLayer, BlockLayer]] = {}
+
     # (AreaID, RoomID): (CappedSlot, CaplessSlot)
-    orig_room_hatch_slots: dict[tuple[int, int], tuple[int, int]] = {}
-    new_room_hatch_slots: dict[tuple[int, int], tuple[int, int]] = {}
-    # (AreaID, RoomID): {OrigSlot: NewSlot}
-    hatch_slot_changes: dict[tuple[int, int], dict[int, int]] = {}
+    orig_room_hatch_slots: dict[AreaRoomPair, tuple[HatchSlot, HatchSlot]] = {}
+    new_room_hatch_slots: dict[AreaRoomPair, tuple[HatchSlot, HatchSlot]] = {}
+
+    hatch_slot_changes: dict[AreaRoomPair, dict[HatchSlot, HatchSlot]] = {}
+
+    def factory() -> dict:
+        return defaultdict(dict)
+
+    # AreaID: {(MinimapX, MinimapY, RoomID): {"left" | "right": HatchLock}}
+    minimap_changes: dict[AreaId, dict[MinimapLocation, MinimapLockChanges]] = defaultdict(factory)
+
     for area in range(7):
         area_addr = rom.read_ptr(doors_ptrs + area * 4)
         for door in range(256):
             door_addr = area_addr + door * 0xC
             door_type = rom.read_8(door_addr)
+
             # Check if at end of list
             if door_type == 0:
                 break
+
             # Skip doors that mage marks as deleted
             room = rom.read_8(door_addr + 1)
             if room == 0xFF:
                 continue
+
             # Skip excluded doors and doors that aren't lockable hatches
             lock = door_locks.get((area, door))
             if (area, door) in EXCLUDED_DOORS or door_type & 0xF != 4:
-                assert lock is None, f"Area {area} door {door} cannot have its lock changed"
+                if lock is not None:
+                    logging.error(f"Area {area} door {door} cannot have its lock changed")
                 continue
+
             # Load room's BG1 and clipdata if not already loaded
             area_room = (area, room)
             room_entry = loaded_rooms.get(area_room)
@@ -116,9 +150,11 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
             x_exit = rom.read_8(door_addr + 7)
             facing_right = x_exit < 0x80
             dx = 1 if facing_right else -1
+
             # Get hatch position
             hatch_x = rom.read_8(door_addr + 2) + dx
             hatch_y = rom.read_8(door_addr + 4)
+
             # Get original hatch slot number
             capped_slot, capless_slot = orig_room_hatch_slots[area_room]
             clip_val = clip.get_block_value(hatch_x, hatch_y)
@@ -132,6 +168,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
                 orig_hatch_slot = capless_slot
                 capless_slot -= 1
             orig_room_hatch_slots[area_room] = (capped_slot, capless_slot)
+
             # Get new hatch slot number
             capped_slot, capless_slot = new_room_hatch_slots[area_room]
             if lock == HatchLock.LOCKED:
@@ -147,44 +184,59 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
                 new_hatch_slot = capless_slot
                 capless_slot -= 1
             new_room_hatch_slots[area_room] = (capped_slot, capless_slot)
+
             if new_hatch_slot != orig_hatch_slot:
                 hatch_slot_changes[area_room][orig_hatch_slot] = new_hatch_slot
+
+            # Map tiles
+            if lock is not None:
+                screen_offset_x = (hatch_x - 2) // 15
+                screen_offset_y = (hatch_y - 2) // 10
+
+                minimap_x = room_entry.map_x + screen_offset_x
+                minimap_y = room_entry.map_y + screen_offset_y
+
+                minimap_areas = [area]
+                if area == 0:
+                    minimap_areas = [0, 9]  # Main deck seemingly has two maps?
+                for minimap_area in minimap_areas:
+                    map_tile = minimap_changes[minimap_area][minimap_x, minimap_y, room]
+                    if facing_right:
+                        map_tile["left"] = lock
+                    else:
+                        map_tile["right"] = lock
+
             # Overwrite BG1 and clipdata
             if lock is None:
                 # Even if a hatch's lock hasn't changed, its slot may have changed
                 lock = CLIP_TO_HATCH_LOCK.get(clip_val)
                 if lock is None:
                     continue
+
             bg1_val = BG1_VALUES[lock]
             if facing_right:
                 bg1_val += 1
+
             clip_val = CLIP_VALUES[lock][new_hatch_slot]
+
             for y in range(4):
                 bg1.set_block_value(hatch_x, hatch_y + y, bg1_val)
                 clip.set_block_value(hatch_x, hatch_y + y, clip_val)
                 bg1_val += 0x10
+
     # Write BG1 and clipdata for each room
     for bg1, clip in loaded_bg1_and_clip.values():
         bg1.write()
         clip.write()
+
     fix_hatch_lock_events(rom, hatch_slot_changes)
 
-
-def remove_door_colors_on_minimap(rom: Rom) -> None:
-    for id in range(minimap_count(rom)):
-        with Minimap(rom, id) as minimap:
-            for y in range(MINIMAP_DIM):
-                for x in range(MINIMAP_DIM):
-                    tile, pal, h_flip, v_flip = minimap.get_tile_value(x, y)
-                    tile_type = COLORED_DOOR_TILES.get(tile)
-                    if tile_type is not None:
-                        tile = NORMAL_DOOR_TILES[tile_type]
-                        minimap.set_tile_value(x, y, tile, pal, h_flip, v_flip)
+    change_minimap_tiles(rom, minimap_changes)
 
 
-def parse_door_lock_data(data: list[MarsschemaDoorlocksItem]) -> dict[tuple[int, int], HatchLock]:
+def parse_door_lock_data(data: list[MarsschemaDoorlocksItem]) -> dict[AreaRoomPair, HatchLock]:
     """Returns a dictionary of `(AreaID, RoomID): HatchLock` from the input data."""
-    door_locks: dict[tuple[int, int], HatchLock] = {}
+    door_locks: dict[AreaRoomPair, HatchLock] = {}
     for entry in data:
         area_door = (entry["Area"], entry["Door"])
         lock = HATCH_LOCK_ENUMS[entry["LockType"]]
@@ -193,7 +245,7 @@ def parse_door_lock_data(data: list[MarsschemaDoorlocksItem]) -> dict[tuple[int,
 
 
 def fix_hatch_lock_events(
-    rom: Rom, hatch_slot_changes: dict[tuple[int, int], dict[int, int]]
+    rom: Rom, hatch_slot_changes: dict[AreaRoomPair, dict[HatchSlot, HatchSlot]]
 ) -> None:
     hatch_locks_addr = hatch_lock_events(rom)
     count = hatch_lock_event_count(rom)
@@ -214,3 +266,97 @@ def fix_hatch_lock_events(
             remain &= ~(1 << new_slot)
         new_flags |= hatch_flags & remain
         rom.write_8(addr + 3, new_flags)
+
+
+def change_minimap_tiles(
+    rom: Rom, minimap_changes: dict[AreaId, dict[MinimapLocation, MinimapLockChanges]]
+) -> None:
+    MAP_EDGES: dict[HatchLock, Edge | ColoredDoor] = {
+        HatchLock.OPEN: Edge.DOOR,
+        HatchLock.LEVEL_0: Edge.DOOR,
+        HatchLock.LEVEL_1: ColoredDoor.BLUE,
+        HatchLock.LEVEL_2: ColoredDoor.GREEN,
+        HatchLock.LEVEL_3: ColoredDoor.YELLOW,
+        HatchLock.LEVEL_4: ColoredDoor.RED,
+        HatchLock.LOCKED: Edge.DOOR,
+        # HatchLock.LOCKED: Edge.WALL,
+    }
+
+    for area, area_map in minimap_changes.items():
+        with Minimap(rom, area) as minimap:
+            for (x, y, room), tile_changes in area_map.items():
+                tile_id, palette, h_flip, v_flip = minimap.get_tile_value(x, y)
+
+                tile_data = ALL_DOOR_TILES[tile_id]
+
+                # Account for h_flip before changing edges
+                left = tile_changes.get("left")
+                right = tile_changes.get("right")
+                if h_flip:
+                    left, right = right, left
+
+                # Replace edges
+                edges = tile_data.edges
+                if left is not None:
+                    edges = edges._replace(left=MAP_EDGES[left])
+                if right is not None:
+                    edges = edges._replace(right=MAP_EDGES[right])
+                og_new_tile_data = tile_data._replace(edges=edges)
+                new_tile_data = og_new_tile_data
+
+                def tile_exists() -> bool:
+                    return new_tile_data in ALL_DOOR_TILE_IDS
+
+                if new_tile_data.content.can_h_flip and not tile_exists():
+                    # Try flipping horizontally
+                    new_tile_data = og_new_tile_data.h_flip()
+                    if tile_exists():
+                        h_flip = not h_flip
+
+                if new_tile_data.content.can_v_flip and not tile_exists():
+                    # Try flipping vertically
+                    new_tile_data = og_new_tile_data.v_flip()
+                    if tile_exists():
+                        v_flip = not v_flip
+
+                if (
+                    new_tile_data.content.can_h_flip
+                    and new_tile_data.content.can_v_flip
+                    and not tile_exists()
+                ):
+                    # Try flipping it both ways
+                    new_tile_data = og_new_tile_data.v_flip()
+                    new_tile_data = new_tile_data.h_flip()
+                    if tile_exists():
+                        v_flip = not v_flip
+                        h_flip = not h_flip
+
+                if not tile_exists():
+                    logging.debug(
+                        "Could not edit map tile door icons for "
+                        f"area {area} room {room:X}. ({x:X}, {y:X})."
+                    )
+                    logging.debug(f"  Desired tile: {og_new_tile_data.as_str}")
+                    logging.debug("  Falling back to unlocked doors.")
+
+                    # Try replacing with open doors
+                    if (left is not None) and tile_data.edges.left.is_door:
+                        edges = edges._replace(left=Edge.DOOR)
+                    if (right is not None) and tile_data.edges.right.is_door:
+                        edges = edges._replace(right=Edge.DOOR)
+                    new_tile_data = og_new_tile_data._replace(edges=edges)
+
+                    if tile_exists():
+                        logging.debug("  Still no luck. Using vanilla tile.")
+
+                    logging.debug("")
+
+                if tile_exists():
+                    minimap.set_tile_value(
+                        x,
+                        y,
+                        ALL_DOOR_TILE_IDS[new_tile_data],
+                        palette,
+                        h_flip,
+                        v_flip,
+                    )
