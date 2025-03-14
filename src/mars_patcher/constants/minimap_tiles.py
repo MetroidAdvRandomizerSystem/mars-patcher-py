@@ -62,14 +62,18 @@ class TileEdges(NamedTuple):
     def from_str(cls, value: str) -> Self:
         if len(value) != 4:
             raise ValueError(f"'{value}' is not a valid TileEdges string")
-        top, left, right, bottom = value
+        top, left, right, bottom = tuple(value)
 
         def any_edge_from_value(v: str) -> Edge | ColoredDoor:
             try:
-                edge = Edge(v)
+                return Edge(v)
             except ValueError:
-                edge = ColoredDoor(v)
-            return edge
+                pass
+
+            try:
+                return ColoredDoor(v)
+            except ValueError:
+                raise ValueError(f"{repr(v)} is not a valid Edge or ColoredDoor")
 
         return cls(
             top=Edge(top),
@@ -113,7 +117,7 @@ class TileCorners(NamedTuple):
     def from_str(cls, value: str) -> Self:
         if len(value) != 4:
             raise ValueError(f"'{value}' is not a valid TileCorners string")
-        tl, tr, bl, br = value
+        tl, tr, bl, br = tuple(value)
         return cls(
             top_left=(tl == "C"),
             top_right=(tr == "C"),

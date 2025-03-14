@@ -101,13 +101,11 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
 
     hatch_slot_changes: dict[AreaRoomPair, dict[HatchSlot, HatchSlot]] = {}
 
-    def factory():
+    def factory() -> dict:
         return defaultdict(dict)
 
     # AreaID: {(MinimapX, MinimapY, RoomID): {"left" | "right": HatchLock}}
-    minimap_changes: defaultdict[AreaId, defaultdict[MinimapLocation, MinimapLockChanges]] = (
-        defaultdict(factory)
-    )
+    minimap_changes: dict[AreaId, dict[MinimapLocation, MinimapLockChanges]] = defaultdict(factory)
 
     for area in range(7):
         area_addr = rom.read_ptr(doors_ptrs + area * 4)
@@ -272,7 +270,7 @@ def fix_hatch_lock_events(
 
 def change_minimap_tiles(
     rom: Rom, minimap_changes: dict[AreaId, dict[MinimapLocation, MinimapLockChanges]]
-):
+) -> None:
     MAP_EDGES: dict[HatchLock, Edge | ColoredDoor] = {
         HatchLock.OPEN: Edge.DOOR,
         HatchLock.LEVEL_0: Edge.DOOR,
