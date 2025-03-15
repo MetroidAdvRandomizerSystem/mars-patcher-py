@@ -14,7 +14,7 @@ from mars_patcher.constants.palettes import (
     NETTORI_EXTRA_PALS,
     TILESET_ANIM_PALS,
 )
-from mars_patcher.palette import ColorChange, Palette, PaletteVariation, VariationType
+from mars_patcher.palette import ColorChange, Palette, SineWave
 from mars_patcher.rom import Game, Rom
 
 
@@ -105,19 +105,17 @@ class PaletteRandomizer:
 
     def generate_palette_change(self, hue_range: tuple[int, int]) -> ColorChange:
         """Generates a random color change. hue_range determines how far each color's hue will be
-        initially rotated. Individual colors can be additionally rotated up to half of the hue
-        range. Lightness/value is also varied for each color between 0.8 and 1.2"""
+        initially rotated. Individual colors can be additionally rotated using the values of a
+        random sine wave."""
         hue_shift = random.randint(hue_range[0], hue_range[1])
         if self.settings.symmetric and random.choice([True, False]):
             hue_shift = 360 - hue_shift
         if self.settings.extra_variation:
-            hue_var_range = (hue_range[1] - hue_range[0]) / 2
-            hue_var = PaletteVariation.generate(hue_var_range, VariationType.ADD)
-            lightness_var = PaletteVariation.generate(0.2, VariationType.MULTIPLY)
+            hue_var_range = min(1.0, (hue_range[1] - hue_range[0]) / 180)
+            hue_var = SineWave.generate(hue_var_range)
         else:
             hue_var = None
-            lightness_var = None
-        return ColorChange(hue_shift, hue_var, lightness_var)
+        return ColorChange(hue_shift, hue_var)
 
     def randomize(self) -> None:
         random.seed(self.settings.seed)

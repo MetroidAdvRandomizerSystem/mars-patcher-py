@@ -1,83 +1,66 @@
 import math
 import random
-from enum import Enum
 
 from mars_patcher.color_spaces import HsvColor, OklabColor, RgbBitSize, RgbColor
 from mars_patcher.rom import Rom
 
-
-class VariationType(Enum):
-    ADD = 0
-    MULTIPLY = 1
+HUE_VARIATION_RANGE = 180.0
+"""The maximum range that hue can be additionally rotated."""
 
 
-class PaletteVariation:
-    def __init__(self, start: float, step: float):
-        self.start = start
-        self.step = step
+class SineWave:
+    STEP = (2 * math.pi) / 16
 
-    def get_at(self, index: int) -> float:
-        assert 0 <= index < 16
-        return self.start + (index * self.step)
+    def __init__(self, amplitude: float, frequency: float, phase: float):
+        self.amplitude = amplitude
+        self.frequency = frequency
+        self.phase = phase
 
     @staticmethod
-    def generate(max_range: float, type: VariationType) -> "PaletteVariation":
+    def generate(max_range: float) -> "SineWave":
         """
-        Generates a list of 16 floats that vary within a specified range, with
-        values that either increase or decrease.
+        Generates a random sine wave of the form
+            y = amplitude * sin(frequency * x + phase)
+        where
+            0 <= amplitude <= 1
+            1/4 <= frequency <= 1
+            x increases in steps of 1/16 of a cycle
+            0 <= phase <= 2pi (one cycle)
+        """
+        assert 0 <= max_range <= 1
+        # Prefer amplitudes closer to the max, otherwise the variation is often too subtle
+        amplitude = random.uniform(max_range / 2, max_range)
+        frequency = random.uniform(0.25, 1)
+        phase = random.uniform(0, 2 * math.pi)
+        return SineWave(amplitude, frequency, phase)
 
-        Add example 1: [-40, -35, ..., -5, 0, ..., 30, 35]
-        Add example 2: [0.08, 0.06, ..., -0.06, -0.08, ..., -0.20, -0.22]
-        Multiply example 1: [0.60, 0.65, ..., 0.95, 1.00, ..., 1.30, 1.35]
-        Multipy example 2: [1.08, 1.06, ..., 0.94, 0.92, ..., 0.80, 0.78]
-        """
-        assert max_range >= 0.0
-        # Generate random value between 0 and max_range
-        var_range = random.uniform(max_range / 4, max_range)
-        # var_range = max_range
-        if type == VariationType.ADD:
-            start = random.uniform(-var_range, 0)
-        elif type == VariationType.MULTIPLY:
-            start = random.uniform(1.0 - var_range, 1.0)
-        else:
-            raise ValueError("Invalid VariationType")
-        step = var_range / 16.0
-        # Choose randomly between increasing or decreasing values
-        if random.choice([True, False]):
-            start += 15 * step
-            step = -step
-        return PaletteVariation(start, step)
+    def calculate_variation(self, x: int) -> float:
+        assert 0 <= x < 16
+        return self.amplitude * math.sin(self.frequency * x * self.STEP + self.phase)
 
 
 class ColorChange:
-    def __init__(
-        self,
-        hue_shift: float,
-        hue_var: PaletteVariation | None,
-        lightness_var: PaletteVariation | None,
-    ):
+    def __init__(self, hue_shift: float, hue_var: SineWave | None):
         self.hue_shift = hue_shift
         self.hue_var = hue_var
-        self.lightness_var = lightness_var
 
-    def change_hsv(self, hsv: HsvColor, index: int) -> HsvColor:
+    def _get_hue_shift(self, index: int) -> float:
         shift = self.hue_shift
         if self.hue_var is not None:
-            shift += self.hue_var.get_at(index)
+            factor = HUE_VARIATION_RANGE / 2
+            shift += self.hue_var.calculate_variation(index) * factor
+        return shift
+
+    def change_hsv(self, hsv: HsvColor, index: int) -> HsvColor:
+        shift = self._get_hue_shift(index)
         hsv.hue = (hsv.hue + shift) % 360
-        if self.lightness_var is not None:
-            hsv.value = min(hsv.value * self.lightness_var.get_at(index), 1.0)
         return hsv
 
     def change_oklab(self, lab: OklabColor, index: int) -> OklabColor:
-        shift = self.hue_shift
-        if self.hue_var is not None:
-            shift += self.hue_var.get_at(index)
+        shift = self._get_hue_shift(index)
         # Convert hue shift to radians
         shift *= math.pi / 180
-        lab = lab.shift_hue(shift)
-        if self.lightness_var is not None:
-            lab.l_star = min(lab.l_star * self.lightness_var.get_at(index), 1.0)
+        lab.shift_hue(shift)
         return lab
 
 
