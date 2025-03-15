@@ -19,6 +19,7 @@ from mars_patcher.misc_patches import (
     apply_base_patch,
     apply_pbs_without_bombs,
     apply_reveal_hidden_tiles,
+    apply_reveal_unexplored_doors,
     apply_unexplored_map,
     change_missile_limit,
     disable_demos,
@@ -170,9 +171,8 @@ def patch(
     if patch_data.get("UnexploredMap"):
         apply_unexplored_map(rom)
 
-        # TODO: https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/pull/217
-        # if not "HideDoorsOnMinimap" in patch_data:
-        #     apply_reveal_unexplored_doors(rom)
+        if not patch_data.get("HideDoorsOnMinimap", False):
+            apply_reveal_unexplored_doors(rom)
 
     if patch_data.get("RevealHiddenTiles"):
         apply_reveal_hidden_tiles(rom)
