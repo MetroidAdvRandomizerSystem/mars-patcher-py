@@ -46,7 +46,7 @@ def validate_patch_data(patch_data: dict) -> MarsSchema:
     with open(get_data_path("schema.json")) as f:
         schema = json.load(f)
     validate(patch_data, schema)
-    return typing.cast(MarsSchema, patch_data)
+    return typing.cast("MarsSchema", patch_data)
 
 
 def patch(
