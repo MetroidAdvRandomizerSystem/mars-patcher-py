@@ -13,7 +13,6 @@ if TYPE_CHECKING:
     from mars_patcher.rom import Rom
 
 
-
 class NavRoom(Enum):
     MAIN_DECK_WEST = 1
     MAIN_DECK_EAST = 2
