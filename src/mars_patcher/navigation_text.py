@@ -12,7 +12,6 @@ if TYPE_CHECKING:
     from mars_patcher.auto_generated_types import Hintlocks, MarsschemaNavstationlocksKey
     from mars_patcher.rom import Rom
 
-# Keep these in sync with base patch
 
 
 class NavRoom(Enum):
