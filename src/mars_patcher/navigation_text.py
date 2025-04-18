@@ -12,10 +12,6 @@ if TYPE_CHECKING:
     from mars_patcher.auto_generated_types import Hintlocks, MarsschemaNavstationlocksKey
     from mars_patcher.rom import Rom
 
-# Keep these in sync with base patch
-HINT_TEXT_ADDR = 0x7F0000
-HINT_TEXT_END = 0x7FF000
-
 
 class NavRoom(Enum):
     MAIN_DECK_WEST = 1
@@ -106,29 +102,24 @@ class NavigationText:
         return cls(navigation_text)
 
     def write(self, rom: Rom) -> None:
-        text_addr = HINT_TEXT_ADDR
         for lang, lang_texts in self.navigation_text.items():
             base_text_address = rom.read_ptr(navigation_text_ptrs(rom) + lang.value * 4)
 
             # Info Text
             for info_place, text in lang_texts["ShipText"].items():
+                encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
+                text_addr = rom.reserve_free_space(len(encoded_text) * 2)
                 rom.write_ptr(base_text_address + info_place.value * 4, text_addr)
                 rom.write_ptr(base_text_address + info_place.value * 4 + 4, text_addr)
-
-                encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
-                text_addr = rom.write_16_list(text_addr, encoded_text)
-                if text_addr >= HINT_TEXT_END:
-                    raise ValueError("Attempted to write too much text to ROM.")
+                rom.write_16_list(text_addr, encoded_text)
 
             # Navigation Text
             for nav_room, text in lang_texts["NavigationTerminals"].items():
+                encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
+                text_addr = rom.reserve_free_space(len(encoded_text) * 2)
                 rom.write_ptr(base_text_address + nav_room.value * 8, text_addr)
                 rom.write_ptr(base_text_address + nav_room.value * 8 + 4, text_addr)
-
-                encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
-                text_addr = rom.write_16_list(text_addr, encoded_text)
-                if text_addr >= HINT_TEXT_END:
-                    raise ValueError("Attempted to write too much text to ROM.")
+                rom.write_16_list(text_addr, encoded_text)
 
     @classmethod
     def apply_hint_security(
