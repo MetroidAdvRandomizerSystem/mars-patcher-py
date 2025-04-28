@@ -135,7 +135,7 @@ class ItemPatcher:
                 # If we already encountered the message before, just write the message id.
                 messages = min_loc.item_messages
                 if messages in item_messages_to_custom_id:
-                    rom.write_8(item_addr + 7, item_messages_to_custom_id[messages])
+                    rom.write_8(item_addr + 7, 57)
                 else:
                     self.write_custom_message(
                         custom_message_id,
@@ -144,7 +144,7 @@ class ItemPatcher:
                         min_loc.item_messages,
                         False,
                     )
-                    item_messages_to_custom_id[messages] = custom_message_id
+                    item_messages_to_custom_id[messages] = 57
                     custom_message_id += 1
 
         # Handle major locations
@@ -160,7 +160,7 @@ class ItemPatcher:
                     # If we already encountered the message before, just write the message id.
                     messages = maj_loc.item_messages
                     if messages in item_messages_to_custom_id:
-                        rom.write_8(addr + 1, item_messages_to_custom_id[messages])
+                        rom.write_8(addr + 1, 57)
                     else:
                         self.write_custom_message(
                             custom_message_id,
