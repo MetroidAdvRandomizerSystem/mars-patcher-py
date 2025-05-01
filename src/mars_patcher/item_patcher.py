@@ -1,6 +1,12 @@
 from mars_patcher.auto_generated_types import MarsschemaTankincrements
 from mars_patcher.constants.reserved_space import ReservedConstants
-from mars_patcher.locations import ItemMessages, ItemSprite, ItemType, LocationSettings
+from mars_patcher.locations import (
+    ItemMessages,
+    ItemMessagesKind,
+    ItemSprite,
+    ItemType,
+    LocationSettings,
+)
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
@@ -130,23 +136,27 @@ class ItemPatcher:
                 rom.write_8(item_addr + 5, min_loc.new_item.value)
                 if min_loc.item_sprite != ItemSprite.UNCHANGED:
                     rom.write_8(item_addr + 6, min_loc.item_sprite.value)
-            # Handle custom messages
+            # Handle item messages
             if min_loc.item_messages is not None:
-                # If we already encountered the message before, just write the message id.
                 messages = min_loc.item_messages
-                if messages in item_messages_to_custom_id:
-                    rom.write_8(item_addr + 7, item_messages_to_custom_id[messages])
+                # If the kind is Custom Message, write the message to free space, and set the ID
+                if messages.kind == ItemMessagesKind.CUSTOM_MESSAGE:
+                    # If we already encountered the message before, write the existing message id.
+                    if messages in item_messages_to_custom_id:
+                        rom.write_8(item_addr + 7, item_messages_to_custom_id[messages])
+                    else:
+                        self.write_custom_message(
+                            custom_message_id,
+                            message_table_addrs,
+                            item_addr,
+                            min_loc.item_messages,
+                            False,
+                        )
+                        item_messages_to_custom_id[messages] = custom_message_id
+                        custom_message_id += 1
+                # If the kind is Message ID, write that ID
                 else:
-                    self.write_custom_message(
-                        custom_message_id,
-                        message_table_addrs,
-                        item_addr,
-                        min_loc.item_messages,
-                        False,
-                    )
-                    item_messages_to_custom_id[messages] = custom_message_id
-                    custom_message_id += 1
-
+                    rom.write_8(item_addr + 7, messages.message_id)
         # Handle major locations
         for maj_loc in self.settings.major_locs:
             # Write to majors table
@@ -155,22 +165,27 @@ class ItemPatcher:
                     total_metroids += 1
                 addr = MAJOR_LOCS_ADDR + (maj_loc.major_src.value * MAJOR_LOC_SIZE)
                 rom.write_8(addr, maj_loc.new_item.value)
-                # Handle custom messages
+                # Handle item messages
                 if maj_loc.item_messages is not None:
-                    # If we already encountered the message before, just write the message id.
                     messages = maj_loc.item_messages
-                    if messages in item_messages_to_custom_id:
-                        rom.write_8(addr + 1, item_messages_to_custom_id[messages])
+                    # If the kind is Custom Message, write the message to free space, and set the ID
+                    if messages.kind == ItemMessagesKind.CUSTOM_MESSAGE:
+                        # If we already encountered the message before, write the existing id.
+                        if messages in item_messages_to_custom_id:
+                            rom.write_8(addr + 1, item_messages_to_custom_id[messages])
+                        else:
+                            self.write_custom_message(
+                                custom_message_id,
+                                message_table_addrs,
+                                addr,
+                                maj_loc.item_messages,
+                                True,
+                            )
+                            item_messages_to_custom_id[messages] = custom_message_id
+                            custom_message_id += 1
+                    # If the kind is Message ID, write that ID
                     else:
-                        self.write_custom_message(
-                            custom_message_id,
-                            message_table_addrs,
-                            addr,
-                            maj_loc.item_messages,
-                            True,
-                        )
-                        item_messages_to_custom_id[messages] = custom_message_id
-                        custom_message_id += 1
+                        rom.write_8(addr + 1, messages.message_id)
 
         # Write total metroid count
         rom.write_8(TOTAL_METROID_COUNT_ADDR, total_metroids)
