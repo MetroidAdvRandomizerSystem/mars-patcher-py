@@ -922,14 +922,51 @@
         "ItemMessages": {
             "type": "object",
             "properties": {
-                "Languages": {
-                    "$ref": "#/$defs/MessageLanguages"
-                },
-                "Centered": {
-                    "type": "boolean",
-                    "default": true
+                "Kind": {
+                    "$ref": "#/$defs/ItemMessagesKind"
                 }
+            },
+            "required": ["Kind"],
+            "if": {
+                "properties": {
+                    "Kind": {"const": "CustomMessage" }
+                }
+            },
+            "then": {
+                "properties": {
+                    "Kind": {
+                        "$ref": "#/$defs/ItemMessagesKind"
+                    },
+                    "Languages": {
+                        "$ref": "#/$defs/MessageLanguages"
+                    },
+                    "Centered": {
+                        "type": "boolean",
+                        "default": true
+                    }
+                },
+                "required": ["Languages"],
+                "additionalProperties": false
+            },
+            "else": {
+                "properties": {
+                    "Kind": {
+                        "$ref": "#/$defs/ItemMessagesKind"
+                    },
+                    "MessageID": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 56,
+                        "description": "The Message ID, will display one of the predefined messages in the ROM"
+                    }
+                },
+                "required": ["MessageID"],
+                "additionalProperties": false
             }
+        },
+        "ItemMessagesKind":{
+            "type": "string",
+            "enum": ["CustomMessage", "MessageID"]
         },
         "BlockLayer": {
             "type": "array",

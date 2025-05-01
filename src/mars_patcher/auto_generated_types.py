@@ -182,8 +182,16 @@ Validlanguages = typ.Literal[
 Messagelanguages: typ.TypeAlias = dict[Validlanguages, str]
 
 class Itemmessages(typ.TypedDict, total=False):
+    Kind: typ.Required[Itemmessageskind]
     Languages: Messagelanguages
     Centered: bool = True
+    MessageID: typ.Annotated[int, '0 <= value <= 56']
+    """The Message ID, will display one of the predefined messages in the ROM"""
+
+Itemmessageskind = typ.Literal[
+    'CustomMessage',
+    'MessageID'
+]
 
 class BlocklayerItem(typ.TypedDict, total=False):
     X: Typeu8
