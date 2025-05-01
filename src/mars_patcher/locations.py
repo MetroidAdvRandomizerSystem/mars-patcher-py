@@ -16,14 +16,17 @@ from mars_patcher.constants.items import (
     KEY_HIDDEN,
     KEY_ITEM,
     KEY_ITEM_MESSAGES,
+    KEY_ITEM_MESSAGES_KIND,
     KEY_ITEM_SPRITE,
     KEY_LANGUAGES,
     KEY_MAJOR_LOCS,
+    KEY_MESSAGE_ID,
     KEY_MINOR_LOCS,
     KEY_ORIGINAL,
     KEY_ROOM,
     KEY_SOURCE,
     SOURCE_ENUMS,
+    ItemMessagesKind,
     ItemSprite,
     ItemType,
     MajorSource,
@@ -91,8 +94,10 @@ class MinorLocation(Location):
 
 @dataclass(frozen=True)
 class ItemMessages:
+    kind: ItemMessagesKind
     item_messages: frozendict[Language, str]
     centered: bool
+    message_id: int
 
     LANG_ENUMS: ClassVar[dict[str, Language]] = {
         "JapaneseKanji": Language.JAPANESE_KANJI,
@@ -104,14 +109,26 @@ class ItemMessages:
         "Spanish": Language.SPANISH,
     }
 
+    KIND_ENUMS: ClassVar[dict[str, ItemMessagesKind]] = {
+        "CustomMessage": ItemMessagesKind.CUSTOM_MESSAGE,
+        "MessageID": ItemMessagesKind.MESSAGE_ID,
+    }
+
     @classmethod
     def from_json(cls, data: Itemmessages) -> ItemMessages:
         item_messages: dict[Language, str] = {}
-        for lang_name, message in data[KEY_LANGUAGES].items():
-            lang = cls.LANG_ENUMS[lang_name]
-            item_messages[lang] = message
-        centered = data.get(KEY_CENTERED, True)
-        return cls(frozendict(item_messages), centered)
+        centered = True
+        kind: ItemMessagesKind = cls.KIND_ENUMS[data[KEY_ITEM_MESSAGES_KIND]]
+        message_id = 0
+        if kind == ItemMessagesKind.CUSTOM_MESSAGE:
+            for lang_name, message in data[KEY_LANGUAGES].items():
+                lang = cls.LANG_ENUMS[lang_name]
+                item_messages[lang] = message
+            centered = data.get(KEY_CENTERED, True)
+        else:
+            message_id = data[KEY_MESSAGE_ID]
+
+        return cls(kind, frozendict(item_messages), centered, message_id)
 
 
 class LocationSettings:
