@@ -165,7 +165,7 @@ class ItemPatcher:
                     total_metroids += 1
                 addr = MAJOR_LOCS_ADDR + (maj_loc.major_src.value * MAJOR_LOC_SIZE)
                 rom.write_8(addr, maj_loc.new_item.value)
-                # Handle custom messages
+                # Handle item messages
                 if maj_loc.item_messages is not None:
                     messages = maj_loc.item_messages
                     # If the kind is Custom Message, write the message to free space, and set the ID
