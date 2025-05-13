@@ -24,6 +24,9 @@ class MajorSource(Enum):
     AQA_DATA = 18
     WAVE_CORE_X = 19
     RIDLEY = 20
+    BOILER = 21
+    ANIMALS = 22
+    AUXILIARYPOWER = 23
 
 
 class ItemType(Enum):
@@ -137,6 +140,9 @@ SOURCE_ENUMS = {
     "AqaData": MajorSource.AQA_DATA,
     "WaveCoreX": MajorSource.WAVE_CORE_X,
     "Ridley": MajorSource.RIDLEY,
+    "Boiler": MajorSource.BOILER,
+    "Animals": MajorSource.ANIMALS,
+    "AuxiliaryPower": MajorSource.AUXILIARYPOWER,
 }
 
 ITEM_ENUMS = {
