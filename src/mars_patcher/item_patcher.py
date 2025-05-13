@@ -22,6 +22,7 @@ REQUIRED_METROID_COUNT_ADDR = ReservedConstants.REQUIRED_METROID_COUNT_ADDR
 TOTAL_METROID_COUNT_ADDR = ReservedConstants.TOTAL_METROID_COUNT_ADDR
 MESSAGE_TABLE_LOOKUP_ADDR = ReservedConstants.MESSAGE_TABLE_LOOKUP_ADDR
 FIRST_CUSTOM_MESSAGE_ID = ReservedConstants.FIRST_CUSTOM_MESSAGE_ID
+AUTO_MESSAGE_ID = 0xFF
 
 TANK_CLIP = (0x62, 0x63, 0x68)
 HIDDEN_TANK_CLIP = (0x64, 0x65, 0x69)
@@ -188,7 +189,8 @@ class ItemPatcher:
                     # If the kind is Message ID, write that ID
                     else:
                         rom.write_8(addr + 1, messages.message_id)
-
+                else:  # Set ID to Auto Message
+                    rom.write_8(addr + 1, AUTO_MESSAGE_ID)
         # Write total metroid count
         rom.write_8(TOTAL_METROID_COUNT_ADDR, total_metroids)
 
