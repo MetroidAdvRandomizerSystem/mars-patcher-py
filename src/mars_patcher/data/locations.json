@@ -210,6 +210,14 @@
         },
         {
             "Area": 0,
+            "Room": 71,
+            "BlockX": 6,
+            "BlockY": 9,
+            "Hidden": false,
+            "Original": "MissileTank"
+        },
+        {
+            "Area": 0,
             "Room": 72,
             "BlockX": 13,
             "BlockY": 9,

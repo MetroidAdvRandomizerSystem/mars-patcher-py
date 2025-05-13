@@ -16,8 +16,8 @@
                 "MajorLocations": {
                     "type": "array",
                     "description": "Specifies how the major item locations should be changed. A major item location is a location where an item is obtained by defeating a boss or interacting with a device.",
-                    "minItems": 20,
-                    "maxItems": 20,
+                    "minItems": 23,
+                    "maxItems": 23,
                     "uniqueItems": true,
                     "items": {
                         "type": "object",
@@ -41,8 +41,8 @@
                 "MinorLocations": {
                     "type": "array",
                     "description": "Specifies how the minor item locations should be changed. A minor item location is a location where an item is obtained by touching a tank block.",
-                    "minItems": 100,
-                    "maxItems": 100,
+                    "minItems": 103,
+                    "maxItems": 103,
                     "uniqueItems": true,
                     "items": {
                         "type": "object",
@@ -764,7 +764,10 @@
                 "Level4",
                 "AqaData",
                 "WaveCoreX",
-                "Ridley"
+                "Ridley",
+                "Boiler",
+                "Animals",
+                "AuxiliaryPower"
             ]
         },
         "ValidItems": {
