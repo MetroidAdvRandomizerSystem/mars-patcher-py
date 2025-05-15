@@ -125,6 +125,24 @@
             "Room": 27,
             "Source": "Ridley",
             "Original": "ScrewAttack"
+        },
+        {
+            "Area": 3,
+            "Room": 25,
+            "Source": "Boiler",
+            "Original": "InfantMetroid"
+        },
+        {
+            "Area": 0,
+            "Room": 69,
+            "Source": "Animals",
+            "Original": "InfantMetroid"
+        },
+        {
+            "Area": 0,
+            "Room": 54,
+            "Source": "AuxiliaryPower",
+            "Original": "InfantMetroid"
         }
     ],
     "MinorLocations": [
@@ -170,6 +188,14 @@
         },
         {
             "Area": 0,
+            "Room": 46,
+            "BlockX": 9,
+            "BlockY": 8,
+            "Hidden": false,
+            "Original": "InfantMetroid"
+        },
+        {
+            "Area": 0,
             "Room": 47,
             "BlockX": 4,
             "BlockY": 3,
@@ -205,6 +231,14 @@
             "Room": 69,
             "BlockX": 29,
             "BlockY": 29,
+            "Hidden": false,
+            "Original": "MissileTank"
+        },
+        {
+            "Area": 0,
+            "Room": 71,
+            "BlockX": 6,
+            "BlockY": 9,
             "Hidden": false,
             "Original": "MissileTank"
         },
@@ -271,6 +305,14 @@
             "BlockY": 8,
             "Hidden": true,
             "Original": "EnergyTank"
+        },
+        {
+            "Area": 1,
+            "Room": 32,
+            "BlockX": 29,
+            "BlockY": 9,
+            "Hidden": false,
+            "Original": "InfantMetroid"
         },
         {
             "Area": 1,

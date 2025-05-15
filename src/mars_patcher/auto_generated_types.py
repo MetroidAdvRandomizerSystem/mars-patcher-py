@@ -60,7 +60,10 @@ Validsources = typ.Literal[
     'Level4',
     'AqaData',
     'WaveCoreX',
-    'Ridley'
+    'Ridley',
+    'Boiler',
+    'Animals',
+    'AuxiliaryPower'
 ]
 Validitems = typ.Literal[
     'None',
@@ -249,10 +252,10 @@ class MarsschemaLocationsMinorlocationsItem(typ.TypedDict):
 class MarsschemaLocations(typ.TypedDict):
     """Specifies how the item locations in the game should be changed."""
 
-    MajorLocations: typ.Annotated[list[MarsschemaLocationsMajorlocationsItem], 'len() == 20', 'Unique items']
+    MajorLocations: typ.Annotated[list[MarsschemaLocationsMajorlocationsItem], 'len() == 23', 'Unique items']
     """Specifies how the major item locations should be changed. A major item location is a location where an item is obtained by defeating a boss or interacting with a device."""
 
-    MinorLocations: typ.Annotated[list[MarsschemaLocationsMinorlocationsItem], 'len() == 100', 'Unique items']
+    MinorLocations: typ.Annotated[list[MarsschemaLocationsMinorlocationsItem], 'len() == 103', 'Unique items']
     """Specifies how the minor item locations should be changed. A minor item location is a location where an item is obtained by touching a tank block."""
 
 

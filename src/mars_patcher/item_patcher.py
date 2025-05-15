@@ -15,13 +15,14 @@ from mars_patcher.tileset import Tileset
 MINOR_LOCS_TABLE_ADDR = ReservedConstants.MINOR_LOCS_TABLE_ADDR
 MINOR_LOCS_ARRAY_ADDR = ReservedConstants.MINOR_LOCS_ARRAY_ADDR
 MINOR_LOC_SIZE = 0x8
-MAJOR_LOCS_ADDR = ReservedConstants.MAJOR_LOCS_ADDR
+MAJOR_LOCS_POINTER_ADDR = ReservedConstants.MAJOR_LOCS_POINTER_ADDR
 MAJOR_LOC_SIZE = 0x2
 TANK_INC_ADDR = ReservedConstants.TANK_INC_ADDR
 REQUIRED_METROID_COUNT_ADDR = ReservedConstants.REQUIRED_METROID_COUNT_ADDR
 TOTAL_METROID_COUNT_ADDR = ReservedConstants.TOTAL_METROID_COUNT_ADDR
 MESSAGE_TABLE_LOOKUP_ADDR = ReservedConstants.MESSAGE_TABLE_LOOKUP_ADDR
 FIRST_CUSTOM_MESSAGE_ID = ReservedConstants.FIRST_CUSTOM_MESSAGE_ID
+AUTO_MESSAGE_ID = 0xFF
 
 TANK_CLIP = (0x62, 0x63, 0x68)
 HIDDEN_TANK_CLIP = (0x64, 0x65, 0x69)
@@ -163,7 +164,9 @@ class ItemPatcher:
             if maj_loc.new_item != ItemType.UNDEFINED:
                 if maj_loc.new_item == ItemType.INFANT_METROID:
                     total_metroids += 1
-                addr = MAJOR_LOCS_ADDR + (maj_loc.major_src.value * MAJOR_LOC_SIZE)
+                addr = rom.read_ptr(MAJOR_LOCS_POINTER_ADDR) + (
+                    maj_loc.major_src.value * MAJOR_LOC_SIZE
+                )
                 rom.write_8(addr, maj_loc.new_item.value)
                 # Handle item messages
                 if maj_loc.item_messages is not None:
@@ -186,7 +189,8 @@ class ItemPatcher:
                     # If the kind is Message ID, write that ID
                     else:
                         rom.write_8(addr + 1, messages.message_id)
-
+                else:  # Set ID to Auto Message
+                    rom.write_8(addr + 1, AUTO_MESSAGE_ID)
         # Write total metroid count
         rom.write_8(TOTAL_METROID_COUNT_ADDR, total_metroids)
 

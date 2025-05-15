@@ -1,0 +1,85 @@
+[
+    {
+        "MAP_ID": 0,
+        "CHANGES": [
+            {
+                "Description": "Add Item to Quarantine Bay",
+                "X": 8,
+                "Y": 9,
+                "Tile": 386,
+                "Palette": 0
+            },
+            {
+                "Description": "Add Item to Subzero Containment",
+                "X": 9,
+                "Y": 10,
+                "Tile": 386,
+                "Palette": 0
+            },
+            {
+                "Description": "Add L3 Locks to Subzero Containment",
+                "X": 10,
+                "Y": 10,
+                "Tile": 84,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Add L3 Locks to Dark Stairwell",
+                "X": 11,
+                "Y": 10,
+                "Tile": 117,
+                "Palette": 0,
+                "VFlip": "True"
+            }
+        ]
+    },
+    {
+    "MAP_ID": 9,
+        "CHANGES": [
+            {
+                "Description": "Add Item to Quarantine Bay",
+                "X": 8,
+                "Y": 9,
+                "Tile": 386,
+                "Palette": 0
+            },
+            {
+                "Description": "Add Item to Subzero Containment",
+                "X": 9,
+                "Y": 10,
+                "Tile": 386,
+                "Palette": 0
+            },
+            {
+                "Description": "Add L3 Locks to Subzero Containment",
+                "X": 10,
+                "Y": 10,
+                "Tile": 84,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Add L3 Locks to Dark Stairwell",
+                "X": 11,
+                "Y": 10,
+                "Tile": 117,
+                "Palette": 0,
+                "VFlip": "True"
+            }
+        ]
+    },
+    {
+        "MAP_ID": 1,
+        "CHANGES": [
+            {
+                "Description": "Add Item to Northeast Stabilizer",
+                "X": 16,
+                "Y": 1,
+                "Tile": 390,
+                "Palette": 0,
+                "HFlip": "True"
+            }
+        ]
+    }
+]
