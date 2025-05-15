@@ -6,7 +6,7 @@ from zipfile import ZipFile
 
 import requests
 
-VERSION = "0.4.2"
+VERSION = "0.5.0"
 ASSET_NAME = "Randomizer.Patches.zip"
 DESTINATION_ASSEMBLY_PATH = (
     Path(__file__)
