@@ -155,6 +155,10 @@ class Content(Enum):
     BOSS = "B"
     GUNSHIP = "G"
     GUNSHIP_EDGE = "P"
+    SECURITY = "K"
+    AUXILLARY_POWER = "X"
+    ANIMALS = "A"
+    BOILER_PAD = "b"
 
     @property
     def can_h_flip(self) -> bool:
@@ -418,6 +422,14 @@ COLORED_DOOR_TILES = {
     0x19F: MapTile.from_str("WGWW_xxxx_O"),
     0x1AC: MapTile.from_str("WYYW_xxxx_I"),
     0x1AD: MapTile.from_str("WYYW_xxxx_O"),
+    # New Tiles
+    0x10B: MapTile.from_str("xxGW_Cxxx_B"),
+    0x16C: MapTile.from_str("xWBW_xxxx_K"),
+    0x16D: MapTile.from_str("WWGW_xxxx_K"),
+    0x16E: MapTile.from_str("WWRW_xxxx_K"),
+    0x16F: MapTile.from_str("WYDW_xxxx_K"),
+    0x1AE: MapTile.from_str("WYWW_xxxx_I"),
+    0x1AF: MapTile.from_str("WYWW_xxxx_O"),
 }
 
 
@@ -532,6 +544,14 @@ NORMAL_DOOR_TILES = {
     0x1A9: MapTile.from_str("xWWx_xxxx_O"),
     0x1AA: MapTile.from_str("DDWW_xxxx_I"),
     0x1AB: MapTile.from_str("DDWW_xxxx_O"),
+    0x0B5: MapTile.from_str("WSDW_xxxx_O"),
+    # New Tiles
+    0x0D4: MapTile.from_str("WSDW_xxxx_I"),
+    0x0D5: MapTile.from_str("WSDW_xxxx_O"),
+    0x10A: MapTile.from_str("WxDx_xxxx_B"),
+    0x10C: MapTile.from_str("xDxW_xCxx_B"),
+    0x170: MapTile.from_str("WWDx_xxxx_x"),
+    0x172: MapTile.from_str("WDDW_xxxx_X"),
 }
 
 COLORED_DOOR_TILE_IDS = {tile: id for id, tile in COLORED_DOOR_TILES.items()}
