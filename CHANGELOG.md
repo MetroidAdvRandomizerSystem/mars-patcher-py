@@ -2,6 +2,8 @@
 
 ## Unreleased - 2025-XX-XX
 
+## 0.4.1 - 2025-05-22
+
 ### Visual
 - Changed: Base Minimap Edits has been updated to reflect new events, boss tiles, and security rooms.
 
