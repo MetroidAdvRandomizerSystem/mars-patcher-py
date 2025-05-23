@@ -1,10 +1,9 @@
 from enum import Enum
 from os import PathLike
-from typing import Union
 
 from mars_patcher.constants.reserved_space import ReservedConstants
 
-BytesLike = Union[bytes, bytearray]
+BytesLike = bytes | bytearray
 
 SIZE_8MB = 0x800000
 ROM_OFFSET = 0x8000000
