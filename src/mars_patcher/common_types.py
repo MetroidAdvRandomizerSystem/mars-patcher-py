@@ -1,6 +1,4 @@
-from typing import Annotated
-
-from typing_extensions import TypeAlias
+from typing import Annotated, TypeAlias
 
 from mars_patcher.auto_generated_types import Areaid, Typeu8
 

@@ -1,7 +1,7 @@
 import json
 import typing
+from collections.abc import Callable
 from os import PathLike
-from typing import Callable, Union
 
 from jsonschema import validate
 
@@ -46,12 +46,12 @@ def validate_patch_data(patch_data: dict) -> MarsSchema:
     with open(get_data_path("schema.json")) as f:
         schema = json.load(f)
     validate(patch_data, schema)
-    return typing.cast(MarsSchema, patch_data)
+    return typing.cast("MarsSchema", patch_data)
 
 
 def patch(
-    input_path: Union[str, PathLike[str]],
-    output_path: Union[str, PathLike[str]],
+    input_path: str | PathLike[str],
+    output_path: str | PathLike[str],
     patch_data: MarsSchema,
     status_update: Callable[[str, float], None],
 ) -> None:

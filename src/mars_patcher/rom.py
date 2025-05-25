@@ -1,10 +1,9 @@
 from enum import Enum
 from os import PathLike
-from typing import Union
 
 from mars_patcher.constants.reserved_space import ReservedConstants
 
-BytesLike = Union[bytes, bytearray]
+BytesLike = bytes | bytearray
 
 SIZE_8MB = 0x800000
 ROM_OFFSET = 0x8000000
@@ -82,7 +81,7 @@ class Rom:
         },
     }
 
-    def __init__(self, path: Union[str, PathLike[str]]):
+    def __init__(self, path: str | PathLike[str]):
         # Read file
         with open(path, "rb") as f:
             self.data = bytearray(f.read())
@@ -238,7 +237,7 @@ class Rom:
             raise RuntimeError("Ran out of reserved free space")
         return addr
 
-    def save(self, path: Union[str, PathLike[str]]) -> None:
+    def save(self, path: str | PathLike[str]) -> None:
         """Saves the currently loaded data to a specified path."""
         with open(path, "wb") as f:
             f.write(self.data)
