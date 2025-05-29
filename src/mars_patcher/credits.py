@@ -3,6 +3,8 @@ from mars_patcher.constants.credits_lines import (
     FUSION_STAFF_LINES,
     LINE_TYPE_HEIGHTS,
     LINE_TYPE_VALS,
+    MARS_CREDITS,
+    RDV_CREDITS,
     TEXT_LINE_TYPES,
     LineType,
 )
@@ -46,6 +48,12 @@ class CreditsLine:
 
 def write_credits(rom: Rom, data: list[MarsschemaCreditstextItem]) -> None:
     writer = CreditsWriter(rom)
+    # Write MARS credits
+    lines = [CreditsLine(*line) for line in MARS_CREDITS]
+    writer.write_lines(lines)
+    # Write RDV credits
+    lines = [CreditsLine(*line) for line in RDV_CREDITS]
+    writer.write_lines(lines)
     # Write custom credits
     lines = [CreditsLine.from_json(d) for d in data]
     writer.write_lines(lines)
