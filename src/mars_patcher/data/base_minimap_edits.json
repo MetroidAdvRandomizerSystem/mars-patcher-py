@@ -5,9 +5,16 @@
             {
                 "Description": "Sector 1 Marker from Restricted Lab",
                 "X": 7,
-                "Y": 19,
+                "Y": 18,
                 "Tile": 172,
                 "Palette": 0
+            },
+            {
+                "Description": "Sector 1 Elevator Lines from Restricted Lab",
+                "X": 7,
+                "Y": 19,
+                "Tile": 169,
+                "Palette": 2
             },
             {
                 "Description": "Add Item to Quarantine Bay",
@@ -32,6 +39,21 @@
                 "HFlip": "True"
             },
             {
+                "Description": "Sector 6 Arrow from Restricted Lab",
+                "X": 10,
+                "Y": 23,
+                "Tile": 170,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Sector 6 Marker from Restricted Lab",
+                "X": 11,
+                "Y": 23,
+                "Tile": 177,
+                "Palette": 0
+            },
+            {
                 "Description": "Add L3 Locks to Dark Stairwell",
                 "X": 11,
                 "Y": 10,
@@ -45,6 +67,14 @@
                 "Y": 16,
                 "Tile": 173,
                 "Palette": 0
+            },
+            {
+                "Description": "Connector Arrow to Sector 2 from Central Reactor Core",
+                "X": 15,
+                "Y": 16,
+                "Tile": 164,
+                "Palette": 0,
+                "HFlip": "True"
             },
             {
                 "Description": "Change Operations Deck Door from L4 to L0",
@@ -111,9 +141,16 @@
             {
                 "Description": "Sector 1 Marker from Restricted Lab",
                 "X": 7,
-                "Y": 19,
+                "Y": 18,
                 "Tile": 172,
                 "Palette": 0
+            },
+            {
+                "Description": "Sector 1 Elevator Lines from Restricted Lab",
+                "X": 7,
+                "Y": 19,
+                "Tile": 169,
+                "Palette": 2
             },
             {
                 "Description": "Add Item to Quarantine Bay",
@@ -138,6 +175,21 @@
                 "HFlip": "True"
             },
             {
+                "Description": "Sector 6 Arrow from Restricted Lab",
+                "X": 10,
+                "Y": 23,
+                "Tile": 170,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Sector 6 Marker from Restricted Lab",
+                "X": 11,
+                "Y": 23,
+                "Tile": 177,
+                "Palette": 0
+            },
+            {
                 "Description": "Add L3 Locks to Dark Stairwell",
                 "X": 11,
                 "Y": 10,
@@ -151,6 +203,14 @@
                 "Y": 16,
                 "Tile": 173,
                 "Palette": 0
+            },
+            {
+                "Description": "Connector Arrow to Sector 2 from Central Reactor Core",
+                "X": 15,
+                "Y": 16,
+                "Tile": 164,
+                "Palette": 0,
+                "HFlip": "True"
             },
             {
                 "Description": "Change Operations Deck Door from L4 to L0",
@@ -222,11 +282,33 @@
                 "Palette": 0
             },
             {
-                "Description": "Main Deck Marker to Restricted Lab",
+                "Description": "Sector 3 Arrow",
+                "X": 2,
+                "Y": 2,
+                "Tile": 164,
+                "Palette": 2,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Main Deck Elevator Lines to Restricted Lab",
                 "X": 2,
                 "Y": 13,
+                "Tile": 168,
+                "Palette": 2
+            },
+            {
+                "Description": "Main Deck Marker to Restricted Lab",
+                "X": 2,
+                "Y": 14,
                 "Tile": 171,
                 "Palette": 0
+            },
+            {
+                "Description": "Sector 2 Arrow",
+                "X": 9,
+                "Y": 0,
+                "Tile": 164,
+                "Palette": 2
             },
             {
                 "Description": "Sector 2 Marker",
@@ -271,6 +353,14 @@
                 "Palette": 0
             },
             {
+                "Description": "Sector 1 Arrow",
+                "X": 2,
+                "Y": 3,
+                "Tile": 164,
+                "Palette": 2,
+                "HFlip": "True"
+            },
+            {
                 "Description": "Add Upper Level One Security Section",
                 "X": 9,
                 "Y": 0,
@@ -283,6 +373,13 @@
                 "Y": 1,
                 "Tile": 364,
                 "Palette": 0
+            },
+            {
+                "Description": "Sector 4 Arrow",
+                "X": 12,
+                "Y": 2,
+                "Tile": 164,
+                "Palette": 2
             },
             {
                 "Description": "Sector 4 Marker",
@@ -304,6 +401,13 @@
                 "X": 14,
                 "Y": 13,
                 "Tile": 267,
+                "Palette": 2
+            },
+            {
+                "Description": "Main Deck Arrow to Reactor Core",
+                "X": 17,
+                "Y": 8,
+                "Tile": 164,
                 "Palette": 2
             },
             {
@@ -368,6 +472,13 @@
                 "Palette": 0
             },
             {
+                "Description": "Sector 1 Arrow",
+                "X": 18,
+                "Y": 0,
+                "Tile": 164,
+                "Palette": 2
+            },
+            {
                 "Description": "Sector 1 Marker",
                 "X": 19,
                 "Y": 0,
@@ -394,10 +505,10 @@
                 "Palette": 0
             },
             {
-                "Description": "Fix Shortcut To Ruined 5",
+                "Description": "Sector 5 Arrow",
                 "X": 4,
                 "Y": 8,
-                "Tile": 163,
+                "Tile": 164,
                 "Palette": 2,
                 "HFlip": "True"
             },
@@ -446,6 +557,14 @@
                 "Palette": 0
             },
             {
+                "Description": "Sector 2 Arrow",
+                "X": 19,
+                "Y": 11,
+                "Tile": 164,
+                "Palette": 2,
+                "HFlip": "True"
+            },
+            {
                 "Description": "Add Level Four Hatch To Owtch Atrium To Powamp Playhouse",
                 "X": 19,
                 "Y": 5,
@@ -454,7 +573,14 @@
                 "HFlip": "True"
             },
             {
-                "Description": "Sector 5 Marker",
+                "Description": "Sector 6 Arrow",
+                "X": 22,
+                "Y": 5,
+                "Tile": 164,
+                "Palette": 2
+            },
+            {
+                "Description": "Sector 6 Marker",
                 "X": 23,
                 "Y": 5,
                 "Tile": 177,
@@ -471,6 +597,14 @@
                 "Y": 4,
                 "Tile": 177,
                 "Palette": 0
+            },
+            {
+                "Description": "Sector 6 Arrow",
+                "X": 1,
+                "Y": 4,
+                "Tile": 164,
+                "Palette": 2,
+                "HFlip": "True"
             },
             {
                 "Description": "Add Level Three Hatch To Magic Box",
@@ -504,11 +638,25 @@
                 "HFlip": "True"
             },
             {
+                "Description": "Sector 3 Arrow",
+                "X": 12,
+                "Y": 3,
+                "Tile": 164,
+                "Palette": 2
+            },
+            {
                 "Description": "Sector 3 Marker",
                 "X": 13,
                 "Y": 3,
                 "Tile": 174,
                 "Palette": 0
+            },
+            {
+                "Description": "Sector 4 Arrow",
+                "X": 22,
+                "Y": 8,
+                "Tile": 164,
+                "Palette": 2
             },
             {
                 "Description": "Sector 4 Marker",
@@ -537,10 +685,25 @@
                 "Palette": 0
             },
             {
+                "Description": "Sector 4 Arrow",
+                "X": 2,
+                "Y": 3,
+                "Tile": 164,
+                "Palette": 2,
+                "HFlip": "True"
+            },
+            {
                 "Description": "Add Xbox Boss Tile",
                 "X": 7,
                 "Y": 6,
                 "Tile": 268,
+                "Palette": 2
+            },
+            {
+                "Description": "Sector 5 Arrow",
+                "X": 12,
+                "Y": 2,
+                "Tile": 164,
                 "Palette": 2
             },
             {
