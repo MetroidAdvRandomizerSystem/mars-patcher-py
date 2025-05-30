@@ -3,6 +3,13 @@
         "MAP_ID": 0,
         "CHANGES": [
             {
+                "Description": "Sector 1 Marker from Restricted Lab",
+                "X": 7,
+                "Y": 19,
+                "Tile": 172,
+                "Palette": 0
+            },
+            {
                 "Description": "Add Item to Quarantine Bay",
                 "X": 8,
                 "Y": 9,
@@ -31,6 +38,28 @@
                 "Tile": 117,
                 "Palette": 0,
                 "VFlip": "True"
+            },
+            {
+                "Description": "Sector 2 Marker from Central Reactor Core",
+                "X": 14,
+                "Y": 16,
+                "Tile": 173,
+                "Palette": 0
+            },
+            {
+                "Description": "Change Operations Deck Door from L4 to L0",
+                "X": 16,
+                "Y": 0,
+                "Tile": 299,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Change Operations Deck Door from L4 to L0",
+                "X": 17,
+                "Y": 0,
+                "Tile": 293,
+                "Palette": 0
             },
             {
                 "Description": "Change Hidden Concourse Recharge Into Normal",
@@ -80,6 +109,13 @@
         "MAP_ID": 9,
         "CHANGES": [
             {
+                "Description": "Sector 1 Marker from Restricted Lab",
+                "X": 7,
+                "Y": 19,
+                "Tile": 172,
+                "Palette": 0
+            },
+            {
                 "Description": "Add Item to Quarantine Bay",
                 "X": 8,
                 "Y": 9,
@@ -108,6 +144,28 @@
                 "Tile": 117,
                 "Palette": 0,
                 "VFlip": "True"
+            },
+            {
+                "Description": "Sector 2 Marker from Central Reactor Core",
+                "X": 14,
+                "Y": 16,
+                "Tile": 173,
+                "Palette": 0
+            },
+            {
+                "Description": "Change Operations Deck Door from L4 to L0",
+                "X": 16,
+                "Y": 0,
+                "Tile": 299,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Change Operations Deck Door from L4 to L0",
+                "X": 17,
+                "Y": 0,
+                "Tile": 293,
+                "Palette": 0
             },
             {
                 "Description": "Change Hidden Concourse Recharge Into Normal Recharge",
@@ -157,6 +215,27 @@
         "MAP_ID": 1,
         "CHANGES": [
             {
+                "Description": "Sector 3 Marker",
+                "X": 1,
+                "Y": 2,
+                "Tile": 174,
+                "Palette": 0
+            },
+            {
+                "Description": "Main Deck Marker to Restricted Lab",
+                "X": 2,
+                "Y": 13,
+                "Tile": 171,
+                "Palette": 0
+            },
+            {
+                "Description": "Sector 2 Marker",
+                "X": 10,
+                "Y": 0,
+                "Tile": 173,
+                "Palette": 0
+            },
+            {
                 "Description": "Add Item to Northeast Stabilizer",
                 "X": 16,
                 "Y": 1,
@@ -185,6 +264,13 @@
         "MAP_ID": 2,
         "CHANGES": [
             {
+                "Description": "Sector 1 Marker",
+                "X": 1,
+                "Y": 3,
+                "Tile": 172,
+                "Palette": 0
+            },
+            {
                 "Description": "Add Upper Level One Security Section",
                 "X": 9,
                 "Y": 0,
@@ -196,6 +282,13 @@
                 "X": 9,
                 "Y": 1,
                 "Tile": 364,
+                "Palette": 0
+            },
+            {
+                "Description": "Sector 4 Marker",
+                "X": 13,
+                "Y": 2,
+                "Tile": 175,
                 "Palette": 0
             },
             {
@@ -212,6 +305,13 @@
                 "Y": 13,
                 "Tile": 267,
                 "Palette": 2
+            },
+            {
+                "Description": "Main Deck Marker to Reactor Core",
+                "X": 18,
+                "Y": 8,
+                "Tile": 171,
+                "Palette": 0
             }
         ]
     },
@@ -219,17 +319,17 @@
         "MAP_ID": 3,
         "CHANGES": [
             {
-                "Description": "Fix Entrance Recharge Room",
-                "X": 7,
-                "Y": 2,
-                "Tile": 346,
+                "Description": "Sector 5 Marker",
+                "X": 0,
+                "Y": 4,
+                "Tile": 176,
                 "Palette": 0
             },
             {
-                "Description": "Add Box Boss Tile Functions Similar To Serris Hallway",
-                "X": 17,
-                "Y": 3,
-                "Tile": 264,
+                "Description": "Remove Extra tile left of Level Two Security",
+                "X": 2,
+                "Y": 5,
+                "Tile": 160,
                 "Palette": 0
             },
             {
@@ -245,12 +345,33 @@
                 "Y": 8,
                 "Tile": 262,
                 "Palette": 0
-	    },
+	        },
             {
                 "Description": "Add Boss Marker To Boiler Control",
                 "X": 4,
                 "Y": 8,
                 "Tile": 267,
+                "Palette": 0
+            },
+            {
+                "Description": "Fix Entrance Recharge Room",
+                "X": 7,
+                "Y": 2,
+                "Tile": 346,
+                "Palette": 0
+            },
+            {
+                "Description": "Add Box Boss Tile Functions Similar To Serris Hallway",
+                "X": 17,
+                "Y": 3,
+                "Tile": 264,
+                "Palette": 0
+            },
+            {
+                "Description": "Sector 1 Marker",
+                "X": 19,
+                "Y": 0,
+                "Tile": 172,
                 "Palette": 0
             }
         ]
@@ -259,26 +380,18 @@
         "MAP_ID": 4,
         "CHANGES": [
             {
-                "Description": "Fix Top Left Serris Arena Corner",
-                "X": 10,
-                "Y": 0,
-                "Tile": 0,
+                "Description": "Sector 5 Marker",
+                "X": 3,
+                "Y": 8,
+                "Tile": 176,
                 "Palette": 0
             },
             {
-                "Description": "Add New Serris Arena Boss Tile",
-                "X": 11,
-                "Y": 0,
-                "Tile": 266,
+                "Description": "Add Level Four Security Tile",
+                "X": 3,
+                "Y": 14,
+                "Tile": 366,
                 "Palette": 0
-            },
-            {
-                "Description": "Add Level Four Hatch To Owtch Atrium To Powamp Playhouse",
-                "X": 19,
-                "Y": 5,
-                "Tile": 240,
-                "Palette": 0,
-                "HFlip": "True"
             },
             {
                 "Description": "Fix Shortcut To Ruined 5",
@@ -297,13 +410,6 @@
                 "HFlip": "True"
             },
             {
-                "Description": "Add Level Four Hatch To Cheddar Bay To Security Access",
-                "X": 5,
-                "Y": 11,
-                "Tile": 79,
-                "Palette": 0
-            },
-            {
                 "Description": "Add Level Four Hatch To Security Access to Level Four Security",
                 "X": 4,
                 "Y": 14,
@@ -312,10 +418,46 @@
                 "VFlip": "True"
             },
             {
-                "Description": "Add Level Four Security Tile",
-                "X": 3,
-                "Y": 14,
-                "Tile": 366,
+                "Description": "Add Level Four Hatch To Cheddar Bay To Security Access",
+                "X": 5,
+                "Y": 11,
+                "Tile": 79,
+                "Palette": 0
+            },
+            {
+                "Description": "Fix Top Left Serris Arena Corner",
+                "X": 10,
+                "Y": 0,
+                "Tile": 0,
+                "Palette": 0
+            },
+            {
+                "Description": "Add New Serris Arena Boss Tile",
+                "X": 11,
+                "Y": 0,
+                "Tile": 266,
+                "Palette": 0
+            },
+            {
+                "Description": "Sector 2 Marker",
+                "X": 18,
+                "Y": 11,
+                "Tile": 173,
+                "Palette": 0
+            },
+            {
+                "Description": "Add Level Four Hatch To Owtch Atrium To Powamp Playhouse",
+                "X": 19,
+                "Y": 5,
+                "Tile": 240,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Sector 5 Marker",
+                "X": 23,
+                "Y": 5,
+                "Tile": 177,
                 "Palette": 0
             }
         ]
@@ -323,6 +465,13 @@
     {
         "MAP_ID": 5,
         "CHANGES": [
+            {
+                "Description": "Sector 6 Marker",
+                "X": 0,
+                "Y": 4,
+                "Tile": 177,
+                "Palette": 0
+            },
             {
                 "Description": "Add Level Three Hatch To Magic Box",
                 "X": 3,
@@ -337,6 +486,36 @@
                 "Y": 10,
                 "Tile": 367,
                 "Palette": 2
+            },
+            {
+                "Description": "Change Level 4 Door to Level 3 Door in Arctic Containment",
+                "X": 10,
+                "Y": 4,
+                "Tile": 20,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Change Level 4 Door to Level 3 Door in Crows Nest",
+                "X": 11,
+                "Y": 4,
+                "Tile": 245,
+                "Palette": 0,
+                "HFlip": "True"
+            },
+            {
+                "Description": "Sector 3 Marker",
+                "X": 13,
+                "Y": 3,
+                "Tile": 174,
+                "Palette": 0
+            },
+            {
+                "Description": "Sector 4 Marker",
+                "X": 23,
+                "Y": 8,
+                "Tile": 175,
+                "Palette": 0
             }
         ]
     },
@@ -344,11 +523,32 @@
         "MAP_ID": 6,
         "CHANGES": [
             {
+                "Description": "Main Deck Marker to Restricted Lab",
+                "X": 0,
+                "Y": 9,
+                "Tile": 171,
+                "Palette": 0
+            },
+            {
+                "Description": "Sector 4 Marker",
+                "X": 1,
+                "Y": 3,
+                "Tile": 175,
+                "Palette": 0
+            },
+            {
                 "Description": "Add Xbox Boss Tile",
                 "X": 7,
                 "Y": 6,
                 "Tile": 268,
                 "Palette": 2
+            },
+            {
+                "Description": "Sector 5 Marker",
+                "X": 13,
+                "Y": 2,
+                "Tile": 176,
+                "Palette": 0
             }
         ]
     }
