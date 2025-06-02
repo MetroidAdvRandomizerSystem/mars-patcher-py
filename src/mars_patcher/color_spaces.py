@@ -266,19 +266,17 @@ class OklabColor:
         neutral gray of the same lightness."""
         return math.sqrt(self.a_star * self.a_star + self.b_star * self.b_star)
 
-    def shift_hue(self, shift: float) -> "OklabColor":
+    def shift_hue(self, shift: float) -> None:
         """Shifts hue by the provided amount, measured in radians."""
         # Get hue in range 0 to 2pi
         hue = self.hue() + math.pi
         hue = (hue + shift) % (2 * math.pi)
         # Put hue back in range -pi to pi
         hue -= math.pi
-
         # Get new A and B values
         chroma = self.chroma()
-        a = chroma * math.cos(hue)
-        b = chroma * math.sin(hue)
-        return OklabColor(self.l_star, a, b)
+        self.a_star = chroma * math.cos(hue)
+        self.b_star = chroma * math.sin(hue)
 
     @staticmethod
     def linear_to_srgb(value: float) -> float:
