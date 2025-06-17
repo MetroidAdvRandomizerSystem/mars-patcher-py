@@ -72,7 +72,7 @@ def disable_sound_effects(rom: Rom) -> None:
 
 
 def change_missile_limit(rom: Rom, limit: int) -> None:
-    rom.write_8(ReservedConstants.MISSILE_LIMIT_ADDR, limit)
+    rom.write_8(rom.read_ptr(ReservedConstants.MISSILE_LIMIT_ADDR), limit)
 
 
 def apply_unexplored_map(rom: Rom) -> None:
@@ -88,7 +88,7 @@ def apply_anti_softlock_edits(rom: Rom) -> None:
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
-    rom.write_8(ReservedConstants.REVEAL_HIDDEN_TILES_ADDR, 1)
+    rom.write_8(rom.read_ptr(ReservedConstants.REVEAL_HIDDEN_TILES_ADDR), 1)
 
 
 def apply_reveal_unexplored_doors(rom: Rom) -> None:

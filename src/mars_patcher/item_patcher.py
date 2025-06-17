@@ -106,7 +106,7 @@ class ItemPatcher:
             # - An array right after that contains the index where this room starts in
             #   the big item array
             # - A big array of all items and their attributes.
-            area_addr = MINOR_LOCS_TABLE_ADDR + (min_loc.area * 4)
+            area_addr = rom.read_ptr(MINOR_LOCS_TABLE_ADDR) + (min_loc.area * 4)
             rooms_list_addr = rom.read_ptr(area_addr)
             room_entry_addr = self._binary_search_rooms_array(rooms_list_addr, min_loc.room)
             assert room_entry_addr != -1
@@ -192,7 +192,7 @@ class ItemPatcher:
                 else:  # Set ID to Auto Message
                     rom.write_8(addr + 1, AUTO_MESSAGE_ID)
         # Write total metroid count
-        rom.write_8(TOTAL_METROID_COUNT_ADDR, total_metroids)
+        rom.write_8(rom.read_ptr(TOTAL_METROID_COUNT_ADDR), total_metroids)
 
     def write_custom_message(
         self,
@@ -228,10 +228,12 @@ class ItemPatcher:
 
 # TODO: Move these?
 def set_required_metroid_count(rom: Rom, count: int) -> None:
-    rom.write_8(REQUIRED_METROID_COUNT_ADDR, count)
+    rom.write_8(rom.read_ptr(REQUIRED_METROID_COUNT_ADDR) + 1, count)
 
 
 def set_tank_increments(rom: Rom, data: MarsschemaTankincrements) -> None:
-    rom.write_16(TANK_INC_ADDR, data["MissileTank"])
-    rom.write_16(TANK_INC_ADDR + 2, data["EnergyTank"])
-    rom.write_16(TANK_INC_ADDR + 4, data["PowerBombTank"])
+    rom.write_16(rom.read_ptr(TANK_INC_ADDR), data["MissileTank"])
+    rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 2, data["EnergyTank"])
+    rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 4, data["PowerBombTank"])
+    rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 6, data["MissileData"])
+    rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 8, data["PowerBombData"])
