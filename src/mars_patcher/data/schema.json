@@ -213,14 +213,14 @@
                 "MissileData": {
                     "type": "integer",
                     "description": "How much ammo Missile Launcher Data provides when collected.",
-                    "minimum": -1000,
+                    "minimum": 0,
                     "maximum": 1000,
                     "default": 10
                 },
                 "PowerBombData": {
                     "type": "integer",
                     "description": "How much ammo Power Bomb Data provides when collected.",
-                    "minimum": -100,
+                    "minimum": 0,
                     "maximum": 100,
                     "default": 10
                 }
