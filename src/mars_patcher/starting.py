@@ -26,11 +26,12 @@ def set_starting_location(rom: Rom, data: MarsschemaStartinglocation) -> None:
         x_pos = data["BlockX"] * 64 + 31
         y_pos = data["BlockY"] * 64 + 63
     # Write to rom
-    rom.write_8(STARTING_LOC_ADDR, area)
-    rom.write_8(STARTING_LOC_ADDR + 1, room)
-    rom.write_8(STARTING_LOC_ADDR + 2, door)
-    rom.write_16(STARTING_LOC_ADDR + 4, x_pos)
-    rom.write_16(STARTING_LOC_ADDR + 6, y_pos)
+    starting_location = rom.read_ptr(STARTING_LOC_ADDR)
+    rom.write_8(starting_location, area)
+    rom.write_8(starting_location + 1, room)
+    rom.write_8(starting_location + 2, door)
+    rom.write_16(starting_location + 4, x_pos)
+    rom.write_16(starting_location + 6, y_pos)
 
 
 def find_door_in_room(rom: Rom, area: int, room: int) -> int:

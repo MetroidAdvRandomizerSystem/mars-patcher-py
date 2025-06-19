@@ -209,6 +209,20 @@
                     "minimum": -100,
                     "maximum": 100,
                     "default": 2
+                },
+                "MissileData": {
+                    "type": "integer",
+                    "description": "How much ammo Missile Launcher Data provides when collected.",
+                    "minimum": 0,
+                    "maximum": 1000,
+                    "default": 10
+                },
+                "PowerBombData": {
+                    "type": "integer",
+                    "description": "How much ammo Power Bomb Data provides when collected.",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "default": 10
                 }
             },
             "required": [

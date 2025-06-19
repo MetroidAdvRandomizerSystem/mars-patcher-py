@@ -314,6 +314,12 @@ class MarsschemaTankincrements(typ.TypedDict):
     PowerBombTank: typ.Annotated[int, '-100 <= value <= 100'] = 2
     """How much ammo power bomb tanks provide when collected."""
 
+    MissileData: typ.NotRequired[typ.Annotated[int, '0 <= value <= 1000']] = 10
+    """How much ammo Missile Launcher Data provides when collected."""
+
+    PowerBombData: typ.NotRequired[typ.Annotated[int, '0 <= value <= 100']] = 10
+    """How much ammo Power Bomb Data provides when collected."""
+
 
 class MarsschemaElevatorconnections(typ.TypedDict):
     """Defines the elevator that each elevator connects to."""

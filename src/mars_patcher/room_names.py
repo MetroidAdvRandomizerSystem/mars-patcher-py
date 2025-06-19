@@ -23,7 +23,7 @@ def write_room_names(rom: Rom, data: list[MarsschemaRoomnamesItem]) -> None:
         seen_rooms.add((area_id, room_id))
 
         # Find room name table by indexing at ROOM_NAMES_TABLE_ADDR
-        area_addr = ROOM_NAMES_TABLE_ADDR + (area_id * 4)
+        area_addr = rom.read_ptr(ROOM_NAMES_TABLE_ADDR) + (area_id * 4)
         area_room_name_addr = rom.read_ptr(area_addr)
 
         # Find specific room by indexing by the room_id
