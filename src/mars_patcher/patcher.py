@@ -6,6 +6,7 @@ from os import PathLike
 from jsonschema import validate
 
 from mars_patcher.auto_generated_types import MarsSchema
+from mars_patcher.color_spaces import RgbBitSize, RgbColor
 from mars_patcher.connections import Connections
 from mars_patcher.credits import write_credits
 from mars_patcher.data import get_data_path
@@ -29,7 +30,12 @@ from mars_patcher.misc_patches import (
     stereo_default,
 )
 from mars_patcher.navigation_text import NavigationText
-from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
+from mars_patcher.random_palettes import (
+    MF_TILESET_ALT_PAL_ROWS,
+    Palette,
+    PaletteRandomizer,
+    PaletteSettings,
+)
 from mars_patcher.rom import Rom
 from mars_patcher.room_names import write_room_names
 from mars_patcher.starting import set_starting_items, set_starting_location
@@ -194,6 +200,8 @@ def patch(
 
     write_seed_hash(rom, patch_data["SeedHash"])
 
+    fuck_with_colors(rom)
+
     rom.save(output_path)
     status_update(f"Output written to {output_path}", -1)
 
@@ -204,3 +212,220 @@ def patch(
         "or alternatively this project's issue page (https://github.com/MetroidAdvRandomizerSystem/mars-patcher/issues)"
     )
     print("Thank you")
+
+
+def fuck_with_colors(rom: Rom) -> None:
+    # TODO: clean up
+    def round_down(num, divisor):
+        return num - (num % divisor)
+
+    def adjust_hsv_and_return_as_rgb(col: RgbColor, h, s, v) -> RgbColor:
+        color = col.hsv()
+        color.hue *= h
+        color.hue = color.hue % 360
+        color.saturation *= s
+        if color.saturation > 1:
+            color.saturation = 1
+        color.value *= v
+        if color.value > 1:
+            color.value = 1
+
+        final = color.rgb()
+        return final
+
+    # Always brighten gray map bg to provide better contrast
+    gray = RgbColor(153, 153, 153, RgbBitSize.Rgb8)
+    minimap_pal = Palette(1, rom, 0x3E415C)
+    minimap_pal.colors[12] = gray
+    minimap_pal.write(rom, 0x3E415C)
+    map_pal = Palette(1, rom, 0x5657A8)
+    map_pal.colors[2] = map_pal.colors[3] = gray
+    map_pal.write(rom, 0x5657A8)
+
+    blue_color = RgbColor(255, 41, 41, RgbBitSize.Rgb8)
+    green_color = RgbColor(156, 41, 251, RgbBitSize.Rgb8)
+    yellow_color = RgbColor(40, 248, 40, RgbBitSize.Rgb8)
+    red_color = RgbColor(40, 84, 248, RgbBitSize.Rgb8)
+    purple_map_color = RgbColor(255, 99, 34, RgbBitSize.Rgb8)
+
+    base_colors = {
+        8: blue_color,
+        10: green_color,
+        12: yellow_color,
+        14: red_color,
+    }
+
+    mods = {
+        0: (1, 1, 1),
+        1: (1.0063, 1.1923, 0.7420),
+        2: (1.0305, 1.1923, 0.5162),
+        5: (0.9710, 0.6154, 1),
+    }
+    mods[3] = mods[1]
+    mods[4] = mods[0]
+
+    mods_alt = {
+        0: (1.0939, 1.1923, 0.6452),
+        1: (1.1415, 1.1923, 0.4839),
+        2: (1.1732, 1.1923, 0.3226),
+        5: (1.1014, 0.9062, 0.8065),
+    }
+    mods_alt[3] = mods_alt[1]
+    mods_alt[4] = mods_alt[0]
+
+    # Patch common door graphics
+    def fix_door_colors(addr, rows):
+        door_pal = Palette(rows, rom, addr)
+        for index in range(rows):
+            for col_index in range(8, 16):
+                base_color = base_colors[round_down(col_index, 2)]
+                if col_index % 2 == 0:
+                    h, s, v = mods[index]
+                else:
+                    h, s, v = mods_alt[index]
+                final_index = index * 16 + col_index
+                final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+                door_pal.colors[final_index] = final
+        door_pal.write(rom, addr)
+
+    fix_door_colors(0x40807C, 1)  # common graphics for still/locked door
+    fix_door_colors(0x40825C, 6)  # common graphics for animated door
+
+    # Patch item palettes
+    base_colors = {
+        8: green_color,
+        10: blue_color,
+        12: yellow_color,
+        14: red_color,
+    }
+    for address, offset in MF_TILESET_ALT_PAL_ROWS.items():
+        pal = Palette(1, rom, address + (0x20 * offset))
+        sp_h, sp_s, sp_v = mods_alt[2]
+        pal.colors[7] = adjust_hsv_and_return_as_rgb(base_colors[8], sp_h, sp_s, sp_v)
+        for col_index in range(8, 16):
+            base_color = base_colors[round_down(col_index, 2)]
+            if col_index % 2 == 0:
+                h, s, v = mods_alt[0]
+            else:
+                h, s, v = mods[0]
+            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+            pal.colors[col_index] = final
+
+        pal.write(rom, address + (0x20 * offset))
+
+    # Patch map door palettes
+    base_colors = {
+        0: yellow_color,
+        1: blue_color,
+        2: green_color,
+        3: red_color,
+    }
+    minimap_pal = Palette(3, rom, 0x5657A8)
+    for row in range(3):
+        # change green/purple bg color too
+        if row == 1 or row == 2:
+            for index in range(2, 4):
+                base_color = base_colors[2]
+                h, s, v = mods_alt[0]
+                if row == 1:
+                    base_color = purple_map_color
+                    h, s, v = mods[0]
+                final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+                minimap_pal.colors[row * 16 + index] = final
+
+        for index in range(7, 16):
+            col_index = index - 7
+            h, s, v = mods[0]
+            base_color = base_colors[col_index % 4]
+            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+            minimap_pal.colors[row * 16 + index] = final
+    minimap_pal.write(rom, 0x5657A8)
+
+    # Change animated bg colors
+    anim_pal = Palette(2, rom, 0x57BCD4)
+    for row in range(2):
+        for index in range(5):
+            h, s, v = mods_alt[index]
+            base_color = base_colors[2]
+            if row == 0:
+                base_color = purple_map_color
+                h, s, v = mods[index]
+            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+            anim_pal.colors[index + row * 16] = final
+    anim_pal.write(rom, 0x57BCD4)
+
+    # Change minimap color too
+    minimap_pal = Palette(1, rom, 0x3E415C)
+    # Green BG + Green Door
+    for index in range(2, 5):
+        base_color = base_colors[2]
+        h, s, v = mods_alt[index - 2]
+        final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+        minimap_pal.colors[index] = final
+    # Purple BG
+    base_color = purple_map_color
+    h, s, v = mods[0]
+    final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+    minimap_pal.colors[13] = final
+    # Doors
+    for index in [6, 7, 8, 10, 11, 14]:
+        if index == 6 or index == 10:
+            base_color = base_colors[3]
+        elif index == 7 or index == 11:
+            base_color = base_colors[0]
+        else:  # index == 8 or index == 14
+            base_color = base_colors[1]
+
+        if index < 10:
+            h, s, v = mods[0]
+        else:
+            h, s, v = mods_alt[0]
+
+        final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+        minimap_pal.colors[index] = final
+
+    minimap_pal.write(rom, 0x3E415C)
+
+    # Patch minimap keylock icon palette    # TODO WARP and STATUS icon flash a bit, probably need to change 0x565CA8
+    base_colors = {
+        2: blue_color,
+        5: green_color,
+        8: yellow_color,
+        11: red_color,
+    }
+    keylock_pal = Palette(1, rom, 0x565C28)
+    for index in range(2, 14):
+        col_index = index - 2
+        if col_index % 3 == 0:
+            h, s, v = mods[5]
+        elif col_index % 3 == 1:
+            h, s, v = mods[0]
+        else:  # % 3 == 2
+            h, s, v = mods_alt[0]
+
+        base_color = base_colors[round_down(col_index, 3) + 2]
+        final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+        keylock_pal.colors[col_index + 2] = final
+    keylock_pal.write(rom, 0x565C28)
+
+    # Change x colors
+    base_colors = {0: red_color, 1: green_color, 2: yellow_color}
+    x_pal = Palette(3, rom, 0x3E40DC)
+    for row in range(3):
+        for index in range(11, 14):
+            if index == 11:
+                h, s, v = mods[5]
+            elif index == 12:
+                h, s, v = mods[0]
+            else:  # index == 13
+                h, s, v = mods_alt[1]
+
+            base_color = base_colors[row]
+            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
+            x_pal.colors[row * 16 + index] = final
+
+    x_pal.write(rom, 0x3E40DC)
+
+    # TODO: change colored nav text
+    # TODO: destructable blocks - pal at 0x40805C
+    # TODO: map doesnt have grid colors changed
