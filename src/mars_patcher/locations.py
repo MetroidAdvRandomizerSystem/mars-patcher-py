@@ -121,11 +121,6 @@ class ItemMessages:
         "MessageID": ItemMessagesKind.MESSAGE_ID,
     }
 
-    JINGLE_ENUMS: ClassVar[dict[str, ItemJingle]] = {
-        "Minor": ItemJingle.MINOR,
-        "Major": ItemJingle.MAJOR,
-    }
-
     @classmethod
     def from_json(cls, data: Itemmessages) -> ItemMessages:
         item_messages: dict[Language, str] = {}
