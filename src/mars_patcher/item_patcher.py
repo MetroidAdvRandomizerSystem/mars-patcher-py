@@ -1,6 +1,7 @@
 from mars_patcher.auto_generated_types import MarsschemaTankincrements
 from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.locations import (
+    ItemJingle,
     ItemMessages,
     ItemMessagesKind,
     ItemSprite,
@@ -14,9 +15,9 @@ from mars_patcher.tileset import Tileset
 
 MINOR_LOCS_TABLE_ADDR = ReservedConstants.MINOR_LOCS_TABLE_ADDR
 MINOR_LOCS_ARRAY_ADDR = ReservedConstants.MINOR_LOCS_ARRAY_ADDR
-MINOR_LOC_SIZE = 0x8
+MINOR_LOC_SIZE = 0x10
 MAJOR_LOCS_POINTER_ADDR = ReservedConstants.MAJOR_LOCS_POINTER_ADDR
-MAJOR_LOC_SIZE = 0x2
+MAJOR_LOC_SIZE = 0x4
 TANK_INC_ADDR = ReservedConstants.TANK_INC_ADDR
 REQUIRED_METROID_COUNT_ADDR = ReservedConstants.REQUIRED_METROID_COUNT_ADDR
 TOTAL_METROID_COUNT_ADDR = ReservedConstants.TOTAL_METROID_COUNT_ADDR
@@ -158,6 +159,9 @@ class ItemPatcher:
                 # If the kind is Message ID, write that ID
                 else:
                     rom.write_8(item_addr + 7, messages.message_id)
+            # Write item jingle
+            jingle = 0 if min_loc.item_jingle == ItemJingle.MINOR else 1
+            rom.write_8(item_addr + 8, jingle)
         # Handle major locations
         for maj_loc in self.settings.major_locs:
             # Write to majors table
@@ -191,6 +195,9 @@ class ItemPatcher:
                         rom.write_8(addr + 1, messages.message_id)
                 else:  # Set ID to Auto Message
                     rom.write_8(addr + 1, AUTO_MESSAGE_ID)
+                # Write item jingle
+                jingle = 0 if maj_loc.item_jingle == ItemJingle.MINOR else 1
+                rom.write_8(addr + 2, jingle)
         # Write total metroid count
         rom.write_8(rom.read_ptr(TOTAL_METROID_COUNT_ADDR), total_metroids)
 
