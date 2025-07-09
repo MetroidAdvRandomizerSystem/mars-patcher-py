@@ -195,6 +195,10 @@ Itemmessageskind = typ.Literal[
     'CustomMessage',
     'MessageID'
 ]
+Jingle = typ.Literal[
+    'Minor',
+    'Major'
+]
 
 class BlocklayerItem(typ.TypedDict, total=False):
     X: Typeu8
@@ -227,6 +231,7 @@ class MarsschemaLocationsMajorlocationsItem(typ.TypedDict):
     """Valid items for shuffling."""
 
     ItemMessages: typ.NotRequired[Itemmessages]
+    Jingle: Jingle
 
 class MarsschemaLocationsMinorlocationsItem(typ.TypedDict):
     Area: Areaid
@@ -248,6 +253,7 @@ class MarsschemaLocationsMinorlocationsItem(typ.TypedDict):
     """Valid graphics for minor location items."""
 
     ItemMessages: typ.NotRequired[Itemmessages]
+    Jingle: Jingle
 
 class MarsschemaLocations(typ.TypedDict):
     """Specifies how the item locations in the game should be changed."""

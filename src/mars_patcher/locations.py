@@ -9,12 +9,14 @@ from frozendict import frozendict
 from mars_patcher.constants.items import (
     ITEM_ENUMS,
     ITEM_SPRITE_ENUMS,
+    JINGLE_ENUMS,
     KEY_AREA,
     KEY_BLOCK_X,
     KEY_BLOCK_Y,
     KEY_CENTERED,
     KEY_HIDDEN,
     KEY_ITEM,
+    KEY_ITEM_JINGLE,
     KEY_ITEM_MESSAGES,
     KEY_ITEM_MESSAGES_KIND,
     KEY_ITEM_SPRITE,
@@ -26,6 +28,7 @@ from mars_patcher.constants.items import (
     KEY_ROOM,
     KEY_SOURCE,
     SOURCE_ENUMS,
+    ItemJingle,
     ItemMessagesKind,
     ItemSprite,
     ItemType,
@@ -65,10 +68,12 @@ class MajorLocation(Location):
         orig_item: ItemType,
         new_item: ItemType = ItemType.UNDEFINED,
         item_messages: ItemMessages | None = None,
+        item_jingle: ItemJingle = ItemJingle.MAJOR,
     ):
         super().__init__(area, room, orig_item, new_item)
         self.major_src = major_src
         self.item_messages = item_messages
+        self.item_jingle = item_jingle
 
 
 class MinorLocation(Location):
@@ -83,6 +88,7 @@ class MinorLocation(Location):
         new_item: ItemType = ItemType.UNDEFINED,
         item_sprite: ItemSprite = ItemSprite.UNCHANGED,
         item_messages: ItemMessages | None = None,
+        item_jingle: ItemJingle = ItemJingle.MINOR,
     ):
         super().__init__(area, room, orig_item, new_item)
         self.block_x = block_x
@@ -90,6 +96,7 @@ class MinorLocation(Location):
         self.hidden = hidden
         self.item_sprite = item_sprite
         self.item_messages = item_messages
+        self.item_jingle = item_jingle
 
 
 @dataclass(frozen=True)
@@ -175,7 +182,7 @@ class LocationSettings:
             maj_loc.new_item = item
             if KEY_ITEM_MESSAGES in maj_loc_entry:
                 maj_loc.item_messages = ItemMessages.from_json(maj_loc_entry[KEY_ITEM_MESSAGES])
-
+            maj_loc.item_jingle = JINGLE_ENUMS[maj_loc_entry[KEY_ITEM_JINGLE]]
         for min_loc_entry in data[KEY_MINOR_LOCS]:
             # Get area, room, block X, block Y
             area = min_loc_entry[KEY_AREA]
@@ -203,3 +210,4 @@ class LocationSettings:
                 min_loc.item_sprite = ITEM_SPRITE_ENUMS[min_loc_entry[KEY_ITEM_SPRITE]]
             if KEY_ITEM_MESSAGES in min_loc_entry:
                 min_loc.item_messages = ItemMessages.from_json(min_loc_entry[KEY_ITEM_MESSAGES])
+            min_loc.item_jingle = JINGLE_ENUMS[min_loc_entry[KEY_ITEM_JINGLE]]

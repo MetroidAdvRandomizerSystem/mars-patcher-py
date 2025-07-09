@@ -30,11 +30,15 @@
                             },
                             "ItemMessages": {
                                 "$ref": "#/$defs/ItemMessages"
+                            },
+                            "Jingle": {
+                                "$ref": "#/$defs/Jingle"
                             }
                         },
                         "required": [
                             "Source",
-                            "Item"
+                            "Item",
+                            "Jingle"
                         ]
                     }
                 },
@@ -71,6 +75,9 @@
                             },
                             "ItemMessages": {
                                 "$ref": "#/$defs/ItemMessages"
+                            },
+                            "Jingle": {
+                                "$ref": "#/$defs/Jingle"
                             }
                         },
                         "required": [
@@ -78,7 +85,8 @@
                             "Room",
                             "BlockX",
                             "BlockY",
-                            "Item"
+                            "Item",
+                            "Jingle"
                         ]
                     }
                 }
@@ -984,6 +992,10 @@
         "ItemMessagesKind":{
             "type": "string",
             "enum": ["CustomMessage", "MessageID"]
+        },
+        "Jingle":{
+            "type": "string",
+            "enum": ["Minor", "Major"]
         },
         "BlockLayer": {
             "type": "array",
