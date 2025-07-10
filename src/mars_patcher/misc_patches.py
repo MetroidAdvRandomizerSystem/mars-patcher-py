@@ -92,5 +92,6 @@ def apply_reveal_hidden_tiles(rom: Rom) -> None:
 def apply_reveal_unexplored_doors(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "unhidden_map_doors.ips")
 
+
 def apply_accessibility_patch(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "accessibility.ips")
