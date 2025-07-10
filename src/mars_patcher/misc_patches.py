@@ -33,13 +33,11 @@ def apply_base_patch(rom: Rom) -> None:
 
 
 def disable_demos(rom: Rom) -> None:
-    # TODO: Move to patch
     # b 0x8087460
     rom.write_16(0x87436, 0xE013)
 
 
 def skip_door_transitions(rom: Rom) -> None:
-    # TODO: Move to patch
     rom.write_32(0x69500, 0x3000BDE)
     rom.write_8(0x694E2, 0xC)
 
