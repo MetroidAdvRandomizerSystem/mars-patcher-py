@@ -147,7 +147,8 @@ def patch(
         write_credits(rom, credits_text)
 
     # Misc patches
-    apply_accessibility_patch(rom)
+    if patch_data.get("AccessibilityPatches"):
+        apply_accessibility_patch(rom)
 
     if patch_data.get("DisableDemos"):
         disable_demos(rom)
