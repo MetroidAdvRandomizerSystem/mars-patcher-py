@@ -620,6 +620,9 @@ class Marsschema(typ.TypedDict, total=False):
     AntiSoftlockRoomEdits: bool = False
     """Changes room layouts when enabled to prevent some accidental softlocks."""
 
+    AccessibilityPatches: bool = False
+    """Whether to apply patches for better accessibility."""
+
     LevelEdits: dict[Areaidkey, dict[str, MarsschemaLeveledits]]
     """Specifies room edits that should be done. These will be applied last."""
 

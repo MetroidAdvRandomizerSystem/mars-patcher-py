@@ -571,6 +571,11 @@
             "description": "Changes room layouts when enabled to prevent some accidental softlocks.",
             "default": false
         },
+        "AccessibilityPatches": {
+            "type": "boolean",
+            "description": "Whether to apply patches for better accessibility.",
+            "default": false
+        },
         "LevelEdits": {
             "type": "object",
             "description": "Specifies room edits that should be done. These will be applied last.",

@@ -15,6 +15,7 @@ from mars_patcher.level_edits import apply_level_edits
 from mars_patcher.locations import LocationSettings
 from mars_patcher.minimap import apply_base_minimap_edits, apply_minimap_edits
 from mars_patcher.misc_patches import (
+    apply_accessibility_patch,
     apply_anti_softlock_edits,
     apply_base_patch,
     apply_pbs_without_bombs,
@@ -146,6 +147,8 @@ def patch(
         write_credits(rom, credits_text)
 
     # Misc patches
+    if patch_data.get("AccessibilityPatches"):
+        apply_accessibility_patch(rom)
 
     if patch_data.get("DisableDemos"):
         disable_demos(rom)
