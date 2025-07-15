@@ -652,6 +652,21 @@
                 "Palette": 0
             },
             {
+                "Description": "Flooded Tower",
+                "X": 16,
+                "Y": 5,
+                "Tile": 97,
+                "Palette": 2
+            },
+            {
+                "Description": "Ruined Break Room",
+                "X": 17,
+                "Y": 5,
+                "Tile": 384,
+                "Palette": 2,
+                "HFlip": "True"
+            },
+            {
                 "Description": "Sector 4 Arrow",
                 "X": 22,
                 "Y": 8,
