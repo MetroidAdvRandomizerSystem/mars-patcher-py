@@ -35,6 +35,7 @@ from mars_patcher.rom import Rom
 from mars_patcher.room_names import write_room_names
 from mars_patcher.starting import set_starting_items, set_starting_location
 from mars_patcher.text import write_seed_hash
+from mars_patcher.titlescreen_text import write_title_text
 
 
 def validate_patch_data(patch_data: dict) -> MarsSchema:
@@ -196,6 +197,11 @@ def patch(
         set_door_locks(rom, door_locks)
 
     write_seed_hash(rom, patch_data["SeedHash"])
+
+    # Title-screen text
+    if title_screen_text := patch_data.get("TitleText"):
+        status_update("Writing title screen text...", -1)
+        write_title_text(rom, title_screen_text)
 
     rom.save(output_path)
     status_update(f"Output written to {output_path}", -1)
