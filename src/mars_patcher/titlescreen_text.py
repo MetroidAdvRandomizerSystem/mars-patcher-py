@@ -1,10 +1,12 @@
 from mars_patcher.auto_generated_types import MarsschemaTitletextItem
 from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.rom import Rom
+from mars_patcher.version import __version__ as _version
 
 TITLE_TEXT_POINTER_ADDR = ReservedConstants.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR
 MAX_LENGTH = 30
 MAX_LINES = 14
+VERSION_TEXT = MarsschemaTitletextItem({"Text": f"MARS: {_version}", "LineNum": 0})
 
 
 class TitleScreenText:
@@ -23,6 +25,7 @@ def write_title_text(rom: Rom, lines: list[MarsschemaTitletextItem]) -> None:
     if len(lines) > MAX_LINES:
         raise ValueError("Maximum number of title-screen lines exceeded.")
 
+    write_title_text_line(rom, VERSION_TEXT)
     for line in lines:
         write_title_text_line(rom, line)
 
