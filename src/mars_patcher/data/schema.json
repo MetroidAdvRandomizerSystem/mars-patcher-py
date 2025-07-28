@@ -464,6 +464,26 @@
             },
             "default": null
         },
+        "TitleText": {
+            "type":"array",
+            "description": "Lines of ascii text to write to the title screen.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "Text": {
+                        "type": "string",
+                        "description": "The ASCII text for this line",
+                        "pattern": "^[ -~]{0,30}$"
+                    },
+                    "LineNum": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 14
+                    }
+                }
+            },
+            "default": null
+        },
         "CreditsText": {
             "type": "array",
             "description": "Lines of text to insert into the credits.",

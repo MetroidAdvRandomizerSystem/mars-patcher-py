@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased - 2025-XX-XX
+- Added: Ability to write text to the title screen.
 
 ## 0.4.1 - 2025-05-22
 

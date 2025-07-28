@@ -464,6 +464,12 @@ class MarsschemaNavigationtext(typ.TypedDict, total=False):
     """Assigns the ship specific text."""
 
 
+
+class MarsschemaTitletextItem(typ.TypedDict, total=False):
+    Text: typ.Annotated[str, '/^[ -~]{0,30}$/']
+    """The ASCII text for this line"""
+
+    LineNum: typ.Annotated[int, '1 <= value <= 14']
 MarsschemaCreditstextItemLinetype = typ.Literal[
     'Blank',
     'Blue',
@@ -586,6 +592,9 @@ class Marsschema(typ.TypedDict, total=False):
 
     NavigationText: dict[Validlanguages, MarsschemaNavigationtext] = None
     """Specifies text to be displayed at navigation rooms and the ship."""
+
+    TitleText: list[MarsschemaTitletextItem] = None
+    """Lines of ascii text to write to the title screen."""
 
     CreditsText: list[MarsschemaCreditstextItem]
     """Lines of text to insert into the credits."""
