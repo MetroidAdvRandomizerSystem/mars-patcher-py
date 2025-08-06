@@ -125,7 +125,8 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
             # Skip excluded doors and doors that aren't lockable hatches
             lock = door_locks.get((area, door))
             if (area, door) in EXCLUDED_DOORS or door_type & 0xF != 4:
-                if lock is not None:
+                # Don't log the error if door is open and JSON says to change to open.
+                if lock is not None and not (lock is HatchLock.OPEN and door_type & 0xF == 3):
                     logging.error(f"Area {area} door {door} cannot have its lock changed")
                 continue
 

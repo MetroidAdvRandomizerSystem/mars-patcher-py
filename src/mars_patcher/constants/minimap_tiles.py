@@ -159,6 +159,7 @@ class Content(Enum):
     AUXILLARY_POWER = "X"
     ANIMALS = "A"
     BOILER_PAD = "b"
+    TUNNEL = "T"
 
     @property
     def can_h_flip(self) -> bool:
@@ -546,6 +547,7 @@ NORMAL_DOOR_TILES = {
     0x1AB: MapTile.from_str("DDWW_xxxx_O"),
     0x0B5: MapTile.from_str("WSDW_xxxx_O"),
     # New Tiles
+    0x0A4: MapTile.from_str("WDxW_xxxx_T"),
     0x0D4: MapTile.from_str("WSDW_xxxx_I"),
     0x0D5: MapTile.from_str("WSDW_xxxx_O"),
     0x10A: MapTile.from_str("WxDx_xxxx_B"),
