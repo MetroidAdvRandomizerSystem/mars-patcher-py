@@ -24,6 +24,7 @@ classifiers = [
 dependencies = [
     "jsonschema",
     "frozendict",
+    "typing-extensions
 ]
 
 dynamic = ["version"]
@@ -44,7 +45,7 @@ typing = [
 ]
 
 [project.urls]
-Repository = "https://github.com/biosp4rk/mars-patcher"
+Repository = "https://github.com/MetroidAdvRandomizerSystem/mars-patcher"
 
 # Entry Points for PyInstaller
 [project.entry-points."pyinstaller40"]
