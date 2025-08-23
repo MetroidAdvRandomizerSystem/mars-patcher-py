@@ -24,7 +24,7 @@ classifiers = [
 dependencies = [
     "jsonschema",
     "frozendict",
-    "typing-extensions
+    "typing-extensions",
 ]
 
 dynamic = ["version"]
