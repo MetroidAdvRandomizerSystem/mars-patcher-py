@@ -626,9 +626,6 @@ class Marsschema(typ.TypedDict, total=False):
     PowerBombsWithoutBombs: bool = False
     """When enabled, lets you use Power Bombs without needing to collect Bomb Data."""
 
-    AntiSoftlockRoomEdits: bool = False
-    """Changes room layouts when enabled to prevent some accidental softlocks."""
-
     AccessibilityPatches: bool = False
     """Whether to apply patches for better accessibility."""
 
