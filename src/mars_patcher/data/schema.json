@@ -586,11 +586,6 @@
             "description": "When enabled, lets you use Power Bombs without needing to collect Bomb Data.",
             "default": false
         },
-        "AntiSoftlockRoomEdits": {
-            "type": "boolean",
-            "description": "Changes room layouts when enabled to prevent some accidental softlocks.",
-            "default": false
-        },
         "AccessibilityPatches": {
             "type": "boolean",
             "description": "Whether to apply patches for better accessibility.",
