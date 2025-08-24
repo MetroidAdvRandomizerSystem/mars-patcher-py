@@ -16,7 +16,6 @@ from mars_patcher.locations import LocationSettings
 from mars_patcher.minimap import apply_base_minimap_edits, apply_minimap_edits
 from mars_patcher.misc_patches import (
     apply_accessibility_patch,
-    apply_anti_softlock_edits,
     apply_base_patch,
     apply_pbs_without_bombs,
     apply_reveal_hidden_tiles,
@@ -75,10 +74,6 @@ def patch(
 
     # Apply base asm patch first
     apply_base_patch(rom)
-
-    # Softlock edits need to be done early to prevent later edits messing things up.
-    if patch_data.get("AntiSoftlockRoomEdits"):
-        apply_anti_softlock_edits(rom)
 
     # Randomize palettes - palettes are randomized first in case the item
     # patcher needs to copy tilesets
