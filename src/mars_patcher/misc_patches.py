@@ -81,10 +81,6 @@ def apply_pbs_without_bombs(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "bombless_pbs.ips")
 
 
-def apply_anti_softlock_edits(rom: Rom) -> None:
-    apply_patch_in_asm_path(rom, "anti_softlock.ips")
-
-
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedConstants.REVEAL_HIDDEN_TILES_ADDR), 1)
 
