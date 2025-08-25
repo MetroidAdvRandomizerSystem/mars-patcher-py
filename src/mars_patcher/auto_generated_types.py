@@ -469,7 +469,7 @@ class MarsschemaTitletextItem(typ.TypedDict, total=False):
     Text: typ.Annotated[str, '/^[ -~]{0,30}$/']
     """The ASCII text for this line"""
 
-    LineNum: typ.Annotated[int, '1 <= value <= 14']
+    LineNum: typ.Annotated[int, '0 <= value <= 14']
 MarsschemaCreditstextItemLinetype = typ.Literal[
     'Blank',
     'Blue',
