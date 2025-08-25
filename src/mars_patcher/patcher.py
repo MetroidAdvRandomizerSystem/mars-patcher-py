@@ -216,10 +216,10 @@ def patch(
 
 def fuck_with_colors(rom: Rom) -> None:
     # TODO: clean up
-    def round_down(num, divisor):
+    def round_down(num: int, divisor: int) -> int:
         return num - (num % divisor)
 
-    def adjust_hsv_and_return_as_rgb(col: RgbColor, h, s, v) -> RgbColor:
+    def adjust_hsv_and_return_as_rgb(col: RgbColor, h: float, s: float, v: float) -> RgbColor:
         color = col.hsv()
         color.hue *= h
         color.hue = color.hue % 360
@@ -274,7 +274,7 @@ def fuck_with_colors(rom: Rom) -> None:
     mods_alt[4] = mods_alt[0]
 
     # Patch common door graphics
-    def fix_door_colors(addr, rows):
+    def fix_door_colors(addr: int, rows: int) -> None:
         door_pal = Palette(rows, rom, addr)
         for index in range(rows):
             for col_index in range(8, 16):
@@ -427,5 +427,5 @@ def fuck_with_colors(rom: Rom) -> None:
     x_pal.write(rom, 0x3E40DC)
 
     # TODO: change colored nav text
-    # TODO: destructable blocks - pal at 0x40805C
     # TODO: map doesnt have grid colors changed
+    # TODO: change the other item palette?
