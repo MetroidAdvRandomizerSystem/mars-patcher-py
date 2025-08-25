@@ -1,7 +1,6 @@
 from mars_patcher.auto_generated_types import MarsschemaTitletextItem
 from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.rom import Rom
-from mars_patcher.version import __version__ as _version
 
 TITLE_TEXT_POINTER_ADDR = ReservedConstants.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR
 MAX_LENGTH = 30
