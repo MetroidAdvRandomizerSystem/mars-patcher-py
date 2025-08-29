@@ -200,11 +200,15 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
                 minimap_x = room_entry.map_x + screen_offset_x
                 minimap_y = room_entry.map_y + screen_offset_y
 
-                map_tile = minimap_changes[area][minimap_x, minimap_y, room]
-                if facing_right:
-                    map_tile["left"] = lock
-                else:
-                    map_tile["right"] = lock
+                minimap_areas = [area]
+                if area == 0:
+                    minimap_areas = [0, 9]  # Main Deck has two maps
+                for minimap_area in minimap_areas:
+                    map_tile = minimap_changes[minimap_area][minimap_x, minimap_y, room]
+                    if facing_right:
+                        map_tile["left"] = lock
+                    else:
+                        map_tile["right"] = lock
 
             # Overwrite BG1 and clipdata
             if lock is None:
