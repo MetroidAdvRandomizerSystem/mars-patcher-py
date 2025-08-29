@@ -414,7 +414,7 @@ def draw_tunnel(gfx: bytearray, edges: TileEdges) -> None:
         edges.right, ColoredDoor
     ):
         # Door on right, arrow faces left
-        flipped = [reversed(row) for row in PIXELS_TUNNEL]
+        flipped = [row[::-1] for row in PIXELS_TUNNEL]
         draw_colored_pixel_art(gfx, flipped)
         edge = edges.right
         x = 7
