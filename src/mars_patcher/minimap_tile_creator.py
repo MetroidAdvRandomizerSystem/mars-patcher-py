@@ -410,8 +410,8 @@ def draw_tunnel(gfx: bytearray, edges: TileEdges) -> None:
         draw_colored_pixel_art(gfx, PIXELS_TUNNEL)
         edge = edges.left
         x = 0
-    elif (isinstance(edges.right, Edge) and edges.left == Edge.DOOR) or isinstance(
-        edges.left, ColoredDoor
+    elif (isinstance(edges.right, Edge) and edges.right == Edge.DOOR) or isinstance(
+        edges.right, ColoredDoor
     ):
         # Door on right, arrow faces left
         flipped = [reversed(row) for row in PIXELS_TUNNEL]
