@@ -145,6 +145,7 @@ class TileCorners(NamedTuple):
 # Contents
 class Content(Enum):
     EMPTY = "x"
+    EMPTY_RED_WALLS = "w"
     NAVIGATION = "N"
     SAVE = "S"
     RECHARGE = "R"
@@ -152,14 +153,19 @@ class Content(Enum):
     DATA = "D"
     ITEM = "I"
     OBTAINED_ITEM = "O"
-    BOSS = "B"
+    BOSS_RIGHT_DOWNLOADED = "B-R-D"  # Serris skeleton
+    BOSS_BOTTOM_LEFT_EXPLORED = "B-BL-E"  # Serris
+    BOSS_TOP_LEFT_DOWNLOADED = "B-TL-D"  # BOX 1
+    BOSS_LEFT_EXPLORED = "B-L-E"  # Mega-X
+    BOSS_TOP_RIGHT_BOTH = "B-TR-B"  # Nightmare
+    BOSS_TOP_RIGHT_EXPLORED = "B-TR-E"  # BOX 2
     GUNSHIP = "G"
     GUNSHIP_EDGE = "P"
     SECURITY = "K"
-    AUXILLARY_POWER = "X"
+    AUXILLARY_POWER = "Y"
     ANIMALS = "A"
-    BOILER_PAD = "b"
     TUNNEL = "T"
+    BOILER_PAD = "L"
 
     @property
     def can_h_flip(self) -> bool:
@@ -171,6 +177,9 @@ class Content(Enum):
             Content.DATA,
             Content.GUNSHIP,
             Content.GUNSHIP_EDGE,
+            Content.SECURITY,
+            Content.AUXILLARY_POWER,
+            Content.BOILER_PAD,
         }
         return self not in exclude
 
@@ -181,9 +190,18 @@ class Content(Enum):
             Content.SAVE,
             Content.RECHARGE,
             Content.HIDDEN_RECHARGE,
+            Content.BOSS_RIGHT_DOWNLOADED,
+            Content.BOSS_BOTTOM_LEFT_EXPLORED,
+            Content.BOSS_TOP_LEFT_DOWNLOADED,
+            Content.BOSS_LEFT_EXPLORED,
+            Content.BOSS_TOP_RIGHT_BOTH,
+            Content.BOSS_TOP_RIGHT_EXPLORED,
             Content.GUNSHIP,
             Content.GUNSHIP_EDGE,
-            Content.BOSS,
+            Content.SECURITY,
+            Content.AUXILLARY_POWER,
+            Content.TUNNEL,
+            Content.BOILER_PAD,
         }
         return self not in exclude
 
@@ -200,8 +218,6 @@ class MapTile(NamedTuple):
 
     @classmethod
     def from_str(cls, value: str) -> Self:
-        if len(value) != 11:
-            raise ValueError(f"'{value}' is not a valid MapTile string")
         edges, corners, content = value.split("_")
         return cls(
             edges=TileEdges.from_str(edges),
@@ -424,7 +440,6 @@ COLORED_DOOR_TILES = {
     0x1AC: MapTile.from_str("WYYW_xxxx_I"),
     0x1AD: MapTile.from_str("WYYW_xxxx_O"),
     # New Tiles
-    0x10B: MapTile.from_str("xxGW_Cxxx_B"),
     0x16C: MapTile.from_str("xWBW_xxxx_K"),
     0x16D: MapTile.from_str("WWGW_xxxx_K"),
     0x16E: MapTile.from_str("WWRW_xxxx_K"),
@@ -462,6 +477,7 @@ NORMAL_DOOR_TILES = {
     0x084: MapTile.from_str("WDDW_xxxx_x"),
     0x087: MapTile.from_str("WWWW_xxxx_x"),
     0x0B4: MapTile.from_str("WSDW_xxxx_I"),
+    0x0B5: MapTile.from_str("WSDW_xxxx_O"),
     0x0B6: MapTile.from_str("WSDW_xxxx_x"),
     0x0E0: MapTile.from_str("DDxW_xxxx_x"),
     0x0E1: MapTile.from_str("DDxD_xxxx_x"),
@@ -474,10 +490,10 @@ NORMAL_DOOR_TILES = {
     0x102: MapTile.from_str("DDxx_xxxC_x"),
     0x104: MapTile.from_str("WDxx_xxxC_x"),
     0x105: MapTile.from_str("xDxx_xCxx_x"),
-    0x108: MapTile.from_str("xxDW_xxxx_B"),
-    0x109: MapTile.from_str("WDxW_xxxx_B"),
-    0x10D: MapTile.from_str("xxDx_xxxx_B"),
-    0x10F: MapTile.from_str("xDxW_xxxx_B"),
+    0x108: MapTile.from_str("xxDW_xxxx_B-TL-D"),
+    0x109: MapTile.from_str("WDxW_xxxx_B-R-D"),
+    0x10D: MapTile.from_str("xxDx_xxxx_B-L-E"),
+    0x10F: MapTile.from_str("xDxW_xxxx_B-TR-B"),
     0x120: MapTile.from_str("DDWW_xxxx_x"),
     0x121: MapTile.from_str("DDDW_xxxx_x"),
     0x122: MapTile.from_str("DDWD_xxxx_x"),
@@ -487,7 +503,6 @@ NORMAL_DOOR_TILES = {
     0x126: MapTile.from_str("xxxx_xxxx_x"),
     0x127: MapTile.from_str("Wxxx_xxxC_x"),
     0x129: MapTile.from_str("WDxW_xxxx_P"),
-    0x12A: MapTile.from_str("WxWW_xxxx_G"),
     0x12B: MapTile.from_str("WDxW_xxxx_x"),
     0x12C: MapTile.from_str("DDxx_xxxx_x"),
     0x138: MapTile.from_str("WDWW_xxxx_H"),
@@ -545,15 +560,12 @@ NORMAL_DOOR_TILES = {
     0x1A9: MapTile.from_str("xWWx_xxxx_O"),
     0x1AA: MapTile.from_str("DDWW_xxxx_I"),
     0x1AB: MapTile.from_str("DDWW_xxxx_O"),
-    0x0B5: MapTile.from_str("WSDW_xxxx_O"),
     # New Tiles
-    0x0A4: MapTile.from_str("WDxW_xxxx_T"),
-    0x0D4: MapTile.from_str("WSDW_xxxx_I"),
-    0x0D5: MapTile.from_str("WSDW_xxxx_O"),
-    0x10A: MapTile.from_str("WxDx_xxxx_B"),
-    0x10C: MapTile.from_str("xDxW_xCxx_B"),
-    0x170: MapTile.from_str("WWDx_xxxx_x"),
-    0x172: MapTile.from_str("WDDW_xxxx_X"),
+    0x0A4: MapTile.from_str("WDSW_xxxx_T"),
+    0x10A: MapTile.from_str("WxDx_xxxx_B-BL-E"),
+    0x10C: MapTile.from_str("xDxW_xCxx_B-TR-E"),
+    0x170: MapTile.from_str("WWDx_xxxx_w"),
+    0x172: MapTile.from_str("WDDW_xxxx_Y"),
 }
 
 COLORED_DOOR_TILE_IDS = {tile: id for id, tile in COLORED_DOOR_TILES.items()}
@@ -561,3 +573,98 @@ NORMAL_DOOR_TILE_IDS = {tile: id for id, tile in NORMAL_DOOR_TILES.items()}
 
 ALL_DOOR_TILES = COLORED_DOOR_TILES | NORMAL_DOOR_TILES
 ALL_DOOR_TILE_IDS = COLORED_DOOR_TILE_IDS | NORMAL_DOOR_TILE_IDS
+
+BLANK_TILE_IDS = [
+    0x067,
+    0x071,
+    0x076,
+    0x087,
+    0x08C,
+    0x091,
+    0x0A1,
+    0x0B2,
+    0x0B3,
+    0x0B8,
+    0x0B9,
+    0x0BA,
+    0x0BB,
+    0x0BC,
+    0x0BD,
+    0x0BE,
+    0x0C0,
+    0x0C1,
+    0x0D2,
+    0x0D3,
+    0x0D8,
+    0x0D9,
+    0x0DA,
+    0x0DB,
+    0x0DC,
+    0x0DD,
+    0x0DE,
+    0x0E9,
+    0x0EE,
+    0x0F3,
+    0x0F9,
+    0x0FA,
+    0x0FB,
+    0x0FC,
+    0x0FD,
+    0x0FE,
+    0x0FF,
+    0x107,
+    0x110,
+    0x111,
+    0x112,
+    0x113,
+    0x114,
+    0x115,
+    0x116,
+    0x117,
+    0x118,
+    0x119,
+    0x11A,
+    0x11B,
+    0x11C,
+    0x11D,
+    0x11E,
+    0x11F,
+    0x12D,
+    0x12E,
+    0x12F,
+    0x130,
+    0x131,
+    0x132,
+    0x133,
+    0x134,
+    0x135,
+    0x136,
+    0x137,
+    0x13B,
+    0x13C,
+    0x13D,
+    0x13E,
+    0x13F,
+    0x15F,
+    0x173,
+    0x174,
+    0x175,
+    0x176,
+    0x177,
+    0x1B0,
+    0x1B1,
+    0x1B2,
+    0x1B3,
+    0x1B4,
+    0x1B5,
+    0x1B6,
+    0x1B7,
+    0x1B8,
+    0x1B9,
+    0x1BA,
+    0x1BB,
+    0x1BC,
+    0x1BD,
+    0x1BE,
+    0x1BF,
+]

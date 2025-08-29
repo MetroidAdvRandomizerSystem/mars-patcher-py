@@ -9,14 +9,17 @@ from mars_patcher.constants.game_data import (
     area_doors_ptrs,
     hatch_lock_event_count,
     hatch_lock_events,
+    minimap_graphics,
 )
 from mars_patcher.constants.minimap_tiles import (
     ALL_DOOR_TILE_IDS,
     ALL_DOOR_TILES,
+    BLANK_TILE_IDS,
     ColoredDoor,
     Edge,
 )
 from mars_patcher.minimap import Minimap
+from mars_patcher.minimap_tile_creator import create_tile
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
 
@@ -197,15 +200,11 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
                 minimap_x = room_entry.map_x + screen_offset_x
                 minimap_y = room_entry.map_y + screen_offset_y
 
-                minimap_areas = [area]
-                if area == 0:
-                    minimap_areas = [0, 9]  # Main deck seemingly has two maps?
-                for minimap_area in minimap_areas:
-                    map_tile = minimap_changes[minimap_area][minimap_x, minimap_y, room]
-                    if facing_right:
-                        map_tile["left"] = lock
-                    else:
-                        map_tile["right"] = lock
+                map_tile = minimap_changes[area][minimap_x, minimap_y, room]
+                if facing_right:
+                    map_tile["left"] = lock
+                else:
+                    map_tile["right"] = lock
 
             # Overwrite BG1 and clipdata
             if lock is None:
@@ -283,6 +282,8 @@ def change_minimap_tiles(
         # HatchLock.LOCKED: Edge.WALL,
     }
 
+    next_blank_tile = 0
+
     for area, area_map in minimap_changes.items():
         with Minimap(rom, area) as minimap:
             for (x, y, room), tile_changes in area_map.items():
@@ -302,21 +303,21 @@ def change_minimap_tiles(
                     edges = edges._replace(left=MAP_EDGES[left])
                 if right is not None:
                     edges = edges._replace(right=MAP_EDGES[right])
-                og_new_tile_data = tile_data._replace(edges=edges)
-                new_tile_data = og_new_tile_data
+                orig_new_tile_data = tile_data._replace(edges=edges)
+                new_tile_data = orig_new_tile_data
 
                 def tile_exists() -> bool:
                     return new_tile_data in ALL_DOOR_TILE_IDS
 
                 if new_tile_data.content.can_h_flip and not tile_exists():
                     # Try flipping horizontally
-                    new_tile_data = og_new_tile_data.h_flip()
+                    new_tile_data = orig_new_tile_data.h_flip()
                     if tile_exists():
                         h_flip = not h_flip
 
                 if new_tile_data.content.can_v_flip and not tile_exists():
                     # Try flipping vertically
-                    new_tile_data = og_new_tile_data.v_flip()
+                    new_tile_data = orig_new_tile_data.v_flip()
                     if tile_exists():
                         v_flip = not v_flip
 
@@ -326,7 +327,7 @@ def change_minimap_tiles(
                     and not tile_exists()
                 ):
                     # Try flipping it both ways
-                    new_tile_data = og_new_tile_data.v_flip()
+                    new_tile_data = orig_new_tile_data.v_flip()
                     new_tile_data = new_tile_data.h_flip()
                     if tile_exists():
                         v_flip = not v_flip
@@ -337,20 +338,32 @@ def change_minimap_tiles(
                         "Could not edit map tile door icons for "
                         f"area {area} room {room:X}. ({x:X}, {y:X})."
                     )
-                    logging.debug(f"  Desired tile: {og_new_tile_data.as_str}")
-                    logging.debug("  Falling back to unlocked doors.")
+                    logging.debug(f"  Desired tile: {orig_new_tile_data.as_str}")
 
-                    # Try replacing with open doors
-                    if (left is not None) and tile_data.edges.left.is_door:
-                        edges = edges._replace(left=Edge.DOOR)
-                    if (right is not None) and tile_data.edges.right.is_door:
-                        edges = edges._replace(right=Edge.DOOR)
-                    new_tile_data = og_new_tile_data._replace(edges=edges)
+                    if next_blank_tile < len(BLANK_TILE_IDS):
+                        # Create a new tile and replace the graphics
+                        gfx = create_tile(orig_new_tile_data)
+                        tile_id = BLANK_TILE_IDS[next_blank_tile]
+                        addr = minimap_graphics(rom) + tile_id * 32
+                        rom.write_bytes(addr, gfx)
 
-                    if tile_exists():
-                        logging.debug("  Still no luck. Using vanilla tile.")
+                        new_tile_data = orig_new_tile_data
+                        ALL_DOOR_TILE_IDS[new_tile_data] = tile_id
+                        logging.debug(f"  Created new tile: 0x{tile_id:X}.")
+                        next_blank_tile += 1
+                    else:
+                        # No blank tiles remaining, try replacing with open doors
+                        logging.debug("  No blank tiles available, trying open doors.")
+                        if (left is not None) and tile_data.edges.left.is_door:
+                            edges = edges._replace(left=Edge.DOOR)
+                        if (right is not None) and tile_data.edges.right.is_door:
+                            edges = edges._replace(right=Edge.DOOR)
+                        new_tile_data = orig_new_tile_data._replace(edges=edges)
 
-                    logging.debug("")
+                        if not tile_exists():
+                            logging.debug("  Still no luck. Using vanilla tile.")
+
+                        logging.debug("")
 
                 if tile_exists():
                     minimap.set_tile_value(
