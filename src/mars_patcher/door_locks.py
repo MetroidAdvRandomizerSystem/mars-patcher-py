@@ -339,7 +339,7 @@ def change_minimap_tiles(
 
                 if not tile_exists():
                     logging.debug(
-                        "Could not edit map tile door icons for "
+                        "Could not reuse existing map tile for "
                         f"area {area} room {room:X}. ({x:X}, {y:X})."
                     )
                     logging.debug(f"  Desired tile: {orig_new_tile_data.as_str}")
@@ -357,7 +357,7 @@ def change_minimap_tiles(
                         next_blank_tile += 1
                     else:
                         # No blank tiles remaining, try replacing with open doors
-                        logging.debug("  No blank tiles available, trying open doors.")
+                        logging.warning("  No blank tiles available, trying open doors.")
                         if (left is not None) and tile_data.edges.left.is_door:
                             edges = edges._replace(left=Edge.DOOR)
                         if (right is not None) and tile_data.edges.right.is_door:
@@ -365,9 +365,9 @@ def change_minimap_tiles(
                         new_tile_data = orig_new_tile_data._replace(edges=edges)
 
                         if not tile_exists():
-                            logging.debug("  Still no luck. Using vanilla tile.")
+                            logging.warning("  Still no luck. Using vanilla tile.")
 
-                        logging.debug("")
+                        logging.warning("")
 
                 if tile_exists():
                     minimap.set_tile_value(

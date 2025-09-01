@@ -36,6 +36,12 @@ COLOR_GREEN_HIDDEN = COLOR_GREEN_EDGE + COLOR_COUNT
 COLOR_RED_HIDDEN = COLOR_RED_EDGE + COLOR_COUNT
 COLOR_YELLOW_HIDDEN = COLOR_YELLOW_EDGE + COLOR_COUNT
 
+# The following string lists represent pixels in a minimap tile
+# - Pixels with "." are left unchanged
+# - Pixels with "-" are set to the background color (COLOR_BG)
+# - Pixels with "#" are set to a provided color (see draw_pixel_art below)
+# - Spaces are ignored
+
 PIXELS_ITEM = [
     ". . . . . . . .",
     ". . . . . . . .",
@@ -126,18 +132,25 @@ PIXELS_BOSS = [
     ". # . . # .",
 ]
 
-PIXELS_TUNNEL = [
+# The following string lists represent pixels in a minimap tile
+# - Pixels with "." are left unchanged
+# - Pixels with "-" are set to the background color (COLOR_BG)
+# - Pixels with a hex character (0-9 and A-F) are set to that color
+#   (see draw_colored_pixel_art below)
+# - Spaces are ignored
+
+COLORED_PIXELS_TUNNEL = [
     "4 4 4 4 4 4 4 4",
     "4 5 5 5 1 5 5 4",
     "1 1 1 5 1 1 5 4",
-    "4 5 5 5 1 1 1 4",
-    "4 5 5 5 1 1 5 4",
+    "5 5 5 5 1 1 1 4",
+    "5 5 5 5 1 1 5 4",
     "1 1 1 5 1 5 5 4",
     "4 5 5 5 5 5 5 4",
     "4 4 4 4 4 4 4 4",
 ]
 
-PIXELS_MAJOR = [
+COLORED_PIXELS_MAJOR = [
     ". . . . . . . .",
     ". . . 6 6 . . .",
     ". - 6 C C 6 - .",
@@ -147,7 +160,7 @@ PIXELS_MAJOR = [
     ". . . 6 6 . . .",
     ". . . . . . . .",
 ]
-PIXELS_CHOZO = [
+COLORED_PIXELS_CHOZO = [
     ". . . . . . . .",
     ". . 6 6 6 . . .",
     ". 6 E E E 6 - .",
@@ -213,45 +226,47 @@ def create_tile(tile: MapTile) -> bytearray:
             # TODO: ZM hatch types
 
     # Content
-    # The following don't have doors near them so they aren't needed:
-    # Gunship, Animals, Boiler Pad
     if tile.content in HAS_RED_OUTLINE:
         draw_red_outline(gfx, tile.edges)
 
-    if tile.content == Content.NAVIGATION:
-        draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_NAVIGATION)
-    elif tile.content == Content.SAVE:
-        draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_SAVE)
-    elif tile.content == Content.RECHARGE:
-        draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_RECHARGE)
-    elif tile.content == Content.HIDDEN_RECHARGE:
-        draw_pixel_art(gfx, COLOR_YELLOW_HIDDEN, PIXELS_RECHARGE)
-    elif tile.content == Content.DATA:
-        draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_DATA)
-    elif tile.content == Content.ITEM:
-        draw_pixel_art(gfx, COLOR_WHITE_ITEM, PIXELS_ITEM)
-    elif tile.content == Content.OBTAINED_ITEM:
-        draw_obtained_tank(gfx)
-    elif tile.content == Content.BOSS_RIGHT_DOWNLOADED:
-        draw_boss_room(gfx, COLOR_CONNECTION_BG, 2, 1)
-    elif tile.content == Content.BOSS_BOTTOM_LEFT_EXPLORED:
-        draw_boss_room(gfx, COLOR_WHITE_ITEM, 0, 2)
-    elif tile.content == Content.BOSS_TOP_LEFT_DOWNLOADED:
-        draw_boss_room(gfx, COLOR_CONNECTION_BG, 0, 0)
-    elif tile.content == Content.BOSS_LEFT_EXPLORED:
-        draw_boss_room(gfx, COLOR_WHITE_ITEM, 0, 1)
-    elif tile.content == Content.BOSS_TOP_RIGHT_BOTH:
-        draw_boss_room(gfx, COLOR_WHITE_OUTLINE, 2, 0)
-    elif tile.content == Content.BOSS_TOP_RIGHT_EXPLORED:
-        draw_boss_room(gfx, COLOR_WHITE_ITEM, 2, 0)
-    elif tile.content == Content.GUNSHIP_EDGE:
-        draw_gunship_edge(gfx)
-    elif tile.content == Content.SECURITY:
-        draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_SECURITY)
-    elif tile.content == Content.AUXILLARY_POWER:
-        draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_AUXILIARY)
-    elif tile.content != Content.EMPTY and tile.content != Content.EMPTY_RED_WALLS:
-        raise ValueError(f"No implementation to create tile content {tile.content}")
+    # The following don't have doors near them so they aren't needed:
+    # Gunship, Animals, Boiler Pad
+    match tile.content:
+        case Content.NAVIGATION:
+            draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_NAVIGATION)
+        case Content.SAVE:
+            draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_SAVE)
+        case Content.RECHARGE:
+            draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_RECHARGE)
+        case Content.HIDDEN_RECHARGE:
+            draw_pixel_art(gfx, COLOR_YELLOW_HIDDEN, PIXELS_RECHARGE)
+        case Content.DATA:
+            draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_DATA)
+        case Content.ITEM:
+            draw_pixel_art(gfx, COLOR_WHITE_ITEM, PIXELS_ITEM)
+        case Content.OBTAINED_ITEM:
+            draw_obtained_tank(gfx)
+        case Content.BOSS_RIGHT_DOWNLOADED:
+            draw_boss_room(gfx, COLOR_CONNECTION_BG, 2, 1)
+        case Content.BOSS_BOTTOM_LEFT_EXPLORED:
+            draw_boss_room(gfx, COLOR_WHITE_ITEM, 0, 2)
+        case Content.BOSS_TOP_LEFT_DOWNLOADED:
+            draw_boss_room(gfx, COLOR_CONNECTION_BG, 0, 0)
+        case Content.BOSS_LEFT_EXPLORED:
+            draw_boss_room(gfx, COLOR_WHITE_ITEM, 0, 1)
+        case Content.BOSS_TOP_RIGHT_BOTH:
+            draw_boss_room(gfx, COLOR_WHITE_OUTLINE, 2, 0)
+        case Content.BOSS_TOP_RIGHT_EXPLORED:
+            draw_boss_room(gfx, COLOR_WHITE_ITEM, 2, 0)
+        case Content.GUNSHIP_EDGE:
+            draw_gunship_edge(gfx)
+        case Content.SECURITY:
+            draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_SECURITY)
+        case Content.AUXILLARY_POWER:
+            draw_pixel_art(gfx, COLOR_YELLOW_LETTER, PIXELS_AUXILIARY)
+        case _:
+            if tile.content != Content.EMPTY and tile.content != Content.EMPTY_RED_WALLS:
+                raise ValueError(f"No implementation to create tile content {tile.content}")
 
     return gfx
 
@@ -266,28 +281,28 @@ def set_pixel(gfx: bytearray, color: int, x: int, y: int) -> None:
 
 def draw_pixel_art(gfx: bytearray, color: int, art: list[str]) -> None:
     for y, row in enumerate(art):
-        for x, c in enumerate(row.replace(" ", "")):
-            if c != ".":
-                p = COLOR_BG if c == "-" else color
-                set_pixel(gfx, p, x, y)
+        for x, character in enumerate(row.replace(" ", "")):
+            if character != ".":
+                actual_color = COLOR_BG if character == "-" else color
+                set_pixel(gfx, actual_color, x, y)
 
 
 def draw_colored_pixel_art(gfx: bytearray, art: list[str]) -> None:
     for y, row in enumerate(art):
-        for x, c in enumerate(row.replace(" ", "")):
-            if c != ".":
-                color = COLOR_BG if c == "-" else int(c, 16)
+        for x, character in enumerate(row.replace(" ", "")):
+            if character != ".":
+                color = COLOR_BG if character == "-" else int(character, 16)
                 set_pixel(gfx, color, x, y)
 
 
 def draw_wall(gfx: bytearray, side: TileSide) -> None:
-    n = 0 if side == TileSide.TOP or side == TileSide.LEFT else 7
+    additional_coordinate = 0 if side == TileSide.TOP or side == TileSide.LEFT else 7
     if side == TileSide.TOP or side == TileSide.BOTTOM:
         for x in range(8):
-            set_pixel(gfx, COLOR_WHITE_OUTLINE, x, n)
+            set_pixel(gfx, COLOR_WHITE_OUTLINE, x, additional_coordinate)
     elif side == TileSide.LEFT or side == TileSide.RIGHT:
         for y in range(8):
-            set_pixel(gfx, COLOR_WHITE_OUTLINE, n, y)
+            set_pixel(gfx, COLOR_WHITE_OUTLINE, additional_coordinate, y)
 
 
 def draw_connection(gfx: bytearray, side: TileSide) -> None:
@@ -355,7 +370,13 @@ def draw_obtained_tank(gfx: bytearray) -> None:
 
 
 def draw_red_outline(gfx: bytearray, edges: TileEdges) -> None:
-    # NOTE: This code assumes the left and right sides are always walls or hatches
+    if (isinstance(edges.left, Edge) and edges.left == Edge.EMPTY) or (
+        isinstance(edges.right, Edge) and edges.right == Edge.EMPTY
+    ):
+        raise ValueError(
+            "The current implementation for red outline minimap tiles only supports "
+            "left and right edges being walls or doors"
+        )
 
     # Check for top and bottom walls
     if edges.top == Edge.WALL:
@@ -392,8 +413,8 @@ def draw_red_outline(gfx: bytearray, edges: TileEdges) -> None:
 def draw_boss_room(gfx: bytearray, color: int, x_offset: int, y_offset: int) -> None:
     # Offsets are relative to the icon being in the top left corner
     for y, row in enumerate(PIXELS_BOSS):
-        for x, c in enumerate(row.replace(" ", "")):
-            if c == "#":
+        for x, character in enumerate(row.replace(" ", "")):
+            if character == "#":
                 set_pixel(gfx, color, x + x_offset, y + y_offset)
 
 
@@ -402,19 +423,18 @@ def draw_gunship_edge(gfx: bytearray) -> None:
 
 
 def draw_tunnel(gfx: bytearray, edges: TileEdges) -> None:
-    # NOTE: Assumes one side has a door
     if (isinstance(edges.left, Edge) and edges.left == Edge.DOOR) or isinstance(
         edges.left, ColoredDoor
     ):
         # Door on left, arrow faces right
-        draw_colored_pixel_art(gfx, PIXELS_TUNNEL)
+        draw_colored_pixel_art(gfx, COLORED_PIXELS_TUNNEL)
         edge = edges.left
         x = 0
     elif (isinstance(edges.right, Edge) and edges.right == Edge.DOOR) or isinstance(
         edges.right, ColoredDoor
     ):
         # Door on right, arrow faces left
-        flipped = [row[::-1] for row in PIXELS_TUNNEL]
+        flipped = [row[::-1] for row in COLORED_PIXELS_TUNNEL]
         draw_colored_pixel_art(gfx, flipped)
         edge = edges.right
         x = 7

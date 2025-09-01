@@ -574,6 +574,7 @@ NORMAL_DOOR_TILE_IDS = {tile: id for id, tile in NORMAL_DOOR_TILES.items()}
 ALL_DOOR_TILES = COLORED_DOOR_TILES | NORMAL_DOOR_TILES
 ALL_DOOR_TILE_IDS = COLORED_DOOR_TILE_IDS | NORMAL_DOOR_TILE_IDS
 
+# IDs of blank minimap tiles that can be used for creating new tiles
 BLANK_TILE_IDS = [
     0x067,
     0x071,
