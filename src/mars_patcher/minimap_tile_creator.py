@@ -284,7 +284,7 @@ def make_transparent(gfx: bytearray) -> None:
                 set_pixel(gfx, 0, x, y)
 
 
-def get_pixel(gfx: bytearray, x: int, y: int) -> None:
+def get_pixel(gfx: bytearray, x: int, y: int) -> int:
     index = (y * 8 + x) // 2
     if x % 2 == 0:
         return gfx[index] & 0xF
