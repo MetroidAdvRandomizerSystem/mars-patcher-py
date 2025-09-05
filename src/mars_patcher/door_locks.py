@@ -288,6 +288,10 @@ def change_minimap_tiles(
         # HatchLock.LOCKED: Edge.WALL,
     }
 
+    all_door_tile_ids = dict(ALL_DOOR_TILE_IDS)
+    remaining_blank_tile_ids = set(BLANK_TILE_IDS)
+    remaining_blank_transparent_tile_ids = set(BLANK_TRANSPARENT_TILE_IDS)
+
     for area, area_map in minimap_changes.items():
         with Minimap(rom, area) as minimap:
             for (x, y, room), tile_changes in area_map.items():
@@ -311,7 +315,7 @@ def change_minimap_tiles(
                 new_tile_data = orig_new_tile_data
 
                 def tile_exists() -> bool:
-                    return new_tile_data in ALL_DOOR_TILE_IDS
+                    return new_tile_data in all_door_tile_ids
 
                 if new_tile_data.content.can_h_flip and not tile_exists():
                     # Try flipping horizontally
@@ -349,7 +353,9 @@ def change_minimap_tiles(
                         isinstance(e, Edge) and e == Edge.SHORTCUT for e in orig_new_tile_data.edges
                     )
                     blank_tile_ids = (
-                        BLANK_TRANSPARENT_TILE_IDS if requires_transparent_tile else BLANK_TILE_IDS
+                        remaining_blank_transparent_tile_ids
+                        if requires_transparent_tile
+                        else remaining_blank_tile_ids
                     )
                     is_item = orig_new_tile_data.content == Content.ITEM
                     new_tile_id = get_blank_minimap_tile_id(blank_tile_ids, is_item)
@@ -377,7 +383,7 @@ def change_minimap_tiles(
                             addr = minimap_graphics(rom) + tile_id * 32
                             rom.write_bytes(addr, gfx)
 
-                            ALL_DOOR_TILE_IDS[data] = tile_id
+                            all_door_tile_ids[data] = tile_id
                             logging.debug(f"  Created new tile: 0x{tile_id:X}.")
 
                         new_tile_data = orig_new_tile_data
@@ -399,7 +405,7 @@ def change_minimap_tiles(
                     minimap.set_tile_value(
                         x,
                         y,
-                        ALL_DOOR_TILE_IDS[new_tile_data],
+                        all_door_tile_ids[new_tile_data],
                         palette,
                         h_flip,
                         v_flip,
