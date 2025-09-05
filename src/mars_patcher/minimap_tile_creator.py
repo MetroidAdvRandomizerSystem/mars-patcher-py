@@ -195,6 +195,8 @@ def create_tile(tile: MapTile) -> bytearray:
     # Handle tunnels separately
     if tile.content == Content.TUNNEL:
         draw_tunnel(gfx, tile.edges)
+        if tile.transparent:
+            make_transparent(gfx)
         return gfx
 
     # Corners
@@ -214,6 +216,7 @@ def create_tile(tile: MapTile) -> bytearray:
                 draw_wall(gfx, side)
             elif edge == Edge.DOOR:
                 draw_connection(gfx, side)
+            # TODO: Support Edge.SHORTCUT
         elif isinstance(edge, ColoredDoor):
             if edge == ColoredDoor.BLUE:
                 draw_hatch_mf(gfx, COLOR_BLUE_EDGE, side)
@@ -268,7 +271,25 @@ def create_tile(tile: MapTile) -> bytearray:
             if tile.content != Content.EMPTY and tile.content != Content.EMPTY_RED_WALLS:
                 raise ValueError(f"No implementation to create tile content {tile.content}")
 
+    if tile.transparent:
+        make_transparent(gfx)
     return gfx
+
+
+def make_transparent(gfx: bytearray) -> None:
+    for y in range(8):
+        for x in range(8):
+            color = get_pixel(gfx, x, y)
+            if color == COLOR_BLANK_OUTLINE or color == COLOR_BLANK_BG:
+                set_pixel(gfx, 0, x, y)
+
+
+def get_pixel(gfx: bytearray, x: int, y: int) -> None:
+    index = (y * 8 + x) // 2
+    if x % 2 == 0:
+        return gfx[index] & 0xF
+    else:
+        return gfx[index] >> 4
 
 
 def set_pixel(gfx: bytearray, color: int, x: int, y: int) -> None:

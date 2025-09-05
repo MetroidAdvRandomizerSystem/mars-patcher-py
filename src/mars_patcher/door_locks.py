@@ -15,7 +15,9 @@ from mars_patcher.constants.minimap_tiles import (
     ALL_DOOR_TILE_IDS,
     ALL_DOOR_TILES,
     BLANK_TILE_IDS,
+    BLANK_TRANSPARENT_TILE_IDS,
     ColoredDoor,
+    Content,
     Edge,
 )
 from mars_patcher.minimap import Minimap
@@ -286,8 +288,6 @@ def change_minimap_tiles(
         # HatchLock.LOCKED: Edge.WALL,
     }
 
-    next_blank_tile = 0
-
     for area, area_map in minimap_changes.items():
         with Minimap(rom, area) as minimap:
             for (x, y, room), tile_changes in area_map.items():
@@ -344,17 +344,43 @@ def change_minimap_tiles(
                     )
                     logging.debug(f"  Desired tile: {orig_new_tile_data.as_str}")
 
-                    if next_blank_tile < len(BLANK_TILE_IDS):
-                        # Create a new tile and replace the graphics
+                    # Try getting a blank tile ID
+                    requires_transparent_tile = orig_new_tile_data.content == Content.TUNNEL or any(
+                        isinstance(e, Edge) and e == Edge.SHORTCUT for e in orig_new_tile_data.edges
+                    )
+                    blank_tile_ids = (
+                        BLANK_TRANSPARENT_TILE_IDS if requires_transparent_tile else BLANK_TILE_IDS
+                    )
+                    is_item = orig_new_tile_data.content == Content.ITEM
+                    new_tile_id = get_blank_minimap_tile_id(blank_tile_ids, is_item)
+
+                    if new_tile_id is not None:
+                        # Create new graphics for the tile
                         gfx = create_tile(orig_new_tile_data)
-                        tile_id = BLANK_TILE_IDS[next_blank_tile]
-                        addr = minimap_graphics(rom) + tile_id * 32
-                        rom.write_bytes(addr, gfx)
+                        new_tiles = [(new_tile_id, gfx, orig_new_tile_data)]
+
+                        # If the tile has an item, add another tile for the obtained item
+                        if is_item:
+                            data = orig_new_tile_data._replace(content=Content.OBTAINED_ITEM)
+                            gfx = create_tile(data)
+                            new_tiles.append((new_tile_id + 1, gfx, data))
+
+                        # If the tile doesn't fill the whole square, add another tile with
+                        # transparency
+                        if requires_transparent_tile:
+                            for tile_id, gfx, data in list(new_tiles):
+                                data = data._replace(transparent=True)
+                                gfx = create_tile(data)
+                                new_tiles.append((tile_id + 0x20, gfx, data))
+
+                        for tile_id, gfx, data in new_tiles:
+                            addr = minimap_graphics(rom) + tile_id * 32
+                            rom.write_bytes(addr, gfx)
+
+                            ALL_DOOR_TILE_IDS[data] = tile_id
+                            logging.debug(f"  Created new tile: 0x{tile_id:X}.")
 
                         new_tile_data = orig_new_tile_data
-                        ALL_DOOR_TILE_IDS[new_tile_data] = tile_id
-                        logging.debug(f"  Created new tile: 0x{tile_id:X}.")
-                        next_blank_tile += 1
                     else:
                         # No blank tiles remaining, try replacing with open doors
                         logging.warning("  No blank tiles available, trying open doors.")
@@ -378,3 +404,28 @@ def change_minimap_tiles(
                         h_flip,
                         v_flip,
                     )
+
+
+def get_blank_minimap_tile_id(blank_tile_ids: set[int], is_item: bool) -> int | None:
+    """Finds a usable tile from the provided set of blank tile IDs. Item tiles require a blank
+    tile next to them. Non-item tiles can use any blank tile, but solitary tiles are preferred
+    to save more tiles for item tiles."""
+    valid_tile_id: int | None = None
+    for tile_id in blank_tile_ids:
+        if is_item:
+            # Item tiles require a blank tile next to them for the obtained item tile
+            if tile_id + 1 in blank_tile_ids:
+                valid_tile_id = tile_id
+                break
+        else:
+            # Prefer solitary blank tiles for non-item tiles
+            if tile_id + 1 not in blank_tile_ids:
+                valid_tile_id = tile_id
+                break
+            elif valid_tile_id is None:
+                valid_tile_id = tile_id
+    if valid_tile_id is not None:
+        blank_tile_ids.remove(valid_tile_id)
+        if is_item:
+            blank_tile_ids.remove(valid_tile_id + 1)
+    return valid_tile_id

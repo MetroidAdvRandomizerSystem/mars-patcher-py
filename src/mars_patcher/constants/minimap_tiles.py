@@ -211,6 +211,7 @@ class MapTile(NamedTuple):
     edges: TileEdges = TileEdges()
     corners: TileCorners = TileCorners()
     content: Content = Content.EMPTY
+    transparent: bool = False
 
     @property
     def as_str(self) -> str:
@@ -223,6 +224,7 @@ class MapTile(NamedTuple):
             edges=TileEdges.from_str(edges),
             corners=TileCorners.from_str(corners),
             content=Content(content),
+            transparent=False,
         )
 
     def h_flip(self) -> MapTile:
@@ -233,6 +235,7 @@ class MapTile(NamedTuple):
             edges=self.edges.h_flip(),
             corners=self.corners.h_flip(),
             content=self.content,
+            transparent=self.transparent,
         )
 
     def v_flip(self) -> MapTile:
@@ -243,6 +246,7 @@ class MapTile(NamedTuple):
             edges=self.edges.v_flip(),
             corners=self.corners.v_flip(),
             content=self.content,
+            transparent=self.transparent,
         )
 
 
@@ -575,23 +579,13 @@ ALL_DOOR_TILES = COLORED_DOOR_TILES | NORMAL_DOOR_TILES
 ALL_DOOR_TILE_IDS = COLORED_DOOR_TILE_IDS | NORMAL_DOOR_TILE_IDS
 
 # IDs of blank minimap tiles that can be used for creating new tiles
-BLANK_TILE_IDS = [
+BLANK_TILE_IDS = {
     0x067,
     0x071,
     0x076,
     0x087,
     0x08C,
     0x091,
-    0x0A1,
-    0x0B2,
-    0x0B3,
-    0x0B8,
-    0x0B9,
-    0x0BA,
-    0x0BB,
-    0x0BC,
-    0x0BD,
-    0x0BE,
     0x0C0,
     0x0C1,
     0x0D2,
@@ -667,4 +661,8 @@ BLANK_TILE_IDS = [
     0x1BD,
     0x1BE,
     0x1BF,
-]
+}
+
+# IDs of blank minimap tiles that can be used for creating new tiles
+# that require an additional transparent version
+BLANK_TRANSPARENT_TILE_IDS = {0x0A1, 0x0B2, 0x0B3, 0x0B8, 0x0B9, 0x0BA, 0x0BB, 0x0BC, 0x0BD, 0x0BE}
