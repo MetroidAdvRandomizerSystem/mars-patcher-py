@@ -28,10 +28,10 @@ from mars_patcher.mf.misc_patches import (
 )
 from mars_patcher.mf.navigation_text import NavigationText
 from mars_patcher.mf.room_names import write_room_names
+from mars_patcher.mf.starting import set_starting_items, set_starting_location
 from mars_patcher.minimap import apply_base_minimap_edits, apply_minimap_edits
 from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
-from mars_patcher.starting import set_starting_items, set_starting_location
 from mars_patcher.text import write_seed_hash
 from mars_patcher.titlescreen_text import write_title_text
 
