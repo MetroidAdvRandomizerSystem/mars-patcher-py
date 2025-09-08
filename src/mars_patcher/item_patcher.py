@@ -1,4 +1,3 @@
-from mars_patcher.auto_generated_types import MarsschemaTankincrements
 from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.locations import (
     ItemMessages,
@@ -7,6 +6,7 @@ from mars_patcher.locations import (
     ItemType,
     LocationSettings,
 )
+from mars_patcher.mf.auto_generated_types import MarsschemamfTankincrements
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
@@ -235,7 +235,7 @@ def set_required_metroid_count(rom: Rom, count: int) -> None:
     rom.write_8(rom.read_ptr(REQUIRED_METROID_COUNT_ADDR) + 1, count)
 
 
-def set_tank_increments(rom: Rom, data: MarsschemaTankincrements) -> None:
+def set_tank_increments(rom: Rom, data: MarsschemamfTankincrements) -> None:
     rom.write_16(rom.read_ptr(TANK_INC_ADDR), data["MissileTank"])
     rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 2, data["EnergyTank"])
     rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 4, data["PowerBombTank"])

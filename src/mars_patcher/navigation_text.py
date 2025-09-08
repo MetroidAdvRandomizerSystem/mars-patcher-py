@@ -9,7 +9,7 @@ from mars_patcher.rom import Rom
 from mars_patcher.text import Language, MessageType, encode_text
 
 if TYPE_CHECKING:
-    from mars_patcher.auto_generated_types import Hintlocks, MarsschemaNavstationlocksKey
+    from mars_patcher.mf.auto_generated_types import Hintlocks, MarsschemamfNavstationlocksKey
     from mars_patcher.rom import Rom
 
 
@@ -55,7 +55,7 @@ class NavigationText:
         "Spanish": Language.SPANISH,
     }
 
-    NAV_ROOM_ENUMS: dict[MarsschemaNavstationlocksKey, NavRoom] = {
+    NAV_ROOM_ENUMS: dict[MarsschemamfNavstationlocksKey, NavRoom] = {
         "MainDeckWest": NavRoom.MAIN_DECK_WEST,
         "MainDeckEast": NavRoom.MAIN_DECK_EAST,
         "OperationsDeck": NavRoom.OPERATIONS_DECK,
@@ -123,7 +123,7 @@ class NavigationText:
 
     @classmethod
     def apply_hint_security(
-        cls, rom: Rom, locks: dict[MarsschemaNavstationlocksKey, Hintlocks]
+        cls, rom: Rom, locks: dict[MarsschemamfNavstationlocksKey, Hintlocks]
     ) -> None:
         """
         Applies an optional security level requirement to use Navigation Stations

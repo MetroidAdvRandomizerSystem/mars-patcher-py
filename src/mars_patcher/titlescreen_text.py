@@ -1,5 +1,5 @@
-from mars_patcher.auto_generated_types import MarsschemaTitletextItem
 from mars_patcher.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.auto_generated_types import MarsschemamfTitletextItem
 from mars_patcher.rom import Rom
 
 TITLE_TEXT_POINTER_ADDR = ReservedConstants.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR
@@ -13,13 +13,13 @@ class TitleScreenText:
         self.text = text
 
     @classmethod
-    def from_json(cls, data: MarsschemaTitletextItem) -> "TitleScreenText":
+    def from_json(cls, data: MarsschemamfTitletextItem) -> "TitleScreenText":
         text = data.get("Text", None)
         line_num = data.get("LineNum", None)
         return TitleScreenText(text, line_num)
 
 
-def write_title_text(rom: Rom, lines: list[MarsschemaTitletextItem]) -> None:
+def write_title_text(rom: Rom, lines: list[MarsschemamfTitletextItem]) -> None:
     if len(lines) > MAX_LINES:
         raise ValueError("Maximum number of title-screen lines exceeded.")
 
@@ -27,7 +27,7 @@ def write_title_text(rom: Rom, lines: list[MarsschemaTitletextItem]) -> None:
         write_title_text_line(rom, line)
 
 
-def write_title_text_line(rom: Rom, line: MarsschemaTitletextItem) -> None:
+def write_title_text_line(rom: Rom, line: MarsschemamfTitletextItem) -> None:
     if len(line["Text"]) > 30:
         raise ValueError(f'String for title-screen text exceeds 30 characters.\n"{line["Text"]}"')
     text_pointers = rom.read_ptr(ReservedConstants.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR)
