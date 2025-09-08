@@ -53,7 +53,7 @@ def validate_patch_data(patch_data: dict) -> MarsSchemaMF:
 def patch_mf(
     rom: Rom,
     output_path: str | PathLike[str],
-    unvalidated_patch_data: MarsSchemaMF,
+    unvalidated_patch_data: dict,
     status_update: Callable[[str, float], None],
 ) -> None:
     """

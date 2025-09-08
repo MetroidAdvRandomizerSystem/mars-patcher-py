@@ -26,7 +26,7 @@ def validate_patch_data(patch_data: dict) -> MarsSchemaZM:
 def patch_zm(
     rom: Rom,
     output_path: str | PathLike[str],
-    unvalidated_patch_data: MarsSchemaZM,
+    unvalidated_patch_data: dict,
     status_update: Callable[[str, float], None],
 ) -> None:
     """
