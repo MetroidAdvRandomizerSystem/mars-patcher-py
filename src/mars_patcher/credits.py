@@ -1,17 +1,12 @@
-from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
-from mars_patcher.mf.constants.credits_lines import (
-    FUSION_STAFF_LINES,
+from mars_patcher.constants.credits import (
     LINE_TYPE_HEIGHTS,
     LINE_TYPE_VALS,
-    MARS_CREDITS,
-    RDV_CREDITS,
     TEXT_LINE_TYPES,
     LineType,
 )
+from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
 from mars_patcher.rom import Rom
 
-CREDITS_ADDR = 0x74B0B0
-CREDITS_LEN = 0x2B98
 FULL_LINE_LEN = 36
 LINE_WIDTH = 30
 
@@ -46,26 +41,10 @@ class CreditsLine:
         return CreditsLine(line_type, blank_lines, text, centered)
 
 
-def write_credits(rom: Rom, data: list[MarsschemamfCreditstextItem]) -> None:
-    writer = CreditsWriter(rom)
-    # Write MARS credits
-    lines = [CreditsLine(*line) for line in MARS_CREDITS]
-    writer.write_lines(lines)
-    # Write RDV credits
-    lines = [CreditsLine(*line) for line in RDV_CREDITS]
-    writer.write_lines(lines)
-    # Write custom credits
-    lines = [CreditsLine.from_json(d) for d in data]
-    writer.write_lines(lines)
-    # Write fusion staff credits
-    lines = [CreditsLine(*line) for line in FUSION_STAFF_LINES]
-    writer.write_lines(lines)
-
-
 class CreditsWriter:
-    def __init__(self, rom: Rom):
+    def __init__(self, rom: Rom, addr: int):
         self.rom = rom
-        self.addr = CREDITS_ADDR
+        self.addr = addr
         self.num_lines = 0
 
     def write_lines(self, lines: list[CreditsLine]) -> None:
