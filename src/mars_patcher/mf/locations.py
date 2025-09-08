@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, ClassVar
 
 from frozendict import frozendict
 
-from mars_patcher.data import get_data_path
 from mars_patcher.mf.constants.items import (
     ITEM_ENUMS,
     ITEM_SPRITE_ENUMS,
@@ -35,6 +34,7 @@ from mars_patcher.mf.constants.items import (
     ItemType,
     MajorSource,
 )
+from mars_patcher.mf.data import get_data_path
 from mars_patcher.text import Language
 
 if TYPE_CHECKING:
