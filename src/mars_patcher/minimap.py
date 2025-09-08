@@ -4,8 +4,8 @@ import json
 from typing import TYPE_CHECKING
 
 from mars_patcher.compress import comp_lz77, decomp_lz77
-from mars_patcher.data import get_data_path
 from mars_patcher.mf.constants.game_data import minimap_ptrs
+from mars_patcher.mf.data import get_data_path
 
 if TYPE_CHECKING:
     from types import TracebackType

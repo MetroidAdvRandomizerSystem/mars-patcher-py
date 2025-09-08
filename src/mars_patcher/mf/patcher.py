@@ -1,15 +1,18 @@
 from collections.abc import Callable
 from os import PathLike
 
-from mars_patcher.connections import Connections
 from mars_patcher.credits import write_credits
-from mars_patcher.door_locks import set_door_locks
-from mars_patcher.item_patcher import ItemPatcher, set_required_metroid_count, set_tank_increments
 from mars_patcher.level_edits import apply_level_edits
-from mars_patcher.locations import LocationSettings
 from mars_patcher.mf.auto_generated_types import MarsSchemaMF
-from mars_patcher.minimap import apply_base_minimap_edits, apply_minimap_edits
-from mars_patcher.misc_patches import (
+from mars_patcher.mf.connections import Connections
+from mars_patcher.mf.door_locks import set_door_locks
+from mars_patcher.mf.item_patcher import (
+    ItemPatcher,
+    set_required_metroid_count,
+    set_tank_increments,
+)
+from mars_patcher.mf.locations import LocationSettings
+from mars_patcher.mf.misc_patches import (
     apply_accessibility_patch,
     apply_base_patch,
     apply_pbs_without_bombs,
@@ -23,11 +26,12 @@ from mars_patcher.misc_patches import (
     skip_door_transitions,
     stereo_default,
 )
-from mars_patcher.navigation_text import NavigationText
+from mars_patcher.mf.navigation_text import NavigationText
+from mars_patcher.mf.room_names import write_room_names
+from mars_patcher.mf.starting import set_starting_items, set_starting_location
+from mars_patcher.minimap import apply_base_minimap_edits, apply_minimap_edits
 from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
-from mars_patcher.room_names import write_room_names
-from mars_patcher.starting import set_starting_items, set_starting_location
 from mars_patcher.text import write_seed_hash
 from mars_patcher.titlescreen_text import write_title_text
 

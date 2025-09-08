@@ -1,7 +1,6 @@
 from collections.abc import Sequence
 
 import mars_patcher.mf.constants.game_data as gd
-from mars_patcher.data import get_data_path
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfElevatorconnections,
     MarsschemamfSectorshortcuts,
@@ -21,6 +20,7 @@ from mars_patcher.mf.constants.main_hub_numbers import (
     MAIN_HUB_SMALL_NUM_BLOCK,
     MAIN_HUB_TILEMAP_ADDR,
 )
+from mars_patcher.mf.data import get_data_path
 from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Game, Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
