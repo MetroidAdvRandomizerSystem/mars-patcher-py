@@ -3,4 +3,4 @@ from pathlib import Path
 
 
 def get_data_path(*path: str | os.PathLike) -> str:
-    return os.fspath(Path(__file__).parent.joinpath("mf", "data", *path))
+    return os.fspath(Path(__file__).parent.joinpath("zm", "data", *path))

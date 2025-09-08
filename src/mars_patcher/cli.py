@@ -1,7 +1,7 @@
 import argparse
 import json
 
-from mars_patcher.patcher import patch, validate_patch_data
+from mars_patcher.patcher import patch
 
 
 def main() -> None:
@@ -11,13 +11,13 @@ def main() -> None:
     parser.add_argument("patch_data_path", type=str, help="Path to patch data json file")
     args = parser.parse_args()
 
-    # Load patch data file and validate
+    # Load patch data file
     with open(args.patch_data_path, encoding="utf-8") as f:
         patch_data = json.load(f)
 
     patch(
         args.rom_path,
         args.out_path,
-        validate_patch_data(patch_data),
+        patch_data,
         lambda message, progress: print(message),
     )
