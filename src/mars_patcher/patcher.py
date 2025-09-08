@@ -1,9 +1,43 @@
+import json
+import typing
 from collections.abc import Callable
 from os import PathLike
 
+from jsonschema import validate
+
+import mars_patcher.data as data_mf
+import mars_patcher.zm.data as data_zm
+from mars_patcher.mf.auto_generated_types import MarsSchemaMF
 from mars_patcher.mf.patcher import patch_mf
 from mars_patcher.rom import Rom
+from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.patcher import patch_zm
+
+
+def validate_patch_data_mf(patch_data: dict) -> MarsSchemaMF:
+    """
+    Validates whether the specified patch_data satisfies the schema for it.
+
+    Raises:
+        ValidationError: If the patch data does not satisfy the schema.
+    """
+    with open(data_mf.get_data_path("schema.json")) as f:
+        schema = json.load(f)
+    validate(patch_data, schema)
+    return typing.cast("MarsSchemaMF", patch_data)
+
+
+def validate_patch_data_zm(patch_data: dict) -> MarsSchemaZM:
+    """
+    Validates whether the specified patch_data satisfies the schema for it.
+
+    Raises:
+        ValidationError: If the patch data does not satisfy the schema.
+    """
+    with open(data_zm.get_data_path("schema.json")) as f:
+        schema = json.load(f)
+    validate(patch_data, schema)
+    return typing.cast("MarsSchemaZM", patch_data)
 
 
 def patch(
@@ -27,8 +61,8 @@ def patch(
     rom = Rom(input_path)
 
     if rom.is_mf():
-        patch_mf(rom, output_path, patch_data, status_update)
+        patch_mf(rom, output_path, validate_patch_data_mf(patch_data), status_update)
     elif rom.is_zm():
-        patch_zm(rom, output_path, patch_data, status_update)
+        patch_zm(rom, output_path, validate_patch_data_zm(patch_data), status_update)
     else:
         raise ValueError(rom)

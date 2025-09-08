@@ -77,7 +77,6 @@ ValidItems = typ.Literal[
     'POWER_GRIP',
     'FULLY_POWERED',
     'ZIPLINES',
-    'INFANT_METROID',
     'ICE_TRAP'
 ]
 ValidItemSprites = typ.Literal[
@@ -103,7 +102,6 @@ ValidItemSprites = typ.Literal[
     'POWER_GRIP',
     'FULLY_POWERED',
     'ZIPLINES',
-    'INFANT_METROID',
     'ANONYMOUS',
     'SHINY_MISSILE_TANK',
     'SHINY_POWER_BOMB_TANK'
@@ -294,7 +292,7 @@ class MarsschemazmTankIncrements(typ.TypedDict):
     missile_tank: typ.Annotated[int, '-1000 <= value <= 1000'] = 5
     """How much ammo missile tanks provide when collected."""
 
-    super_missile_tank: typ.Annotated[int, 'value == -100'] = 2
+    super_missile_tank: typ.Annotated[int, '-100 <= value <= 100'] = 2
     """How much ammo super missile tanks provide when collected."""
 
     power_bomb_tank: typ.Annotated[int, '-100 <= value <= 100'] = 2
@@ -457,9 +455,6 @@ class Marsschemazm(typ.TypedDict, total=False):
 
     locations: typ.Required[MarsschemazmLocations]
     """Specifies how the item locations in the game should be changed."""
-
-    required_metroid_count: typ.Required[typ.Annotated[int, '0 <= value <= 20']]
-    """The number of infant Metroids that must be collected to beat the game."""
 
     starting_location: MarsschemazmStartingLocation
     """The location the player should spawn at the start of the game."""

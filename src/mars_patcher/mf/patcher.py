@@ -1,13 +1,8 @@
-import json
-import typing
 from collections.abc import Callable
 from os import PathLike
 
-from jsonschema import validate
-
 from mars_patcher.connections import Connections
 from mars_patcher.credits import write_credits
-from mars_patcher.data import get_data_path
 from mars_patcher.door_locks import set_door_locks
 from mars_patcher.item_patcher import ItemPatcher, set_required_metroid_count, set_tank_increments
 from mars_patcher.level_edits import apply_level_edits
@@ -37,23 +32,10 @@ from mars_patcher.text import write_seed_hash
 from mars_patcher.titlescreen_text import write_title_text
 
 
-def validate_patch_data(patch_data: dict) -> MarsSchemaMF:
-    """
-    Validates whether the specified patch_data satisfies the schema for it.
-
-    Raises:
-        ValidationError: If the patch data does not satisfy the schema.
-    """
-    with open(get_data_path("schema.json")) as f:
-        schema = json.load(f)
-    validate(patch_data, schema)
-    return typing.cast("MarsSchemaMF", patch_data)
-
-
 def patch_mf(
     rom: Rom,
     output_path: str | PathLike[str],
-    unvalidated_patch_data: dict,
+    patch_data: MarsSchemaMF,
     status_update: Callable[[str, float], None],
 ) -> None:
     """
@@ -63,12 +45,11 @@ def patch_mf(
     Args:
         rom: Rom object for an unmodified Metroid Fusion (U) ROM.
         output_path: The path where the randomized Fusion ROM should be saved to.
-        unvalidated_patch_data: A dictionary defining how the game should be randomized.
-            This data needs to be validated by using validate_patch_data().
+        patch_data: A dictionary defining how the game should be randomized.
+            This function assumes that it satisfies the needed schema. To validate it, use
+            validate_patch_data_mf().
         status_update: A function taking in a message (str) and a progress value (float).
     """
-
-    patch_data = validate_patch_data(unvalidated_patch_data)
 
     # Apply base asm patch first
     apply_base_patch(rom)

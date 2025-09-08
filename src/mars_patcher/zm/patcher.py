@@ -1,32 +1,14 @@
-import json
-import typing
 from collections.abc import Callable
 from os import PathLike
 
-from jsonschema import validate
-
 from mars_patcher.rom import Rom
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
-from mars_patcher.zm.data import get_data_path
-
-
-def validate_patch_data(patch_data: dict) -> MarsSchemaZM:
-    """
-    Validates whether the specified patch_data satisfies the schema for it.
-
-    Raises:
-        ValidationError: If the patch data does not satisfy the schema.
-    """
-    with open(get_data_path("schema.json")) as f:
-        schema = json.load(f)
-    validate(patch_data, schema)
-    return typing.cast("MarsSchemaZM", patch_data)
 
 
 def patch_zm(
     rom: Rom,
     output_path: str | PathLike[str],
-    unvalidated_patch_data: dict,
+    patch_data: MarsSchemaZM,
     status_update: Callable[[str, float], None],
 ) -> None:
     """
@@ -37,11 +19,10 @@ def patch_zm(
         input_path: The path to an unmodified Metroid Zero Mission (U) ROM.
         output_path: The path where the randomized Zero Mission ROM should be saved to.
         patch_data: A dictionary defining how the game should be randomized.
-            This data needs to be validated by using validate_patch_data().
+            This function assumes that it satisfies the needed schema. To validate it, use
+            validate_patch_data_zm().
         status_update: A function taking in a message (str) and a progress value (float).
     """
-
-    # patch_data = validate_patch_data(unvalidated_patch_data)
 
     # Apply base patch first
     # apply_base_patch(rom)
