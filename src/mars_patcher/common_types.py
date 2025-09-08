@@ -1,6 +1,6 @@
 from typing import Annotated, TypeAlias
 
-from mars_patcher.auto_generated_types import Areaid, Typeu8
+from mars_patcher.mf.auto_generated_types import Areaid, Typeu8
 
 AreaId: TypeAlias = Areaid
 RoomId: TypeAlias = Typeu8

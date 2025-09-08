@@ -3,7 +3,6 @@ from collections import defaultdict
 from enum import Enum
 from typing import Annotated, TypedDict
 
-from mars_patcher.auto_generated_types import MarsschemaDoorlocksItem
 from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
 from mars_patcher.constants.game_data import (
     area_doors_ptrs,
@@ -16,6 +15,7 @@ from mars_patcher.constants.minimap_tiles import (
     ColoredDoor,
     Edge,
 )
+from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
 from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
@@ -85,7 +85,7 @@ class MinimapLockChanges(TypedDict, total=False):
 # TODO:
 # - Optimize by only loading rooms that contain doors to modify
 # - Split into more than one function for readability
-def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
+def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
     door_locks = parse_door_lock_data(data)
 
     # Go through all doors in game in order
@@ -235,7 +235,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemaDoorlocksItem]) -> None:
     change_minimap_tiles(rom, minimap_changes)
 
 
-def parse_door_lock_data(data: list[MarsschemaDoorlocksItem]) -> dict[AreaRoomPair, HatchLock]:
+def parse_door_lock_data(data: list[MarsschemamfDoorlocksItem]) -> dict[AreaRoomPair, HatchLock]:
     """Returns a dictionary of `(AreaID, RoomID): HatchLock` from the input data."""
     door_locks: dict[AreaRoomPair, HatchLock] = {}
     for entry in data:

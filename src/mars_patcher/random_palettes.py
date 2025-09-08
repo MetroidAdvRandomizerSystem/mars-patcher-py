@@ -2,17 +2,17 @@ import random
 from enum import Enum
 
 import mars_patcher.constants.game_data as gd
-from mars_patcher.auto_generated_types import (
-    MarsschemaPalettes,
-    MarsschemaPalettesColorspace,
-    MarsschemaPalettesRandomize,
-)
 from mars_patcher.constants.palettes import (
     ENEMY_GROUPS,
     EXCLUDED_ENEMIES,
     MF_TILESET_ALT_PAL_ROWS,
     NETTORI_EXTRA_PALS,
     TILESET_ANIM_PALS,
+)
+from mars_patcher.mf.auto_generated_types import (
+    MarsschemamfPalettes,
+    MarsschemamfPalettesColorspace,
+    MarsschemamfPalettesRandomize,
 )
 from mars_patcher.palette import ColorChange, Palette, SineWave
 from mars_patcher.rom import Game, Rom
@@ -37,18 +37,18 @@ class PaletteSettings:
         self,
         seed: int,
         pal_types: dict[PaletteType, tuple[int, int]],  # TODO: change this tuple(int, int)
-        color_space: MarsschemaPalettesColorspace,
+        color_space: MarsschemamfPalettesColorspace,
         symmetric: bool,
         extra_variation: bool,
     ):
         self.seed = seed
         self.pal_types = pal_types
-        self.color_space: MarsschemaPalettesColorspace = color_space
+        self.color_space: MarsschemamfPalettesColorspace = color_space
         self.symmetric = symmetric
         self.extra_variation = extra_variation
 
     @classmethod
-    def from_json(cls, data: MarsschemaPalettes) -> "PaletteSettings":
+    def from_json(cls, data: MarsschemamfPalettes) -> "PaletteSettings":
         seed = data.get("Seed", random.randint(0, 2**31 - 1))
         random.seed(seed)
         pal_types = {}
@@ -62,7 +62,7 @@ class PaletteSettings:
         return cls(seed, pal_types, color_space, symmetric, True)
 
     @classmethod
-    def get_hue_range(cls, data: MarsschemaPalettesRandomize) -> tuple[int, int]:
+    def get_hue_range(cls, data: MarsschemamfPalettesRandomize) -> tuple[int, int]:
         hue_min = data.get("HueMin")
         hue_max = data.get("HueMax")
         if hue_min is None or hue_max is None:
