@@ -77,7 +77,6 @@ ValidItems = typ.Literal[
     'POWER_GRIP',
     'FULLY_POWERED',
     'ZIPLINES',
-    'INFANT_METROID',
     'ICE_TRAP'
 ]
 ValidItemSprites = typ.Literal[
@@ -103,7 +102,6 @@ ValidItemSprites = typ.Literal[
     'POWER_GRIP',
     'FULLY_POWERED',
     'ZIPLINES',
-    'INFANT_METROID',
     'ANONYMOUS',
     'SHINY_MISSILE_TANK',
     'SHINY_POWER_BOMB_TANK'
