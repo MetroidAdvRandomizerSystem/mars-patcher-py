@@ -1,10 +1,10 @@
 from collections.abc import Callable
 from os import PathLike
 
-from mars_patcher.credits import write_credits
 from mars_patcher.level_edits import apply_level_edits
 from mars_patcher.mf.auto_generated_types import MarsSchemaMF
 from mars_patcher.mf.connections import Connections
+from mars_patcher.mf.credits import write_credits
 from mars_patcher.mf.door_locks import set_door_locks
 from mars_patcher.mf.item_patcher import (
     ItemPatcher,
