@@ -1,18 +1,18 @@
 import random
 from enum import Enum
 
-import mars_patcher.constants.game_data as gd
-from mars_patcher.constants.palettes import (
+import mars_patcher.mf.constants.game_data as gd
+from mars_patcher.mf.auto_generated_types import (
+    MarsschemamfPalettes,
+    MarsschemamfPalettesColorspace,
+    MarsschemamfPalettesRandomize,
+)
+from mars_patcher.mf.constants.palettes import (
     ENEMY_GROUPS,
     EXCLUDED_ENEMIES,
     MF_TILESET_ALT_PAL_ROWS,
     NETTORI_EXTRA_PALS,
     TILESET_ANIM_PALS,
-)
-from mars_patcher.mf.auto_generated_types import (
-    MarsschemamfPalettes,
-    MarsschemamfPalettesColorspace,
-    MarsschemamfPalettesRandomize,
 )
 from mars_patcher.palette import ColorChange, Palette, SineWave
 from mars_patcher.rom import Game, Rom

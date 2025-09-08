@@ -1,7 +1,14 @@
 from collections.abc import Sequence
 
-import mars_patcher.constants.game_data as gd
-from mars_patcher.constants.main_hub_numbers import (
+import mars_patcher.mf.constants.game_data as gd
+from mars_patcher.data import get_data_path
+from mars_patcher.mf.auto_generated_types import (
+    MarsschemamfElevatorconnections,
+    MarsschemamfSectorshortcuts,
+    Validelevatorbottoms,
+    Validelevatortops,
+)
+from mars_patcher.mf.constants.main_hub_numbers import (
     MAIN_HUB_CENTER_ROOM,
     MAIN_HUB_CENTER_SMALL_NUM_COORDS_1,
     MAIN_HUB_CENTER_SMALL_NUM_COORDS_2,
@@ -13,13 +20,6 @@ from mars_patcher.constants.main_hub_numbers import (
     MAIN_HUB_LARGE_NUM_BLOCKS,
     MAIN_HUB_SMALL_NUM_BLOCK,
     MAIN_HUB_TILEMAP_ADDR,
-)
-from mars_patcher.data import get_data_path
-from mars_patcher.mf.auto_generated_types import (
-    MarsschemamfElevatorconnections,
-    MarsschemamfSectorshortcuts,
-    Validelevatorbottoms,
-    Validelevatortops,
 )
 from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Game, Rom

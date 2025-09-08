@@ -1,10 +1,10 @@
-from mars_patcher.constants.game_data import area_doors_ptrs, spriteset_ptrs, starting_equipment
-from mars_patcher.constants.items import BEAM_FLAGS, MISSILE_BOMB_FLAGS, SUIT_MISC_FLAGS
-from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfStartingitems,
     MarsschemamfStartinglocation,
 )
+from mars_patcher.mf.constants.game_data import area_doors_ptrs, spriteset_ptrs, starting_equipment
+from mars_patcher.mf.constants.items import BEAM_FLAGS, MISSILE_BOMB_FLAGS, SUIT_MISC_FLAGS
+from mars_patcher.mf.constants.reserved_space import ReservedConstants
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 
