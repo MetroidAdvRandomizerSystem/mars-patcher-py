@@ -100,12 +100,6 @@
                 "major_locations"
             ]
         },
-        "required_metroid_count": {
-            "type": "integer",
-            "description": "The number of infant Metroids that must be collected to beat the game.",
-            "minimum": 0,
-            "maximum": 20
-        },
         "starting_location": {
             "type": "object",
             "description": "The location the player should spawn at the start of the game.",
@@ -223,7 +217,7 @@
                     "type": "integer",
                     "description": "How much ammo super missile tanks provide when collected.",
                     "minimum": -100,
-                    "maximum": -100,
+                    "maximum": 100,
                     "default": 2
                 },
                 "power_bomb_tank": {
@@ -584,8 +578,7 @@
     },
     "required": [
         "seed_hash",
-        "locations",
-        "required_metroid_count"
+        "locations"
     ],
     "$defs": {
         "seed": {
