@@ -20,11 +20,11 @@ MARS_CREDITS = [
     (LineType.BLUE, 2, "SPECIAL THANKS TO"),
     (LineType.WHITE2, 1, "Yohann"),
     (LineType.WHITE2, 2, "Kazuto"),
-    (LineType.WHITE2, 2, "And contributions from others"),
+    (LineType.WHITE2, 4, "And contributions from others"),
 ]
 
 RDV_CREDITS = [
-    (LineType.WHITE2, 4, "Randovania"),
+    (LineType.WHITE2, 2, "Randovania"),
     (LineType.BLUE, 2, "Integration"),
     (LineType.WHITE2, 1, "JeffGainsNGames"),
     (LineType.WHITE2, 1, "Miepee"),
