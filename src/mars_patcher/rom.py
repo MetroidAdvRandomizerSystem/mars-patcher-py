@@ -1,7 +1,7 @@
 from enum import Enum
 from os import PathLike
 
-from mars_patcher.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.constants.reserved_space import ReservedConstants
 
 BytesLike = bytes | bytearray
 

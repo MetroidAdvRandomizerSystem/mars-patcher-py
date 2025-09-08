@@ -1,5 +1,5 @@
-from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.mf.auto_generated_types import Areaid, MarsschemamfRoomnamesItem, Typeu8
+from mars_patcher.mf.constants.reserved_space import ReservedConstants
 from mars_patcher.rom import Rom
 from mars_patcher.text import MessageType, encode_text
 

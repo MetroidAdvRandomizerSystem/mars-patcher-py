@@ -1,4 +1,3 @@
-from mars_patcher.constants.reserved_space import ReservedConstants
 from mars_patcher.locations import (
     ItemMessages,
     ItemMessagesKind,
@@ -7,6 +6,7 @@ from mars_patcher.locations import (
     LocationSettings,
 )
 from mars_patcher.mf.auto_generated_types import MarsschemamfTankincrements
+from mars_patcher.mf.constants.reserved_space import ReservedConstants
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text

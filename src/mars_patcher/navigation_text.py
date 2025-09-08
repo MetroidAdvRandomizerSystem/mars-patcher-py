@@ -3,8 +3,8 @@ from __future__ import annotations
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from mars_patcher.constants.game_data import navigation_text_ptrs
-from mars_patcher.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.constants.game_data import navigation_text_ptrs
+from mars_patcher.mf.constants.reserved_space import ReservedConstants
 from mars_patcher.rom import Rom
 from mars_patcher.text import Language, MessageType, encode_text
 

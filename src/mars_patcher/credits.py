@@ -1,4 +1,5 @@
-from mars_patcher.constants.credits_lines import (
+from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
+from mars_patcher.mf.constants.credits_lines import (
     FUSION_STAFF_LINES,
     LINE_TYPE_HEIGHTS,
     LINE_TYPE_VALS,
@@ -7,7 +8,6 @@ from mars_patcher.constants.credits_lines import (
     TEXT_LINE_TYPES,
     LineType,
 )
-from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
 from mars_patcher.rom import Rom
 
 CREDITS_ADDR = 0x74B0B0

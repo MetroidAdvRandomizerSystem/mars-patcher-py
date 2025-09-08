@@ -4,18 +4,18 @@ from enum import Enum
 from typing import Annotated, TypedDict
 
 from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
-from mars_patcher.constants.game_data import (
+from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
+from mars_patcher.mf.constants.game_data import (
     area_doors_ptrs,
     hatch_lock_event_count,
     hatch_lock_events,
 )
-from mars_patcher.constants.minimap_tiles import (
+from mars_patcher.mf.constants.minimap_tiles import (
     ALL_DOOR_TILE_IDS,
     ALL_DOOR_TILES,
     ColoredDoor,
     Edge,
 )
-from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
 from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
