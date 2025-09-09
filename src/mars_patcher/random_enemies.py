@@ -1,7 +1,8 @@
 import random
 
+from mars_patcher.constants.game_data import spriteset_count, spriteset_ptrs
 from mars_patcher.mf.constants.enemies import ENEMY_TYPES, EnemyType
-from mars_patcher.mf.constants.game_data import sprite_vram_sizes, spriteset_count, spriteset_ptrs
+from mars_patcher.mf.constants.game_data import sprite_vram_sizes
 from mars_patcher.rom import Rom
 
 

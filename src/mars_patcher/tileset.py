@@ -1,4 +1,4 @@
-from mars_patcher.mf.constants.game_data import tileset_entries
+from mars_patcher.constants.game_data import tileset_entries
 from mars_patcher.rom import Rom
 
 
