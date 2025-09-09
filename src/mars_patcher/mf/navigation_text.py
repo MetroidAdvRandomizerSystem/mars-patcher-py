@@ -4,7 +4,7 @@ from enum import Enum
 from typing import TYPE_CHECKING
 
 from mars_patcher.mf.constants.game_data import navigation_text_ptrs
-from mars_patcher.mf.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
 from mars_patcher.rom import Rom
 from mars_patcher.text import Language, MessageType, encode_text
 
@@ -132,6 +132,6 @@ class NavigationText:
         default_lock_name = "OPEN"
         for location, offset in NavigationText.NAV_ROOM_ENUMS.items():
             rom.write_8(
-                rom.read_ptr(ReservedConstants.HINT_SECURITY_LEVELS_ADDR) + offset.value,
+                rom.read_ptr(ReservedConstantsMF.HINT_SECURITY_LEVELS_ADDR) + offset.value,
                 NavStationLockType[locks.get(location, default_lock_name)].value,
             )

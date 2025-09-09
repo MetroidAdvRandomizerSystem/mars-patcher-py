@@ -1,4 +1,4 @@
-class ReservedConstants:
+class ReservedConstantsMF:
     """
     These are constants that are in the patches 'Reserved Space';
     things that are intended to be modified by this patcher.

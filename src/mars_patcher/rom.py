@@ -1,7 +1,8 @@
 from enum import Enum
 from os import PathLike
 
-from mars_patcher.mf.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
+from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
 
 BytesLike = bytes | bytearray
 
@@ -107,9 +108,9 @@ class Rom:
             raise ValueError("Only compatible with the North American (U) version")
         # Set free space address
         if self.is_mf():
-            self.free_space_addr = ReservedConstants.PATCHER_FREE_SPACE_ADDR
+            self.free_space_addr = ReservedConstantsMF.PATCHER_FREE_SPACE_ADDR
         elif self.is_zm():
-            raise NotImplementedError()
+            self.free_space_addr = ReservedConstantsZM.PATCHER_FREE_SPACE_ADDR
 
     def is_mf(self) -> bool:
         """Returns true when the currently loaded game is Metroid Fusion."""
@@ -233,7 +234,14 @@ class Rom:
             self.free_space_addr += 4 - remain
         addr = self.free_space_addr
         self.free_space_addr += size
-        if self.free_space_addr > ReservedConstants.PATCHER_FREE_SPACE_END:
+        # Check if past end of reserved space
+        if self.is_mf():
+            free_space_end = ReservedConstantsMF.PATCHER_FREE_SPACE_END
+        elif self.is_zm():
+            free_space_end = ReservedConstantsZM.PATCHER_FREE_SPACE_END
+        else:
+            raise ValueError(self.game)
+        if self.free_space_addr > free_space_end:
             raise RuntimeError("Ran out of reserved free space")
         return addr
 
