@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-import json
 from typing import TYPE_CHECKING
 
 from mars_patcher.compress import comp_lz77, decomp_lz77
 from mars_patcher.constants.game_data import minimap_ptrs
-from mars_patcher.mf.data import get_data_path
 
 if TYPE_CHECKING:
     from types import TracebackType
@@ -80,24 +78,6 @@ def apply_minimap_edits(rom: Rom, edit_dict: dict) -> None:
     for map_id, changes in edit_dict.items():
         with Minimap(rom, int(map_id)) as minimap:
             for change in changes:
-                minimap.set_tile_value(
-                    change["X"],
-                    change["Y"],
-                    change["Tile"],
-                    change["Palette"],
-                    change.get("HFlip", False),
-                    change.get("VFlip", False),
-                )
-
-
-def apply_base_minimap_edits(rom: Rom) -> None:
-    with open(get_data_path("base_minimap_edits.json")) as f:
-        data = json.load(f)
-
-    # Go through every minimap
-    for map in data:
-        with Minimap(rom, int(map["MAP_ID"])) as minimap:
-            for change in map["CHANGES"]:
                 minimap.set_tile_value(
                     change["X"],
                     change["Y"],

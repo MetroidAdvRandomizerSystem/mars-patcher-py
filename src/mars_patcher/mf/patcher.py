@@ -1,3 +1,4 @@
+import json
 from collections.abc import Callable
 from os import PathLike
 
@@ -5,6 +6,7 @@ from mars_patcher.level_edits import apply_level_edits
 from mars_patcher.mf.auto_generated_types import MarsSchemaMF
 from mars_patcher.mf.connections import Connections
 from mars_patcher.mf.credits import write_credits
+from mars_patcher.mf.data import get_data_path
 from mars_patcher.mf.door_locks import set_door_locks
 from mars_patcher.mf.item_patcher import (
     ItemPatcher,
@@ -29,7 +31,7 @@ from mars_patcher.mf.misc_patches import (
 from mars_patcher.mf.navigation_text import NavigationText
 from mars_patcher.mf.room_names import write_room_names
 from mars_patcher.mf.starting import set_starting_items, set_starting_location
-from mars_patcher.minimap import apply_base_minimap_edits, apply_minimap_edits
+from mars_patcher.minimap import apply_minimap_edits
 from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
 from mars_patcher.text import write_seed_hash
@@ -163,7 +165,9 @@ def patch_mf(
         apply_level_edits(rom, patch_data["LevelEdits"])
 
     # Apply base minimap edits
-    apply_base_minimap_edits(rom)
+    with open(get_data_path("base_minimap_edits.json")) as f:
+        edits_dict = json.load(f)
+    apply_minimap_edits(rom, edits_dict)
 
     # Apply JSON minimap edits
     if "MinimapEdits" in patch_data:
