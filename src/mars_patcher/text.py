@@ -126,8 +126,6 @@ def encode_text(
     markup_tag: list[str] | None = None
 
     for char in string:
-        is_meta_char = False
-
         if not escaped:
             # Check for escaped character
             if char == "\\":
@@ -151,20 +149,27 @@ def encode_text(
                         char_val = char_map.get(f"[{tag_str}]")
                         if char_val is None:
                             raise ValueError(f"Invalid markup tag '{tag_str}'")
-                    is_meta_char = True
+                    if char_val in NEWLINE_CHARS:
+                        prev_break = len(text)
+                        width_since_break = 0
+                        line_width = 0
+                        if char_val == NEXT:
+                            line_number = 0
+                        else:
+                            line_number += 1
+                    text.append(char_val)
                     markup_tag = None
                 else:
                     # Still parsing markup tag
                     markup_tag.append(char)
-                    continue
+                continue
         else:
             escaped = False
 
-        if not is_meta_char:
-            char_val = char_map[char]
-            char_width = get_char_width(rom, char_widths_addr, char_val)
-            line_width += char_width
-            width_since_break += char_width
+        char_val = char_map[char]
+        char_width = get_char_width(rom, char_widths_addr, char_val)
+        line_width += char_width
+        width_since_break += char_width
 
         if char_val in BREAKING_CHARS:
             prev_break = len(text)
