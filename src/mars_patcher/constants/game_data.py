@@ -1,5 +1,5 @@
 from mars_patcher.rom import Game, Region, Rom
-from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
+from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 
 
 def area_room_entry_ptrs(rom: Rom) -> int:
@@ -14,7 +14,7 @@ def area_room_entry_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77D5C0
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.ROOM_AREA_ENTRIES_PTR)
+        return rom.read_ptr(ReservedPointersZM.ROOM_AREA_ENTRIES_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -31,7 +31,7 @@ def tileset_entries(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x3C1E94
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.TILESET_ENTRIES_PTR)
+        return rom.read_ptr(ReservedPointersZM.TILESET_ENTRIES_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -57,7 +57,7 @@ def area_doors_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77D598
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.AREA_DOORS_PTR)
+        return rom.read_ptr(ReservedPointersZM.AREA_DOORS_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -74,7 +74,7 @@ def area_connections(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x3CB19C
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.AREA_CONNECTIONS_PTR)
+        return rom.read_ptr(ReservedPointersZM.AREA_CONNECTIONS_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -101,7 +101,7 @@ def anim_palette_entries(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x3E5D7C
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.ANIM_PALETTE_ENTRIES_PTR)
+        return rom.read_ptr(ReservedPointersZM.ANIM_PALETTE_ENTRIES_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -130,7 +130,7 @@ def sprite_graphics_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77C2DC
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.SPRITE_GRAPHICS_PTR)
+        return rom.read_ptr(ReservedPointersZM.SPRITE_GRAPHICS_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -146,7 +146,7 @@ def sprite_palette_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77C5D8
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.SPRITE_PALETTES_PTR)
+        return rom.read_ptr(ReservedPointersZM.SPRITE_PALETTES_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -171,7 +171,7 @@ def spriteset_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77CADC
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.SPRITESET_PTR)
+        return rom.read_ptr(ReservedPointersZM.SPRITESET_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -196,7 +196,7 @@ def samus_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x2900C8, 0x5E), (0x290E48, 0x70), (0x56CC68, 3)]
     elif rom.game == Game.ZM:
-        addr = rom.read_ptr(ReservedConstantsZM.AREA_DOORS_PTR)
+        addr = rom.read_ptr(ReservedPointersZM.AREA_DOORS_PTR)
         return [(addr, 0xA3)]
     raise ValueError(rom.game, rom.region)
 
@@ -216,7 +216,7 @@ def helmet_cursor_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x6CE360, 1), (0x6CE400, 2), (0x6CA8F8, 1), (0x6CA938, 2)]
     elif rom.game == Game.ZM:
-        addr = rom.read_ptr(ReservedConstantsZM.HELMET_CURSOR_PALETTES_PTR)
+        addr = rom.read_ptr(ReservedPointersZM.HELMET_CURSOR_PALETTES_PTR)
         return [(addr, 1), (addr + 0x80, 1)]
     raise ValueError(rom.game, rom.region)
 
@@ -233,7 +233,7 @@ def beam_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x592578, 6)]
     elif rom.game == Game.ZM:
-        addr = rom.read_ptr(ReservedConstantsZM.BEAM_PALETTES_PTR)
+        addr = rom.read_ptr(ReservedPointersZM.BEAM_PALETTES_PTR)
         return [(addr, 6)]
     raise ValueError(rom.game, rom.region)
 
@@ -250,7 +250,7 @@ def character_widths(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x57D21C
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.CHARACTER_WIDTHS_PTR)
+        return rom.read_ptr(ReservedPointersZM.CHARACTER_WIDTHS_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -266,7 +266,7 @@ def sound_data_entries(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0xAB0E4
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.SOUND_DATA_PTR)
+        return rom.read_ptr(ReservedPointersZM.SOUND_DATA_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -291,7 +291,7 @@ def minimap_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77DB60
     elif rom.game == Game.ZM:
-        return rom.read_ptr(ReservedConstantsZM.MINIMAPS_PTR)
+        return rom.read_ptr(ReservedPointersZM.MINIMAPS_PTR)
     raise ValueError(rom.game, rom.region)
 
 
