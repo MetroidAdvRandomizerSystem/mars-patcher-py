@@ -1,7 +1,11 @@
 import random
 from enum import Enum
+from typing import TypeAlias
+
+from typing_extensions import Self
 
 import mars_patcher.constants.game_data as gd
+from mars_patcher.constants.palettes import ENEMY_GROUPS, EXCLUDED_ENEMIES
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfPalettes,
     MarsschemamfPalettesColorspace,
@@ -9,14 +13,17 @@ from mars_patcher.mf.auto_generated_types import (
 )
 from mars_patcher.mf.constants.game_data import sax_palettes, sprite_vram_sizes
 from mars_patcher.mf.constants.palettes import (
-    ENEMY_GROUPS,
-    EXCLUDED_ENEMIES,
     MF_TILESET_ALT_PAL_ROWS,
     NETTORI_EXTRA_PALS,
     TILESET_ANIM_PALS,
 )
+from mars_patcher.mf.constants.sprites import SpriteIdMF
 from mars_patcher.palette import ColorChange, Palette, SineWave
 from mars_patcher.rom import Game, Rom
+from mars_patcher.zm.constants.game_data import statues_cutscene_palette_addr
+from mars_patcher.zm.constants.sprites import SpriteIdZM
+
+HueRange: TypeAlias = tuple[int, int]
 
 
 class PaletteType(Enum):
@@ -37,7 +44,7 @@ class PaletteSettings:
     def __init__(
         self,
         seed: int,
-        pal_types: dict[PaletteType, tuple[int, int]],  # TODO: change this tuple(int, int)
+        pal_types: dict[PaletteType, HueRange],
         color_space: MarsschemamfPalettesColorspace,
         symmetric: bool,
         extra_variation: bool,
@@ -49,7 +56,7 @@ class PaletteSettings:
         self.extra_variation = extra_variation
 
     @classmethod
-    def from_json(cls, data: MarsschemamfPalettes) -> "PaletteSettings":
+    def from_json(cls, data: MarsschemamfPalettes) -> Self:
         seed = data.get("Seed", random.randint(0, 2**31 - 1))
         random.seed(seed)
         pal_types = {}
@@ -63,7 +70,7 @@ class PaletteSettings:
         return cls(seed, pal_types, color_space, symmetric, True)
 
     @classmethod
-    def get_hue_range(cls, data: MarsschemamfPalettesRandomize) -> tuple[int, int]:
+    def get_hue_range(cls, data: MarsschemamfPalettesRandomize) -> HueRange:
         hue_min = data.get("HueMin")
         hue_max = data.get("HueMax")
         if hue_min is None or hue_max is None:
@@ -104,15 +111,16 @@ class PaletteRandomizer:
     ) -> None:
         pal.change_colors_oklab(change, excluded_rows)
 
-    def generate_palette_change(self, hue_range: tuple[int, int]) -> ColorChange:
+    def generate_palette_change(self, hue_range: HueRange) -> ColorChange:
         """Generates a random color change. hue_range determines how far each color's hue will be
         initially rotated. Individual colors can be additionally rotated using the values of a
         random sine wave."""
-        hue_shift = random.randint(hue_range[0], hue_range[1])
+        hue_min, hue_max = hue_range
+        hue_shift = random.randint(hue_min, hue_max)
         if self.settings.symmetric and random.choice([True, False]):
             hue_shift = 360 - hue_shift
         if self.settings.extra_variation:
-            hue_var_range = min(1.0, (hue_range[1] - hue_range[0]) / 180)
+            hue_var_range = min(1.0, (hue_max - hue_min) / 180)
             hue_var = SineWave.generate(hue_var_range)
         else:
             hue_var = None
@@ -143,17 +151,17 @@ class PaletteRandomizer:
             pal.write(self.rom, addr)
             self.randomized_pals.add(addr)
 
-    def randomize_samus(self, hue_range: tuple[int, int]) -> None:
+    def randomize_samus(self, hue_range: HueRange) -> None:
         change = self.generate_palette_change(hue_range)
         self.change_palettes(gd.samus_palettes(self.rom), change)
         self.change_palettes(gd.helmet_cursor_palettes(self.rom), change)
         self.change_palettes(sax_palettes(self.rom), change)
 
-    def randomize_beams(self, hue_range: tuple[int, int]) -> None:
+    def randomize_beams(self, hue_range: HueRange) -> None:
         change = self.generate_palette_change(hue_range)
         self.change_palettes(gd.beam_palettes(self.rom), change)
 
-    def randomize_tilesets(self, hue_range: tuple[int, int]) -> None:
+    def randomize_tilesets(self, hue_range: HueRange) -> None:
         rom = self.rom
         ts_addr = gd.tileset_entries(rom)
         ts_count = gd.tileset_count(rom)
@@ -202,9 +210,9 @@ class PaletteRandomizer:
         pal.write(rom, pal_addr)
         self.randomized_pals.add(pal_addr)
 
-    def randomize_enemies(self, hue_range: tuple[int, int]) -> None:
+    def randomize_enemies(self, hue_range: HueRange) -> None:
         rom = self.rom
-        excluded = EXCLUDED_ENEMIES[rom.game]
+        excluded = {en_id.value for en_id in EXCLUDED_ENEMIES[rom.game]}
         sp_count = gd.sprite_count(rom)
         to_randomize = set(range(0x10, sp_count))
         to_randomize -= excluded
@@ -219,9 +227,9 @@ class PaletteRandomizer:
                 to_randomize.remove(sprite_id)
 
         # Go through remaining sprites
-        for sprite_id in to_randomize:
+        for sp_id in to_randomize:
             change = self.generate_palette_change(hue_range)
-            self.randomize_enemy(sprite_id, change)
+            self.randomize_enemy(sp_id, change)
 
     def randomize_enemy(self, sprite_id: int, change: ColorChange) -> None:
         # Get palette address and row count
@@ -229,10 +237,12 @@ class PaletteRandomizer:
         sprite_gfx_id = sprite_id - 0x10
         pal_ptr = gd.sprite_palette_ptrs(rom)
         pal_addr = rom.read_ptr(pal_ptr + sprite_gfx_id * 4)
+
+        # Skip palettes that have already been randomized
         if pal_addr in self.randomized_pals:
             return
         if rom.is_mf():
-            if sprite_id == 0x4D or sprite_id == 0xBE:
+            if sprite_id == SpriteIdMF.ICE_BEAM_ABILITY or sprite_id == SpriteIdMF.ZOZORO:
                 # Ice beam ability and zozoros only have 1 row, not 2
                 rows = 1
             else:
@@ -245,12 +255,17 @@ class PaletteRandomizer:
             rows = (rom.read_32(gfx_addr) >> 8) // 0x800
         else:
             raise ValueError("Unknown game!")
+
         # Load palette, change colors, and write to ROM
         pal = Palette(rows, rom, pal_addr)
         self.change_func(pal, change)
         pal.write(rom, pal_addr)
         self.randomized_pals.add(pal_addr)
-        if rom.is_mf() and sprite_id == 0x26:
+        if rom.is_mf() and sprite_id in {
+            SpriteIdMF.SAMUS_EATER_BUD,
+            SpriteIdMF.SAMUS_EATER,
+            SpriteIdMF.NETTORI,
+        }:
             self.fix_nettori(change)
 
     def get_sprite_addr(self, sprite_id: int) -> int:
@@ -268,31 +283,30 @@ class PaletteRandomizer:
             self.change_func(pal, change)
             pal.write(self.rom, addr)
 
-    # TODO: Uncomment this once ZM data addresses are added
-    # def fix_zm_palettes(self) -> None:
-    #     if (
-    #         PaletteType.ENEMIES in self.settings.pal_types
-    #         or PaletteType.TILESETS in self.settings.pal_types
-    #     ):
-    #         # Fix kraid's body
-    #         sp_addr = self.get_sprite_addr(0x6F)
-    #         ts_addr = self.get_tileset_addr(9)
-    #         self.rom.copy_bytes(sp_addr, ts_addr + 0x100, 0x20)
+    def fix_zm_palettes(self) -> None:
+        if (
+            PaletteType.ENEMIES in self.settings.pal_types
+            or PaletteType.TILESETS in self.settings.pal_types
+        ):
+            # Fix kraid's body
+            sp_addr = self.get_sprite_addr(SpriteIdZM.KRAID)
+            ts_addr = self.get_tileset_addr(9)
+            self.rom.copy_bytes(sp_addr, ts_addr + 0x100, 0x20)
 
-    #     if PaletteType.TILESETS in self.settings.pal_types:
-    #         # Fix kraid elevator statue
-    #         sp_addr = self.get_sprite_addr(0x95)
-    #         ts_addr = self.get_tileset_addr(0x35)
-    #         self.rom.copy_bytes(ts_addr + 0x20, sp_addr, 0x20)
+        if PaletteType.TILESETS in self.settings.pal_types:
+            # Fix kraid elevator statue
+            sp_addr = self.get_sprite_addr(SpriteIdZM.KRAID_ELEVATOR_STATUE)
+            ts_addr = self.get_tileset_addr(0x35)
+            self.rom.copy_bytes(ts_addr + 0x20, sp_addr, 0x20)
 
-    #         # Fix ridley elevator statue
-    #         ts_addr = self.get_tileset_addr(7)
-    #         self.rom.copy_bytes(ts_addr + 0x20, sp_addr + 0x20, 0x20)
+            # Fix ridley elevator statue
+            ts_addr = self.get_tileset_addr(7)
+            self.rom.copy_bytes(ts_addr + 0x20, sp_addr + 0x20, 0x20)
 
-    #         # Fix tourian statues
-    #         sp_addr = self.get_sprite_addr(0xA3)
-    #         ts_addr = self.get_tileset_addr(0x41)
-    #         self.rom.copy_bytes(ts_addr + 0x60, sp_addr, 0x20)
-    #         # Fix cutscene
-    #         sp_addr = gd.tourian_statues_cutscene_palette(self.rom)
-    #         self.rom.copy_bytes(ts_addr, sp_addr, 0xC0)
+            # Fix tourian statues
+            sp_addr = self.get_sprite_addr(SpriteIdZM.KRAID_STATUE)
+            ts_addr = self.get_tileset_addr(0x41)
+            self.rom.copy_bytes(ts_addr + 0x60, sp_addr, 0x20)
+            # Fix cutscene
+            sp_addr = statues_cutscene_palette_addr(self.rom)
+            self.rom.copy_bytes(ts_addr, sp_addr, 0xC0)

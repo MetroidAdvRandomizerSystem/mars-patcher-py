@@ -1,14 +1,14 @@
 import random
 
+from mars_patcher.constants.enemies import ENEMY_TYPES, EnemyType
 from mars_patcher.constants.game_data import spriteset_count, spriteset_ptrs
-from mars_patcher.mf.constants.enemies import ENEMY_TYPES, EnemyType
 from mars_patcher.mf.constants.game_data import sprite_vram_sizes
 from mars_patcher.rom import Rom
 
 
 def randomize_enemies(rom: Rom) -> None:
     # Setup enemy types dictionary
-    enemy_types = {k: v[1] for k, v in ENEMY_TYPES.items()}
+    enemy_types = {k.value: v for k, v in ENEMY_TYPES[rom.game].items()}
 
     # Get graphics info for each enemy
     size_addr = sprite_vram_sizes(rom)
