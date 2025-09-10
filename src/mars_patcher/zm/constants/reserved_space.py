@@ -92,6 +92,6 @@ class ReservedPointersZM(IntEnum):
     TITLE_TEXT_LINES_PTR = auto()
 
     def __new__(cls, offset: int) -> Self:
-        obj = object.__new__(cls)
+        obj = int.__new__(cls)
         obj._value_ = ReservedConstantsZM.RANDO_POINTERS_ADDR + (offset * 4)
         return obj
