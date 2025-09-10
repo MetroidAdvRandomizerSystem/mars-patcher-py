@@ -1,4 +1,5 @@
 from mars_patcher.rom import Game, Region, Rom
+from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 
 
 def area_room_entry_ptrs(rom: Rom) -> int:
@@ -13,14 +14,7 @@ def area_room_entry_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77D5C0
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x75FAC4
-        elif rom.region == Region.E:
-            return 0x773964
-        elif rom.region == Region.J:
-            return 0x75FBD4
-        elif rom.region == Region.C:
-            return 0x79ECBC
+        return rom.read_ptr(ReservedPointersZM.ROOM_AREA_ENTRIES_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -37,14 +31,7 @@ def tileset_entries(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x3C1E94
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x33DFDC
-        elif rom.region == Region.E:
-            return 0x33EC68
-        elif rom.region == Region.J:
-            return 0x33E038
-        elif rom.region == Region.C:
-            return 0x3577C8
+        return rom.read_ptr(ReservedPointersZM.TILESET_ENTRIES_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -70,14 +57,7 @@ def area_doors_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77D598
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x75FAA8
-        elif rom.region == Region.E:
-            return 0x773948
-        elif rom.region == Region.J:
-            return 0x75FBB8
-        elif rom.region == Region.C:
-            return 0x79ECA0
+        return rom.read_ptr(ReservedPointersZM.AREA_DOORS_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -94,14 +74,7 @@ def area_connections(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x3CB19C
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x360274
-        elif rom.region == Region.E:
-            return 0x360F00
-        elif rom.region == Region.J:
-            return 0x3602D0
-        elif rom.region == Region.C:
-            return 0x379A60
+        return rom.read_ptr(ReservedPointersZM.AREA_CONNECTIONS_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -128,14 +101,7 @@ def anim_palette_entries(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x3E5D7C
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x35FBFC
-        elif rom.region == Region.E:
-            return 0x360888
-        elif rom.region == Region.J:
-            return 0x35FC58
-        elif rom.region == Region.C:
-            return 0x3793E8
+        return rom.read_ptr(ReservedPointersZM.ANIM_PALETTE_ENTRIES_PTR)
 
     raise ValueError("Rom has unknown game loaded.")
 
@@ -164,14 +130,7 @@ def sprite_graphics_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77C2DC
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x75EBF8
-        elif rom.region == Region.E:
-            return 0x772A98
-        elif rom.region == Region.J:
-            return 0x75ED08
-        elif rom.region == Region.C:
-            return 0x79DDF0
+        return rom.read_ptr(ReservedPointersZM.SPRITE_GRAPHICS_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -187,14 +146,7 @@ def sprite_palette_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77C5D8
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x75EEF0
-        elif rom.region == Region.E:
-            return 0x772D90
-        elif rom.region == Region.J:
-            return 0x75F000
-        elif rom.region == Region.C:
-            return 0x79E0E8
+        return rom.read_ptr(ReservedPointersZM.SPRITE_PALETTES_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -219,14 +171,7 @@ def spriteset_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77CADC
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x75F31C
-        elif rom.region == Region.E:
-            return 0x7731BC
-        elif rom.region == Region.J:
-            return 0x75F42C
-        elif rom.region == Region.C:
-            return 0x79E514
+        return rom.read_ptr(ReservedPointersZM.SPRITESET_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -251,14 +196,8 @@ def samus_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x2900C8, 0x5E), (0x290E48, 0x70), (0x56CC68, 3)]
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return [(0x2376A8, 0xA3)]
-        elif rom.region == Region.E:
-            return [(0x238334, 0xA3)]
-        elif rom.region == Region.J:
-            return [(0x237704, 0xA3)]
-        elif rom.region == Region.C:
-            return [(0x250E94, 0xA3)]
+        addr = rom.read_ptr(ReservedPointersZM.AREA_DOORS_PTR)
+        return [(addr, 0xA3)]
     raise ValueError(rom.game, rom.region)
 
 
@@ -277,14 +216,8 @@ def helmet_cursor_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x6CE360, 1), (0x6CE400, 2), (0x6CA8F8, 1), (0x6CA938, 2)]
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return [(0x454938, 1), (0x4549B8, 1)]
-        elif rom.region == Region.E:
-            return [(0x4603F8, 1), (0x460478, 1)]
-        elif rom.region == Region.J:
-            return [(0x454994, 1), (0x454A14, 1)]
-        elif rom.region == Region.C:
-            return [(0x4768FC, 1), (0x47697C, 1)]
+        addr = rom.read_ptr(ReservedPointersZM.HELMET_CURSOR_PALETTES_PTR)
+        return [(addr, 1), (addr + 0x80, 1)]
     raise ValueError(rom.game, rom.region)
 
 
@@ -300,14 +233,8 @@ def beam_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x592578, 6)]
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return [(0x3270E8, 6)]
-        elif rom.region == Region.E:
-            return [(0x327D74, 6)]
-        elif rom.region == Region.J:
-            return [(0x327144, 6)]
-        elif rom.region == Region.C:
-            return [(0x3408D4, 6)]
+        addr = rom.read_ptr(ReservedPointersZM.BEAM_PALETTES_PTR)
+        return [(addr, 6)]
     raise ValueError(rom.game, rom.region)
 
 
@@ -323,14 +250,7 @@ def character_widths(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x57D21C
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x40D7B0
-        elif rom.region == Region.E:
-            return 0x40E5E4
-        elif rom.region == Region.J:
-            return 0x40D80C
-        elif rom.region == Region.C:
-            return 0x42F34C
+        return rom.read_ptr(ReservedPointersZM.CHARACTER_WIDTHS_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -346,14 +266,7 @@ def sound_data_entries(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0xAB0E4
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x8F2C0
-        elif rom.region == Region.E:
-            return 0x8FF4C
-        elif rom.region == Region.J:
-            return 0x8F31C
-        elif rom.region == Region.C:
-            return 0xA8AAC
+        return rom.read_ptr(ReservedPointersZM.SOUND_DATA_PTR)
     raise ValueError(rom.game, rom.region)
 
 
@@ -378,14 +291,7 @@ def minimap_ptrs(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x77DB60
     elif rom.game == Game.ZM:
-        if rom.region == Region.U:
-            return 0x7601EC
-        elif rom.region == Region.E:
-            return 0x77408C
-        elif rom.region == Region.J:
-            return 0x7602FC
-        elif rom.region == Region.C:
-            return 0x79F3EC
+        return rom.read_ptr(ReservedPointersZM.MINIMAPS_PTR)
     raise ValueError(rom.game, rom.region)
 
 

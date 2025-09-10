@@ -1,5 +1,5 @@
 import mars_patcher.constants.game_data as gd
-from mars_patcher.mf.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder
 from mars_patcher.rom import Rom
@@ -70,7 +70,7 @@ def disable_sound_effects(rom: Rom) -> None:
 
 
 def change_missile_limit(rom: Rom, limit: int) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstants.MISSILE_LIMIT_ADDR), limit)
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.MISSILE_LIMIT_ADDR), limit)
 
 
 def apply_unexplored_map(rom: Rom) -> None:
@@ -82,7 +82,7 @@ def apply_pbs_without_bombs(rom: Rom) -> None:
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstants.REVEAL_HIDDEN_TILES_ADDR), 1)
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.REVEAL_HIDDEN_TILES_ADDR), 1)
 
 
 def apply_reveal_unexplored_doors(rom: Rom) -> None:
