@@ -125,6 +125,14 @@ def encode_text(
     escaped = False
     markup_tag: list[str] | None = None
 
+    def handle_break() -> None:
+        nonlocal prev_break, width_since_break, line_width, line_number
+        prev_break = len(text)
+        width_since_break = 0
+        if char_val in NEWLINE_CHARS:
+            line_width = 0
+            line_number += 1
+
     for char in string:
         if not escaped:
             # Check for escaped character
@@ -149,6 +157,8 @@ def encode_text(
                         char_val = char_map.get(f"[{tag_str}]")
                         if char_val is None:
                             raise ValueError(f"Invalid markup tag '{tag_str}'")
+                    if char_val in NEWLINE_CHARS:
+                        handle_break()
                     text.append(char_val)
                     markup_tag = None
                 else:
@@ -163,11 +173,7 @@ def encode_text(
         width_since_break += char_width
 
         if char_val in BREAKING_CHARS:
-            prev_break = len(text)
-            width_since_break = 0
-            if char_val in NEWLINE_CHARS:
-                line_width = 0
-                line_number += 1
+            handle_break()
 
         extra_char = None
 
