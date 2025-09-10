@@ -125,15 +125,9 @@ def encode_text(
     escaped = False
     markup_tag: list[str] | None = None
 
-    def handle_break() -> None:
-        nonlocal prev_break, width_since_break, line_width, line_number
-        prev_break = len(text)
-        width_since_break = 0
-        if char_val in NEWLINE_CHARS:
-            line_width = 0
-            line_number += 1
-
     for char in string:
+        is_meta_char = False
+
         if not escaped:
             # Check for escaped character
             if char == "\\":
@@ -157,23 +151,27 @@ def encode_text(
                         char_val = char_map.get(f"[{tag_str}]")
                         if char_val is None:
                             raise ValueError(f"Invalid markup tag '{tag_str}'")
-                    if char_val in NEWLINE_CHARS:
-                        handle_break()
-                    text.append(char_val)
+                    is_meta_char = True
                     markup_tag = None
                 else:
+                    # Still parsing markup tag
                     markup_tag.append(char)
-                continue
+                    continue
         else:
             escaped = False
 
-        char_val = char_map[char]
-        char_width = get_char_width(rom, char_widths_addr, char_val)
-        line_width += char_width
-        width_since_break += char_width
+        if not is_meta_char:
+            char_val = char_map[char]
+            char_width = get_char_width(rom, char_widths_addr, char_val)
+            line_width += char_width
+            width_since_break += char_width
 
         if char_val in BREAKING_CHARS:
-            handle_break()
+            prev_break = len(text)
+            width_since_break = 0
+            if char_val in NEWLINE_CHARS:
+                line_width = 0
+                line_number += 1
 
         extra_char = None
 
@@ -206,6 +204,8 @@ def encode_text(
             else:
                 text.append(extra_char)
 
+        if char_val is None:
+            raise ValueError("Tried to append null char_val")
         text.append(char_val)
 
     if markup_tag is not None:
