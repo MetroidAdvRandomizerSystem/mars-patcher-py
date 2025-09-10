@@ -209,8 +209,6 @@ def encode_text(
             else:
                 text.append(extra_char)
 
-        if char_val is None:
-            raise ValueError("Tried to append null char_val")
         text.append(char_val)
 
     if markup_tag is not None:
