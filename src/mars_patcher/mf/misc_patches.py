@@ -1,4 +1,4 @@
-import mars_patcher.mf.constants.game_data as gd
+import mars_patcher.constants.game_data as gd
 from mars_patcher.mf.constants.reserved_space import ReservedConstants
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder

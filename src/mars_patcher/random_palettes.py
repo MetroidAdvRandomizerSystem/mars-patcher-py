@@ -1,12 +1,13 @@
 import random
 from enum import Enum
 
-import mars_patcher.mf.constants.game_data as gd
+import mars_patcher.constants.game_data as gd
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfPalettes,
     MarsschemamfPalettesColorspace,
     MarsschemamfPalettesRandomize,
 )
+from mars_patcher.mf.constants.game_data import sax_palettes, sprite_vram_sizes
 from mars_patcher.mf.constants.palettes import (
     ENEMY_GROUPS,
     EXCLUDED_ENEMIES,
@@ -130,9 +131,8 @@ class PaletteRandomizer:
         if PaletteType.BEAMS in pal_types:
             self.randomize_beams(pal_types[PaletteType.BEAMS])
         # Fix any sprite/tileset palettes that should be the same
-        # TODO: Check for palette fixes needed in fusion
-        if self.rom.is_zm():
-            self.fix_zm_palettes()
+        # if self.rom.is_zm():
+        #     self.fix_zm_palettes()
 
     def change_palettes(self, pals: list[tuple[int, int]], change: ColorChange) -> None:
         for addr, rows in pals:
@@ -147,7 +147,7 @@ class PaletteRandomizer:
         change = self.generate_palette_change(hue_range)
         self.change_palettes(gd.samus_palettes(self.rom), change)
         self.change_palettes(gd.helmet_cursor_palettes(self.rom), change)
-        self.change_palettes(gd.sax_palettes(self.rom), change)
+        self.change_palettes(sax_palettes(self.rom), change)
 
     def randomize_beams(self, hue_range: tuple[int, int]) -> None:
         change = self.generate_palette_change(hue_range)
@@ -236,7 +236,7 @@ class PaletteRandomizer:
                 # Ice beam ability and zozoros only have 1 row, not 2
                 rows = 1
             else:
-                vram_size_addr = gd.sprite_vram_sizes(rom)
+                vram_size_addr = sprite_vram_sizes(rom)
                 vram_size = rom.read_32(vram_size_addr + sprite_gfx_id * 4)
                 rows = vram_size // 0x800
         elif rom.is_zm():
@@ -268,30 +268,31 @@ class PaletteRandomizer:
             self.change_func(pal, change)
             pal.write(self.rom, addr)
 
-    def fix_zm_palettes(self) -> None:
-        if (
-            PaletteType.ENEMIES in self.settings.pal_types
-            or PaletteType.TILESETS in self.settings.pal_types
-        ):
-            # Fix kraid's body
-            sp_addr = self.get_sprite_addr(0x6F)
-            ts_addr = self.get_tileset_addr(9)
-            self.rom.copy_bytes(sp_addr, ts_addr + 0x100, 0x20)
+    # TODO: Uncomment this once ZM data addresses are added
+    # def fix_zm_palettes(self) -> None:
+    #     if (
+    #         PaletteType.ENEMIES in self.settings.pal_types
+    #         or PaletteType.TILESETS in self.settings.pal_types
+    #     ):
+    #         # Fix kraid's body
+    #         sp_addr = self.get_sprite_addr(0x6F)
+    #         ts_addr = self.get_tileset_addr(9)
+    #         self.rom.copy_bytes(sp_addr, ts_addr + 0x100, 0x20)
 
-        if PaletteType.TILESETS in self.settings.pal_types:
-            # Fix kraid elevator statue
-            sp_addr = self.get_sprite_addr(0x95)
-            ts_addr = self.get_tileset_addr(0x35)
-            self.rom.copy_bytes(ts_addr + 0x20, sp_addr, 0x20)
+    #     if PaletteType.TILESETS in self.settings.pal_types:
+    #         # Fix kraid elevator statue
+    #         sp_addr = self.get_sprite_addr(0x95)
+    #         ts_addr = self.get_tileset_addr(0x35)
+    #         self.rom.copy_bytes(ts_addr + 0x20, sp_addr, 0x20)
 
-            # Fix ridley elevator statue
-            ts_addr = self.get_tileset_addr(7)
-            self.rom.copy_bytes(ts_addr + 0x20, sp_addr + 0x20, 0x20)
+    #         # Fix ridley elevator statue
+    #         ts_addr = self.get_tileset_addr(7)
+    #         self.rom.copy_bytes(ts_addr + 0x20, sp_addr + 0x20, 0x20)
 
-            # Fix tourian statues
-            sp_addr = self.get_sprite_addr(0xA3)
-            ts_addr = self.get_tileset_addr(0x41)
-            self.rom.copy_bytes(ts_addr + 0x60, sp_addr, 0x20)
-            # Fix cutscene
-            sp_addr = gd.tourian_statues_cutscene_palette(self.rom)
-            self.rom.copy_bytes(ts_addr, sp_addr, 0xC0)
+    #         # Fix tourian statues
+    #         sp_addr = self.get_sprite_addr(0xA3)
+    #         ts_addr = self.get_tileset_addr(0x41)
+    #         self.rom.copy_bytes(ts_addr + 0x60, sp_addr, 0x20)
+    #         # Fix cutscene
+    #         sp_addr = gd.tourian_statues_cutscene_palette(self.rom)
+    #         self.rom.copy_bytes(ts_addr, sp_addr, 0xC0)

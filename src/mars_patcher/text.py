@@ -2,7 +2,8 @@ import json
 from enum import Enum
 from functools import cache
 
-from mars_patcher.mf.constants.game_data import character_widths, file_screen_text_ptrs
+from mars_patcher.constants.game_data import character_widths
+from mars_patcher.mf.constants.game_data import file_screen_text_ptrs
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.rom import Region, Rom
 

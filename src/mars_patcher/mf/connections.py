@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 
-import mars_patcher.mf.constants.game_data as gd
+import mars_patcher.constants.game_data as gd
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfElevatorconnections,
     MarsschemamfSectorshortcuts,
