@@ -1,7 +1,7 @@
-from enum import IntEnum
+from mars_patcher.constants.sprites import SpriteId
 
 
-class SpriteIdMF(IntEnum):
+class SpriteIdMF(SpriteId):
     SAX_ELEVATOR = 0x11
     HORNOAD = 0x12
     HALZYN = 0x13

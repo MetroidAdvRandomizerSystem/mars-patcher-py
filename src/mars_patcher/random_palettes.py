@@ -5,7 +5,6 @@ from typing import TypeAlias
 from typing_extensions import Self
 
 import mars_patcher.constants.game_data as gd
-from mars_patcher.constants.palettes import ENEMY_GROUPS, EXCLUDED_ENEMIES
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfPalettes,
     MarsschemamfPalettesColorspace,
@@ -13,6 +12,8 @@ from mars_patcher.mf.auto_generated_types import (
 )
 from mars_patcher.mf.constants.game_data import sax_palettes, sprite_vram_sizes
 from mars_patcher.mf.constants.palettes import (
+    ENEMY_GROUPS_MF,
+    EXCLUDED_ENEMIES_MF,
     MF_TILESET_ALT_PAL_ROWS,
     NETTORI_EXTRA_PALS,
     TILESET_ANIM_PALS,
@@ -21,6 +22,7 @@ from mars_patcher.mf.constants.sprites import SpriteIdMF
 from mars_patcher.palette import ColorChange, Palette, SineWave
 from mars_patcher.rom import Game, Rom
 from mars_patcher.zm.constants.game_data import statues_cutscene_palette_addr
+from mars_patcher.zm.constants.palettes import ENEMY_GROUPS_ZM, EXCLUDED_ENEMIES_ZM
 from mars_patcher.zm.constants.sprites import SpriteIdZM
 
 HueRange: TypeAlias = tuple[int, int]
@@ -212,13 +214,24 @@ class PaletteRandomizer:
 
     def randomize_enemies(self, hue_range: HueRange) -> None:
         rom = self.rom
-        excluded = {en_id.value for en_id in EXCLUDED_ENEMIES[rom.game]}
+        if rom.is_mf():
+            _excluded = EXCLUDED_ENEMIES_MF
+        elif rom.is_zm():
+            _excluded = EXCLUDED_ENEMIES_ZM
+        else:
+            raise ValueError(rom.game)
+        excluded = {en_id.value for en_id in _excluded}
         sp_count = gd.sprite_count(rom)
         to_randomize = set(range(0x10, sp_count))
         to_randomize -= excluded
 
         # Go through sprites in groups
-        groups = ENEMY_GROUPS[rom.game]
+        if rom.is_mf():
+            groups = ENEMY_GROUPS_MF
+        elif rom.is_zm():
+            groups = ENEMY_GROUPS_ZM
+        else:
+            raise ValueError(rom.game)
         for _, sprite_ids in groups.items():
             change = self.generate_palette_change(hue_range)
             for sprite_id in sprite_ids:

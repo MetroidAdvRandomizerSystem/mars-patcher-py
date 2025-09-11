@@ -1,3 +1,6 @@
+from mars_patcher.constants.sprites import SpriteId
+from mars_patcher.mf.constants.sprites import SpriteIdMF
+
 MF_TILESET_ALT_PAL_ROWS = {
     0x46F134: 0xD,  # 08
     0x4CCCC0: 0xD,  # 09, 40
@@ -66,6 +69,47 @@ TILESET_ANIM_PALS = {
     0x40719C: 0x1E,  # Sector 2 flashing panels 1
     0x40741C: 0x1F,  # Sector 2 flashing panels 2
     0x46D554: 0x20,  # Restricted lab
+}
+
+
+EXCLUDED_ENEMIES_MF: set[SpriteId] = {
+    SpriteIdMF.SAX_ELEVATOR,
+    SpriteIdMF.AREA_BANNER,
+    SpriteIdMF.MESSAGE_BANNER,
+    SpriteIdMF.SAX_TRO_1,
+    SpriteIdMF.SAX_NOC,
+    SpriteIdMF.SAX_ARC,
+    SpriteIdMF.SAX_LAB,
+    SpriteIdMF.SAX_BOSS,
+    SpriteIdMF.SAX_MONSTER,
+    SpriteIdMF.SAX_OMEGA,
+    SpriteIdMF.SAX_TRO_2,
+}
+
+
+ENEMY_GROUPS_MF: dict[str, list[SpriteId]] = {
+    "Zebesian": [
+        SpriteIdMF.ZEBESIAN_WALL,
+        SpriteIdMF.ZEBESIAN_GROUND,
+        SpriteIdMF.GOLD_ZEBESIAN,
+        SpriteIdMF.ZEBESIAN_AQUA,
+        SpriteIdMF.ZEBESIAN_PRE_AQUA,
+    ],
+    "Zeela": [SpriteIdMF.ZEELA, SpriteIdMF.RED_ZEELA],
+    "Sciser": [SpriteIdMF.SCISER, SpriteIdMF.GOLD_SCISER],
+    "BeamCoreX": [
+        SpriteIdMF.CHARGE_BEAM_CORE_X,
+        SpriteIdMF.WIDE_BEAM_CORE_X,
+        SpriteIdMF.PLASMA_BEAM_CORE_X,
+        SpriteIdMF.WAVE_BEAM_CORE_X,
+    ],
+    "Zoro": [
+        SpriteIdMF.ZORO,
+        SpriteIdMF.BLUE_ZORO,
+        SpriteIdMF.ZORO_COCOON,
+        SpriteIdMF.ZORO_HUSK,
+    ],
+    "FakeTank": [SpriteIdMF.FAKE_ENERGY_TANK, SpriteIdMF.FAKE_MISSILE_TANK],
 }
 
 

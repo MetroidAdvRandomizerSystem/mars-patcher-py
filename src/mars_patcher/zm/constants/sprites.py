@@ -1,7 +1,7 @@
-from enum import IntEnum
+from mars_patcher.constants.sprites import SpriteId
 
 
-class SpriteIdZM(IntEnum):
+class SpriteIdZM(SpriteId):
     UNUSED_10 = 0x10
     MESSAGE_BANNER = 0x11
     RIPPER_BROWN = 0x16
