@@ -1,13 +1,12 @@
-from mars_patcher.constants.sprites import SpriteId
 from mars_patcher.zm.constants.sprites import SpriteIdZM
 
-EXCLUDED_ENEMIES_ZM: set[SpriteId] = {
+EXCLUDED_ENEMIES_ZM = {
     SpriteIdZM.UNUSED_10,
     SpriteIdZM.MESSAGE_BANNER,
 }
 
 
-ENEMY_GROUPS_ZM: dict[str, list[SpriteId]] = {
+ENEMY_GROUPS_ZM = {
     "Ripper": [SpriteIdZM.RIPPER_BROWN, SpriteIdZM.RIPPER_PURPLE, SpriteIdZM.RIPPER_II],
     "Zeb": [SpriteIdZM.ZEB, SpriteIdZM.ZEB_BLUE],
     "Skree": [SpriteIdZM.SKREE_GREEN, SpriteIdZM.SKREE_BLUE],

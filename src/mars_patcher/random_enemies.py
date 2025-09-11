@@ -1,4 +1,5 @@
 import random
+from typing import TYPE_CHECKING
 
 from mars_patcher.constants.enemies import EnemyType
 from mars_patcher.constants.game_data import spriteset_count, spriteset_ptrs
@@ -6,9 +7,14 @@ from mars_patcher.mf.constants.enemies import ENEMY_TYPES_MF
 from mars_patcher.mf.constants.game_data import sprite_vram_sizes
 from mars_patcher.rom import Rom
 
+if TYPE_CHECKING:
+    from mars_patcher.mf.constants.sprites import SpriteIdMF
+    from mars_patcher.zm.constants.sprites import SpriteIdZM
+
 
 def randomize_enemies(rom: Rom) -> None:
     # Setup enemy types dictionary
+    _enemy_types: dict[SpriteIdMF, EnemyType] | dict[SpriteIdZM, EnemyType]
     if rom.is_mf():
         _enemy_types = ENEMY_TYPES_MF
     elif rom.is_zm():

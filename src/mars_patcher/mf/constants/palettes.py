@@ -1,4 +1,3 @@
-from mars_patcher.constants.sprites import SpriteId
 from mars_patcher.mf.constants.sprites import SpriteIdMF
 
 MF_TILESET_ALT_PAL_ROWS = {
@@ -72,7 +71,7 @@ TILESET_ANIM_PALS = {
 }
 
 
-EXCLUDED_ENEMIES_MF: set[SpriteId] = {
+EXCLUDED_ENEMIES_MF = {
     SpriteIdMF.SAX_ELEVATOR,
     SpriteIdMF.AREA_BANNER,
     SpriteIdMF.MESSAGE_BANNER,
@@ -87,7 +86,7 @@ EXCLUDED_ENEMIES_MF: set[SpriteId] = {
 }
 
 
-ENEMY_GROUPS_MF: dict[str, list[SpriteId]] = {
+ENEMY_GROUPS_MF = {
     "Zebesian": [
         SpriteIdMF.ZEBESIAN_WALL,
         SpriteIdMF.ZEBESIAN_GROUND,

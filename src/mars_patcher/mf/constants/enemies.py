@@ -1,8 +1,7 @@
 from mars_patcher.constants.enemies import EnemyType
-from mars_patcher.constants.sprites import SpriteId
 from mars_patcher.mf.constants.sprites import SpriteIdMF
 
-ENEMY_TYPES_MF: dict[SpriteId, EnemyType] = {
+ENEMY_TYPES_MF = {
     SpriteIdMF.HORNOAD: EnemyType.GROUND,
     SpriteIdMF.HALZYN: EnemyType.FLYING,
     SpriteIdMF.ZEBESIAN_WALL: EnemyType.WALL,

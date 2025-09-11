@@ -214,6 +214,7 @@ class PaletteRandomizer:
 
     def randomize_enemies(self, hue_range: HueRange) -> None:
         rom = self.rom
+        _excluded: set[SpriteIdMF] | set[SpriteIdZM]
         if rom.is_mf():
             _excluded = EXCLUDED_ENEMIES_MF
         elif rom.is_zm():
@@ -226,6 +227,7 @@ class PaletteRandomizer:
         to_randomize -= excluded
 
         # Go through sprites in groups
+        groups: dict[str, list[SpriteIdMF]] | dict[str, list[SpriteIdZM]]
         if rom.is_mf():
             groups = ENEMY_GROUPS_MF
         elif rom.is_zm():
