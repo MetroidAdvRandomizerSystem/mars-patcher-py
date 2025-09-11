@@ -43,7 +43,7 @@ def skip_door_transitions(rom: Rom) -> None:
 
 
 def stereo_default(rom: Rom) -> None:
-    apply_patch_in_data_path(rom, "stereo_default.ips")
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.DEFAULT_STEREO_FLAG_POINTER_ADDR), 1)
 
 
 def disable_sounds(rom: Rom, start: int, end: int, exclude: set[int] = set()) -> None:
