@@ -21,8 +21,12 @@ VALUE_MARKUP_TAG = {
     "STOP_SOUND": (0xA000, 12),
     "WAIT": (0xE100, 8),
 }
+ADAM = 0xE200
+SAMUS = 0xE201
+FEDERATION = 0xE202
 BREAKING_CHARS = {SPACE_CHAR, NEXT, NEWLINE}
 NEWLINE_CHARS = {NEXT, NEWLINE}
+SPEAKER_CHARS = {ADAM, FEDERATION, SAMUS}
 
 KANJI_START = 0x4A0
 KANJI_WIDTH = 10
@@ -119,6 +123,7 @@ def encode_text(
     text: list[int] = []
     line_width = 0
     line_number = 0
+    current_speaker = ADAM
 
     prev_break: int | None = None
     width_since_break = 0
@@ -149,11 +154,17 @@ def encode_text(
                         char_val = char_map.get(f"[{tag_str}]")
                         if char_val is None:
                             raise ValueError(f"Invalid markup tag '{tag_str}'")
-                    if char_val in NEWLINE_CHARS:
+
+                    did_speaker_change = False
+                    if char_val in SPEAKER_CHARS and char_val != current_speaker:
+                        did_speaker_change = True
+                        current_speaker = char_val
+
+                    if char_val in NEWLINE_CHARS or did_speaker_change:
                         prev_break = len(text)
                         width_since_break = 0
                         line_width = 0
-                        if char_val == NEXT:
+                        if char_val == NEXT or did_speaker_change:
                             line_number = 0
                         else:
                             line_number += 1
