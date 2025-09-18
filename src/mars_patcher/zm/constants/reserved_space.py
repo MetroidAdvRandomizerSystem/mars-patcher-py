@@ -55,6 +55,8 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the palette used for the helmet cursor in menus."""
     BEAM_PALETTES_PTR = auto()
     """Pointer to the start of the beam palettes."""
+    STATUES_CUTSCENE_PALETTE_PTR = auto()
+    """Pointer to the palette of the boss statues near Tourian used during the cutscene."""
     CHARACTER_WIDTHS_PTR = auto()
     """Pointer to the character widths table."""
     SOUND_DATA_PTR = auto()

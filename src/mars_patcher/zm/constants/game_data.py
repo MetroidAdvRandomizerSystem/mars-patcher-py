@@ -80,3 +80,7 @@ def power_bomb_tank_increase_amount_addr(rom: Rom) -> int:
 
 def title_text_lines_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.TITLE_TEXT_LINES_PTR)
+
+
+def statues_cutscene_palette_addr(rom: Rom) -> int:
+    return rom.read_ptr(ReservedPointersZM.STATUES_CUTSCENE_PALETTE_PTR)
