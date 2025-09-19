@@ -551,6 +551,11 @@
             "description": "Disables title screen demos when true.",
             "default": false
         },
+        "InstantUnmorph": {
+            "type": "boolean",
+            "description": "When true, enables instant unmorphing via the SELECT button.",
+            "default": false
+        },
         "SkipDoorTransitions": {
             "type": "boolean",
             "description": "Makes all door transitions instant when true.",

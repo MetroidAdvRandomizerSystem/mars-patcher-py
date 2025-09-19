@@ -91,3 +91,7 @@ def apply_reveal_unexplored_doors(rom: Rom) -> None:
 
 def apply_accessibility_patch(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "accessibility.ips")
+
+
+def apply_instant_unmorph_patch(rom: Rom) -> None:
+    apply_patch_in_asm_path(rom, "instant_unmorph.ips")

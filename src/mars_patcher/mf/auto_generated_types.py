@@ -605,6 +605,9 @@ class Marsschemamf(typ.TypedDict, total=False):
     DisableDemos: bool = False
     """Disables title screen demos when true."""
 
+    InstantUnmorph: bool = False
+    """When true, enables instant unmorphing via the SELECT button."""
+
     SkipDoorTransitions: bool = False
     """Makes all door transitions instant when true."""
 

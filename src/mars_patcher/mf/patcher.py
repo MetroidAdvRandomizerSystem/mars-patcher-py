@@ -17,6 +17,7 @@ from mars_patcher.mf.locations import LocationSettings
 from mars_patcher.mf.misc_patches import (
     apply_accessibility_patch,
     apply_base_patch,
+    apply_instant_unmorph_patch,
     apply_pbs_without_bombs,
     apply_reveal_hidden_tiles,
     apply_reveal_unexplored_doors,
@@ -133,6 +134,9 @@ def patch_mf(
 
     if patch_data.get("DisableDemos"):
         disable_demos(rom)
+
+    if patch_data.get("InstantUnmorph"):
+        apply_instant_unmorph_patch(rom)
 
     if patch_data.get("SkipDoorTransitions"):
         skip_door_transitions(rom)
