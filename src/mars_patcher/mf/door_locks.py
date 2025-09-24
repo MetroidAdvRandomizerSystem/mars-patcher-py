@@ -188,11 +188,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
 
             # Map tiles
             if lock is not None:
-                screen_offset_x = (hatch_x - 2) // 15
-                screen_offset_y = (hatch_y - 2) // 10
-
-                minimap_x = room_entry.map_x + screen_offset_x
-                minimap_y = room_entry.map_y + screen_offset_y
+                minimap_x, minimap_y = room_entry.map_coords_at_block(hatch_x, hatch_y)
 
                 minimap_areas = [area]
                 if area == 0:

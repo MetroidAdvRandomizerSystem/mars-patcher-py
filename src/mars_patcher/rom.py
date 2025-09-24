@@ -101,9 +101,7 @@ class Rom:
         self.game = game
         self.region = region
 
-        # For now we only allow MF U
-        if self.game == Game.ZM:
-            raise ValueError("Not compatible with Metroid Zero Mission")
+        # For now we only allow (U) version
         if self.region != Region.U:
             raise ValueError("Only compatible with the North American (U) version")
         # Set free space address

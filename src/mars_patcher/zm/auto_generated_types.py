@@ -171,7 +171,7 @@ HintLocations = typ.Literal[
     'BOMBS',
     'ICE_BEAM',
     'SPEED_BOOSTER',
-    'HIGH_JUMP',
+    'HI_JUMP',
     'VARIA_SUIT',
     'WAVE_BEAM',
     'SCREW_ATTACK'
@@ -191,15 +191,20 @@ BlockLayer: typ.TypeAlias = typ.Annotated[list[BlockLayerItem], 'Unique items']
 
 # Schema entries
 
-class MarsschemazmLocationsMajorLocationsItem(typ.TypedDict):
-    source: ValidSources
+class MarsschemazmLocationsMajorLocationsItem(typ.TypedDict, total=False):
+    source: typ.Required[ValidSources]
     """Valid major locations."""
 
-    item: ValidItems
+    item: typ.Required[ValidItems]
     """Valid items for shuffling."""
 
-    item_messages: typ.NotRequired[ItemMessages]
+    item_messages: ItemMessages
     jingle: Jingle
+    """The sound that plays when an item is collected"""
+
+    hinted_by: HintLocations
+    """The hint location (Chozo statue) that hints to this item's location ('NONE' if not hinted by anything)."""
+
 
 class MarsschemazmLocationsMinorLocationsItem(typ.TypedDict):
     area: AreaId
@@ -221,7 +226,9 @@ class MarsschemazmLocationsMinorLocationsItem(typ.TypedDict):
     """Valid graphics for item tanks/sprites."""
 
     item_messages: typ.NotRequired[ItemMessages]
-    jingle: Jingle
+    jingle: typ.NotRequired[Jingle]
+    """The sound that plays when an item is collected"""
+
     hinted_by: typ.NotRequired[HintLocations]
     """The hint location (Chozo statue) that hints to this item's location ('None' if not hinted by anything)."""
 
@@ -232,7 +239,7 @@ class MarsschemazmLocations(typ.TypedDict):
     major_locations: typ.Annotated[list[MarsschemazmLocationsMajorLocationsItem], 'len() == 16', 'Unique items']
     """Specifies how the major item locations should be changed. A major item location is a location where an item is obtained from a sprite or interacting with a device."""
 
-    minor_locations: typ.Annotated[list[MarsschemazmLocationsMinorLocationsItem], 'len() == 100', 'Unique items']
+    minor_locations: typ.Annotated[list[MarsschemazmLocationsMinorLocationsItem], 'len() == 86', 'Unique items']
     """Specifies how the minor item locations should be changed. A minor item location is a location where an item is obtained by touching a tank block. _tank clipdata is required at each location, the patcher does not modify any clipdata for minor locations."""
 
 
