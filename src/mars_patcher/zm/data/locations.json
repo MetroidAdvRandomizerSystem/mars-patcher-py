@@ -1,0 +1,822 @@
+{
+    "major_locations": [
+        {
+            "area": 0,
+            "room": 5,
+            "map_x": 6,
+            "map_y": 6,
+            "source": "LONG_BEAM",
+            "original": "LONG_BEAM"
+        },
+        {
+            "area": 0,
+            "room": 12,
+            "map_x": 10,
+            "map_y": 12,
+            "source": "CHARGE_BEAM",
+            "original": "CHARGE_BEAM"
+        },
+        {
+            "area": 2,
+            "room": 8,
+            "map_x": 18,
+            "map_y": 3,
+            "source": "ICE_BEAM",
+            "original": "ICE_BEAM"
+        },
+        {
+            "area": 2,
+            "room": 27,
+            "map_x": 10,
+            "map_y": 12,
+            "source": "WAVE_BEAM",
+            "original": "WAVE_BEAM"
+        },
+        {
+            "area": 5,
+            "room": 14,
+            "map_x": 20,
+            "map_y": 5,
+            "source": "PLASMA_BEAM",
+            "original": "PLASMA_BEAM"
+        },
+        {
+            "area": 0,
+            "room": 25,
+            "map_x": 24,
+            "map_y": 6,
+            "source": "BOMBS",
+            "original": "BOMBS"
+        },
+        {
+            "area": 0,
+            "room": 27,
+            "map_x": 14,
+            "map_y": 2,
+            "source": "VARIA_SUIT",
+            "original": "VARIA_SUIT"
+        },
+        {
+            "area": 3,
+            "room": 13,
+            "map_x": 6,
+            "map_y": 7,
+            "source": "GRAVITY_SUIT",
+            "original": "GRAVITY_SUIT"
+        },
+        {
+            "area": 0,
+            "room": 0,
+            "map_x": 0,
+            "map_y": 15,
+            "source": "MORPH_BALL",
+            "original": "MORPH_BALL"
+        },
+        {
+            "area": 1,
+            "room": 34,
+            "map_x": 8,
+            "map_y": 15,
+            "source": "SPEED_BOOSTER",
+            "original": "SPEED_BOOSTER"
+        },
+        {
+            "area": 2,
+            "room": 13,
+            "map_x": 19,
+            "map_y": 8,
+            "source": "HI_JUMP",
+            "original": "HI_JUMP"
+        },
+        {
+            "area": 2,
+            "room": 18,
+            "map_x": 6,
+            "map_y": 7,
+            "source": "SCREW_ATTACK",
+            "original": "SCREW_ATTACK"
+        },
+        {
+            "area": 1,
+            "room": 33,
+            "map_x": 7,
+            "map_y": 14,
+            "source": "SPACE_JUMP",
+            "original": "SPACE_JUMP"
+        },
+        {
+            "area": 5,
+            "room": 12,
+            "map_x": 14,
+            "map_y": 6,
+            "source": "POWER_GRIP",
+            "original": "POWER_GRIP"
+        },
+        {
+            "area": 6,
+            "room": 42,
+            "map_x": 6,
+            "map_y": 5,
+            "source": "FULLY_POWERED",
+            "original": "FULLY_POWERED"
+        },
+        {
+            "area": 1,
+            "room": 4,
+            "map_x": 12,
+            "map_y": 2,
+            "source": "ZIPLINES",
+            "original": "ZIPLINES"
+        }
+    ],
+    "minor_locations": [
+        {
+            "area": 0,
+            "room": 1,
+            "block_x": 13,
+            "block_y": 7,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 2,
+            "block_x": 28,
+            "block_y": 2,
+            "hidden": true,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 0,
+            "room": 12,
+            "block_x": 54,
+            "block_y": 6,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 14,
+            "block_x": 14,
+            "block_y": 23,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 15,
+            "block_x": 4,
+            "block_y": 6,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 19,
+            "block_x": 39,
+            "block_y": 6,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 0,
+            "room": 19,
+            "block_x": 11,
+            "block_y": 10,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 21,
+            "block_x": 39,
+            "block_y": 5,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 23,
+            "block_x": 18,
+            "block_y": 16,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 0,
+            "room": 25,
+            "block_x": 11,
+            "block_y": 5,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 29,
+            "block_x": 4,
+            "block_y": 10,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 40,
+            "block_x": 7,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 41,
+            "block_x": 5,
+            "block_y": 18,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 0,
+            "room": 41,
+            "block_x": 5,
+            "block_y": 25,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 1,
+            "block_x": 24,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 2,
+            "block_x": 9,
+            "block_y": 33,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 4,
+            "block_x": 22,
+            "block_y": 6,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 1,
+            "room": 7,
+            "block_x": 38,
+            "block_y": 14,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 8,
+            "block_x": 74,
+            "block_y": 20,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 9,
+            "block_x": 60,
+            "block_y": 9,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 1,
+            "room": 10,
+            "block_x": 9,
+            "block_y": 9,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 17,
+            "block_x": 2,
+            "block_y": 4,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 21,
+            "block_x": 20,
+            "block_y": 3,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 26,
+            "block_x": 7,
+            "block_y": 10,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 1,
+            "room": 38,
+            "block_x": 5,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 1,
+            "block_x": 65,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 3,
+            "block_x": 72,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 4,
+            "block_x": 74,
+            "block_y": 9,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 5,
+            "block_x": 14,
+            "block_y": 79,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 5,
+            "block_x": 8,
+            "block_y": 111,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 10,
+            "block_x": 11,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 17,
+            "block_x": 17,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 28,
+            "block_x": 28,
+            "block_y": 3,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 28,
+            "block_x": 54,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 32,
+            "block_x": 45,
+            "block_y": 3,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 32,
+            "block_x": 4,
+            "block_y": 5,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 37,
+            "block_x": 21,
+            "block_y": 3,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 38,
+            "block_x": 5,
+            "block_y": 6,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 42,
+            "block_x": 33,
+            "block_y": 5,
+            "hidden": true,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 2,
+            "room": 47,
+            "block_x": 24,
+            "block_y": 3,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 2,
+            "room": 55,
+            "block_x": 8,
+            "block_y": 14,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 2,
+            "room": 55,
+            "block_x": 30,
+            "block_y": 23,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 4,
+            "block_x": 6,
+            "block_y": 8,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 3,
+            "room": 6,
+            "block_x": 8,
+            "block_y": 33,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 9,
+            "block_x": 9,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 10,
+            "block_x": 27,
+            "block_y": 6,
+            "hidden": true,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 10,
+            "block_x": 15,
+            "block_y": 15,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 13,
+            "block_x": 8,
+            "block_y": 7,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 3,
+            "room": 14,
+            "block_x": 27,
+            "block_y": 9,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 3,
+            "room": 16,
+            "block_x": 54,
+            "block_y": 6,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 17,
+            "block_x": 28,
+            "block_y": 20,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 18,
+            "block_x": 72,
+            "block_y": 6,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 19,
+            "block_x": 7,
+            "block_y": 21,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 22,
+            "block_x": 11,
+            "block_y": 6,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 22,
+            "block_x": 8,
+            "block_y": 16,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 23,
+            "block_x": 8,
+            "block_y": 4,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 23,
+            "block_x": 13,
+            "block_y": 13,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 29,
+            "block_x": 24,
+            "block_y": 3,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 29,
+            "block_x": 20,
+            "block_y": 15,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 30,
+            "block_x": 4,
+            "block_y": 13,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 3,
+            "room": 31,
+            "block_x": 42,
+            "block_y": 7,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 4,
+            "room": 7,
+            "block_x": 14,
+            "block_y": 8,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 4,
+            "room": 8,
+            "block_x": 11,
+            "block_y": 109,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 5,
+            "room": 0,
+            "block_x": 20,
+            "block_y": 37,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 5,
+            "room": 7,
+            "block_x": 3,
+            "block_y": 27,
+            "hidden": true,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 5,
+            "room": 9,
+            "block_x": 90,
+            "block_y": 9,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 5,
+            "room": 9,
+            "block_x": 64,
+            "block_y": 34,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 5,
+            "room": 14,
+            "block_x": 8,
+            "block_y": 10,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 10,
+            "block_x": 19,
+            "block_y": 4,
+            "hidden": true,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 14,
+            "block_x": 13,
+            "block_y": 5,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 24,
+            "block_x": 10,
+            "block_y": 13,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 6,
+            "room": 26,
+            "block_x": 44,
+            "block_y": 8,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 6,
+            "room": 34,
+            "block_x": 34,
+            "block_y": 14,
+            "hidden": true,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 6,
+            "room": 47,
+            "block_x": 9,
+            "block_y": 17,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 6,
+            "room": 49,
+            "block_x": 10,
+            "block_y": 7,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 6,
+            "room": 54,
+            "block_x": 59,
+            "block_y": 20,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 65,
+            "block_x": 9,
+            "block_y": 3,
+            "hidden": true,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 66,
+            "block_x": 16,
+            "block_y": 13,
+            "hidden": true,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 71,
+            "block_x": 59,
+            "block_y": 19,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 6,
+            "room": 73,
+            "block_x": 9,
+            "block_y": 6,
+            "hidden": true,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 78,
+            "block_x": 44,
+            "block_y": 8,
+            "hidden": false,
+            "original": "ENERGY_TANK"
+        },
+        {
+            "area": 6,
+            "room": 87,
+            "block_x": 18,
+            "block_y": 18,
+            "hidden": true,
+            "original": "POWER_BOMB_TANK"
+        },
+        {
+            "area": 6,
+            "room": 89,
+            "block_x": 6,
+            "block_y": 27,
+            "hidden": true,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 90,
+            "block_x": 56,
+            "block_y": 24,
+            "hidden": false,
+            "original": "MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 90,
+            "block_x": 56,
+            "block_y": 40,
+            "hidden": false,
+            "original": "SUPER_MISSILE_TANK"
+        },
+        {
+            "area": 6,
+            "room": 95,
+            "block_x": 24,
+            "block_y": 6,
+            "hidden": false,
+            "original": "POWER_BOMB_TANK"
+        }
+    ]
+}

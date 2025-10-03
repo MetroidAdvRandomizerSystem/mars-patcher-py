@@ -114,16 +114,7 @@ KEY_ORIGINAL: Final = "Original"
 KEY_ITEM: Final = "Item"
 KEY_ITEM_SPRITE: Final = "ItemSprite"
 KEY_ITEM_MESSAGES: Final = "ItemMessages"
-KEY_ITEM_MESSAGES_KIND: Final = "Kind"
-KEY_LANGUAGES: Final = "Languages"
-KEY_CENTERED: Final = "Centered"
-KEY_MESSAGE_ID: Final = "MessageID"
 KEY_ITEM_JINGLE: Final = "Jingle"
-
-
-class ItemMessagesKind(Enum):
-    CUSTOM_MESSAGE = 0
-    MESSAGE_ID = 1
 
 
 class ItemJingle(Enum):
