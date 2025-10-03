@@ -66,6 +66,11 @@ for lock, vals in CLIP_VALUES.items():
 
 EXCLUDED_DOORS = {
     (0, 0xB4),  # Restricted lab escape
+    (2, 0x71),  # Cathedral -> Ripper Tower. Excluded to prevent more than 6 hatches in that room.
+    (
+        5,
+        0x38,
+    ),  # Arctic Containment -> Ripper Road. Excluded to prevent more than 6 hatches in that room.
 }
 
 HatchSlot = Annotated[int, "0 <= value <= 5"]
@@ -108,10 +113,11 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
         area_addr = rom.read_ptr(doors_ptrs + area * 4)
         for door in range(256):
             door_addr = area_addr + door * 0xC
-            door_type = rom.read_8(door_addr)
+            door_properties = rom.read_8(door_addr)
+            door_type = door_properties & 0xF
 
             # Check if at end of list
-            if door_type == 0:
+            if door_properties == 0:
                 break
 
             # Skip doors that mage marks as deleted
@@ -119,13 +125,22 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
             if room == 0xFF:
                 continue
 
-            # Skip excluded doors and doors that aren't lockable hatches
+            # Skip excluded doors and doors that aren't lockable/open hatches
             lock = door_locks.get((area, door))
-            if (area, door) in EXCLUDED_DOORS or door_type & 0xF != 4:
+            if (area, door) in EXCLUDED_DOORS or not (3 <= door_type <= 4):
                 # Don't log the error if door is open and JSON says to change to open.
-                if lock is not None and not (lock is HatchLock.OPEN and door_type & 0xF == 3):
-                    logging.error(f"Area {area} door {door} cannot have its lock changed")
+                if lock is not None and not (lock is HatchLock.OPEN and door_type == 3):
+                    logging.error(
+                        f"Area {area} door {door} type {door_type} cannot have its lock changed"
+                    )
                 continue
+
+            # If the door type is an "Open Hatch" door, modify it to a lockable one
+            if door_type == 3:
+                upper_bytes = door_properties & 0xF0
+                door_properties = upper_bytes + 4
+                door_type = 4
+                rom.write_8(door_addr, door_properties)
 
             # Load room's BG1 and clipdata if not already loaded
             area_room = (area, room)
