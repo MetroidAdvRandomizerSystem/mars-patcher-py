@@ -71,6 +71,14 @@ EXCLUDED_DOORS = {
         5,
         0x38,
     ),  # Arctic Containment -> Ripper Road. Excluded to prevent more than 6 hatches in that room.
+    (
+        2,
+        0x1D,
+    ),  # Cathedral (Before Destruction) -> C. Save Access. Excluded to prevent more than 6 hatches.
+    (
+        2,
+        0x69,
+    ),  # Cathedral (After Destruction) -> C. Save Access. Excluded to prevent more than 6 hatches.
 }
 
 HatchSlot = Annotated[int, "0 <= value <= 5"]
