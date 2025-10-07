@@ -60,6 +60,11 @@ class RoomEntry:
     def map_y(self) -> int:
         return self.rom.read_8(self.addr + 0x36)
 
+    def map_coords_at_block(self, block_x: int, block_y: int) -> tuple[int, int]:
+        x = self.map_x + ((block_x - 2) // 15)
+        y = self.map_y + ((block_y - 2) // 10)
+        return x, y
+
 
 class BlockLayer:
     def __enter__(self) -> BlockLayer:

@@ -3,6 +3,9 @@ from os import PathLike
 
 from mars_patcher.rom import Rom
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
+from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
+from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
+from mars_patcher.zm.locations import LocationSettings
 
 
 def patch_zm(
@@ -36,14 +39,11 @@ def patch_zm(
     #     pal_randomizer.randomize()
 
     # Load locations and set assignments
-    # status_update("Writing item assignments...", -1)
-    # loc_settings = LocationSettings.initialize()
-    # loc_settings.set_assignments(patch_data["Locations"])
-    # item_patcher = ItemPatcher(rom, loc_settings)
-    # item_patcher.write_items()
-
-    # Required metroid count
-    # set_required_metroid_count(rom, patch_data["RequiredMetroidCount"])
+    status_update("Writing item assignments...", -1)
+    loc_settings = LocationSettings.initialize()
+    loc_settings.set_assignments(patch_data["locations"])
+    item_patcher = ItemPatcher(rom, loc_settings)
+    item_patcher.write_items()
 
     # Starting location
     # if "StartingLocation" in patch_data:
@@ -56,9 +56,9 @@ def patch_zm(
     # set_starting_items(rom, patch_data["StartingItems"])
 
     # Tank increments
-    # if "TankIncrements" in patch_data:
-    #     status_update("Writing tank increments...", -1)
-    # set_tank_increments(rom, patch_data["TankIncrements"])
+    if "tank_increments" in patch_data:
+        status_update("Writing tank increments...", -1)
+        set_tank_increments(rom, patch_data["tank_increments"])
 
     # Elevator connections
     # conns = None
@@ -66,9 +66,6 @@ def patch_zm(
     #     status_update("Writing elevator connections...", -1)
     #     conns = Connections(rom)
     #     conns.set_elevator_connections(patch_data["ElevatorConnections"])
-
-    # Hints
-    # TODO
 
     # Room Names
     # if room_names := patch_data.get("RoomNames", []):
@@ -87,8 +84,8 @@ def patch_zm(
     # if patch_data.get("DisableDemos"):
     #     disable_demos(rom)
 
-    # if patch_data.get("SkipDoorTransitions"):
-    #     skip_door_transitions(rom)
+    if patch_data.get("skip_door_transitions"):
+        rom.write_8(skip_door_transitions_addr(rom), 1)
 
     # if patch_data.get("StereoDefault", True):
     #     stereo_default(rom)

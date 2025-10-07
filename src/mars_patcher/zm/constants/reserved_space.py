@@ -21,7 +21,7 @@ class ReservedConstantsZM:
 
     # Address for any additional data that the patcher may need to write
     PATCHER_FREE_SPACE_ADDR = 0x7C0000
-    PATCHER_FREE_SPACE_END = RANDO_POINTERS_ADDR - PATCHER_FREE_SPACE_ADDR
+    PATCHER_FREE_SPACE_END = RANDO_POINTERS_ADDR
 
 
 class ReservedPointersZM(IntEnum):
@@ -86,10 +86,7 @@ class ReservedPointersZM(IntEnum):
     REMOVE_CUTSCENES_PTR = auto()
     SKIP_SUITLESS_SEQUENCE_PTR = auto()
 
-    ENERGY_TANK_INCREASE_AMOUNT_PTR = auto()
-    MISSILE_TANK_INCREASE_AMOUNT_PTR = auto()
-    SUPER_MISSILE_TANK_INCREASE_AMOUNT_PTR = auto()
-    POWER_BOMB_TANK_INCREASE_AMOUNT_PTR = auto()
+    TANK_INCREASE_AMOUNTS_PTR = auto()
 
     TITLE_TEXT_LINES_PTR = auto()
 
