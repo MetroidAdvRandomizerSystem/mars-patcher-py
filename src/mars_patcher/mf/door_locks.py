@@ -5,16 +5,18 @@ from typing import Annotated, TypedDict
 
 from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
 from mars_patcher.constants.door_types import DoorType
-from mars_patcher.constants.game_data import area_doors_ptrs
+from mars_patcher.constants.game_data import area_doors_ptrs, minimap_graphics
+from mars_patcher.constants.minimap_tiles import ColoredDoor, Content, Edge
 from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
 from mars_patcher.mf.constants.game_data import hatch_lock_event_count, hatch_lock_events
 from mars_patcher.mf.constants.minimap_tiles import (
     ALL_DOOR_TILE_IDS,
     ALL_DOOR_TILES,
-    ColoredDoor,
-    Edge,
+    BLANK_TILE_IDS,
+    BLANK_TRANSPARENT_TILE_IDS,
 )
 from mars_patcher.minimap import Minimap
+from mars_patcher.minimap_tile_creator import create_tile
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
 
@@ -225,7 +227,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
 
                 minimap_areas = [area]
                 if area == 0:
-                    minimap_areas = [0, 9]  # Main deck seemingly has two maps?
+                    minimap_areas = [0, 9]  # Main Deck has two maps
                 for minimap_area in minimap_areas:
                     map_tile = minimap_changes[minimap_area][minimap_x, minimap_y, room]
                     if facing_right:
@@ -309,6 +311,10 @@ def change_minimap_tiles(
         # HatchLock.LOCKED: Edge.WALL,
     }
 
+    all_door_tile_ids = dict(ALL_DOOR_TILE_IDS)
+    remaining_blank_tile_ids = list(BLANK_TILE_IDS)
+    remaining_blank_transparent_tile_ids = list(BLANK_TRANSPARENT_TILE_IDS)
+
     for area, area_map in minimap_changes.items():
         with Minimap(rom, area) as minimap:
             for (x, y, room), tile_changes in area_map.items():
@@ -328,21 +334,21 @@ def change_minimap_tiles(
                     edges = edges._replace(left=MAP_EDGES[left])
                 if right is not None:
                     edges = edges._replace(right=MAP_EDGES[right])
-                og_new_tile_data = tile_data._replace(edges=edges)
-                new_tile_data = og_new_tile_data
+                orig_new_tile_data = tile_data._replace(edges=edges)
+                new_tile_data = orig_new_tile_data
 
                 def tile_exists() -> bool:
-                    return new_tile_data in ALL_DOOR_TILE_IDS
+                    return new_tile_data in all_door_tile_ids
 
                 if new_tile_data.content.can_h_flip and not tile_exists():
                     # Try flipping horizontally
-                    new_tile_data = og_new_tile_data.h_flip()
+                    new_tile_data = orig_new_tile_data.h_flip()
                     if tile_exists():
                         h_flip = not h_flip
 
                 if new_tile_data.content.can_v_flip and not tile_exists():
                     # Try flipping vertically
-                    new_tile_data = og_new_tile_data.v_flip()
+                    new_tile_data = orig_new_tile_data.v_flip()
                     if tile_exists():
                         v_flip = not v_flip
 
@@ -352,7 +358,7 @@ def change_minimap_tiles(
                     and not tile_exists()
                 ):
                     # Try flipping it both ways
-                    new_tile_data = og_new_tile_data.v_flip()
+                    new_tile_data = orig_new_tile_data.v_flip()
                     new_tile_data = new_tile_data.h_flip()
                     if tile_exists():
                         v_flip = not v_flip
@@ -360,30 +366,95 @@ def change_minimap_tiles(
 
                 if not tile_exists():
                     logging.debug(
-                        "Could not edit map tile door icons for "
+                        "Could not reuse existing map tile for "
                         f"area {area} room {room:X}. ({x:X}, {y:X})."
                     )
-                    logging.debug(f"  Desired tile: {og_new_tile_data.as_str}")
-                    logging.debug("  Falling back to unlocked doors.")
+                    logging.debug(f"  Desired tile: {orig_new_tile_data.as_str}")
 
-                    # Try replacing with open doors
-                    if (left is not None) and tile_data.edges.left.is_door:
-                        edges = edges._replace(left=Edge.DOOR)
-                    if (right is not None) and tile_data.edges.right.is_door:
-                        edges = edges._replace(right=Edge.DOOR)
-                    new_tile_data = og_new_tile_data._replace(edges=edges)
+                    # Try getting a blank tile ID
+                    requires_transparent_tile = orig_new_tile_data.content == Content.TUNNEL or any(
+                        isinstance(e, Edge) and e == Edge.SHORTCUT for e in orig_new_tile_data.edges
+                    )
+                    blank_tile_ids = (
+                        remaining_blank_transparent_tile_ids
+                        if requires_transparent_tile
+                        else remaining_blank_tile_ids
+                    )
+                    is_item = orig_new_tile_data.content == Content.ITEM
+                    new_tile_id = get_blank_minimap_tile_id(blank_tile_ids, is_item)
 
-                    if tile_exists():
-                        logging.debug("  Still no luck. Using vanilla tile.")
+                    if new_tile_id is not None:
+                        # Create new graphics for the tile
+                        gfx = create_tile(orig_new_tile_data)
+                        new_tiles = [(new_tile_id, gfx, orig_new_tile_data)]
 
-                    logging.debug("")
+                        # If the tile has an item, add another tile for the obtained item
+                        if is_item:
+                            data = orig_new_tile_data._replace(content=Content.OBTAINED_ITEM)
+                            gfx = create_tile(data)
+                            new_tiles.append((new_tile_id + 1, gfx, data))
+
+                        # If the tile doesn't fill the whole square, add another tile with
+                        # transparency
+                        if requires_transparent_tile:
+                            for tile_id, gfx, data in list(new_tiles):
+                                data = data._replace(transparent=True)
+                                gfx = create_tile(data)
+                                new_tiles.append((tile_id + 0x20, gfx, data))
+
+                        for tile_id, gfx, data in new_tiles:
+                            addr = minimap_graphics(rom) + tile_id * 32
+                            rom.write_bytes(addr, gfx)
+
+                            all_door_tile_ids[data] = tile_id
+                            logging.debug(f"  Created new tile: 0x{tile_id:X}.")
+
+                        new_tile_data = orig_new_tile_data
+                    else:
+                        # No blank tiles remaining, try replacing with open doors
+                        logging.warning("  No blank tiles available, trying open doors.")
+                        if (left is not None) and tile_data.edges.left.is_door:
+                            edges = edges._replace(left=Edge.DOOR)
+                        if (right is not None) and tile_data.edges.right.is_door:
+                            edges = edges._replace(right=Edge.DOOR)
+                        new_tile_data = orig_new_tile_data._replace(edges=edges)
+
+                        if not tile_exists():
+                            logging.warning("  Still no luck. Using vanilla tile.")
+
+                        logging.warning("")
 
                 if tile_exists():
                     minimap.set_tile_value(
                         x,
                         y,
-                        ALL_DOOR_TILE_IDS[new_tile_data],
+                        all_door_tile_ids[new_tile_data],
                         palette,
                         h_flip,
                         v_flip,
                     )
+
+
+def get_blank_minimap_tile_id(blank_tile_ids: list[int], is_item: bool) -> int | None:
+    """Finds a usable tile from the provided list of blank tile IDs. Item tiles require a blank
+    tile next to them. Non-item tiles can use any blank tile, but solitary tiles are preferred
+    to save more tiles for item tiles."""
+    valid_tile_id: int | None = None
+    for tile_id in blank_tile_ids:
+        if is_item:
+            # Item tiles require a blank tile next to them for the obtained item tile
+            if tile_id + 1 in blank_tile_ids:
+                valid_tile_id = tile_id
+                break
+        else:
+            # Prefer solitary blank tiles for non-item tiles
+            if tile_id + 1 not in blank_tile_ids:
+                valid_tile_id = tile_id
+                break
+            elif valid_tile_id is None:
+                valid_tile_id = tile_id
+    if valid_tile_id is not None:
+        blank_tile_ids.remove(valid_tile_id)
+        if is_item:
+            blank_tile_ids.remove(valid_tile_id + 1)
+    return valid_tile_id
