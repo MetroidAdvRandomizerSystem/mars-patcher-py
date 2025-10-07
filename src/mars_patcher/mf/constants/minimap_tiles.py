@@ -1,236 +1,5 @@
-from __future__ import annotations
+from mars_patcher.constants.minimap_tiles import MapTile
 
-from enum import Enum
-from typing import NamedTuple
-
-from typing_extensions import Self
-
-# String Format
-# <top><left><right><bottom>_<top-left><top-right><bottom-left><bottom-right>_<content>
-
-# Chunk 1 (tile edges)
-# - see Edge and ColoredDoor for values
-
-# Chunk 2 (tile corners)
-# - C: corner pixel
-# - x: none
-
-# Chunk 3 (tile content)
-# - see Content for values
-
-
-# Edges
-class Edge(Enum):
-    EMPTY = "x"
-    WALL = "W"
-    SHORTCUT = "S"
-    DOOR = "D"
-
-    @property
-    def is_door(self) -> bool:
-        return self == Edge.DOOR
-
-
-class ColoredDoor(Enum):
-    BLUE = "B"
-    GREEN = "G"
-    YELLOW = "Y"
-    RED = "R"
-
-    @property
-    def is_door(self) -> bool:
-        return True
-
-    # Aliases
-    L1 = BLUE
-    L2 = GREEN
-    L3 = YELLOW
-    L4 = RED
-
-
-class TileEdges(NamedTuple):
-    top: Edge = Edge.WALL
-    left: Edge | ColoredDoor = Edge.WALL
-    right: Edge | ColoredDoor = Edge.WALL
-    bottom: Edge = Edge.WALL
-
-    @property
-    def as_str(self) -> str:
-        return f"{self.top.value}{self.left.value}{self.right.value}{self.bottom.value}"
-
-    @classmethod
-    def from_str(cls, value: str) -> Self:
-        if len(value) != 4:
-            raise ValueError(f"'{value}' is not a valid TileEdges string")
-        top, left, right, bottom = tuple(value)
-
-        def any_edge_from_value(v: str) -> Edge | ColoredDoor:
-            try:
-                return Edge(v)
-            except ValueError:
-                pass
-
-            try:
-                return ColoredDoor(v)
-            except ValueError:
-                raise ValueError(f"{repr(v)} is not a valid Edge or ColoredDoor")
-
-        return cls(
-            top=Edge(top),
-            left=any_edge_from_value(left),
-            right=any_edge_from_value(right),
-            bottom=Edge(bottom),
-        )
-
-    def h_flip(self) -> TileEdges:
-        return TileEdges(
-            top=self.top,
-            left=self.right,
-            right=self.left,
-            bottom=self.bottom,
-        )
-
-    def v_flip(self) -> TileEdges:
-        return TileEdges(
-            top=self.bottom,
-            left=self.left,
-            right=self.right,
-            bottom=self.top,
-        )
-
-
-# Corners
-class TileCorners(NamedTuple):
-    top_left: bool = False
-    top_right: bool = False
-    bottom_left: bool = False
-    bottom_right: bool = False
-
-    @property
-    def as_str(self) -> str:
-        def s(corner: bool) -> str:
-            return "C" if corner else "x"
-
-        return f"{s(self.top_left)}{s(self.top_right)}{s(self.bottom_left)}{s(self.bottom_right)}"
-
-    @classmethod
-    def from_str(cls, value: str) -> Self:
-        if len(value) != 4:
-            raise ValueError(f"'{value}' is not a valid TileCorners string")
-        tl, tr, bl, br = tuple(value)
-        return cls(
-            top_left=(tl == "C"),
-            top_right=(tr == "C"),
-            bottom_left=(bl == "C"),
-            bottom_right=(br == "C"),
-        )
-
-    def h_flip(self) -> TileCorners:
-        return TileCorners(
-            top_left=self.top_right,
-            top_right=self.top_left,
-            bottom_left=self.bottom_right,
-            bottom_right=self.bottom_left,
-        )
-
-    def v_flip(self) -> TileCorners:
-        return TileCorners(
-            top_left=self.bottom_left,
-            top_right=self.bottom_right,
-            bottom_left=self.top_left,
-            bottom_right=self.top_right,
-        )
-
-
-# Contents
-class Content(Enum):
-    EMPTY = "x"
-    NAVIGATION = "N"
-    SAVE = "S"
-    RECHARGE = "R"
-    HIDDEN_RECHARGE = "H"
-    DATA = "D"
-    ITEM = "I"
-    OBTAINED_ITEM = "O"
-    BOSS = "B"
-    GUNSHIP = "G"
-    GUNSHIP_EDGE = "P"
-    SECURITY = "K"
-    AUXILLARY_POWER = "X"
-    ANIMALS = "A"
-    BOILER_PAD = "b"
-    TUNNEL = "T"
-
-    @property
-    def can_h_flip(self) -> bool:
-        exclude = {
-            Content.NAVIGATION,
-            Content.SAVE,
-            Content.RECHARGE,
-            Content.HIDDEN_RECHARGE,
-            Content.DATA,
-            Content.GUNSHIP,
-            Content.GUNSHIP_EDGE,
-        }
-        return self not in exclude
-
-    @property
-    def can_v_flip(self) -> bool:
-        exclude = {
-            Content.NAVIGATION,
-            Content.SAVE,
-            Content.RECHARGE,
-            Content.HIDDEN_RECHARGE,
-            Content.GUNSHIP,
-            Content.GUNSHIP_EDGE,
-            Content.BOSS,
-        }
-        return self not in exclude
-
-
-# Tile
-class MapTile(NamedTuple):
-    edges: TileEdges = TileEdges()
-    corners: TileCorners = TileCorners()
-    content: Content = Content.EMPTY
-
-    @property
-    def as_str(self) -> str:
-        return f"{self.edges.as_str}_{self.corners.as_str}_{self.content.value}"
-
-    @classmethod
-    def from_str(cls, value: str) -> Self:
-        if len(value) != 11:
-            raise ValueError(f"'{value}' is not a valid MapTile string")
-        edges, corners, content = value.split("_")
-        return cls(
-            edges=TileEdges.from_str(edges),
-            corners=TileCorners.from_str(corners),
-            content=Content(content),
-        )
-
-    def h_flip(self) -> MapTile:
-        if not self.content.can_h_flip:
-            raise ValueError(f"Cannot h_flip tile with contents {self.content}")
-
-        return MapTile(
-            edges=self.edges.h_flip(),
-            corners=self.corners.h_flip(),
-            content=self.content,
-        )
-
-    def v_flip(self) -> MapTile:
-        if not self.content.can_v_flip:
-            raise ValueError(f"Cannot v_flip tile with contents {self.content}")
-
-        return MapTile(
-            edges=self.edges.v_flip(),
-            corners=self.corners.v_flip(),
-            content=self.content,
-        )
-
-
-# Constants
 COLORED_DOOR_TILES = {
     0x005: MapTile.from_str("WBxx_xxxx_x"),
     0x006: MapTile.from_str("DBxx_xxxx_x"),
@@ -424,7 +193,6 @@ COLORED_DOOR_TILES = {
     0x1AC: MapTile.from_str("WYYW_xxxx_I"),
     0x1AD: MapTile.from_str("WYYW_xxxx_O"),
     # New Tiles
-    0x10B: MapTile.from_str("xxGW_Cxxx_B"),
     0x16C: MapTile.from_str("xWBW_xxxx_K"),
     0x16D: MapTile.from_str("WWGW_xxxx_K"),
     0x16E: MapTile.from_str("WWRW_xxxx_K"),
@@ -462,6 +230,7 @@ NORMAL_DOOR_TILES = {
     0x084: MapTile.from_str("WDDW_xxxx_x"),
     0x087: MapTile.from_str("WWWW_xxxx_x"),
     0x0B4: MapTile.from_str("WSDW_xxxx_I"),
+    0x0B5: MapTile.from_str("WSDW_xxxx_O"),
     0x0B6: MapTile.from_str("WSDW_xxxx_x"),
     0x0E0: MapTile.from_str("DDxW_xxxx_x"),
     0x0E1: MapTile.from_str("DDxD_xxxx_x"),
@@ -474,10 +243,9 @@ NORMAL_DOOR_TILES = {
     0x102: MapTile.from_str("DDxx_xxxC_x"),
     0x104: MapTile.from_str("WDxx_xxxC_x"),
     0x105: MapTile.from_str("xDxx_xCxx_x"),
-    0x108: MapTile.from_str("xxDW_xxxx_B"),
-    0x109: MapTile.from_str("WDxW_xxxx_B"),
-    0x10D: MapTile.from_str("xxDx_xxxx_B"),
-    0x10F: MapTile.from_str("xDxW_xxxx_B"),
+    0x109: MapTile.from_str("WDxW_xxxx_B-R-D"),
+    0x10D: MapTile.from_str("xxDx_xxxx_B-L-E"),
+    0x10F: MapTile.from_str("xDxW_xxxx_B-TR-B"),
     0x120: MapTile.from_str("DDWW_xxxx_x"),
     0x121: MapTile.from_str("DDDW_xxxx_x"),
     0x122: MapTile.from_str("DDWD_xxxx_x"),
@@ -487,7 +255,6 @@ NORMAL_DOOR_TILES = {
     0x126: MapTile.from_str("xxxx_xxxx_x"),
     0x127: MapTile.from_str("Wxxx_xxxC_x"),
     0x129: MapTile.from_str("WDxW_xxxx_P"),
-    0x12A: MapTile.from_str("WxWW_xxxx_G"),
     0x12B: MapTile.from_str("WDxW_xxxx_x"),
     0x12C: MapTile.from_str("DDxx_xxxx_x"),
     0x138: MapTile.from_str("WDWW_xxxx_H"),
@@ -545,15 +312,13 @@ NORMAL_DOOR_TILES = {
     0x1A9: MapTile.from_str("xWWx_xxxx_O"),
     0x1AA: MapTile.from_str("DDWW_xxxx_I"),
     0x1AB: MapTile.from_str("DDWW_xxxx_O"),
-    0x0B5: MapTile.from_str("WSDW_xxxx_O"),
     # New Tiles
-    0x0A4: MapTile.from_str("WDxW_xxxx_T"),
-    0x0D4: MapTile.from_str("WSDW_xxxx_I"),
-    0x0D5: MapTile.from_str("WSDW_xxxx_O"),
-    0x10A: MapTile.from_str("WxDx_xxxx_B"),
-    0x10C: MapTile.from_str("xDxW_xCxx_B"),
-    0x170: MapTile.from_str("WWDx_xxxx_x"),
-    0x172: MapTile.from_str("WDDW_xxxx_X"),
+    0x0A4: MapTile.from_str("WDSW_xxxx_T"),
+    0x108: MapTile.from_str("xxDW_Cxxx_B-TL-D"),
+    0x10A: MapTile.from_str("WxDx_xxxx_B-BL-E"),
+    0x10C: MapTile.from_str("xDxW_xCxx_B-TR-E"),
+    0x170: MapTile.from_str("WWDx_xxxx_w"),
+    0x172: MapTile.from_str("WDDW_xxxx_Y"),
 }
 
 COLORED_DOOR_TILE_IDS = {tile: id for id, tile in COLORED_DOOR_TILES.items()}
@@ -561,3 +326,92 @@ NORMAL_DOOR_TILE_IDS = {tile: id for id, tile in NORMAL_DOOR_TILES.items()}
 
 ALL_DOOR_TILES = COLORED_DOOR_TILES | NORMAL_DOOR_TILES
 ALL_DOOR_TILE_IDS = COLORED_DOOR_TILE_IDS | NORMAL_DOOR_TILE_IDS
+
+# IDs of blank minimap tiles that can be used for creating new tiles
+BLANK_TILE_IDS = [
+    0x067,
+    0x071,
+    0x076,
+    0x087,
+    0x08C,
+    0x091,
+    0x0C0,
+    0x0C1,
+    0x0D2,
+    0x0D3,
+    0x0D8,
+    0x0D9,
+    0x0DA,
+    0x0DB,
+    0x0DC,
+    0x0DD,
+    0x0DE,
+    0x0E9,
+    0x0EE,
+    0x0F3,
+    0x0F9,
+    0x0FA,
+    0x0FB,
+    0x0FC,
+    0x0FD,
+    0x0FE,
+    0x0FF,
+    0x110,
+    0x111,
+    0x112,
+    0x113,
+    0x114,
+    0x115,
+    0x116,
+    0x117,
+    0x118,
+    0x119,
+    0x11A,
+    0x11B,
+    0x11C,
+    0x11D,
+    0x11E,
+    0x11F,
+    0x12D,
+    0x12E,
+    0x12F,
+    0x130,
+    0x131,
+    0x132,
+    0x133,
+    0x134,
+    0x135,
+    0x136,
+    0x137,
+    0x13B,
+    0x13C,
+    0x13D,
+    0x13E,
+    0x13F,
+    0x15F,
+    0x173,
+    0x174,
+    0x175,
+    0x176,
+    0x177,
+    0x1B0,
+    0x1B1,
+    0x1B2,
+    0x1B3,
+    0x1B4,
+    0x1B5,
+    0x1B6,
+    0x1B7,
+    0x1B8,
+    0x1B9,
+    0x1BA,
+    0x1BB,
+    0x1BC,
+    0x1BD,
+    0x1BE,
+    0x1BF,
+]
+
+# IDs of blank minimap tiles that can be used for creating new tiles
+# that require an additional transparent version
+BLANK_TRANSPARENT_TILE_IDS = [0x0A1, 0x0B2, 0x0B3, 0x0B8, 0x0B9, 0x0BA, 0x0BB, 0x0BC, 0x0BD, 0x0BE]

@@ -302,3 +302,17 @@ def minimap_count(rom: Rom) -> int:
     elif rom.game == Game.ZM:
         return 11
     raise ValueError(rom.game)
+
+
+def minimap_graphics(rom: Rom) -> int:
+    """Returns the address of the minimap tile graphics."""
+    if rom.game == Game.MF:
+        if rom.region == Region.U:
+            return 0x561FA8
+        elif rom.region == Region.E:
+            return 0x55B6E4
+        elif rom.region == Region.J:
+            return 0x55D764
+        elif rom.region == Region.C:
+            return 0x561FA8
+    raise ValueError(rom.game, rom.region)
