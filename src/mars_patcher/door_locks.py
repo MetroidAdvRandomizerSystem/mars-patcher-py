@@ -289,8 +289,8 @@ def change_minimap_tiles(
     }
 
     all_door_tile_ids = dict(ALL_DOOR_TILE_IDS)
-    remaining_blank_tile_ids = set(BLANK_TILE_IDS)
-    remaining_blank_transparent_tile_ids = set(BLANK_TRANSPARENT_TILE_IDS)
+    remaining_blank_tile_ids = list(BLANK_TILE_IDS)
+    remaining_blank_transparent_tile_ids = list(BLANK_TRANSPARENT_TILE_IDS)
 
     for area, area_map in minimap_changes.items():
         with Minimap(rom, area) as minimap:
@@ -412,8 +412,8 @@ def change_minimap_tiles(
                     )
 
 
-def get_blank_minimap_tile_id(blank_tile_ids: set[int], is_item: bool) -> int | None:
-    """Finds a usable tile from the provided set of blank tile IDs. Item tiles require a blank
+def get_blank_minimap_tile_id(blank_tile_ids: list[int], is_item: bool) -> int | None:
+    """Finds a usable tile from the provided list of blank tile IDs. Item tiles require a blank
     tile next to them. Non-item tiles can use any blank tile, but solitary tiles are preferred
     to save more tiles for item tiles."""
     valid_tile_id: int | None = None

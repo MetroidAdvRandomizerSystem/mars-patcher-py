@@ -579,7 +579,7 @@ ALL_DOOR_TILES = COLORED_DOOR_TILES | NORMAL_DOOR_TILES
 ALL_DOOR_TILE_IDS = COLORED_DOOR_TILE_IDS | NORMAL_DOOR_TILE_IDS
 
 # IDs of blank minimap tiles that can be used for creating new tiles
-BLANK_TILE_IDS = {
+BLANK_TILE_IDS = [
     0x067,
     0x071,
     0x076,
@@ -661,8 +661,8 @@ BLANK_TILE_IDS = {
     0x1BD,
     0x1BE,
     0x1BF,
-}
+]
 
 # IDs of blank minimap tiles that can be used for creating new tiles
 # that require an additional transparent version
-BLANK_TRANSPARENT_TILE_IDS = {0x0A1, 0x0B2, 0x0B3, 0x0B8, 0x0B9, 0x0BA, 0x0BB, 0x0BC, 0x0BD, 0x0BE}
+BLANK_TRANSPARENT_TILE_IDS = [0x0A1, 0x0B2, 0x0B3, 0x0B8, 0x0B9, 0x0BA, 0x0BB, 0x0BC, 0x0BD, 0x0BE]
