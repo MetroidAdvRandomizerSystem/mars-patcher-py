@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from frozendict import frozendict
 
-from mars_patcher.constants.items import (
+from mars_patcher.mf.constants.items import (
     ITEM_ENUMS,
     ITEM_SPRITE_ENUMS,
     JINGLE_ENUMS,
@@ -34,11 +34,11 @@ from mars_patcher.constants.items import (
     ItemType,
     MajorSource,
 )
-from mars_patcher.data import get_data_path
+from mars_patcher.mf.data import get_data_path
 from mars_patcher.text import Language
 
 if TYPE_CHECKING:
-    from mars_patcher.auto_generated_types import Itemmessages, MarsschemaLocations
+    from mars_patcher.mf.auto_generated_types import Itemmessages, MarsschemamfLocations
 
 
 class Location:
@@ -172,7 +172,7 @@ class LocationSettings:
 
         return LocationSettings(major_locs, minor_locs)
 
-    def set_assignments(self, data: MarsschemaLocations) -> None:
+    def set_assignments(self, data: MarsschemamfLocations) -> None:
         for maj_loc_entry in data[KEY_MAJOR_LOCS]:
             # Get source and item
             source = SOURCE_ENUMS[maj_loc_entry[KEY_SOURCE]]

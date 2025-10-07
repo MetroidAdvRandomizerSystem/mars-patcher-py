@@ -60,8 +60,8 @@ where = ["src"]
 namespaces = false
 
 [tool.setuptools.package-data]
-"*" = ["data/**"]
-"mars_patcher.data" = ["**"]
+"*" = ["mf/data/**"]
+"mars_patcher.mf.data" = ["**"]
 
 [tool.setuptools_scm]
 local_scheme = "no-local-version"

@@ -1,13 +1,13 @@
 from collections.abc import Sequence
 
 import mars_patcher.constants.game_data as gd
-from mars_patcher.auto_generated_types import (
-    MarsschemaElevatorconnections,
-    MarsschemaSectorshortcuts,
+from mars_patcher.mf.auto_generated_types import (
+    MarsschemamfElevatorconnections,
+    MarsschemamfSectorshortcuts,
     Validelevatorbottoms,
     Validelevatortops,
 )
-from mars_patcher.constants.main_hub_numbers import (
+from mars_patcher.mf.constants.main_hub_numbers import (
     MAIN_HUB_CENTER_ROOM,
     MAIN_HUB_CENTER_SMALL_NUM_COORDS_1,
     MAIN_HUB_CENTER_SMALL_NUM_COORDS_2,
@@ -20,7 +20,7 @@ from mars_patcher.constants.main_hub_numbers import (
     MAIN_HUB_SMALL_NUM_BLOCK,
     MAIN_HUB_TILEMAP_ADDR,
 )
-from mars_patcher.data import get_data_path
+from mars_patcher.mf.data import get_data_path
 from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Game, Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
@@ -74,7 +74,7 @@ class Connections:
         self.area_conns_addr = gd.area_connections(rom)
         self.area_conns_count = gd.area_connections_count(rom)
 
-    def set_elevator_connections(self, data: MarsschemaElevatorconnections) -> None:
+    def set_elevator_connections(self, data: MarsschemamfElevatorconnections) -> None:
         # Repoint area connections data
         size = self.area_conns_count * 3
         # Reserve space for 8 more area connections
@@ -97,7 +97,7 @@ class Connections:
             # Remove area numbers from Main Deck minimap
             self.remove_main_deck_minimap_area_nums()
 
-    def set_shortcut_connections(self, data: MarsschemaSectorshortcuts) -> None:
+    def set_shortcut_connections(self, data: MarsschemamfSectorshortcuts) -> None:
         for i, dst_area in enumerate(data["LeftAreas"]):
             self.connect_shortcuts(i + 1, dst_area, True)
         for i, dst_area in enumerate(data["RightAreas"]):

@@ -1,9 +1,9 @@
-from mars_patcher.auto_generated_types import Areaid, MarsschemaRoomnamesItem, Typeu8
-from mars_patcher.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.auto_generated_types import Areaid, MarsschemamfRoomnamesItem, Typeu8
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
 from mars_patcher.rom import Rom
 from mars_patcher.text import MessageType, encode_text
 
-ROOM_NAMES_TABLE_ADDR = ReservedConstants.ROOM_NAMES_TABLE_ADDR
+ROOM_NAMES_TABLE_ADDR = ReservedConstantsMF.ROOM_NAMES_TABLE_ADDR
 
 
 # Write Room Names to ROM
@@ -11,7 +11,7 @@ ROOM_NAMES_TABLE_ADDR = ReservedConstants.ROOM_NAMES_TABLE_ADDR
 # - A list that contains pointers to area room names
 # - Area Room names are indexed by room id. This means some entries
 #   are never used, but this allows for easy lookup
-def write_room_names(rom: Rom, data: list[MarsschemaRoomnamesItem]) -> None:
+def write_room_names(rom: Rom, data: list[MarsschemamfRoomnamesItem]) -> None:
     seen_rooms: set[tuple[Areaid, Typeu8]] = set()
     for room_name_entry in data:
         area_id = room_name_entry["Area"]

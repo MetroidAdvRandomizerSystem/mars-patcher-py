@@ -1,13 +1,27 @@
 import random
+from typing import TYPE_CHECKING
 
-from mars_patcher.constants.enemies import ENEMY_TYPES, EnemyType
-from mars_patcher.constants.game_data import sprite_vram_sizes, spriteset_count, spriteset_ptrs
+from mars_patcher.constants.enemies import EnemyType
+from mars_patcher.constants.game_data import spriteset_count, spriteset_ptrs
+from mars_patcher.mf.constants.enemies import ENEMY_TYPES_MF
+from mars_patcher.mf.constants.game_data import sprite_vram_sizes
 from mars_patcher.rom import Rom
+
+if TYPE_CHECKING:
+    from mars_patcher.mf.constants.sprites import SpriteIdMF
+    from mars_patcher.zm.constants.sprites import SpriteIdZM
 
 
 def randomize_enemies(rom: Rom) -> None:
     # Setup enemy types dictionary
-    enemy_types = {k: v[1] for k, v in ENEMY_TYPES.items()}
+    _enemy_types: dict[SpriteIdMF, EnemyType] | dict[SpriteIdZM, EnemyType]
+    if rom.is_mf():
+        _enemy_types = ENEMY_TYPES_MF
+    elif rom.is_zm():
+        raise NotImplementedError("Enemey types not yet implemented for ZM")
+    else:
+        raise ValueError(rom.game)
+    enemy_types = {k.value: v for k, v in _enemy_types.items()}
 
     # Get graphics info for each enemy
     size_addr = sprite_vram_sizes(rom)

@@ -1,6 +1,6 @@
-from mars_patcher.auto_generated_types import MarsschemaTankincrements
-from mars_patcher.constants.reserved_space import ReservedConstants
-from mars_patcher.locations import (
+from mars_patcher.mf.auto_generated_types import MarsschemamfTankincrements
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
+from mars_patcher.mf.locations import (
     ItemMessages,
     ItemMessagesKind,
     ItemSprite,
@@ -12,16 +12,16 @@ from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
 from mars_patcher.tileset import Tileset
 
-MINOR_LOCS_TABLE_ADDR = ReservedConstants.MINOR_LOCS_TABLE_ADDR
-MINOR_LOCS_ARRAY_ADDR = ReservedConstants.MINOR_LOCS_ARRAY_ADDR
+MINOR_LOCS_TABLE_ADDR = ReservedConstantsMF.MINOR_LOCS_TABLE_ADDR
+MINOR_LOCS_ARRAY_ADDR = ReservedConstantsMF.MINOR_LOCS_ARRAY_ADDR
 MINOR_LOC_SIZE = 0x10
-MAJOR_LOCS_POINTER_ADDR = ReservedConstants.MAJOR_LOCS_POINTER_ADDR
+MAJOR_LOCS_POINTER_ADDR = ReservedConstantsMF.MAJOR_LOCS_POINTER_ADDR
 MAJOR_LOC_SIZE = 0x4
-TANK_INC_ADDR = ReservedConstants.TANK_INC_ADDR
-REQUIRED_METROID_COUNT_ADDR = ReservedConstants.REQUIRED_METROID_COUNT_ADDR
-TOTAL_METROID_COUNT_ADDR = ReservedConstants.TOTAL_METROID_COUNT_ADDR
-MESSAGE_TABLE_LOOKUP_ADDR = ReservedConstants.MESSAGE_TABLE_LOOKUP_ADDR
-FIRST_CUSTOM_MESSAGE_ID = ReservedConstants.FIRST_CUSTOM_MESSAGE_ID
+TANK_INC_ADDR = ReservedConstantsMF.TANK_INC_ADDR
+REQUIRED_METROID_COUNT_ADDR = ReservedConstantsMF.REQUIRED_METROID_COUNT_ADDR
+TOTAL_METROID_COUNT_ADDR = ReservedConstantsMF.TOTAL_METROID_COUNT_ADDR
+MESSAGE_TABLE_LOOKUP_ADDR = ReservedConstantsMF.MESSAGE_TABLE_LOOKUP_ADDR
+FIRST_CUSTOM_MESSAGE_ID = ReservedConstantsMF.FIRST_CUSTOM_MESSAGE_ID
 AUTO_MESSAGE_ID = 0xFF
 
 TANK_CLIP = (0x62, 0x63, 0x68)
@@ -235,7 +235,7 @@ def set_required_metroid_count(rom: Rom, count: int) -> None:
     rom.write_8(rom.read_ptr(REQUIRED_METROID_COUNT_ADDR) + 1, count)
 
 
-def set_tank_increments(rom: Rom, data: MarsschemaTankincrements) -> None:
+def set_tank_increments(rom: Rom, data: MarsschemamfTankincrements) -> None:
     rom.write_16(rom.read_ptr(TANK_INC_ADDR), data["MissileTank"])
     rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 2, data["EnergyTank"])
     rom.write_16(rom.read_ptr(TANK_INC_ADDR) + 4, data["PowerBombTank"])
