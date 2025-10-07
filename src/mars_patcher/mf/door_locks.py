@@ -4,6 +4,7 @@ from enum import Enum
 from typing import Annotated, TypedDict
 
 from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
+from mars_patcher.constants.door_types import DoorType
 from mars_patcher.constants.game_data import area_doors_ptrs
 from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
 from mars_patcher.mf.constants.game_data import hatch_lock_event_count, hatch_lock_events
@@ -122,7 +123,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
         for door in range(256):
             door_addr = area_addr + door * 0xC
             door_properties = rom.read_8(door_addr)
-            door_type = door_properties & 0xF
+            door_type = DoorType(door_properties & 0xF)
 
             # Check if at end of list
             if door_properties == 0:
@@ -135,20 +136,25 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
 
             # Skip excluded doors and doors that aren't lockable/open hatches
             lock = door_locks.get((area, door))
-            if (area, door) in EXCLUDED_DOORS or not (3 <= door_type <= 4):
+            if (area, door) in EXCLUDED_DOORS or door_type not in [
+                DoorType.OPEN_HATCH,
+                DoorType.LOCKABLE_HATCH,
+            ]:
                 # Don't log the error if door is open and JSON says to change to open.
-                if lock is not None and not (lock is HatchLock.OPEN and door_type == 3):
+                if lock is not None and not (
+                    lock is HatchLock.OPEN and door_type == DoorType.OPEN_HATCH
+                ):
                     logging.error(
                         f"Area {area} door {door} type {door_type} cannot have its lock changed"
                     )
                 continue
 
             # If the door type is an "Open Hatch" door, modify it to a lockable one
-            if door_type == 3:
-                upper_bytes = door_properties & 0xF0
-                door_properties = upper_bytes + 4
-                door_type = 4
+            if door_type == DoorType.OPEN_HATCH:
+                upper_bits = door_properties & 0xF0
+                door_properties = upper_bits | 4
                 rom.write_8(door_addr, door_properties)
+                door_type = DoorType.LOCKABLE_HATCH
 
             # Load room's BG1 and clipdata if not already loaded
             area_room = (area, room)
