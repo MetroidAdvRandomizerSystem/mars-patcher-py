@@ -5,6 +5,7 @@ from typing import Annotated, TypedDict
 
 from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
 from mars_patcher.constants.game_data import area_doors_ptrs, minimap_graphics
+from mars_patcher.constants.minimap_tiles import ColoredDoor, Content, Edge
 from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
 from mars_patcher.mf.constants.game_data import hatch_lock_event_count, hatch_lock_events
 from mars_patcher.mf.constants.minimap_tiles import (
@@ -12,9 +13,6 @@ from mars_patcher.mf.constants.minimap_tiles import (
     ALL_DOOR_TILES,
     BLANK_TILE_IDS,
     BLANK_TRANSPARENT_TILE_IDS,
-    ColoredDoor,
-    Content,
-    Edge,
 )
 from mars_patcher.minimap import Minimap
 from mars_patcher.minimap_tile_creator import create_tile
