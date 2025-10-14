@@ -21,7 +21,7 @@ class Minimap:
         self.rom = rom
         self.pointer = minimap_ptrs(rom) + (id * 4)
         addr = rom.read_ptr(self.pointer)
-        self.tile_data, self.comp_len = decomp_lz77(rom.data, addr)
+        self.tile_data, self.comp_size = decomp_lz77(rom.data, addr)
 
     def __enter__(self) -> Minimap:
         # We don't need to do anything
@@ -62,15 +62,9 @@ class Minimap:
 
     def write(self) -> None:
         comp_data = comp_lz77(self.tile_data)
-        comp_len = len(comp_data)
-        if comp_len > self.comp_len:
-            # Repoint data
-            addr = self.rom.reserve_free_space(comp_len)
-            self.rom.write_ptr(self.pointer, addr)
-        else:
-            addr = self.rom.read_ptr(self.pointer)
-        self.rom.write_bytes(addr, comp_data)
-        self.comp_len = comp_len
+        addr = self.rom.read_ptr(self.pointer)
+        self.rom.write_repointable_data(addr, self.comp_size, comp_data, [self.pointer])
+        self.comp_size = len(comp_data)
 
 
 def apply_minimap_edits(rom: Rom, edit_dict: dict) -> None:

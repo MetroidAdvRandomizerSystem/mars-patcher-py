@@ -285,7 +285,13 @@ def change_minimap_tiles(
             for (x, y, room), tile_changes in area_map.items():
                 tile_id, palette, h_flip, v_flip = minimap.get_tile_value(x, y)
 
-                tile_data = ALL_DOOR_TILES[tile_id]
+                try:
+                    tile_data = ALL_DOOR_TILES[tile_id]
+                except KeyError as e:
+                    raise KeyError(
+                        f"Minimap tile 0x{tile_id:X} in area {area} "
+                        + f"at 0x{x:X}, 0x{y:X} was expected to have a door"
+                    ) from e
 
                 # Account for h_flip before changing edges
                 left = tile_changes.get("left")

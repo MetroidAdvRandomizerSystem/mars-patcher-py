@@ -117,7 +117,7 @@ def encode_text(
     string: str,
     max_width: int = MAX_LINE_WIDTH,
     centered: bool = False,
-) -> list[int]:
+) -> bytes:
     char_map = get_char_map(rom.region)
     char_widths_addr = character_widths(rom)
     text: list[int] = []
@@ -236,7 +236,12 @@ def encode_text(
         text.append(NEWLINE)
 
     text.append(END)
-    return text
+
+    text_bytes = bytearray()
+    for val in text:
+        text_bytes.append(val & 0xFF)
+        text_bytes.append(val >> 8)
+    return bytes(text_bytes)
 
 
 def write_seed_hash(rom: Rom, seed_hash: str) -> None:
