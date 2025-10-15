@@ -154,7 +154,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
             # If the door type is an "Open Hatch" door, modify it to a lockable one
             if door_type == DoorType.OPEN_HATCH:
                 upper_bits = door_properties & 0xF0
-                door_properties = upper_bits | 4
+                door_properties = upper_bits | DoorType.LOCKABLE_HATCH
                 rom.write_8(door_addr, door_properties)
                 door_type = DoorType.LOCKABLE_HATCH
 
