@@ -4,6 +4,7 @@ from enum import Enum
 from typing import Annotated, TypedDict
 
 from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
+from mars_patcher.constants.door_types import DoorType
 from mars_patcher.constants.game_data import area_doors_ptrs, minimap_graphics
 from mars_patcher.constants.minimap_tiles import ColoredDoor, Content, Edge
 from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
@@ -68,6 +69,19 @@ for lock, vals in CLIP_VALUES.items():
 
 EXCLUDED_DOORS = {
     (0, 0xB4),  # Restricted lab escape
+    (2, 0x71),  # Cathedral -> Ripper Tower. Excluded to prevent more than 6 hatches in that room.
+    (
+        5,
+        0x38,
+    ),  # Arctic Containment -> Ripper Road. Excluded to prevent more than 6 hatches in that room.
+    (
+        2,
+        0x1D,
+    ),  # Cathedral (Before Destruction) -> C. Save Access. Excluded to prevent more than 6 hatches.
+    (
+        2,
+        0x69,
+    ),  # Cathedral (After Destruction) -> C. Save Access. Excluded to prevent more than 6 hatches.
 }
 
 HatchSlot = Annotated[int, "0 <= value <= 5"]
@@ -110,10 +124,11 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
         area_addr = rom.read_ptr(doors_ptrs + area * 4)
         for door in range(256):
             door_addr = area_addr + door * 0xC
-            door_type = rom.read_8(door_addr)
+            door_properties = rom.read_8(door_addr)
+            door_type = DoorType(door_properties & 0xF)
 
             # Check if at end of list
-            if door_type == 0:
+            if door_properties == 0:
                 break
 
             # Skip doors that mage marks as deleted
@@ -121,13 +136,27 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
             if room == 0xFF:
                 continue
 
-            # Skip excluded doors and doors that aren't lockable hatches
+            # Skip excluded doors and doors that aren't lockable/open hatches
             lock = door_locks.get((area, door))
-            if (area, door) in EXCLUDED_DOORS or door_type & 0xF != 4:
+            if (area, door) in EXCLUDED_DOORS or door_type not in [
+                DoorType.OPEN_HATCH,
+                DoorType.LOCKABLE_HATCH,
+            ]:
                 # Don't log the error if door is open and JSON says to change to open.
-                if lock is not None and not (lock is HatchLock.OPEN and door_type & 0xF == 3):
-                    logging.error(f"Area {area} door {door} cannot have its lock changed")
+                if lock is not None and not (
+                    lock is HatchLock.OPEN and door_type == DoorType.OPEN_HATCH
+                ):
+                    logging.error(
+                        f"Area {area} door {door} type {door_type} cannot have its lock changed"
+                    )
                 continue
+
+            # If the door type is an "Open Hatch" door, modify it to a lockable one
+            if door_type == DoorType.OPEN_HATCH:
+                upper_bits = door_properties & 0xF0
+                door_properties = upper_bits | 4
+                rom.write_8(door_addr, door_properties)
+                door_type = DoorType.LOCKABLE_HATCH
 
             # Load room's BG1 and clipdata if not already loaded
             area_room = (area, room)
