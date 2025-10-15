@@ -1,5 +1,4 @@
 from mars_patcher.constants.credits import (
-    LINE_TYPE_HEIGHTS,
     LINE_TYPE_VALS,
     TEXT_LINE_TYPES,
     LineType,
@@ -41,30 +40,24 @@ class CreditsLine:
         return CreditsLine(line_type, blank_lines, text, centered)
 
 
-class CreditsWriter:
-    def __init__(self, rom: Rom, addr: int):
-        self.rom = rom
-        self.addr = addr
-        self.num_lines = 0
-
-    def write_lines(self, lines: list[CreditsLine]) -> None:
-        for line in lines:
-            lt_val = LINE_TYPE_VALS[line.line_type]
-            line_bytes = bytearray([lt_val, line.blank_lines])
-            if line.line_type in TEXT_LINE_TYPES and line.text:
-                text = line.text
-                if line.centered:
-                    spacing = " " * ((LINE_WIDTH - len(text)) // 2)
-                    text = spacing + text
-                line_bytes.extend(text.encode("ascii"))
-            self.write_line(line_bytes)
-            line_height = LINE_TYPE_HEIGHTS.get(line.line_type, 0)
-            self.num_lines += line_height + line.blank_lines
-
-    def write_line(self, line: bytearray) -> None:
-        if len(line) > FULL_LINE_LEN:
-            raise ValueError(f"Line too long: {line}")
-        self.rom.write_bytes(self.addr, line)
-        for i in range(len(line), FULL_LINE_LEN):
-            self.rom.write_8(self.addr + i, 0)
-        self.addr += FULL_LINE_LEN
+def write_credits_lines(rom: Rom, pointer: int, orig_length: int, lines: list[CreditsLine]) -> None:
+    credits_bytes = bytearray()
+    for line in lines:
+        # Add bytes indicating line type and number of blank lines
+        lt_val = LINE_TYPE_VALS[line.line_type]
+        line_bytes = bytearray([lt_val, line.blank_lines])
+        if line.line_type in TEXT_LINE_TYPES and line.text:
+            text = line.text
+            if line.centered:
+                spacing = " " * ((LINE_WIDTH - len(text)) // 2)
+                text = spacing + text
+            line_bytes.extend(text.encode("ascii"))
+        # Pad line to full line length
+        remaining = FULL_LINE_LEN - len(line_bytes)
+        if remaining < 0:
+            raise ValueError(f"Line too long: {line_bytes}")
+        line_bytes.extend(b"\x00" * remaining)
+        credits_bytes += line_bytes
+    # Write to ROM
+    addr = rom.read_ptr(pointer)
+    rom.write_repointable_data(addr, orig_length, credits_bytes, [pointer])

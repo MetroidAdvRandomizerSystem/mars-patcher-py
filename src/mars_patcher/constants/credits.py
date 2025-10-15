@@ -27,17 +27,4 @@ LINE_TYPE_VALS = {
     LineType.END: 0x6,
 }
 
-LINE_TYPE_HEIGHTS = {
-    LineType.BLANK: 1,
-    LineType.BLUE: 1,
-    LineType.RED: 1,
-    LineType.WHITE1: 1,
-    LineType.WHITE2: 2,
-    LineType.COPYRIGHT1: 1,
-    LineType.COPYRIGHT2: 1,
-    LineType.COPYRIGHT3: 1,
-    LineType.COPYRIGHT4: 1,
-    LineType.END: 0,
-}
-
 TEXT_LINE_TYPES = {LineType.BLUE, LineType.RED, LineType.WHITE1, LineType.WHITE2}
