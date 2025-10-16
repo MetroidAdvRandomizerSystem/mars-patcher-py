@@ -198,6 +198,9 @@ class MarsschemazmLocationsMajorLocationsItem(typ.TypedDict, total=False):
     item: typ.Required[ValidItems]
     """Valid items for shuffling."""
 
+    item_sprite: ValidItemSprites
+    """Valid graphics for item tanks/sprites."""
+
     item_messages: ItemMessages
     jingle: Jingle
     """The sound that plays when an item is collected"""

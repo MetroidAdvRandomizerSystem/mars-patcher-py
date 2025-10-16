@@ -28,6 +28,9 @@
                             "item": {
                                 "$ref": "#/$defs/valid_items"
                             },
+                            "item_sprite": {
+                                "$ref": "#/$defs/valid_item_sprites"
+                            },
                             "item_messages": {
                                 "$ref": "#/$defs/item_messages"
                             },
