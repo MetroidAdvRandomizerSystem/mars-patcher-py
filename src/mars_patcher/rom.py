@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from enum import Enum
 from os import PathLike
 
@@ -261,7 +262,7 @@ class Rom:
         return data_addr
 
     def write_repointable_data(
-        self, addr: int, prev_size: int, vals: BytesLike, pointers: list[int]
+        self, addr: int, prev_size: int, vals: BytesLike, pointers: Sequence[int]
     ) -> int:
         """
         Writes data that may have changed size. If bigger than its previous size, new space will
@@ -286,7 +287,7 @@ class Rom:
         self.write_bytes(write_addr, vals)
         return write_addr
 
-    def write_data_with_pointers(self, vals: BytesLike, pointers: list[int]) -> int:
+    def write_data_with_pointers(self, vals: BytesLike, pointers: Sequence[int]) -> int:
         """
         Writes data by allocating new space and writes the address to the provided pointers.
         Returns the address where the data was written.
