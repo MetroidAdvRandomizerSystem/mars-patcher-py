@@ -23,13 +23,11 @@ def write_room_names(rom: Rom, data: list[MarsschemamfRoomnamesItem]) -> None:
         seen_rooms.add((area_id, room_id))
 
         # Find room name table by indexing at ROOM_NAMES_TABLE_ADDR
-        area_addr = rom.read_ptr(ROOM_NAMES_TABLE_ADDR) + (area_id * 4)
-        area_room_name_addr = rom.read_ptr(area_addr)
+        area_ptr = rom.read_ptr(ROOM_NAMES_TABLE_ADDR) + (area_id * 4)
+        area_room_name_ptrs = rom.read_ptr(area_ptr)
 
         # Find specific room by indexing by the room_id
-        room_name_addr = area_room_name_addr + (room_id * 4)
+        room_name_ptr = area_room_name_ptrs + (room_id * 4)
 
         encoded_text = encode_text(rom, MessageType.TWO_LINE, room_name)
-        message_addr = rom.reserve_free_space(len(encoded_text) * 2)
-        rom.write_ptr(room_name_addr, message_addr)
-        rom.write_16_list(message_addr, encoded_text)
+        rom.write_data_with_pointers(encoded_text, [room_name_ptr])

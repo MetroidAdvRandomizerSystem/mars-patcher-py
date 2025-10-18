@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from enum import Enum
 from os import PathLike
 
@@ -109,6 +110,8 @@ class Rom:
             self.free_space_addr = ReservedConstantsMF.PATCHER_FREE_SPACE_ADDR
         elif self.is_zm():
             self.free_space_addr = ReservedConstantsZM.PATCHER_FREE_SPACE_ADDR
+        # Track all spaces freed when data is repointed. Keys are addresses, values are sizes
+        self.free_spaces: dict[int, int] = {}
 
     def is_mf(self) -> bool:
         """Returns true when the currently loaded game is Metroid Fusion."""
@@ -210,37 +213,87 @@ class Rom:
         val_end = val_addr + size
         self.data[data_addr:data_end] = vals[val_addr:val_end]
 
-    def write_16_list(self, addr: int, vals: list[int]) -> int:
-        """Writes a list of numbers as 16-bit integers. Does not check if the
-        values are within 16-bit range. Returns the ending address."""
-        for val in vals:
-            self.write_16(addr, val)
-            addr += 2
-        return addr
-
     def copy_bytes(self, src_addr: int, dst_addr: int, size: int) -> None:
         """Copies a specified amount of bytes from the source address to the destination address."""
         self.write_bytes(dst_addr, self.data, src_addr, size)
 
-    def reserve_free_space(self, size: int) -> int:
-        """
-        Returns an address that is able to fit in a specified size.
-        Alignment is always 4.
-        """
-        remain = self.free_space_addr % 4
+    @staticmethod
+    def align_4_bytes(num: int) -> int:
+        remain = num % 4
         if remain != 0:
-            self.free_space_addr += 4 - remain
-        addr = self.free_space_addr
-        self.free_space_addr += size
-        # Check if past end of reserved space
-        if self.is_mf():
-            free_space_end = ReservedConstantsMF.PATCHER_FREE_SPACE_END
-        elif self.is_zm():
-            free_space_end = ReservedConstantsZM.PATCHER_FREE_SPACE_END
+            num += 4 - remain
+        return num
+
+    def reserve_free_space(self, data_size: int) -> int:
+        """
+        Returns an address that is able to fit data with the specified size. The alignment is
+        always 4.
+        """
+        # Check for existing free space that can fit the specified size
+        data_addr: int | None = None
+        for free_addr, free_size in self.free_spaces.items():
+            if data_size <= free_size:
+                data_addr = free_addr
+                break
+        if data_addr is not None:
+            # Remove found entry
+            free_size = self.free_spaces.pop(data_addr)
+            # Add new entry if there's still space remaining (align to 4 bytes first)
+            free_addr = self.align_4_bytes(data_addr + data_size)
+            free_size -= free_addr - data_addr
+            if free_size >= 4:
+                self.free_spaces[free_addr] = free_size
         else:
-            raise ValueError(self.game)
-        if self.free_space_addr > free_space_end:
-            raise RuntimeError("Ran out of reserved free space")
+            # No existing free space found, use end of ROM
+            self.free_space_addr = self.align_4_bytes(self.free_space_addr)
+            data_addr = self.free_space_addr
+            self.free_space_addr += data_size
+            # Check if past end of reserved space
+            if self.is_mf():
+                free_space_end = ReservedConstantsMF.PATCHER_FREE_SPACE_END
+            elif self.is_zm():
+                free_space_end = ReservedConstantsZM.PATCHER_FREE_SPACE_END
+            else:
+                raise ValueError(self.game)
+            if self.free_space_addr > free_space_end:
+                raise RuntimeError("Ran out of reserved free space")
+        return data_addr
+
+    def write_repointable_data(
+        self, addr: int, prev_size: int, vals: BytesLike, pointers: Sequence[int]
+    ) -> int:
+        """
+        Writes data that may have changed size. If bigger than its previous size, new space will
+        be allocated and the provided pointers will be repointed. The provided address and
+        previous size are used to mark the original location as free space. Returns the address
+        where the data was written.
+        """
+        # Ensure each pointer points to the provided address
+        for ptr in pointers:
+            if self.read_ptr(ptr) != addr:
+                raise ValueError(f"Expected pointer at 0x{ptr:X} to be 0x{addr:X}")
+        write_addr = addr
+        if len(vals) > prev_size:
+            # Data is bigger, so reserve new space and repoint pointers
+            write_addr = self.reserve_free_space(len(vals))
+            for ptr in pointers:
+                self.write_ptr(ptr, write_addr)
+            # Mark the original location as free space (align to 4 bytes first)
+            free_addr = self.align_4_bytes(addr)
+            free_size = prev_size - (free_addr - addr)
+            self.free_spaces[free_addr] = free_size
+        self.write_bytes(write_addr, vals)
+        return write_addr
+
+    def write_data_with_pointers(self, vals: BytesLike, pointers: Sequence[int]) -> int:
+        """
+        Writes data by allocating new space and writes the address to the provided pointers.
+        Returns the address where the data was written.
+        """
+        addr = self.reserve_free_space(len(vals))
+        for ptr in pointers:
+            self.write_ptr(ptr, addr)
+        self.write_bytes(addr, vals)
         return addr
 
     def save(self, path: str | PathLike[str]) -> None:

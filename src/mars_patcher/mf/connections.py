@@ -75,15 +75,14 @@ class Connections:
         self.area_conns_count = gd.area_connections_count(rom)
 
     def set_elevator_connections(self, data: MarsschemamfElevatorconnections) -> None:
-        # Repoint area connections data
+        # Reserve space for 8 more area connections and repoint
         size = self.area_conns_count * 3
-        # Reserve space for 8 more area connections
-        new_size = size + 8 * 3
-        ac_addr = self.rom.reserve_free_space(new_size)
-        self.rom.copy_bytes(self.area_conns_addr, ac_addr, size)
-        # TODO: Move constant
-        self.rom.write_ptr(0x6945C, ac_addr)
-        self.area_conns_addr = ac_addr
+        ac_data = self.rom.read_bytes(self.area_conns_addr, size)
+        ac_data += bytearray(8 * 3)
+        # TODO: Move pointer constant
+        self.area_conns_addr = self.rom.write_repointable_data(
+            self.area_conns_addr, size, ac_data, [0x6945C]
+        )
 
         # Connect tops to bottoms
         pairs_top = data["ElevatorTops"]
