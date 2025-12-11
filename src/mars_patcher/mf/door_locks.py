@@ -125,16 +125,17 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
         for door in range(256):
             door_addr = area_addr + door * 0xC
             door_properties = rom.read_8(door_addr)
-            door_type = DoorType(door_properties & 0xF)
 
             # Check if at end of list
             if door_properties == 0:
                 break
 
-            # Skip doors that mage marks as deleted
+            # Skip doors that mage or asm marks as deleted
             room = rom.read_8(door_addr + 1)
             if room == 0xFF:
                 continue
+
+            door_type = DoorType(door_properties & 0xF)
 
             # Skip excluded doors and doors that aren't lockable/open hatches
             lock = door_locks.get((area, door))
