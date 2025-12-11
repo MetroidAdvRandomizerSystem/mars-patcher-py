@@ -41,6 +41,8 @@ test = [
 typing = [
     "mypy",
     "types-requests",
+    "types-pyinstaller",
+    "types-jsonschema",
     "pre-commit"
 ]
 
