@@ -1,9 +1,9 @@
 import logging
 from collections import defaultdict
 from enum import Enum
-from typing import Annotated, TypedDict
+from typing import Annotated, Literal, TypedDict
 
-from mars_patcher.common_types import AreaId, AreaRoomPair, RoomId
+from mars_patcher.common_types import AreaId, AreaRoomPair
 from mars_patcher.constants.door_types import DoorType
 from mars_patcher.constants.game_data import area_doors_ptrs, minimap_graphics
 from mars_patcher.constants.minimap_tiles import ColoredDoor, Content, Edge
@@ -86,8 +86,8 @@ EXCLUDED_DOORS = {
 
 HatchSlot = Annotated[int, "0 <= value <= 5"]
 
-MinimapLocation = tuple[int, int, RoomId]
-"""`(X, Y, RoomId)`"""
+MinimapLocation = tuple[int, int]
+"""`(X, Y)`"""
 
 
 class MinimapLockChanges(TypedDict, total=False):
@@ -117,7 +117,7 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
     def factory() -> dict:
         return defaultdict(dict)
 
-    # AreaID: {(MinimapX, MinimapY, RoomID): {"left" | "right": HatchLock}}
+    # AreaID: {(MinimapX, MinimapY): {"left" | "right": HatchLock}}
     minimap_changes: dict[AreaId, dict[MinimapLocation, MinimapLockChanges]] = defaultdict(factory)
 
     for area in range(7):
@@ -226,11 +226,15 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
                 if area == 0:
                     minimap_areas = [0, 9]  # Main Deck has two maps
                 for minimap_area in minimap_areas:
-                    map_tile = minimap_changes[minimap_area][minimap_x, minimap_y, room]
-                    if facing_right:
-                        map_tile["left"] = lock
-                    else:
-                        map_tile["right"] = lock
+                    map_tile = minimap_changes[minimap_area][minimap_x, minimap_y]
+                    side: Literal["left", "right"] = "left" if facing_right else "right"
+                    if side in map_tile and map_tile[side] != lock:
+                        raise ValueError(
+                            f"Minimap tile in area {area} at 0x{minimap_x:X}, 0x{minimap_y} "
+                            f"has already changed {side} hatch to {map_tile[side].name} but is "
+                            f"being set to {lock.name}"
+                        )
+                    map_tile[side] = lock
 
             # Overwrite BG1 and clipdata
             if lock is None:
@@ -314,7 +318,7 @@ def change_minimap_tiles(
 
     for area, area_map in minimap_changes.items():
         with Minimap(rom, area) as minimap:
-            for (x, y, room), tile_changes in area_map.items():
+            for (x, y), tile_changes in area_map.items():
                 tile_id, palette, h_flip, v_flip = minimap.get_tile_value(x, y)
 
                 try:
@@ -370,8 +374,7 @@ def change_minimap_tiles(
 
                 if not tile_exists():
                     logging.debug(
-                        "Could not reuse existing map tile for "
-                        f"area {area} room {room:X}. ({x:X}, {y:X})."
+                        f"Could not reuse existing map tile for area {area} at {x:X}, {y:X}."
                     )
                     logging.debug(f"  Desired tile: {orig_new_tile_data.as_str}")
 
