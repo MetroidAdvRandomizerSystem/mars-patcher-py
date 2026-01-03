@@ -32,11 +32,9 @@ class ReservedPointersMF(IntEnum):
     MINOR_LOCS_ARRAY_ADDR = auto()
     MAJOR_LOCS_POINTER_ADDR = auto()
     TANK_INC_ADDR = auto()
-    TOTAL_METROID_COUNT_ADDR = auto()
-    REQUIRED_METROID_COUNT_ADDR = TOTAL_METROID_COUNT_ADDR
+    METROID_PARAMETERS_ADDR = auto()
     STARTING_LOCATION_ADDR = auto()
-    CREDITS_END_DELAY_ADDR = auto()  # TODO: Is this meant to be changed?
-    CREDITS_SCROLL_SPEED_ADDR = CREDITS_END_DELAY_ADDR  # + 2 TODO: Ditto
+    CREDITS_END_DELAY_ADDR = auto()  # Unused. Remnant of when we didn't have looping credits music.
     HINT_SECURITY_LEVELS_ADDR = auto()
     ENVIRONMENTAL_HARZARD_DAMAGE_ADDR = auto()  # TODO: Implement this
     MISSILE_LIMIT_ADDR = auto()
