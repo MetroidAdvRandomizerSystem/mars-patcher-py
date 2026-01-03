@@ -16,8 +16,10 @@ from mars_patcher.mf.item_patcher import (
 from mars_patcher.mf.locations import LocationSettings
 from mars_patcher.mf.misc_patches import (
     apply_accessibility_patch,
+    apply_alternative_health_layout,
     apply_base_patch,
     apply_instant_unmorph_patch,
+    apply_nerf_gerons,
     apply_pbs_without_bombs,
     apply_reveal_hidden_tiles,
     apply_reveal_unexplored_doors,
@@ -155,6 +157,12 @@ def patch_mf(
 
     if patch_data.get("PowerBombsWithoutBombs"):
         apply_pbs_without_bombs(rom)
+
+    if patch_data.get("NerfGerons"):
+        apply_nerf_gerons(rom)
+
+    if patch_data.get("UseAlternativeHudHealthLayout"):
+        apply_alternative_health_layout(rom)
 
     if patch_data.get("UnexploredMap"):
         apply_unexplored_map(rom)

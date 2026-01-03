@@ -608,6 +608,12 @@ class Marsschemamf(typ.TypedDict, total=False):
     InstantUnmorph: bool = False
     """When true, enables instant unmorphing via the SELECT button."""
 
+    NerfGerons: bool = False
+    """When true, changes the Geron weaknesses to only be weak to their 'intended' values."""
+
+    UseAlternativeHudHealthLayout: bool = False
+    """When true, changes the HUD health layout to display 'currentHP/totalHP'."""
+
     SkipDoorTransitions: bool = False
     """Makes all door transitions instant when true."""
 

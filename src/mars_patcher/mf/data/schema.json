@@ -556,6 +556,16 @@
             "description": "When true, enables instant unmorphing via the SELECT button.",
             "default": false
         },
+        "NerfGerons": {
+            "type": "boolean",
+            "description": "When true, changes the Geron weaknesses to only be weak to their 'intended' values.",
+            "default": false
+        },
+        "UseAlternativeHudHealthLayout": {
+            "type": "boolean",
+            "description": "When true, changes the HUD health layout to display 'currentHP/totalHP'.",
+            "default": false
+        },
         "SkipDoorTransitions": {
             "type": "boolean",
             "description": "Makes all door transitions instant when true.",

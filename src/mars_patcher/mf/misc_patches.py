@@ -81,6 +81,14 @@ def apply_pbs_without_bombs(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "bombless_pbs.ips")
 
 
+def apply_nerf_gerons(rom: Rom) -> None:
+    apply_patch_in_asm_path(rom, "nerf_geron_weakness.ips")
+
+
+def apply_alternative_health_layout(rom: Rom) -> None:
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.USE_ALTERNATIVE_HUD_DISPLAY), 1)
+
+
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedConstantsMF.REVEAL_HIDDEN_TILES_ADDR), 1)
 
