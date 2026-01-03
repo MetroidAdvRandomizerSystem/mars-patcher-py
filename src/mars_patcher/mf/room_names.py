@@ -1,9 +1,9 @@
 from mars_patcher.mf.auto_generated_types import Areaid, MarsschemamfRoomnamesItem, Typeu8
-from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
+from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.rom import Rom
 from mars_patcher.text import MessageType, encode_text
 
-ROOM_NAMES_TABLE_ADDR = ReservedConstantsMF.ROOM_NAMES_TABLE_ADDR
+ROOM_NAMES_TABLE_ADDR = ReservedPointersMF.ROOM_NAMES_TABLE_ADDR
 
 
 # Write Room Names to ROM
