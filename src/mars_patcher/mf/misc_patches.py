@@ -1,6 +1,6 @@
 import mars_patcher.constants.game_data as gd
-from mars_patcher.constants.reserved_space import ReservedConstants
-from mars_patcher.data import get_data_path
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
+from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder
 from mars_patcher.rom import Rom
 
@@ -33,19 +33,17 @@ def apply_base_patch(rom: Rom) -> None:
 
 
 def disable_demos(rom: Rom) -> None:
-    # TODO: Move to patch
     # b 0x8087460
     rom.write_16(0x87436, 0xE013)
 
 
 def skip_door_transitions(rom: Rom) -> None:
-    # TODO: Move to patch
     rom.write_32(0x69500, 0x3000BDE)
     rom.write_8(0x694E2, 0xC)
 
 
 def stereo_default(rom: Rom) -> None:
-    apply_patch_in_data_path(rom, "stereo_default.ips")
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.DEFAULT_STEREO_FLAG_POINTER_ADDR), 1)
 
 
 def disable_sounds(rom: Rom, start: int, end: int, exclude: set[int] = set()) -> None:
@@ -72,7 +70,7 @@ def disable_sound_effects(rom: Rom) -> None:
 
 
 def change_missile_limit(rom: Rom, limit: int) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstants.MISSILE_LIMIT_ADDR), limit)
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.MISSILE_LIMIT_ADDR), limit)
 
 
 def apply_unexplored_map(rom: Rom) -> None:
@@ -83,13 +81,25 @@ def apply_pbs_without_bombs(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "bombless_pbs.ips")
 
 
-def apply_anti_softlock_edits(rom: Rom) -> None:
-    apply_patch_in_asm_path(rom, "anti_softlock.ips")
+def apply_nerf_gerons(rom: Rom) -> None:
+    apply_patch_in_asm_path(rom, "nerf_geron_weakness.ips")
+
+
+def apply_alternative_health_layout(rom: Rom) -> None:
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.USE_ALTERNATIVE_HUD_DISPLAY), 1)
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstants.REVEAL_HIDDEN_TILES_ADDR), 1)
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.REVEAL_HIDDEN_TILES_ADDR), 1)
 
 
 def apply_reveal_unexplored_doors(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "unhidden_map_doors.ips")
+
+
+def apply_accessibility_patch(rom: Rom) -> None:
+    apply_patch_in_asm_path(rom, "accessibility.ips")
+
+
+def apply_instant_unmorph_patch(rom: Rom) -> None:
+    rom.write_8(rom.read_ptr(ReservedConstantsMF.INSTANT_MORPH_FLAG_POINTER_ADDR), 1)

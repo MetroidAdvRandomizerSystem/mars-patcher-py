@@ -1,6 +1,13 @@
 # Changelog
 
-## Unreleased - 2025-XX-XX
+## Unreleased - 2025-??-??
+- Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
+
+## 0.7.0 - 2025-08-25
+- Added: Ability to write text to the title screen.
+- Removed: Anti-Softlock option.
+
+# TODO: retroactively fill this in <_<
 
 ## 0.4.1 - 2025-05-22
 

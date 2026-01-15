@@ -1,41 +1,33 @@
-from __future__ import annotations
-
 import json
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, ClassVar
 
-from frozendict import frozendict
+from typing_extensions import Self
 
-from mars_patcher.constants.items import (
+from mars_patcher.item_messages import ItemMessages
+from mars_patcher.mf.auto_generated_types import MarsschemamfLocations
+from mars_patcher.mf.constants.items import (
     ITEM_ENUMS,
     ITEM_SPRITE_ENUMS,
+    JINGLE_ENUMS,
     KEY_AREA,
     KEY_BLOCK_X,
     KEY_BLOCK_Y,
-    KEY_CENTERED,
     KEY_HIDDEN,
     KEY_ITEM,
+    KEY_ITEM_JINGLE,
     KEY_ITEM_MESSAGES,
-    KEY_ITEM_MESSAGES_KIND,
     KEY_ITEM_SPRITE,
-    KEY_LANGUAGES,
     KEY_MAJOR_LOCS,
-    KEY_MESSAGE_ID,
     KEY_MINOR_LOCS,
     KEY_ORIGINAL,
     KEY_ROOM,
     KEY_SOURCE,
     SOURCE_ENUMS,
-    ItemMessagesKind,
+    ItemJingle,
     ItemSprite,
     ItemType,
     MajorSource,
 )
-from mars_patcher.data import get_data_path
-from mars_patcher.text import Language
-
-if TYPE_CHECKING:
-    from mars_patcher.auto_generated_types import Itemmessages, MarsschemaLocations
+from mars_patcher.mf.data import get_data_path
 
 
 class Location:
@@ -65,10 +57,12 @@ class MajorLocation(Location):
         orig_item: ItemType,
         new_item: ItemType = ItemType.UNDEFINED,
         item_messages: ItemMessages | None = None,
+        item_jingle: ItemJingle = ItemJingle.MAJOR,
     ):
         super().__init__(area, room, orig_item, new_item)
         self.major_src = major_src
         self.item_messages = item_messages
+        self.item_jingle = item_jingle
 
 
 class MinorLocation(Location):
@@ -83,6 +77,7 @@ class MinorLocation(Location):
         new_item: ItemType = ItemType.UNDEFINED,
         item_sprite: ItemSprite = ItemSprite.UNCHANGED,
         item_messages: ItemMessages | None = None,
+        item_jingle: ItemJingle = ItemJingle.MINOR,
     ):
         super().__init__(area, room, orig_item, new_item)
         self.block_x = block_x
@@ -90,45 +85,7 @@ class MinorLocation(Location):
         self.hidden = hidden
         self.item_sprite = item_sprite
         self.item_messages = item_messages
-
-
-@dataclass(frozen=True)
-class ItemMessages:
-    kind: ItemMessagesKind
-    item_messages: frozendict[Language, str]
-    centered: bool
-    message_id: int
-
-    LANG_ENUMS: ClassVar[dict[str, Language]] = {
-        "JapaneseKanji": Language.JAPANESE_KANJI,
-        "JapaneseHiragana": Language.JAPANESE_HIRAGANA,
-        "English": Language.ENGLISH,
-        "German": Language.GERMAN,
-        "French": Language.FRENCH,
-        "Italian": Language.ITALIAN,
-        "Spanish": Language.SPANISH,
-    }
-
-    KIND_ENUMS: ClassVar[dict[str, ItemMessagesKind]] = {
-        "CustomMessage": ItemMessagesKind.CUSTOM_MESSAGE,
-        "MessageID": ItemMessagesKind.MESSAGE_ID,
-    }
-
-    @classmethod
-    def from_json(cls, data: Itemmessages) -> ItemMessages:
-        item_messages: dict[Language, str] = {}
-        centered = True
-        kind: ItemMessagesKind = cls.KIND_ENUMS[data[KEY_ITEM_MESSAGES_KIND]]
-        message_id = 0
-        if kind == ItemMessagesKind.CUSTOM_MESSAGE:
-            for lang_name, message in data[KEY_LANGUAGES].items():
-                lang = cls.LANG_ENUMS[lang_name]
-                item_messages[lang] = message
-            centered = data.get(KEY_CENTERED, True)
-        else:
-            message_id = data[KEY_MESSAGE_ID]
-
-        return cls(kind, frozendict(item_messages), centered, message_id)
+        self.item_jingle = item_jingle
 
 
 class LocationSettings:
@@ -137,7 +94,7 @@ class LocationSettings:
         self.minor_locs = minor_locs
 
     @classmethod
-    def initialize(cls) -> LocationSettings:
+    def initialize(cls) -> Self:
         with open(get_data_path("locations.json")) as f:
             data = json.load(f)
 
@@ -163,9 +120,9 @@ class LocationSettings:
             )
             minor_locs.append(minor_loc)
 
-        return LocationSettings(major_locs, minor_locs)
+        return cls(major_locs, minor_locs)
 
-    def set_assignments(self, data: MarsschemaLocations) -> None:
+    def set_assignments(self, data: MarsschemamfLocations) -> None:
         for maj_loc_entry in data[KEY_MAJOR_LOCS]:
             # Get source and item
             source = SOURCE_ENUMS[maj_loc_entry[KEY_SOURCE]]
@@ -175,7 +132,7 @@ class LocationSettings:
             maj_loc.new_item = item
             if KEY_ITEM_MESSAGES in maj_loc_entry:
                 maj_loc.item_messages = ItemMessages.from_json(maj_loc_entry[KEY_ITEM_MESSAGES])
-
+            maj_loc.item_jingle = JINGLE_ENUMS[maj_loc_entry[KEY_ITEM_JINGLE]]
         for min_loc_entry in data[KEY_MINOR_LOCS]:
             # Get area, room, block X, block Y
             area = min_loc_entry[KEY_AREA]
@@ -203,3 +160,4 @@ class LocationSettings:
                 min_loc.item_sprite = ITEM_SPRITE_ENUMS[min_loc_entry[KEY_ITEM_SPRITE]]
             if KEY_ITEM_MESSAGES in min_loc_entry:
                 min_loc.item_messages = ItemMessages.from_json(min_loc_entry[KEY_ITEM_MESSAGES])
+            min_loc.item_jingle = JINGLE_ENUMS[min_loc_entry[KEY_ITEM_JINGLE]]

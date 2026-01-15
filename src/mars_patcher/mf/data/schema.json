@@ -30,11 +30,15 @@
                             },
                             "ItemMessages": {
                                 "$ref": "#/$defs/ItemMessages"
+                            },
+                            "Jingle": {
+                                "$ref": "#/$defs/Jingle"
                             }
                         },
                         "required": [
                             "Source",
-                            "Item"
+                            "Item",
+                            "Jingle"
                         ]
                     }
                 },
@@ -71,6 +75,9 @@
                             },
                             "ItemMessages": {
                                 "$ref": "#/$defs/ItemMessages"
+                            },
+                            "Jingle": {
+                                "$ref": "#/$defs/Jingle"
                             }
                         },
                         "required": [
@@ -78,7 +85,8 @@
                             "Room",
                             "BlockX",
                             "BlockY",
-                            "Item"
+                            "Item",
+                            "Jingle"
                         ]
                     }
                 }
@@ -456,6 +464,26 @@
             },
             "default": null
         },
+        "TitleText": {
+            "type":"array",
+            "description": "Lines of ascii text to write to the title screen.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "Text": {
+                        "type": "string",
+                        "description": "The ASCII text for this line",
+                        "pattern": "^[ -~]{0,30}$"
+                    },
+                    "LineNum": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 14
+                    }
+                }
+            },
+            "default": null
+        },
         "CreditsText": {
             "type": "array",
             "description": "Lines of text to insert into the credits.",
@@ -523,6 +551,21 @@
             "description": "Disables title screen demos when true.",
             "default": false
         },
+        "InstantUnmorph": {
+            "type": "boolean",
+            "description": "When true, enables instant unmorphing via the SELECT button.",
+            "default": false
+        },
+        "NerfGerons": {
+            "type": "boolean",
+            "description": "When true, changes the Geron weaknesses to only be weak to their 'intended' values.",
+            "default": false
+        },
+        "UseAlternativeHudHealthLayout": {
+            "type": "boolean",
+            "description": "When true, changes the HUD health layout to display 'currentHP/totalHP'.",
+            "default": false
+        },
         "SkipDoorTransitions": {
             "type": "boolean",
             "description": "Makes all door transitions instant when true.",
@@ -558,9 +601,9 @@
             "description": "When enabled, lets you use Power Bombs without needing to collect Bomb Data.",
             "default": false
         },
-        "AntiSoftlockRoomEdits": {
+        "AccessibilityPatches": {
             "type": "boolean",
-            "description": "Changes room layouts when enabled to prevent some accidental softlocks.",
+            "description": "Whether to apply patches for better accessibility.",
             "default": false
         },
         "LevelEdits": {
@@ -984,6 +1027,10 @@
         "ItemMessagesKind":{
             "type": "string",
             "enum": ["CustomMessage", "MessageID"]
+        },
+        "Jingle":{
+            "type": "string",
+            "enum": ["Minor", "Major"]
         },
         "BlockLayer": {
             "type": "array",

@@ -6,12 +6,12 @@ from zipfile import ZipFile
 
 import requests
 
-VERSION = "0.6.0"
+VERSION = "0.10.0"
 ASSET_NAME = "Randomizer.Patches.zip"
 DESTINATION_ASSEMBLY_PATH = (
     Path(__file__)
     .parent.resolve()
-    .joinpath("src", "mars_patcher", "data", "patches", "mf_u", "asm")
+    .joinpath("src", "mars_patcher", "mf", "data", "patches", "mf_u", "asm")
 )
 
 

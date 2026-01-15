@@ -3,13 +3,13 @@ from __future__ import annotations
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from mars_patcher.constants.game_data import navigation_text_ptrs
-from mars_patcher.constants.reserved_space import ReservedConstants
+from mars_patcher.mf.constants.game_data import navigation_text_ptrs
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
 from mars_patcher.rom import Rom
 from mars_patcher.text import Language, MessageType, encode_text
 
 if TYPE_CHECKING:
-    from mars_patcher.auto_generated_types import Hintlocks, MarsschemaNavstationlocksKey
+    from mars_patcher.mf.auto_generated_types import Hintlocks, MarsschemamfNavstationlocksKey
     from mars_patcher.rom import Rom
 
 
@@ -55,7 +55,7 @@ class NavigationText:
         "Spanish": Language.SPANISH,
     }
 
-    NAV_ROOM_ENUMS: dict[MarsschemaNavstationlocksKey, NavRoom] = {
+    NAV_ROOM_ENUMS: dict[MarsschemamfNavstationlocksKey, NavRoom] = {
         "MainDeckWest": NavRoom.MAIN_DECK_WEST,
         "MainDeckEast": NavRoom.MAIN_DECK_EAST,
         "OperationsDeck": NavRoom.OPERATIONS_DECK,
@@ -108,22 +108,18 @@ class NavigationText:
             # Info Text
             for info_place, text in lang_texts["ShipText"].items():
                 encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
-                text_addr = rom.reserve_free_space(len(encoded_text) * 2)
-                rom.write_ptr(base_text_address + info_place.value * 4, text_addr)
-                rom.write_ptr(base_text_address + info_place.value * 4 + 4, text_addr)
-                rom.write_16_list(text_addr, encoded_text)
+                text_ptr = base_text_address + info_place.value * 4
+                rom.write_data_with_pointers(encoded_text, [text_ptr, text_ptr + 4])
 
             # Navigation Text
             for nav_room, text in lang_texts["NavigationTerminals"].items():
                 encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
-                text_addr = rom.reserve_free_space(len(encoded_text) * 2)
-                rom.write_ptr(base_text_address + nav_room.value * 8, text_addr)
-                rom.write_ptr(base_text_address + nav_room.value * 8 + 4, text_addr)
-                rom.write_16_list(text_addr, encoded_text)
+                text_ptr = base_text_address + nav_room.value * 8
+                rom.write_data_with_pointers(encoded_text, [text_ptr, text_ptr + 4])
 
     @classmethod
     def apply_hint_security(
-        cls, rom: Rom, locks: dict[MarsschemaNavstationlocksKey, Hintlocks]
+        cls, rom: Rom, locks: dict[MarsschemamfNavstationlocksKey, Hintlocks]
     ) -> None:
         """
         Applies an optional security level requirement to use Navigation Stations
@@ -132,6 +128,6 @@ class NavigationText:
         default_lock_name = "OPEN"
         for location, offset in NavigationText.NAV_ROOM_ENUMS.items():
             rom.write_8(
-                rom.read_ptr(ReservedConstants.HINT_SECURITY_LEVELS_ADDR) + offset.value,
+                rom.read_ptr(ReservedConstantsMF.HINT_SECURITY_LEVELS_ADDR) + offset.value,
                 NavStationLockType[locks.get(location, default_lock_name)].value,
             )

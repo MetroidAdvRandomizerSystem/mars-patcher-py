@@ -1,4 +1,4 @@
-class ReservedConstants:
+class ReservedConstantsMF:
     """
     These are constants that are in the patches 'Reserved Space';
     things that are intended to be modified by this patcher.
@@ -13,6 +13,7 @@ class ReservedConstants:
 
     PATCHER_FREE_SPACE_ADDR = 0x7D0000
     PATCHER_FREE_SPACE_END = PATCHER_FREE_SPACE_ADDR + 0x20000
+    # TODO: refactor these to be like in ZM. Instead of hardcoding the addresses.
     MINOR_LOCS_TABLE_ADDR = 0x7FF000
     MINOR_LOCS_ARRAY_ADDR = 0x7FF004
     MAJOR_LOCS_POINTER_ADDR = 0x7FF008
@@ -22,8 +23,12 @@ class ReservedConstants:
     STARTING_LOCATION_ADDR = 0x7FF014
     CREDITS_END_DELAY_ADDR = 0x7FF018  # TODO: Is this meant to be changed?
     CREDITS_SCROLL_SPEED_ADDR = 0x7FF018  # + 2 TODO: Ditto
-    HINT_SECURITY_LEVELS_ADDR = 0x7FF01C  # TODO: ???
+    HINT_SECURITY_LEVELS_ADDR = 0x7FF01C
     ENVIRONMENTAL_HARZARD_DAMAGE_ADDR = 0x7FF020  # TODO: Implement this
     MISSILE_LIMIT_ADDR = 0x7FF024
     ROOM_NAMES_TABLE_ADDR = 0x7FF028
     REVEAL_HIDDEN_TILES_ADDR = 0x7FF02C
+    TITLESCREEN_TEXT_POINTERS_POINTER_ADDR = 0x7FF030
+    DEFAULT_STEREO_FLAG_POINTER_ADDR = 0x7FF034
+    INSTANT_MORPH_FLAG_POINTER_ADDR = 0x7FF038
+    USE_ALTERNATIVE_HUD_DISPLAY = 0x7FF03C

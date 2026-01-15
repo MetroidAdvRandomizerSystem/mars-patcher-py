@@ -24,6 +24,7 @@ classifiers = [
 dependencies = [
     "jsonschema",
     "frozendict",
+    "typing-extensions",
 ]
 
 dynamic = ["version"]
@@ -40,11 +41,13 @@ test = [
 typing = [
     "mypy",
     "types-requests",
+    "types-pyinstaller",
+    "types-jsonschema",
     "pre-commit"
 ]
 
 [project.urls]
-Repository = "https://github.com/biosp4rk/mars-patcher"
+Repository = "https://github.com/MetroidAdvRandomizerSystem/mars-patcher"
 
 # Entry Points for PyInstaller
 [project.entry-points."pyinstaller40"]
@@ -59,8 +62,8 @@ where = ["src"]
 namespaces = false
 
 [tool.setuptools.package-data]
-"*" = ["data/**"]
-"mars_patcher.data" = ["**"]
+"*" = ["mf/data/**"]
+"mars_patcher.mf.data" = ["**"]
 
 [tool.setuptools_scm]
 local_scheme = "no-local-version"

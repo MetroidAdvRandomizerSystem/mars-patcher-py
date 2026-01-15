@@ -60,6 +60,11 @@ class RoomEntry:
     def map_y(self) -> int:
         return self.rom.read_8(self.addr + 0x36)
 
+    def map_coords_at_block(self, block_x: int, block_y: int) -> tuple[int, int]:
+        x = self.map_x + ((block_x - 2) // 15)
+        y = self.map_y + ((block_y - 2) // 10)
+        return x, y
+
 
 class BlockLayer:
     def __enter__(self) -> BlockLayer:
@@ -80,7 +85,8 @@ class BlockLayer:
         self.pointer = ptr
         self.width = rom.read_8(addr)
         self.height = rom.read_8(addr + 1)
-        self.block_data, self.comp_len = decomp_rle(rom.data, addr + 2)
+        self.block_data, comp_size = decomp_rle(rom.data, addr + 2)
+        self.data_size = comp_size + 2
 
     def get_block_value(self, x: int, y: int) -> int:
         idx = (y * self.width + x) * 2
@@ -102,15 +108,7 @@ class BlockLayer:
         self.block_data[idx + 1] = value >> 8
 
     def write(self) -> None:
-        comp_data = comp_rle(self.block_data)
-        comp_len = len(comp_data)
-        if comp_len > self.comp_len:
-            # Repoint data
-            addr = self.rom.reserve_free_space(comp_len + 2)
-            self.rom.write_ptr(self.pointer, addr)
-        else:
-            addr = self.rom.read_ptr(self.pointer)
-        self.rom.write_8(addr, self.width)
-        self.rom.write_8(addr + 1, self.height)
-        self.rom.write_bytes(addr + 2, comp_data)
-        self.comp_len = comp_len
+        data = bytearray([self.width, self.height]) + comp_rle(self.block_data)
+        addr = self.rom.read_ptr(self.pointer)
+        self.rom.write_repointable_data(addr, self.data_size, data, [self.pointer])
+        self.data_size = len(data)

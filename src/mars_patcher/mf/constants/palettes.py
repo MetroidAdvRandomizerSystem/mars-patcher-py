@@ -1,4 +1,4 @@
-from mars_patcher.rom import Game
+from mars_patcher.mf.constants.sprites import SpriteIdMF
 
 MF_TILESET_ALT_PAL_ROWS = {
     0x46F134: 0xD,  # 08
@@ -71,74 +71,46 @@ TILESET_ANIM_PALS = {
 }
 
 
-EXCLUDED_ENEMIES = {
-    Game.MF: {
-        0x11,  # SA-X (elevator)
-        0x1D,  # Area banner
-        0x21,  # Message box
-        0x8C,  # SA-X (TRO 1)
-        0x8D,  # SA-X (NOC)
-        0xA0,  # SA-X (ARC)
-        0xBC,  # SA-X (lab)
-        0xC0,  # SA-X (boss)
-        0xC1,  # SA-X monster
-        0xC9,  # SA-X (Omega cutscene)
-        0xCD,  # SA-X (TRO 2)
-    },
-    Game.ZM: {
-        0x10,  # Unused
-        0x11,  # Item banner
-        0x8A,  # Crocomire
-    },
+EXCLUDED_ENEMIES_MF = {
+    SpriteIdMF.SAX_ELEVATOR,
+    SpriteIdMF.AREA_BANNER,
+    SpriteIdMF.MESSAGE_BANNER,
+    SpriteIdMF.SAX_TRO_1,
+    SpriteIdMF.SAX_NOC,
+    SpriteIdMF.SAX_ARC,
+    SpriteIdMF.SAX_LAB,
+    SpriteIdMF.SAX_BOSS,
+    SpriteIdMF.SAX_MONSTER,
+    SpriteIdMF.SAX_OMEGA,
+    SpriteIdMF.SAX_TRO_2,
 }
 
-ENEMY_GROUPS = {
-    Game.MF: {
-        "Zebesian": [0x14, 0x73, 0xA2, 0xB3, 0xB4],
-        "Zeela": [0x31, 0xA3],
-        "Sciser": [0x3C, 0x8B],
-        "BeamCoreX": [0x56, 0x57, 0x58, 0x59],
-        "Zoro": [0x5A, 0x63, 0x89, 0x8A],
-        "FakeTank": [0xAD, 0xAE],
-    },
-    Game.ZM: {
-        "Ripper": [0x16, 0x17, 0x71],
-        "Zeb": [0x18, 0x19],
-        "Skree": [0x1F, 0x20],
-        "ChozoStatue": [
-            0x22,
-            0x23,
-            0x24,
-            0x25,
-            0x26,
-            0x27,
-            0x28,
-            0x29,
-            0x2A,
-            0x2B,
-            0x2C,
-            0x2D,
-            0x2E,
-            0x2F,
-            0x30,
-            0x31,
-            0x58,
-            0x59,
-            0x94,
-        ],
-        "Viola": [0x34, 0x68, 0x69],
-        "GerutaTangleVine": [0x36, 0x37, 0xB7, 0xB8, 0xB9, 0xBA],
-        "Reo": [0x3F, 0x40],
-        "Imago": [0x4D, 0x4F, 0x70, 0x7F, 0x86, 0x8B],
-        "SpacePirate": [0x51, 0x52, 0x53, 0x54, 0x55, 0xB6, 0xC6, 0xC7],
-        "Gamet": [0x56, 0x57, 0x9D, 0x9E],
-        "Zebbo": [0x5B, 0x5C, 0xA1, 0xA2],
-        "Rinka": [0x66, 0x7C, 0xA5, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD],
-        "Geega": [0x7A, 0x7B, 0x9F, 0xA0],
-        "ElevatorStatue": [0x95, 0x96],
-        "UnknownItemBlocks": [0xAA, 0xAB, 0xAC],
-    },
+
+ENEMY_GROUPS_MF = {
+    "Zebesian": [
+        SpriteIdMF.ZEBESIAN_WALL,
+        SpriteIdMF.ZEBESIAN_GROUND,
+        SpriteIdMF.GOLD_ZEBESIAN,
+        SpriteIdMF.ZEBESIAN_AQUA,
+        SpriteIdMF.ZEBESIAN_PRE_AQUA,
+    ],
+    "Zeela": [SpriteIdMF.ZEELA, SpriteIdMF.RED_ZEELA],
+    "Sciser": [SpriteIdMF.SCISER, SpriteIdMF.GOLD_SCISER],
+    "BeamCoreX": [
+        SpriteIdMF.CHARGE_BEAM_CORE_X,
+        SpriteIdMF.WIDE_BEAM_CORE_X,
+        SpriteIdMF.PLASMA_BEAM_CORE_X,
+        SpriteIdMF.WAVE_BEAM_CORE_X,
+    ],
+    "Zoro": [
+        SpriteIdMF.ZORO,
+        SpriteIdMF.BLUE_ZORO,
+        SpriteIdMF.ZORO_COCOON,
+        SpriteIdMF.ZORO_HUSK,
+    ],
+    "FakeTank": [SpriteIdMF.FAKE_ENERGY_TANK, SpriteIdMF.FAKE_MISSILE_TANK],
 }
+
 
 NETTORI_EXTRA_PALS = [
     (0x36A480, 1),  # Medium health palette

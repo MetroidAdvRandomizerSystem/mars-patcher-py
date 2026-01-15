@@ -195,6 +195,10 @@ Itemmessageskind = typ.Literal[
     'CustomMessage',
     'MessageID'
 ]
+Jingle = typ.Literal[
+    'Minor',
+    'Major'
+]
 
 class BlocklayerItem(typ.TypedDict, total=False):
     X: Typeu8
@@ -219,7 +223,7 @@ Hintlocks = typ.Literal[
 
 # Schema entries
 
-class MarsschemaLocationsMajorlocationsItem(typ.TypedDict):
+class MarsschemamfLocationsMajorlocationsItem(typ.TypedDict):
     Source: Validsources
     """Valid major locations."""
 
@@ -227,8 +231,9 @@ class MarsschemaLocationsMajorlocationsItem(typ.TypedDict):
     """Valid items for shuffling."""
 
     ItemMessages: typ.NotRequired[Itemmessages]
+    Jingle: Jingle
 
-class MarsschemaLocationsMinorlocationsItem(typ.TypedDict):
+class MarsschemamfLocationsMinorlocationsItem(typ.TypedDict):
     Area: Areaid
     """The area ID where this item is located."""
 
@@ -248,18 +253,19 @@ class MarsschemaLocationsMinorlocationsItem(typ.TypedDict):
     """Valid graphics for minor location items."""
 
     ItemMessages: typ.NotRequired[Itemmessages]
+    Jingle: Jingle
 
-class MarsschemaLocations(typ.TypedDict):
+class MarsschemamfLocations(typ.TypedDict):
     """Specifies how the item locations in the game should be changed."""
 
-    MajorLocations: typ.Annotated[list[MarsschemaLocationsMajorlocationsItem], 'len() == 23', 'Unique items']
+    MajorLocations: typ.Annotated[list[MarsschemamfLocationsMajorlocationsItem], 'len() == 23', 'Unique items']
     """Specifies how the major item locations should be changed. A major item location is a location where an item is obtained by defeating a boss or interacting with a device."""
 
-    MinorLocations: typ.Annotated[list[MarsschemaLocationsMinorlocationsItem], 'len() == 103', 'Unique items']
+    MinorLocations: typ.Annotated[list[MarsschemamfLocationsMinorlocationsItem], 'len() == 103', 'Unique items']
     """Specifies how the minor item locations should be changed. A minor item location is a location where an item is obtained by touching a tank block."""
 
 
-class MarsschemaStartinglocation(typ.TypedDict):
+class MarsschemamfStartinglocation(typ.TypedDict):
     """The location the player should spawn at the start of the game."""
 
     Area: Areaid
@@ -274,7 +280,7 @@ class MarsschemaStartinglocation(typ.TypedDict):
     BlockY: Typeu8
     """The Y-coordinate in the room where the player should spawn. If the room contains a save station, then this value will not be taken into consideration."""
 
-MarsschemaStartingitemsSecuritylevelsItem = typ.Literal[
+MarsschemamfStartingitemsSecuritylevelsItem = typ.Literal[
     0,
     1,
     2,
@@ -282,7 +288,7 @@ MarsschemaStartingitemsSecuritylevelsItem = typ.Literal[
     4
 ]
 
-class MarsschemaStartingitems(typ.TypedDict, total=False):
+class MarsschemamfStartingitems(typ.TypedDict, total=False):
     Energy: typ.Annotated[int, '1 <= value <= 2099'] = 99
     """How much energy the player should start with on a new save file."""
 
@@ -295,14 +301,14 @@ class MarsschemaStartingitems(typ.TypedDict, total=False):
     Abilities: typ.Annotated[list[Validabilities], 'Unique items'] = []
     """Which abilities the player should start with on a new save file."""
 
-    SecurityLevels: typ.Annotated[list[MarsschemaStartingitemsSecuritylevelsItem], 'Unique items'] = [0]
+    SecurityLevels: typ.Annotated[list[MarsschemamfStartingitemsSecuritylevelsItem], 'Unique items'] = [0]
     """Which security levels will be unlocked from the start."""
 
     DownloadedMaps: typ.Annotated[list[Areaid], 'Unique items'] = []
     """Which area maps will be downloaded from the start."""
 
 
-class MarsschemaTankincrements(typ.TypedDict):
+class MarsschemamfTankincrements(typ.TypedDict):
     """How much ammo/health tanks provide when collected."""
 
     MissileTank: typ.Annotated[int, '-1000 <= value <= 1000'] = 5
@@ -321,7 +327,7 @@ class MarsschemaTankincrements(typ.TypedDict):
     """How much ammo Power Bomb Data provides when collected."""
 
 
-class MarsschemaElevatorconnections(typ.TypedDict):
+class MarsschemamfElevatorconnections(typ.TypedDict):
     """Defines the elevator that each elevator connects to."""
 
     ElevatorTops: typ.Annotated[dict[Validelevatortops, Validelevatorbottoms], 'len() >= 10']
@@ -331,7 +337,7 @@ class MarsschemaElevatorconnections(typ.TypedDict):
     """Defines the top elevator that each bottom elevator connects to."""
 
 
-class MarsschemaSectorshortcuts(typ.TypedDict):
+class MarsschemamfSectorshortcuts(typ.TypedDict):
     """Defines the sector that each sector shortcut connects to."""
 
     LeftAreas: Shortcutsectorlist
@@ -340,7 +346,7 @@ class MarsschemaSectorshortcuts(typ.TypedDict):
     RightAreas: Shortcutsectorlist
     """Destination areas on the right side of sectors"""
 
-MarsschemaDoorlocksItemLocktype = typ.Literal[
+MarsschemamfDoorlocksItemLocktype = typ.Literal[
     'Open',
     'Level0',
     'Level1',
@@ -350,17 +356,17 @@ MarsschemaDoorlocksItemLocktype = typ.Literal[
     'Locked'
 ]
 
-class MarsschemaDoorlocksItem(typ.TypedDict):
+class MarsschemamfDoorlocksItem(typ.TypedDict):
     Area: Areaid
     """The area ID where this door is located."""
 
     Door: Typeu8
     """The door ID of this door."""
 
-    LockType: MarsschemaDoorlocksItemLocktype
+    LockType: MarsschemamfDoorlocksItemLocktype
     """The type of cover on the hatch."""
 
-MarsschemaPalettesRandomizeKey = typ.Literal[
+MarsschemamfPalettesRandomizeKey = typ.Literal[
     'Tilesets',
     'Enemies',
     'Samus',
@@ -368,7 +374,7 @@ MarsschemaPalettesRandomizeKey = typ.Literal[
 ]
 
 @typ.final
-class MarsschemaPalettesRandomize(typ.TypedDict, total=False):
+class MarsschemamfPalettesRandomize(typ.TypedDict, total=False):
     """The range to use for rotating palette hues."""
 
     HueMin: Huerotation = None
@@ -378,29 +384,29 @@ class MarsschemaPalettesRandomize(typ.TypedDict, total=False):
     """The maximum value to use for rotating palette hues. If not specified, the patcher will randomly generate one."""
 
 
-MarsschemaPalettesColorspace = typ.Literal[
+MarsschemamfPalettesColorspace = typ.Literal[
     'HSV',
     'Oklab'
 ]
 
 @typ.final
-class MarsschemaPalettes(typ.TypedDict, total=False):
+class MarsschemamfPalettes(typ.TypedDict, total=False):
     """Properties for randomized in-game palettes."""
 
     Seed: Seed = None
     """A number used to initialize the random number generator for palettes. If not specified, the patcher will randomly generate one."""
 
-    Randomize: typ.Required[dict[MarsschemaPalettesRandomizeKey, MarsschemaPalettesRandomize]]
+    Randomize: typ.Required[dict[MarsschemamfPalettesRandomizeKey, MarsschemamfPalettesRandomize]]
     """What kind of palettes should be randomized."""
 
-    ColorSpace: MarsschemaPalettesColorspace = 'Oklab'
+    ColorSpace: MarsschemamfPalettesColorspace = 'Oklab'
     """The color space to use for rotating palette hues."""
 
     Symmetric: bool = True
     """Randomly rotates hues in the positive or negative direction true."""
 
 
-class MarsschemaNavigationtextNavigationterminals(typ.TypedDict, total=False):
+class MarsschemamfNavigationtextNavigationterminals(typ.TypedDict, total=False):
     """Assigns each navigation room a specific text."""
 
     MainDeckWest: str
@@ -437,7 +443,7 @@ class MarsschemaNavigationtextNavigationterminals(typ.TypedDict, total=False):
     """Specifies what text should appear at the Navigation Terminal in the Restricted Labs."""
 
 
-class MarsschemaNavigationtextShiptext(typ.TypedDict, total=False):
+class MarsschemamfNavigationtextShiptext(typ.TypedDict, total=False):
     """Assigns the ship specific text."""
 
     InitialText: str
@@ -448,17 +454,23 @@ class MarsschemaNavigationtextShiptext(typ.TypedDict, total=False):
 
 
 @typ.final
-class MarsschemaNavigationtext(typ.TypedDict, total=False):
+class MarsschemamfNavigationtext(typ.TypedDict, total=False):
     """Specifies text for a specific language."""
 
-    NavigationTerminals: MarsschemaNavigationtextNavigationterminals
+    NavigationTerminals: MarsschemamfNavigationtextNavigationterminals
     """Assigns each navigation room a specific text."""
 
-    ShipText: MarsschemaNavigationtextShiptext
+    ShipText: MarsschemamfNavigationtextShiptext
     """Assigns the ship specific text."""
 
 
-MarsschemaCreditstextItemLinetype = typ.Literal[
+
+class MarsschemamfTitletextItem(typ.TypedDict, total=False):
+    Text: typ.Annotated[str, '/^[ -~]{0,30}$/']
+    """The ASCII text for this line"""
+
+    LineNum: typ.Annotated[int, '0 <= value <= 14']
+MarsschemamfCreditstextItemLinetype = typ.Literal[
     'Blank',
     'Blue',
     'Red',
@@ -466,8 +478,8 @@ MarsschemaCreditstextItemLinetype = typ.Literal[
     'White2'
 ]
 
-class MarsschemaCreditstextItem(typ.TypedDict, total=False):
-    LineType: typ.Required[MarsschemaCreditstextItemLinetype]
+class MarsschemamfCreditstextItem(typ.TypedDict, total=False):
+    LineType: typ.Required[MarsschemamfCreditstextItemLinetype]
     """The color and line height of the text (or blank)."""
 
     Text: typ.Annotated[str, '/^[ -~]{0,34}$/']
@@ -479,7 +491,7 @@ class MarsschemaCreditstextItem(typ.TypedDict, total=False):
     Centered: bool = True
     """Centers the text horizontally when true."""
 
-MarsschemaNavstationlocksKey = typ.Literal[
+MarsschemamfNavstationlocksKey = typ.Literal[
     'MainDeckWest',
     'MainDeckEast',
     'OperationsDeck',
@@ -495,7 +507,7 @@ MarsschemaNavstationlocksKey = typ.Literal[
 
 
 @typ.final
-class MarsschemaLeveledits(typ.TypedDict, total=False):
+class MarsschemamfLeveledits(typ.TypedDict, total=False):
     """Specifies the Room ID."""
 
     BG1: Blocklayer
@@ -510,7 +522,7 @@ class MarsschemaLeveledits(typ.TypedDict, total=False):
 
 
 
-class MarsschemaMinimapeditsItem(typ.TypedDict, total=False):
+class MarsschemamfMinimapeditsItem(typ.TypedDict, total=False):
     X: Typeu5
     """The X position in the minimap that should get edited."""
 
@@ -531,7 +543,7 @@ class MarsschemaMinimapeditsItem(typ.TypedDict, total=False):
 
 
 
-class MarsschemaRoomnamesItem(typ.TypedDict):
+class MarsschemamfRoomnamesItem(typ.TypedDict):
     Area: Areaid
     """The area ID where this room is located."""
 
@@ -543,7 +555,7 @@ class MarsschemaRoomnamesItem(typ.TypedDict):
  to force a line break. If not provided, will display 'Unknown Room'."""
 
 
-class Marsschema(typ.TypedDict, total=False):
+class Marsschemamf(typ.TypedDict, total=False):
     """
     Metroid Fusion patching schema
     
@@ -553,42 +565,54 @@ class Marsschema(typ.TypedDict, total=False):
     SeedHash: typ.Required[typ.Annotated[str, '/^[0-9A-Z]{8}$/']]
     """A seed hash that will be displayed on the file select screen."""
 
-    Locations: typ.Required[MarsschemaLocations]
+    Locations: typ.Required[MarsschemamfLocations]
     """Specifies how the item locations in the game should be changed."""
 
     RequiredMetroidCount: typ.Required[typ.Annotated[int, '0 <= value <= 20']]
     """The number of infant Metroids that must be collected to beat the game."""
 
-    StartingLocation: MarsschemaStartinglocation
+    StartingLocation: MarsschemamfStartinglocation
     """The location the player should spawn at the start of the game."""
 
-    StartingItems: MarsschemaStartingitems = None
-    TankIncrements: MarsschemaTankincrements = None
+    StartingItems: MarsschemamfStartingitems = None
+    TankIncrements: MarsschemamfTankincrements = None
     """How much ammo/health tanks provide when collected."""
 
-    ElevatorConnections: MarsschemaElevatorconnections
+    ElevatorConnections: MarsschemamfElevatorconnections
     """Defines the elevator that each elevator connects to."""
 
-    SectorShortcuts: MarsschemaSectorshortcuts
+    SectorShortcuts: MarsschemamfSectorshortcuts
     """Defines the sector that each sector shortcut connects to."""
 
-    DoorLocks: list[MarsschemaDoorlocksItem]
+    DoorLocks: list[MarsschemamfDoorlocksItem]
     """List of all lockable doors and their lock type."""
 
-    Palettes: MarsschemaPalettes = None
+    Palettes: MarsschemamfPalettes = None
     """Properties for randomized in-game palettes."""
 
-    NavigationText: dict[Validlanguages, MarsschemaNavigationtext] = None
+    NavigationText: dict[Validlanguages, MarsschemamfNavigationtext] = None
     """Specifies text to be displayed at navigation rooms and the ship."""
 
-    CreditsText: list[MarsschemaCreditstextItem]
+    TitleText: list[MarsschemamfTitletextItem] = None
+    """Lines of ascii text to write to the title screen."""
+
+    CreditsText: list[MarsschemamfCreditstextItem]
     """Lines of text to insert into the credits."""
 
-    NavStationLocks: dict[MarsschemaNavstationlocksKey, Hintlocks]
+    NavStationLocks: dict[MarsschemamfNavstationlocksKey, Hintlocks]
     """Sets the required Security Levels for accessing Navigation Terminals."""
 
     DisableDemos: bool = False
     """Disables title screen demos when true."""
+
+    InstantUnmorph: bool = False
+    """When true, enables instant unmorphing via the SELECT button."""
+
+    NerfGerons: bool = False
+    """When true, changes the Geron weaknesses to only be weak to their 'intended' values."""
+
+    UseAlternativeHudHealthLayout: bool = False
+    """When true, changes the HUD health layout to display 'currentHP/totalHP'."""
 
     SkipDoorTransitions: bool = False
     """Makes all door transitions instant when true."""
@@ -611,22 +635,22 @@ class Marsschema(typ.TypedDict, total=False):
     PowerBombsWithoutBombs: bool = False
     """When enabled, lets you use Power Bombs without needing to collect Bomb Data."""
 
-    AntiSoftlockRoomEdits: bool = False
-    """Changes room layouts when enabled to prevent some accidental softlocks."""
+    AccessibilityPatches: bool = False
+    """Whether to apply patches for better accessibility."""
 
-    LevelEdits: dict[Areaidkey, dict[str, MarsschemaLeveledits]]
+    LevelEdits: dict[Areaidkey, dict[str, MarsschemamfLeveledits]]
     """Specifies room edits that should be done. These will be applied last."""
 
-    MinimapEdits: dict[Minimapidkey, list[MarsschemaMinimapeditsItem]]
+    MinimapEdits: dict[Minimapidkey, list[MarsschemamfMinimapeditsItem]]
     """Specifies minimap edits that should be done."""
 
     HideDoorsOnMinimap: bool = False
     """When enabled, hides doors on the minimap. This is automatically enabled when the 'DoorLocks' field is provided."""
 
-    RoomNames: typ.Annotated[list[MarsschemaRoomnamesItem], 'Unique items']
+    RoomNames: typ.Annotated[list[MarsschemamfRoomnamesItem], 'Unique items']
     """Specifies a name to be displayed when the A Button is pressed on the pause menu."""
 
     RevealHiddenTiles: bool = False
     """When enabled, reveals normally hidden blocks that are breakable by upgrades. Hidden pickup tanks are not revealed regardless of this setting."""
 
-MarsSchema: typ.TypeAlias = Marsschema
+MarsSchemaMF: typ.TypeAlias = Marsschemamf
