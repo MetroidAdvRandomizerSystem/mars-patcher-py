@@ -195,6 +195,8 @@ def patch_mf(
 
     write_seed_hash(rom, patch_data["SeedHash"])
 
+    fuck_with_colors(rom)
+
     # Title-screen text
     if title_screen_text := patch_data.get("TitleText"):
         status_update("Writing title screen text...", -1)
@@ -223,7 +225,42 @@ def fuck_with_colors(rom: Rom) -> None:
         final = color.rgb()
         return final
 
+    class ColorVariations:
+        normal: RgbColor
+        darker: RgbColor
+        darkest: RgbColor
+        brighter: RgbColor
+        alt_normal: RgbColor
+        alt_darker: RgbColor
+        alt_darkest: RgbColor
+        alt_brighter: RgbColor
+
+        def __init__(self, base_color: RgbColor) -> None:
+            self.normal = base_color
+
+            mods = [
+                (1, 1, 1),  # normal
+                (1.0063, 1.1923, 0.7420),  # darker
+                (1.0305, 1.1923, 0.5162),  # darkest
+                (0.9710, 0.6154, 1),  # brighter
+                (1.0939, 1.1923, 0.6452),  # alt_normal
+                (1.1415, 1.1923, 0.4839),  # alt_darker
+                (1.1732, 1.1923, 0.3226),  # alt_darkest
+                (1.1014, 0.9062, 0.8065),  # alt_brighter
+            ]
+
+            self.normal = adjust_hsv_and_return_as_rgb(base_color, *mods[0])
+            self.darker = adjust_hsv_and_return_as_rgb(base_color, *mods[1])
+            self.darkest = adjust_hsv_and_return_as_rgb(base_color, *mods[2])
+            self.brighter = adjust_hsv_and_return_as_rgb(base_color, *mods[3])
+
+            self.alt_normal = adjust_hsv_and_return_as_rgb(base_color, *mods[4])
+            self.alt_darker = adjust_hsv_and_return_as_rgb(base_color, *mods[5])
+            self.alt_darkest = adjust_hsv_and_return_as_rgb(base_color, *mods[6])
+            self.alt_brighter = adjust_hsv_and_return_as_rgb(base_color, *mods[7])
+
     # Always brighten gray map bg to provide better contrast
+    # TODO: move this to asm?
     gray = RgbColor(153, 153, 153, RgbBitSize.Rgb8)
     minimap_pal = Palette(1, rom, 0x3E415C)
     minimap_pal.colors[12] = gray
@@ -237,6 +274,8 @@ def fuck_with_colors(rom: Rom) -> None:
     yellow_color = RgbColor(40, 248, 40, RgbBitSize.Rgb8)
     red_color = RgbColor(40, 84, 248, RgbBitSize.Rgb8)
     purple_map_color = RgbColor(255, 99, 34, RgbBitSize.Rgb8)
+
+    _blues = ColorVariations(blue_color)
 
     base_colors = {
         8: blue_color,
