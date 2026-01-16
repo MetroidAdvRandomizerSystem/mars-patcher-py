@@ -34,7 +34,7 @@ class ReservedPointersMF(IntEnum):
     TANK_INC_ADDR = auto()
     METROID_PARAMETERS_ADDR = auto()
     STARTING_LOCATION_ADDR = auto()
-    CREDITS_END_DELAY_ADDR = auto()  # Unused. Remnant of when we didn't have looping credits music.
+    CREDITS_PARAMETERS_ADDR = auto()  # Unused. Remnant of when we didn't have looping credits music
     HINT_SECURITY_LEVELS_ADDR = auto()
     ENVIRONMENTAL_HARZARD_DAMAGE_ADDR = auto()  # TODO: Implement this
     MISSILE_LIMIT_ADDR = auto()
