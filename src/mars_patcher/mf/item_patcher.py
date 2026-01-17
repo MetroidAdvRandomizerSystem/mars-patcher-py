@@ -1,6 +1,6 @@
 from mars_patcher.item_messages import ItemMessages, ItemMessagesKind
 from mars_patcher.mf.auto_generated_types import MarsschemamfTankincrements
-from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
+from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF, ReservedPointersMF
 from mars_patcher.mf.locations import (
     ItemSprite,
     ItemType,
@@ -11,14 +11,13 @@ from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
 from mars_patcher.tileset import Tileset
 
-MINOR_LOCS_TABLE_ADDR = ReservedConstantsMF.MINOR_LOCS_TABLE_ADDR
-MINOR_LOCS_ARRAY_ADDR = ReservedConstantsMF.MINOR_LOCS_ARRAY_ADDR
+MINOR_LOCS_TABLE_ADDR = ReservedPointersMF.MINOR_LOCS_TABLE_ADDR
+MINOR_LOCS_ARRAY_ADDR = ReservedPointersMF.MINOR_LOCS_ARRAY_ADDR
 MINOR_LOC_SIZE = 0x10
-MAJOR_LOCS_POINTER_ADDR = ReservedConstantsMF.MAJOR_LOCS_POINTER_ADDR
+MAJOR_LOCS_POINTER_ADDR = ReservedPointersMF.MAJOR_LOCS_POINTER_ADDR
 MAJOR_LOC_SIZE = 0x4
-TANK_INC_ADDR = ReservedConstantsMF.TANK_INC_ADDR
-REQUIRED_METROID_COUNT_ADDR = ReservedConstantsMF.REQUIRED_METROID_COUNT_ADDR
-TOTAL_METROID_COUNT_ADDR = ReservedConstantsMF.TOTAL_METROID_COUNT_ADDR
+TANK_INC_ADDR = ReservedPointersMF.TANK_INC_ADDR
+METROID_PARAMETERS_ADDR = ReservedPointersMF.METROID_PARAMETERS_ADDR
 MESSAGE_TABLE_LOOKUP_ADDR = ReservedConstantsMF.MESSAGE_TABLE_LOOKUP_ADDR
 FIRST_CUSTOM_MESSAGE_ID = ReservedConstantsMF.FIRST_CUSTOM_MESSAGE_ID
 AUTO_MESSAGE_ID = 0xFF
@@ -195,7 +194,7 @@ class ItemPatcher:
                 # Write item jingle
                 rom.write_8(addr + 2, maj_loc.item_jingle.value)
         # Write total metroid count
-        rom.write_8(rom.read_ptr(TOTAL_METROID_COUNT_ADDR), total_metroids)
+        rom.write_8(rom.read_ptr(METROID_PARAMETERS_ADDR), total_metroids)
 
     def write_custom_message(
         self,
@@ -230,7 +229,7 @@ class ItemPatcher:
 
 # TODO: Move these?
 def set_required_metroid_count(rom: Rom, count: int) -> None:
-    rom.write_8(rom.read_ptr(REQUIRED_METROID_COUNT_ADDR) + 1, count)
+    rom.write_8(rom.read_ptr(METROID_PARAMETERS_ADDR) + 1, count)
 
 
 def set_tank_increments(rom: Rom, data: MarsschemamfTankincrements) -> None:

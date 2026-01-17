@@ -1,5 +1,5 @@
 import mars_patcher.constants.game_data as gd
-from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
+from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder
 from mars_patcher.rom import Rom
@@ -43,7 +43,7 @@ def skip_door_transitions(rom: Rom) -> None:
 
 
 def stereo_default(rom: Rom) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstantsMF.DEFAULT_STEREO_FLAG_POINTER_ADDR), 1)
+    rom.write_8(rom.read_ptr(ReservedPointersMF.DEFAULT_STEREO_FLAG_POINTER_ADDR), 1)
 
 
 def disable_sounds(rom: Rom, start: int, end: int, exclude: set[int] = set()) -> None:
@@ -70,7 +70,7 @@ def disable_sound_effects(rom: Rom) -> None:
 
 
 def change_missile_limit(rom: Rom, limit: int) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstantsMF.MISSILE_LIMIT_ADDR), limit)
+    rom.write_8(rom.read_ptr(ReservedPointersMF.MISSILE_LIMIT_ADDR), limit)
 
 
 def apply_unexplored_map(rom: Rom) -> None:
@@ -82,11 +82,11 @@ def apply_nerf_gerons(rom: Rom) -> None:
 
 
 def apply_alternative_health_layout(rom: Rom) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstantsMF.USE_ALTERNATIVE_HUD_DISPLAY), 1)
+    rom.write_8(rom.read_ptr(ReservedPointersMF.USE_ALTERNATIVE_HUD_DISPLAY), 1)
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstantsMF.REVEAL_HIDDEN_TILES_ADDR), 1)
+    rom.write_8(rom.read_ptr(ReservedPointersMF.REVEAL_HIDDEN_TILES_ADDR), 1)
 
 
 def apply_reveal_unexplored_doors(rom: Rom) -> None:
@@ -98,4 +98,4 @@ def apply_accessibility_patch(rom: Rom) -> None:
 
 
 def apply_instant_unmorph_patch(rom: Rom) -> None:
-    rom.write_8(rom.read_ptr(ReservedConstantsMF.INSTANT_MORPH_FLAG_POINTER_ADDR), 1)
+    rom.write_8(rom.read_ptr(ReservedPointersMF.INSTANT_MORPH_FLAG_POINTER_ADDR), 1)
