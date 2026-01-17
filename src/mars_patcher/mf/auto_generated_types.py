@@ -127,7 +127,14 @@ Validitemsprites = typ.Literal[
     'Anonymous',
     'ShinyMissileTank',
     'ShinyPowerBombTank',
-    'InfantMetroid'
+    'InfantMetroid',
+    'ShinyPowerBombTank',
+    'InfantMetroid',
+    'SamusHead',
+    'WalljumpBoots',
+    'Randovania',
+    'ArchipelagoColor',
+    'ArchipelagoMonochrome'
 ]
 Validabilities = typ.Literal[
     'Missiles',
@@ -631,9 +638,6 @@ class Marsschemamf(typ.TypedDict, total=False):
 
     UnexploredMap: bool = False
     """When enabled, starts you with a map where all unexplored items and non-visited tiles have a gray background. This is different from the downloaded map stations where there, the full tile is gray."""
-
-    PowerBombsWithoutBombs: bool = False
-    """When enabled, lets you use Power Bombs without needing to collect Bomb Data."""
 
     AccessibilityPatches: bool = False
     """Whether to apply patches for better accessibility."""

@@ -77,10 +77,6 @@ def apply_unexplored_map(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "unhidden_map.ips")
 
 
-def apply_pbs_without_bombs(rom: Rom) -> None:
-    apply_patch_in_asm_path(rom, "bombless_pbs.ips")
-
-
 def apply_nerf_gerons(rom: Rom) -> None:
     apply_patch_in_asm_path(rom, "nerf_geron_weakness.ips")
 
