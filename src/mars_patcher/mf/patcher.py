@@ -265,6 +265,7 @@ def fuck_with_colors(rom: Rom) -> None:
     map_pal.colors[2] = map_pal.colors[3] = gray
     map_pal.write(rom, 0x5657A8)
 
+    # TODO: get these colors from patcher data instead of hardcoding :) also rename this function
     blue_color = RgbColor(255, 41, 41, RgbBitSize.Rgb8)
     green_color = RgbColor(156, 41, 251, RgbBitSize.Rgb8)
     yellow_color = RgbColor(40, 248, 40, RgbBitSize.Rgb8)
