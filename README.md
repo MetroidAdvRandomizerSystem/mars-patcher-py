@@ -11,7 +11,7 @@ Running from source:
 - Activate the venv:
   - Windows: `call venv\scripts\activate`
   - Unix-based: `source ./venv/bin/activate`
-- Install the project as editable: `pip install -e .`
+- Install the project as editable: `pip install -e .[tooling]`
 - Run: `python -m mars_patcher`
 
 Before running the patcher, you want to initialize the required assembly patches into `src/mars_patcher/data/patches/mf_u/asm`.
