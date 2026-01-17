@@ -207,10 +207,6 @@ def patch_mf(
 
 
 def fuck_with_colors(rom: Rom) -> None:
-    # TODO: clean up
-    def round_down(num: int, divisor: int) -> int:
-        return num - (num % divisor)
-
     def adjust_hsv_and_return_as_rgb(col: RgbColor, h: float, s: float, v: float) -> RgbColor:
         color = col.hsv()
         color.hue *= h
@@ -275,187 +271,306 @@ def fuck_with_colors(rom: Rom) -> None:
     red_color = RgbColor(40, 84, 248, RgbBitSize.Rgb8)
     purple_map_color = RgbColor(255, 99, 34, RgbBitSize.Rgb8)
 
-    _blues = ColorVariations(blue_color)
+    blues = ColorVariations(blue_color)
+    greens = ColorVariations(green_color)
+    yellows = ColorVariations(yellow_color)
+    reds = ColorVariations(red_color)
+    purples = ColorVariations(purple_map_color)
 
-    base_colors = {
-        8: blue_color,
-        10: green_color,
-        12: yellow_color,
-        14: red_color,
+    # Palettes
+    palettes_to_change: dict[int, dict[int, dict[int, RgbColor]]] = {}
+    door_palettes = {
+        # still
+        0x40807C: {
+            0: {
+                8: blues.normal,
+                9: blues.alt_normal,
+                10: greens.normal,
+                11: greens.alt_normal,
+                12: yellows.normal,
+                13: yellows.alt_normal,
+                14: reds.normal,
+                15: reds.alt_normal,
+            }
+        },
+        # animated
+        0x40825C: {
+            0: {
+                8: blues.normal,
+                9: blues.alt_normal,
+                10: greens.normal,
+                11: greens.alt_normal,
+                12: yellows.normal,
+                13: yellows.alt_normal,
+                14: reds.normal,
+                15: reds.alt_normal,
+            },
+            1: {
+                8: blues.darker,
+                9: blues.alt_darker,
+                10: greens.darker,
+                11: greens.alt_darker,
+                12: yellows.darker,
+                13: yellows.alt_darker,
+                14: reds.darker,
+                15: reds.alt_darker,
+            },
+            2: {
+                8: blues.darkest,
+                9: blues.alt_darkest,
+                10: greens.darkest,
+                11: greens.alt_darkest,
+                12: yellows.darkest,
+                13: yellows.alt_darkest,
+                14: reds.darkest,
+                15: reds.alt_darkest,
+            },
+            5: {
+                8: blues.brighter,
+                9: blues.alt_brighter,
+                10: greens.brighter,
+                11: greens.alt_brighter,
+                12: yellows.brighter,
+                13: yellows.alt_brighter,
+                14: reds.brighter,
+                15: reds.alt_brighter,
+            },
+        },
+    }
+    door_palettes[0x40825C][3] = door_palettes[0x40825C][1]
+    door_palettes[0x40825C][4] = door_palettes[0x40825C][0]
+
+    palettes_to_change |= door_palettes
+
+    for address, row in MF_TILESET_ALT_PAL_ROWS.items():
+        palettes_to_change[address] = {
+            row: {
+                7: greens.alt_darkest,
+                8: greens.alt_normal,
+                9: greens.normal,
+                10: blues.alt_brighter,
+                11: blues.normal,
+                12: yellows.alt_normal,
+                13: yellows.normal,
+                14: reds.alt_normal,
+                15: reds.normal,
+            }
+        }
+
+    normal_item_palettes = {
+        0x40805C: {
+            0: {
+                7: yellows.normal,
+                8: yellows.alt_normal,
+                9: purples.normal,
+                10: purples.alt_normal,
+                11: reds.alt_normal,
+                12: blues.brighter,
+                13: blues.normal,
+                14: blues.darker,
+                15: blues.darkest,
+            }
+        }
     }
 
-    mods = {
-        0: (1, 1, 1),
-        1: (1.0063, 1.1923, 0.7420),
-        2: (1.0305, 1.1923, 0.5162),
-        5: (0.9710, 0.6154, 1),
+    palettes_to_change |= normal_item_palettes
+
+    map_palettes = {
+        0x5657A8: {
+            0: {
+                4: blues.alt_normal,
+                5: blues.alt_darkest,
+                7: yellows.normal,
+                8: blues.normal,
+                9: greens.brighter,
+                10: reds.normal,
+                11: yellows.normal,
+                12: blues.normal,
+                13: greens.brighter,
+                14: reds.normal,
+                15: yellows.normal,
+            },
+            1: {
+                2: purples.normal,
+                3: purples.normal,
+                4: blues.alt_normal,
+                5: blues.alt_darkest,
+                7: yellows.normal,
+                8: blues.normal,
+                9: greens.brighter,
+                10: reds.normal,
+                11: yellows.normal,
+                12: blues.normal,
+                13: greens.brighter,
+                14: reds.normal,
+                15: yellows.normal,
+            },
+            2: {
+                2: greens.alt_brighter,
+                3: greens.alt_brighter,
+                4: blues.alt_normal,
+                5: blues.alt_darkest,
+                7: yellows.normal,
+                8: blues.normal,
+                9: greens.brighter,
+                10: reds.normal,
+                11: yellows.normal,
+                12: blues.normal,
+                13: greens.brighter,
+                14: reds.normal,
+                15: yellows.normal,
+            },
+        }
     }
-    mods[3] = mods[1]
-    mods[4] = mods[0]
 
-    mods_alt = {
-        0: (1.0939, 1.1923, 0.6452),
-        1: (1.1415, 1.1923, 0.4839),
-        2: (1.1732, 1.1923, 0.3226),
-        5: (1.1014, 0.9062, 0.8065),
+    animated_map_palettes = {
+        0x57BCD4: {
+            0: {
+                0: purples.normal,
+                1: purples.darker,
+                2: purples.darkest,
+                3: purples.darker,
+                4: purples.normal,
+            },
+            1: {
+                0: greens.alt_brighter,
+                1: greens.alt_normal,
+                2: greens.alt_darker,
+                3: greens.alt_normal,
+                4: greens.alt_brighter,
+            },
+        }
     }
-    mods_alt[3] = mods_alt[1]
-    mods_alt[4] = mods_alt[0]
 
-    # Patch common door graphics
-    def fix_door_colors(addr: int, rows: int) -> None:
-        door_pal = Palette(rows, rom, addr)
-        for index in range(rows):
-            for col_index in range(8, 16):
-                base_color = base_colors[round_down(col_index, 2)]
-                if col_index % 2 == 0:
-                    h, s, v = mods[index]
-                else:
-                    h, s, v = mods_alt[index]
-                final_index = index * 16 + col_index
-                final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-                door_pal.colors[final_index] = final
-        door_pal.write(rom, addr)
-
-    fix_door_colors(0x40807C, 1)  # common graphics for still/locked door
-    fix_door_colors(0x40825C, 6)  # common graphics for animated door
-
-    # Patch item palettes
-    base_colors = {
-        8: green_color,
-        10: blue_color,
-        12: yellow_color,
-        14: red_color,
+    minimap_palettes = {
+        0x3E415C: {
+            0: {
+                2: greens.normal,
+                3: greens.alt_brighter,
+                4: greens.alt_normal,
+                5: blues.alt_darkest,
+                6: reds.normal,
+                7: yellows.normal,
+                8: blues.normal,
+                10: reds.normal,
+                11: yellows.darker,
+                13: purples.normal,
+                14: blues.alt_normal,
+            }
+        }
     }
-    for address, offset in MF_TILESET_ALT_PAL_ROWS.items():
-        pal = Palette(1, rom, address + (0x20 * offset))
-        sp_h, sp_s, sp_v = mods_alt[2]
-        pal.colors[7] = adjust_hsv_and_return_as_rgb(base_colors[8], sp_h, sp_s, sp_v)
-        for col_index in range(8, 16):
-            base_color = base_colors[round_down(col_index, 2)]
-            if col_index % 2 == 0:
-                h, s, v = mods_alt[0]
-            else:
-                h, s, v = mods[0]
-            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-            pal.colors[col_index] = final
 
-        pal.write(rom, address + (0x20 * offset))
-
-    # Patch map door palettes
-    base_colors = {
-        0: yellow_color,
-        1: blue_color,
-        2: green_color,
-        3: red_color,
+    map_keylock_palettes = {
+        0x565C28: {
+            0: {
+                2: blues.normal,
+                3: blues.darker,
+                4: blues.darkest,
+                5: greens.normal,
+                6: greens.darker,
+                7: greens.darkest,
+                8: yellows.normal,
+                9: yellows.darker,
+                10: yellows.darkest,
+                11: reds.brighter,
+                12: reds.normal,
+                13: reds.darker,
+            }
+        }
     }
-    minimap_pal = Palette(3, rom, 0x5657A8)
-    for row in range(3):
-        # change green/purple bg color too
-        if row == 1 or row == 2:
-            for index in range(2, 4):
-                base_color = base_colors[2]
-                h, s, v = mods_alt[0]
-                if row == 1:
-                    base_color = purple_map_color
-                    h, s, v = mods[0]
-                final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-                minimap_pal.colors[row * 16 + index] = final
 
-        for index in range(7, 16):
-            col_index = index - 7
-            h, s, v = mods[0]
-            base_color = base_colors[col_index % 4]
-            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-            minimap_pal.colors[row * 16 + index] = final
-    minimap_pal.write(rom, 0x5657A8)
-
-    # Change animated bg colors
-    anim_pal = Palette(2, rom, 0x57BCD4)
-    for row in range(2):
-        for index in range(5):
-            h, s, v = mods_alt[index]
-            base_color = base_colors[2]
-            if row == 0:
-                base_color = purple_map_color
-                h, s, v = mods[index]
-            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-            anim_pal.colors[index + row * 16] = final
-    anim_pal.write(rom, 0x57BCD4)
-
-    # Change minimap color too
-    minimap_pal = Palette(1, rom, 0x3E415C)
-    # Green BG + Green Door
-    for index in range(2, 5):
-        base_color = base_colors[2]
-        h, s, v = mods_alt[index - 2]
-        final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-        minimap_pal.colors[index] = final
-    # Purple BG
-    base_color = purple_map_color
-    h, s, v = mods[0]
-    final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-    minimap_pal.colors[13] = final
-    # Doors
-    for index in [6, 7, 8, 10, 11, 14]:
-        if index == 6 or index == 10:
-            base_color = base_colors[3]
-        elif index == 7 or index == 11:
-            base_color = base_colors[0]
-        else:  # index == 8 or index == 14
-            base_color = base_colors[1]
-
-        if index < 10:
-            h, s, v = mods[0]
-        else:
-            h, s, v = mods_alt[0]
-
-        final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-        minimap_pal.colors[index] = final
-
-    minimap_pal.write(rom, 0x3E415C)
-
-    # Patch minimap keylock icon palette
-    # # TODO WARP and STATUS icon flash a bit, probably need to change 0x565CA8
-    base_colors = {
-        2: blue_color,
-        5: green_color,
-        8: yellow_color,
-        11: red_color,
+    map_l_r_button_palettes = {
+        0x565CA8: {
+            0: {
+                2: blues.brighter,
+                3: blues.normal,
+                4: blues.darker,
+                5: greens.normal,
+                6: greens.alt_brighter,
+                7: greens.alt_normal,
+            },
+            1: {
+                2: blues.brighter,
+                3: blues.darker,
+                4: blues.alt_normal,
+                5: greens.normal,
+                6: greens.alt_brighter,
+                7: greens.alt_normal,
+            },
+            2: {
+                2: blues.normal,
+                3: blues.darker,
+                4: blues.alt_normal,
+                5: greens.normal,
+                6: greens.alt_brighter,
+                7: greens.alt_normal,
+            },
+        }
     }
-    keylock_pal = Palette(1, rom, 0x565C28)
-    for index in range(2, 14):
-        col_index = index - 2
-        if col_index % 3 == 0:
-            h, s, v = mods[5]
-        elif col_index % 3 == 1:
-            h, s, v = mods[0]
-        else:  # % 3 == 2
-            h, s, v = mods_alt[0]
 
-        base_color = base_colors[round_down(col_index, 3) + 2]
-        final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-        keylock_pal.colors[col_index + 2] = final
-    keylock_pal.write(rom, 0x565C28)
+    palettes_to_change |= map_palettes
+    palettes_to_change |= animated_map_palettes
+    palettes_to_change |= minimap_palettes
+    palettes_to_change |= map_keylock_palettes
+    palettes_to_change |= map_l_r_button_palettes
 
-    # Change x colors
-    base_colors = {0: red_color, 1: green_color, 2: yellow_color}
-    x_pal = Palette(3, rom, 0x3E40DC)
-    for row in range(3):
-        for index in range(11, 14):
-            if index == 11:
-                h, s, v = mods[5]
-            elif index == 12:
-                h, s, v = mods[0]
-            else:  # index == 13
-                h, s, v = mods_alt[1]
+    x_palettes = {
+        # Normal X
+        0x3E40DC: {
+            0: {
+                11: reds.brighter,
+                12: reds.darker,
+                13: reds.darkest,
+            },
+            1: {
+                11: greens.normal,
+                12: greens.darker,
+                13: greens.darkest,
+            },
+            2: {
+                11: yellows.alt_normal,
+                12: yellows.alt_darker,
+                13: yellows.alt_darkest,
+            },
+        },
+        # Ice-X
+        0x35EE98: {
+            0: {
+                3: blues.normal,
+                4: blues.darker,
+                5: blues.alt_darker,
+                6: blues.alt_normal,
+                7: blues.brighter,
+                11: blues.normal,
+                12: blues.darker,
+                13: blues.alt_darker,
+                14: blues.alt_darkest,
+            }
+        },
+    }
 
-            base_color = base_colors[row]
-            final = adjust_hsv_and_return_as_rgb(base_color, h, s, v)
-            x_pal.colors[row * 16 + index] = final
+    palettes_to_change |= x_palettes
 
-    x_pal.write(rom, 0x3E40DC)
+    text_palettes = {
+        0x565B28: {
+            0: {
+                4: reds.normal,
+                6: purples.normal,
+                8: yellows.normal,
+                10: greens.normal,
+                12: blues.alt_normal,
+                14: blues.normal,
+            }
+        }
+    }
 
-    # TODO: change colored nav text
-    # TODO: map doesnt have grid colors changed
-    # TODO: change the other item palette?
+    palettes_to_change |= text_palettes
+
+    for base_address, data in palettes_to_change.items():
+        for row, row_data in data.items():
+            palette_address = base_address + 0x20 * row
+            palette = Palette(1, rom, palette_address)
+            for element, color in row_data.items():
+                palette.colors[element] = color
+
+            palette.write(rom, palette_address)
