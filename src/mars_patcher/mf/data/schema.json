@@ -596,11 +596,6 @@
             "description": "When enabled, starts you with a map where all unexplored items and non-visited tiles have a gray background. This is different from the downloaded map stations where there, the full tile is gray.",
             "default": false
         },
-        "PowerBombsWithoutBombs": {
-            "type": "boolean",
-            "description": "When enabled, lets you use Power Bombs without needing to collect Bomb Data.",
-            "default": false
-        },
         "AccessibilityPatches": {
             "type": "boolean",
             "description": "Whether to apply patches for better accessibility.",
@@ -896,7 +891,15 @@
                 "Anonymous",
                 "ShinyMissileTank",
                 "ShinyPowerBombTank",
-                "InfantMetroid"
+                "InfantMetroid",
+                "ShinyPowerBombTank",
+                "InfantMetroid",
+                "SamusHead",
+                "WalljumpBoots",
+                "Randovania",
+                "ArchipelagoColor",
+                "ArchipelagoMonochrome"
+
             ]
         },
         "ValidAbilities": {

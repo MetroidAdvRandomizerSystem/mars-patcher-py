@@ -100,6 +100,11 @@ class ItemSprite(Enum):
     SHINY_MISSILE_TANK = 28
     SHINY_POWER_BOMB_TANK = 29
     INFANT_METROID = 30
+    SAMUS_HEAD = 31
+    WALLJUMP_BOOTS = 32
+    RANDOVANIA = 33
+    ARCHIPELAGO_COLOR = 34
+    ARCHIPELAGO_MONOCHROME = 35
 
 
 KEY_MAJOR_LOCS: Final = "MajorLocations"
@@ -216,6 +221,11 @@ ITEM_SPRITE_ENUMS = {
     "ShinyMissileTank": ItemSprite.SHINY_MISSILE_TANK,
     "ShinyPowerBombTank": ItemSprite.SHINY_POWER_BOMB_TANK,
     "InfantMetroid": ItemSprite.INFANT_METROID,
+    "SamusHead": ItemSprite.SAMUS_HEAD,
+    "WalljumpBoots": ItemSprite.WALLJUMP_BOOTS,
+    "Randovania": ItemSprite.RANDOVANIA,
+    "ArchipelagoColor": ItemSprite.ARCHIPELAGO_COLOR,
+    "ArchipelagoMonochrome": ItemSprite.ARCHIPELAGO_MONOCHROME,
 }
 
 

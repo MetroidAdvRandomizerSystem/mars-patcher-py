@@ -20,7 +20,6 @@ from mars_patcher.mf.misc_patches import (
     apply_base_patch,
     apply_instant_unmorph_patch,
     apply_nerf_gerons,
-    apply_pbs_without_bombs,
     apply_reveal_hidden_tiles,
     apply_reveal_unexplored_doors,
     apply_unexplored_map,
@@ -154,9 +153,6 @@ def patch_mf(
 
     if "MissileLimit" in patch_data:
         change_missile_limit(rom, patch_data["MissileLimit"])
-
-    if patch_data.get("PowerBombsWithoutBombs"):
-        apply_pbs_without_bombs(rom)
 
     if patch_data.get("NerfGerons"):
         apply_nerf_gerons(rom)
