@@ -30,6 +30,6 @@ def write_title_text(rom: Rom, lines: list[MarsschemamfTitletextItem]) -> None:
 def write_title_text_line(rom: Rom, line: MarsschemamfTitletextItem) -> None:
     if len(line["Text"]) > 30:
         raise ValueError(f'String for title-screen text exceeds 30 characters.\n"{line["Text"]}"')
-    text_pointers = rom.read_ptr(ReservedPointersMF.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR)
+    text_pointers = rom.read_ptr(TITLE_TEXT_POINTER_ADDR)
     addr = rom.read_ptr(text_pointers + (line["LineNum"] * 4))
     rom.write_bytes(addr, line["Text"].encode("ascii"))
