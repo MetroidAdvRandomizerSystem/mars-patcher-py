@@ -10,7 +10,7 @@ from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 
 # Keep in sync with base patch
-STARTING_LOC_ADDR = ReservedPointersMF.STARTING_LOCATION_ADDR
+STARTING_LOC_ADDR = ReservedPointersMF.STARTING_LOCATION_ADDR.value
 
 
 def set_starting_location(rom: Rom, data: MarsschemamfStartinglocation) -> None:

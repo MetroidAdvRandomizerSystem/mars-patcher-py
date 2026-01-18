@@ -128,6 +128,6 @@ class NavigationText:
         default_lock_name = "OPEN"
         for location, offset in NavigationText.NAV_ROOM_ENUMS.items():
             rom.write_8(
-                rom.read_ptr(ReservedPointersMF.HINT_SECURITY_LEVELS_ADDR) + offset.value,
+                rom.read_ptr(ReservedPointersMF.HINT_SECURITY_LEVELS_ADDR.value) + offset.value,
                 NavStationLockType[locks.get(location, default_lock_name)].value,
             )

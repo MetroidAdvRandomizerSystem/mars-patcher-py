@@ -2,7 +2,7 @@ from mars_patcher.mf.auto_generated_types import MarsschemamfTitletextItem
 from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.rom import Rom
 
-TITLE_TEXT_POINTER_ADDR = ReservedPointersMF.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR
+TITLE_TEXT_POINTER_ADDR = ReservedPointersMF.TITLESCREEN_TEXT_POINTERS_POINTER_ADDR.value
 MAX_LENGTH = 30
 MAX_LINES = 14
 
