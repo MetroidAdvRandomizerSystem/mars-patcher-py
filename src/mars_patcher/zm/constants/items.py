@@ -1,4 +1,4 @@
-from enum import Enum, IntEnum, auto
+from enum import IntEnum, auto
 
 
 class MajorSource(IntEnum):
@@ -46,7 +46,7 @@ class ItemType(IntEnum):
     ICE_TRAP = auto()
 
 
-class ItemSprite(Enum):
+class ItemSprite(IntEnum):
     DEFAULT = auto()
     EMPTY = auto()
     ENERGY_TANK = auto()
