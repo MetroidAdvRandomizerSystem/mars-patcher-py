@@ -85,6 +85,19 @@ def apply_alternative_health_layout(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedPointersMF.USE_ALTERNATIVE_HUD_DISPLAY.value), 1)
 
 
+def apply_custom_environmental_hazard_damage(rom: Rom, edit_dict: dict) -> None:
+    baseaddress = rom.read_ptr(ReservedPointersMF.ENVIRONMENTAL_HAZARD_DAMAGE_ADDR.value)
+    damage = {
+        0: edit_dict["Lava"],  # lava
+        1: edit_dict["Acid"],  # acid
+        2: edit_dict["Heat"],  # heat
+        3: edit_dict["Subzero"],  # subzero
+        4: edit_dict["Cold"],  # cold
+    }
+    for damagetype, damageamount in damage.items():
+        rom.write_8(baseaddress + damagetype, damageamount)
+
+
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedPointersMF.REVEAL_HIDDEN_TILES_ADDR.value), 1)
 

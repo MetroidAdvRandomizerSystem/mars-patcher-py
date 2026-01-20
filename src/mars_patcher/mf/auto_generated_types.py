@@ -513,6 +513,23 @@ MarsschemamfNavstationlocksKey = typ.Literal[
 ]
 
 
+class MarsschemamfCustomenvironmentalhazarddamage(typ.TypedDict):
+    Lava: Typeu8 = 20
+    """The amount of damage taken while submerged in lava."""
+
+    Acid: Typeu8 = 60
+    """The amount of damage taken while submerged in acid."""
+
+    Heat: Typeu8 = 6
+    """The amount of damage taken while in a heated environment."""
+
+    Subzero: Typeu8 = 15
+    """The amount of damage taken while in a subzero environment."""
+
+    Cold: Typeu8 = 6
+    """The amount of damage taken while in a cold environment."""
+
+
 @typ.final
 class MarsschemamfLeveledits(typ.TypedDict, total=False):
     """Specifies the Room ID."""
@@ -633,6 +650,7 @@ class Marsschemamf(typ.TypedDict, total=False):
     DisableSoundEffects: bool = False
     """Disables all sound effects when true."""
 
+    CustomEnvironmentalHazardDamage: MarsschemamfCustomenvironmentalhazarddamage
     MissileLimit: Typeu8 = 3
     """Changes how many missiles can be on-screen at a time. The vanilla game has it set to 2, the randomizer changes it to 3 by default. Zero Mission uses 4."""
 
