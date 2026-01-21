@@ -586,7 +586,7 @@
             "description": "Disables all sound effects when true.",
             "default": false
         },
-        "CustomEnvironmentalHazardDamage": {
+        "EnvironmentalDamage": {
             "type": "object",
             "properties": {
                 "Lava": {

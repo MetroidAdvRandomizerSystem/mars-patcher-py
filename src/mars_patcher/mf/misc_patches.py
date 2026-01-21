@@ -1,4 +1,5 @@
 import mars_patcher.constants.game_data as gd
+from mars_patcher.mf.auto_generated_types import MarsschemamfEnvironmentaldamage
 from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder
@@ -85,17 +86,17 @@ def apply_alternative_health_layout(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedPointersMF.USE_ALTERNATIVE_HUD_DISPLAY.value), 1)
 
 
-def apply_custom_environmental_hazard_damage(rom: Rom, edit_dict: dict) -> None:
-    baseaddress = rom.read_ptr(ReservedPointersMF.ENVIRONMENTAL_HAZARD_DAMAGE_ADDR.value)
+def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentaldamage) -> None:
+    base_address = rom.read_ptr(ReservedPointersMF.ENVIRONMENTAL_HAZARD_DAMAGE_ADDR.value)
     damage = {
-        0: edit_dict["Lava"],  # lava
-        1: edit_dict["Acid"],  # acid
-        2: edit_dict["Heat"],  # heat
-        3: edit_dict["Subzero"],  # subzero
-        4: edit_dict["Cold"],  # cold
+        0: damage_dict["Lava"],
+        1: damage_dict["Acid"],
+        2: damage_dict["Heat"],
+        3: damage_dict["Subzero"],
+        4: damage_dict["Cold"],
     }
-    for damagetype, damageamount in damage.items():
-        rom.write_8(baseaddress + damagetype, damageamount)
+    for offset, damage_amount in enumerate(damage):
+        rom.write_8(base_address + offset, damage_amount)
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:

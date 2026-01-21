@@ -18,7 +18,7 @@ from mars_patcher.mf.misc_patches import (
     apply_accessibility_patch,
     apply_alternative_health_layout,
     apply_base_patch,
-    apply_custom_environmental_hazard_damage,
+    apply_environmental_damage,
     apply_instant_unmorph_patch,
     apply_nerf_gerons,
     apply_reveal_hidden_tiles,
@@ -152,8 +152,8 @@ def patch_mf(
     if patch_data.get("DisableSoundEffects"):
         disable_sound_effects(rom)
 
-    if patch_data.get("CustomEnvironmentalHazardDamage"):
-        apply_custom_environmental_hazard_damage(rom, patch_data["CustomEnvironmentalHazardDamage"])
+    if environmental_damage := patch_data.get("EnvironmentalDamage", {}):
+        apply_environmental_damage(rom, environmental_damage)
 
     if "MissileLimit" in patch_data:
         change_missile_limit(rom, patch_data["MissileLimit"])
