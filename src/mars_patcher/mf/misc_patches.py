@@ -88,13 +88,13 @@ def apply_alternative_health_layout(rom: Rom) -> None:
 
 def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentaldamage) -> None:
     base_address = rom.read_ptr(ReservedPointersMF.ENVIRONMENTAL_HAZARD_DAMAGE_ADDR.value)
-    damage = {
-        0: damage_dict["Lava"],
-        1: damage_dict["Acid"],
-        2: damage_dict["Heat"],
-        3: damage_dict["Subzero"],
-        4: damage_dict["Cold"],
-    }
+    damage = [
+        damage_dict["Lava"],
+        damage_dict["Acid"],
+        damage_dict["Heat"],
+        damage_dict["Subzero"],
+        damage_dict["Cold"],
+    ]
     for offset, damage_amount in enumerate(damage):
         rom.write_8(base_address + offset, damage_amount)
 
