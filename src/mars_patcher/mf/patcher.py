@@ -152,7 +152,7 @@ def patch_mf(
     if patch_data.get("DisableSoundEffects"):
         disable_sound_effects(rom)
 
-    if environmental_damage := patch_data.get("EnvironmentalDamage", {}):
+    if environmental_damage := patch_data.get("EnvironmentalDamage"):
         apply_environmental_damage(rom, environmental_damage)
 
     if "MissileLimit" in patch_data:
