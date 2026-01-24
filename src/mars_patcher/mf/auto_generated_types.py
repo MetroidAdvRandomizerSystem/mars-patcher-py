@@ -230,6 +230,12 @@ Hintlocks = typ.Literal[
 
 # Schema entries
 
+class MarsschemamfMusicmapping(typ.TypedDict, total=False):
+    """Shuffles the in-game music."""
+
+    Original: str
+    New: str
+
 class MarsschemamfLocationsMajorlocationsItem(typ.TypedDict):
     Source: Validsources
     """Valid major locations."""
@@ -571,6 +577,9 @@ class Marsschemamf(typ.TypedDict, total=False):
 
     SeedHash: typ.Required[typ.Annotated[str, '/^[0-9A-Z]{8}$/']]
     """A seed hash that will be displayed on the file select screen."""
+
+    MusicMapping: MarsschemamfMusicmapping
+    """Shuffles the in-game music."""
 
     Locations: typ.Required[MarsschemamfLocations]
     """Specifies how the item locations in the game should be changed."""

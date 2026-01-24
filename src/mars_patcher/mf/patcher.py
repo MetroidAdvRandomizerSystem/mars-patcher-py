@@ -30,6 +30,7 @@ from mars_patcher.mf.misc_patches import (
     skip_door_transitions,
     stereo_default,
 )
+from mars_patcher.mf.music import set_sounds
 from mars_patcher.mf.navigation_text import NavigationText
 from mars_patcher.mf.room_names import write_room_names
 from mars_patcher.mf.starting import set_starting_items, set_starting_location
@@ -79,6 +80,11 @@ def patch_mf(
 
     # Required metroid count
     set_required_metroid_count(rom, patch_data["RequiredMetroidCount"])
+
+    # Music
+    if "MusicMapping" in patch_data:
+        status_update("Writing music...", -1)
+        set_sounds(rom, patch_data["MusicMapping"])
 
     # Starting location
     if "StartingLocation" in patch_data:

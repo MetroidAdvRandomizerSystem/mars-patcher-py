@@ -9,6 +9,18 @@
             "type": "string",
             "pattern": "^[0-9A-Z]{8}$"
         },
+        "MusicMapping": {
+            "description": "Shuffles the in-game music.",
+      "type": "object",
+      "properties": {
+        "Original": {
+          "type": "string"
+        },
+        "New": {
+          "type": "string"
+        }
+      }
+        },
         "Locations": {
             "type": "object",
             "description": "Specifies how the item locations in the game should be changed.",

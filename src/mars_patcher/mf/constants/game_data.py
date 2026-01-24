@@ -41,6 +41,22 @@ def starting_equipment(rom: Rom) -> int:
         raise ValueError(rom.region)
 
 
+def sounds(rom: Rom) -> int:
+    """Returns the address of music and sound data."""
+    if rom.game != Game.MF:
+        raise ValueError(rom.game)
+    if rom.region == Region.U:
+        return 0xA8D3C
+    elif rom.region == Region.E:
+        return 0xA9398
+    elif rom.region == Region.J:
+        return 0xAB0A0
+    elif rom.region == Region.C:
+        return 0xAB0E4
+    else:
+        raise ValueError(rom.region)
+
+
 def sprite_vram_sizes(rom: Rom) -> int:
     """Returns the address of the sprite VRAM sizes."""
     if rom.game != Game.MF:

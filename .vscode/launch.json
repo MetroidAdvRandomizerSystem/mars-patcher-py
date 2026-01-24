@@ -1,0 +1,17 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "run test",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "C:\\Coding\\mars-patcher-py\\src\\mars_patcher\\__main__.py",
+            "console": "integratedTerminal",
+            "args": ["ignore\\Metroid Fusion (USA).gba", "ignore\\Output.gba", "ignore\\Fusion - Zone Sciser Kago_mars.json"]
+        }
+    ]
+}
