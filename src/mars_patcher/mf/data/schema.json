@@ -11,15 +11,21 @@
         },
         "MusicMapping": {
             "description": "Shuffles the in-game music.",
-      "type": "object",
-      "properties": {
-        "Original": {
-          "type": "string"
-        },
-        "New": {
-          "type": "string"
-        }
-      }
+            "type": "object",
+            "properties": {
+                "Original": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+                },
+                "New": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+                }
+            }
         },
         "Locations": {
             "type": "object",

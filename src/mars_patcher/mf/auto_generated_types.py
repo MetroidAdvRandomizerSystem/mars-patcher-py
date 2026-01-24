@@ -233,8 +233,8 @@ Hintlocks = typ.Literal[
 class MarsschemamfMusicmapping(typ.TypedDict, total=False):
     """Shuffles the in-game music."""
 
-    Original: str
-    New: str
+    Original: list[str]
+    New: list[str]
 
 class MarsschemamfLocationsMajorlocationsItem(typ.TypedDict):
     Source: Validsources
