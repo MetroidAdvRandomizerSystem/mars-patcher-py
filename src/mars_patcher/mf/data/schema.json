@@ -611,7 +611,7 @@
                 },
                 "Subzero": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while in a subzero environment. Currently unused, will always use Cold.",
+                    "description": "The amount of damage taken while in Sub-Zero Containment. Currently unused, will always use Cold.",
                     "default": 15
                 }
             },
