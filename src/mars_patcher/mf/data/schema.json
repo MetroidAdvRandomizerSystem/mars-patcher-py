@@ -604,18 +604,18 @@
                     "description": "The amount of damage taken while in a heated environment.",
                     "default": 6
                 },
-                "Subzero": {
-                    "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while in a subzero environment.",
-                    "default": 15
-                },
                 "Cold": {
                     "$ref": "#/$defs/TypeU8",
                     "description": "The amount of damage taken while in a cold environment.",
                     "default": 6
+                },
+                "Subzero": {
+                    "$ref": "#/$defs/TypeU8",
+                    "description": "The amount of damage taken while in a subzero environment. Currently unused, will always use Cold.",
+                    "default": 15
                 }
             },
-            "required": ["Lava", "Acid", "Heat", "Subzero", "Cold"]
+            "required": ["Lava", "Acid", "Heat", "Cold", "Subzero"]
         },
         "MissileLimit": {
             "$ref": "#/$defs/TypeU8",

@@ -523,11 +523,11 @@ class MarsschemamfEnvironmentaldamage(typ.TypedDict):
     Heat: Typeu8 = 6
     """The amount of damage taken while in a heated environment."""
 
-    Subzero: Typeu8 = 15
-    """The amount of damage taken while in a subzero environment."""
-
     Cold: Typeu8 = 6
     """The amount of damage taken while in a cold environment."""
+
+    Subzero: Typeu8 = 15
+    """The amount of damage taken while in a subzero environment. Currently unused, will always use Cold."""
 
 
 @typ.final
