@@ -93,7 +93,7 @@ def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentald
         damage_dict["Acid"],
         damage_dict["Heat"],
         damage_dict["Cold"],  # ASM currently has Subzero and Cold mislabelled.
-        damage_dict["Subzero"],  # ASM currently has Subzero and Cold mislabelled.
+        damage_dict["Subzero"],
     ]
     for offset, damage_amount in enumerate(damage):
         rom.write_8(base_address + offset, damage_amount)
