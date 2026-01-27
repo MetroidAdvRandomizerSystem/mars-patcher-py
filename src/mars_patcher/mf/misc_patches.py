@@ -92,7 +92,8 @@ def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentald
         damage_dict["Lava"],
         damage_dict["Acid"],
         damage_dict["Heat"],
-        damage_dict["Cold"],  # ASM currently has Subzero and Cold mislabelled.
+        # ASM currently has Subzero and Cold mislabelled. https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/issues/374
+        damage_dict["Cold"],
         damage_dict["Subzero"],
     ]
     for offset, damage_amount in enumerate(damage):

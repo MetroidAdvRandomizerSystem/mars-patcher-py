@@ -591,27 +591,27 @@
             "properties": {
                 "Lava": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while submerged in lava.",
+                    "description": "The amount of damage per second taken while submerged in lava.",
                     "default": 20
                 },
                 "Acid": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while submerged in acid.",
+                    "description": "The amount of damage per second taken while submerged in acid.",
                     "default": 60
                 },
                 "Heat": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while in a heated environment.",
+                    "description": "The amount of damage per second taken while in a heated environment.",
                     "default": 6
                 },
                 "Cold": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while in a cold environment.",
+                    "description": "The amount of damage per second taken while in a cold environment.",
                     "default": 6
                 },
                 "Subzero": {
                     "$ref": "#/$defs/TypeU8",
-                    "description": "The amount of damage taken while in Sub-Zero Containment. Currently unused, will always use Cold.",
+                    "description": "The amount of damage per second taken while in Sub-Zero Containment. Currently unused, will always use Cold.",
                     "default": 15
                 }
             },

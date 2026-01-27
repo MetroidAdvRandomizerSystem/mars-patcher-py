@@ -515,19 +515,19 @@ MarsschemamfNavstationlocksKey = typ.Literal[
 
 class MarsschemamfEnvironmentaldamage(typ.TypedDict):
     Lava: Typeu8 = 20
-    """The amount of damage taken while submerged in lava."""
+    """The amount of damage per second taken while submerged in lava."""
 
     Acid: Typeu8 = 60
-    """The amount of damage taken while submerged in acid."""
+    """The amount of damage per second taken while submerged in acid."""
 
     Heat: Typeu8 = 6
-    """The amount of damage taken while in a heated environment."""
+    """The amount of damage per second taken while in a heated environment."""
 
     Cold: Typeu8 = 6
-    """The amount of damage taken while in a cold environment."""
+    """The amount of damage per second taken while in a cold environment."""
 
     Subzero: Typeu8 = 15
-    """The amount of damage taken while in Sub-Zero Containment. Currently unused, will always use Cold."""
+    """The amount of damage per second taken while in Sub-Zero Containment. Currently unused, will always use Cold."""
 
 
 @typ.final
