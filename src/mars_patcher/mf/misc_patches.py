@@ -1,4 +1,5 @@
 import mars_patcher.constants.game_data as gd
+from mars_patcher.mf.auto_generated_types import MarsschemamfEnvironmentaldamage
 from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder
@@ -83,6 +84,20 @@ def apply_nerf_gerons(rom: Rom) -> None:
 
 def apply_alternative_health_layout(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedPointersMF.USE_ALTERNATIVE_HUD_DISPLAY.value), 1)
+
+
+def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentaldamage) -> None:
+    base_address = rom.read_ptr(ReservedPointersMF.ENVIRONMENTAL_HAZARD_DAMAGE_ADDR.value)
+    damage = [
+        damage_dict["Lava"],
+        damage_dict["Acid"],
+        damage_dict["Heat"],
+        # ASM currently has Subzero and Cold mislabelled. https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/issues/374
+        damage_dict["Cold"],
+        damage_dict["Subzero"],
+    ]
+    for offset, damage_amount in enumerate(damage):
+        rom.write_8(base_address + offset, damage_amount)
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:

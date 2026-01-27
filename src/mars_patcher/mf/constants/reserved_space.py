@@ -36,7 +36,7 @@ class ReservedPointersMF(IntEnum):
     STARTING_LOCATION_ADDR = auto()
     CREDITS_PARAMETERS_ADDR = auto()  # Unused. Remnant of when we didn't have looping credits music
     HINT_SECURITY_LEVELS_ADDR = auto()
-    ENVIRONMENTAL_HARZARD_DAMAGE_ADDR = auto()  # TODO: Implement this
+    ENVIRONMENTAL_HAZARD_DAMAGE_ADDR = auto()
     MISSILE_LIMIT_ADDR = auto()
     ROOM_NAMES_TABLE_ADDR = auto()
     REVEAL_HIDDEN_TILES_ADDR = auto()

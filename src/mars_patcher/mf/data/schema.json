@@ -586,6 +586,37 @@
             "description": "Disables all sound effects when true.",
             "default": false
         },
+        "EnvironmentalDamage": {
+            "type": "object",
+            "properties": {
+                "Lava": {
+                    "$ref": "#/$defs/TypeU8",
+                    "description": "The amount of damage per second taken while submerged in lava.",
+                    "default": 20
+                },
+                "Acid": {
+                    "$ref": "#/$defs/TypeU8",
+                    "description": "The amount of damage per second taken while submerged in acid.",
+                    "default": 60
+                },
+                "Heat": {
+                    "$ref": "#/$defs/TypeU8",
+                    "description": "The amount of damage per second taken while in a heated environment.",
+                    "default": 6
+                },
+                "Cold": {
+                    "$ref": "#/$defs/TypeU8",
+                    "description": "The amount of damage per second taken while in a cold environment.",
+                    "default": 6
+                },
+                "Subzero": {
+                    "$ref": "#/$defs/TypeU8",
+                    "description": "The amount of damage per second taken while in Sub-Zero Containment. Currently unused, will always use Cold.",
+                    "default": 15
+                }
+            },
+            "required": ["Lava", "Acid", "Heat", "Cold", "Subzero"]
+        },
         "MissileLimit": {
             "$ref": "#/$defs/TypeU8",
             "description": "Changes how many missiles can be on-screen at a time. The vanilla game has it set to 2, the randomizer changes it to 3 by default. Zero Mission uses 4.",
