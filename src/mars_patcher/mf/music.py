@@ -106,13 +106,13 @@ MUSIC_LIBRARY = {
 }
 
 
-def set_sounds(rom: Rom, patch_data: MarsschemamfMusicmapping) -> None:
+def set_sounds(rom: Rom, data: MarsschemamfMusicmapping) -> None:
     read_SoundheaderPtr = []
     read_TrackGroupNum1 = []
     read_TrackGroupNum2 = []
 
     # Read new data
-    for New in patch_data["New"]:
+    for New in data["New"]:
         read_location = sound_entries(rom) + 8 * MUSIC_LIBRARY[New]
         read_SoundheaderPtr.append(rom.read_32(read_location))
         read_TrackGroupNum1.append(rom.read_16(read_location + 4))
@@ -120,7 +120,7 @@ def set_sounds(rom: Rom, patch_data: MarsschemamfMusicmapping) -> None:
 
     # Write to rom
     for Original, SoundHdrPtr, TrackGrpNum1, TrackGrpNum2 in zip(
-        patch_data["Original"], read_SoundheaderPtr, read_TrackGroupNum1, read_TrackGroupNum2
+        data["Original"], read_SoundheaderPtr, read_TrackGroupNum1, read_TrackGroupNum2
     ):
         write_location = sound_entries(rom) + 8 * MUSIC_LIBRARY[Original]
         rom.write_32(write_location, SoundHdrPtr)
