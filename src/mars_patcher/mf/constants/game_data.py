@@ -41,7 +41,7 @@ def starting_equipment(rom: Rom) -> int:
         raise ValueError(rom.region)
 
 
-def sounds(rom: Rom) -> int:
+def sound_entries(rom: Rom) -> int:
     """Returns the address of music and sound data."""
     if rom.game != Game.MF:
         raise ValueError(rom.game)

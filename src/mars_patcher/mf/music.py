@@ -1,5 +1,5 @@
 from mars_patcher.mf.auto_generated_types import MarsschemamfMusicmapping
-from mars_patcher.mf.constants.game_data import sounds
+from mars_patcher.mf.constants.game_data import sound_entries
 from mars_patcher.rom import Rom
 
 MUSIC_LIBRARY = {
@@ -113,7 +113,7 @@ def set_sounds(rom: Rom, patch_data: MarsschemamfMusicmapping) -> None:
 
     # Read new data
     for New in patch_data["New"]:
-        read_location = sounds(rom) + 8 * MUSIC_LIBRARY[New]
+        read_location = sound_entries(rom) + 8 * MUSIC_LIBRARY[New]
         read_SoundheaderPtr.append(rom.read_32(read_location))
         read_TrackGroupNum1.append(rom.read_16(read_location + 4))
         read_TrackGroupNum2.append(rom.read_16(read_location + 6))
@@ -122,7 +122,7 @@ def set_sounds(rom: Rom, patch_data: MarsschemamfMusicmapping) -> None:
     for Original, SoundHdrPtr, TrackGrpNum1, TrackGrpNum2 in zip(
         patch_data["Original"], read_SoundheaderPtr, read_TrackGroupNum1, read_TrackGroupNum2
     ):
-        write_location = sounds(rom) + 8 * MUSIC_LIBRARY[Original]
+        write_location = sound_entries(rom) + 8 * MUSIC_LIBRARY[Original]
         rom.write_32(write_location, SoundHdrPtr)
         rom.write_16(write_location + 4, TrackGrpNum1)
         rom.write_16(write_location + 6, TrackGrpNum2)
