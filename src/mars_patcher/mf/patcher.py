@@ -82,9 +82,9 @@ def patch_mf(
     set_required_metroid_count(rom, patch_data["RequiredMetroidCount"])
 
     # Music
-    if "MusicMapping" in patch_data:
+    if "MusicReplacement" in patch_data:
         status_update("Writing music...", -1)
-        set_sounds(rom, patch_data["MusicMapping"])
+        set_sounds(rom, patch_data["MusicReplacement"])
 
     # Starting location
     if "StartingLocation" in patch_data:
