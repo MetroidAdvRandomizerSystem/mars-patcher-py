@@ -607,12 +607,12 @@
                 "Cold": {
                     "$ref": "#/$defs/TypeU8",
                     "description": "The amount of damage per second taken while in a cold environment.",
-                    "default": 6
+                    "default": 15
                 },
                 "Subzero": {
                     "$ref": "#/$defs/TypeU8",
                     "description": "The amount of damage per second taken while in Sub-Zero Containment. Currently unused, will always use Cold.",
-                    "default": 15
+                    "default": 6
                 }
             },
             "required": ["Lava", "Acid", "Heat", "Cold", "Subzero"]
