@@ -145,6 +145,70 @@ ValidLanguages = typ.Literal[
     'ITALIAN',
     'SPANISH'
 ]
+Validmusictracks = typ.Literal[
+    'BRINSTAR',
+    'TITLE_SCREEN',
+    'SAVE_ELEVATOR_ROOM',
+    'INTRO',
+    'CHOZO_STATUE_HINT',
+    'NORFAIR',
+    'KRAID',
+    'ESCAPE',
+    'FILE_SELECT',
+    'STATUE_ROOM',
+    'BOSS_KILLED',
+    'MAP_ROOM',
+    'CHOZO_RUINS_DEPTH',
+    'CHOZO_RUINS',
+    'CHOZO_RUINS_LIGHT',
+    'RIDLEY_IN_SPACE',
+    'RIDLEY_LANDING',
+    'CHOZO_STATUE_HINT_DELAY',
+    'GETTING_FULLY_POWERED_SUIT_CUTSCENE',
+    'ESCAPING_ZEBES_CUTSCENE',
+    'CHOZO_VOICE_1',
+    'CHOZO_VOICE_2',
+    'BEFORE_RUINS_TEST_UNUSED',
+    'ELEVATOR_ROOM',
+    'BRINSTAR_REMIX',
+    'ESCAPE_SUCCESFUL',
+    'CREDITS',
+    'STATUE_ROOM_OPENED',
+    'RIDLEY',
+    'KRAID_BATTLE_WITH_INTRO',
+    'RIDLEY_BATTLE',
+    'LOADING_JINGLE',
+    'GETTING_ITEM_JINGLE',
+    'INTRO_MOTHER_BRAIN',
+    'GETTING_TANK_JINGLE',
+    'TOURIAN',
+    'WORMS_BATTLE',
+    'MOTHER_BRAIN_BATTLE',
+    'CATTERPILLARS_BATTLE',
+    'IMAGO_COCOON_BATTLE',
+    'IMAGO_BATTLE',
+    'MECHA_RIDLEY_BATTLE',
+    'GETTING_UNKNOWN_ITEM_JINGLE',
+    'RUINS_TEST_BATTLE_WITH_INTRO',
+    'ENTERING_TOURIAN_CUTSCENE',
+    'ALARM_ACTIVATED',
+    'STEALTH',
+    'ENTERING_NORFAIR_CUTSCENE',
+    'CHOZODIA_DETECTED',
+    'GETTING_FULLY_POWERED_SUIT_JINGLE',
+    'KRAID_BATTLE',
+    'RIDLEY_BATTLE_2',
+    'MECHA_RIDLEY_BATTLE_2',
+    'RUINS_TEST_BATTLE',
+    'CATTERPILLARS_BATTLE_2',
+    'CRATERIA',
+    'GAME_OVER',
+    'CHOZODIA_SURFACE',
+    'MAP_ROOM_2',
+    'SAVE_ELEVATOR_ROOM_2',
+    'BEFORE_RUINS_TEST_ROOM',
+    'STEALTH_2'
+]
 MessageLanguages: typ.TypeAlias = dict[ValidLanguages, str]
 
 class ItemMessages(typ.TypedDict, total=False):
@@ -377,6 +441,196 @@ class MarsschemazmPalettes(typ.TypedDict, total=False):
     """Randomly rotates hues in the positive or negative direction true."""
 
 
+class MarsschemazmMusicreplacement(typ.TypedDict, total=False):
+    """Shuffles the in-game music."""
+
+    BRINSTAR: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    TITLE_SCREEN: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    SAVE_ELEVATOR_ROOM: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    INTRO: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_STATUE_HINT: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    NORFAIR: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    KRAID: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ESCAPE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    FILE_SELECT: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    STATUE_ROOM: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    BOSS_KILLED: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    MAP_ROOM: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_RUINS_DEPTH: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_RUINS: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_RUINS_LIGHT: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RIDLEY_IN_SPACE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RIDLEY_LANDING: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_STATUE_HINT_DELAY: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    GETTING_FULLY_POWERED_SUIT_CUTSCENE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ESCAPING_ZEBES_CUTSCENE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_VOICE_1: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZO_VOICE_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    BEFORE_RUINS_TEST_UNUSED: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ELEVATOR_ROOM: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    BRINSTAR_REMIX: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ESCAPE_SUCCESFUL: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CREDITS: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    STATUE_ROOM_OPENED: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RIDLEY: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    KRAID_BATTLE_WITH_INTRO: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RIDLEY_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    LOADING_JINGLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    GETTING_ITEM_JINGLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    INTRO_MOTHER_BRAIN: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    GETTING_TANK_JINGLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    TOURIAN: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    WORMS_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    MOTHER_BRAIN_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CATTERPILLARS_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    IMAGO_COCOON_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    IMAGO_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    MECHA_RIDLEY_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    GETTING_UNKNOWN_ITEM_JINGLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RUINS_TEST_BATTLE_WITH_INTRO: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ENTERING_TOURIAN_CUTSCENE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ALARM_ACTIVATED: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    STEALTH: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    ENTERING_NORFAIR_CUTSCENE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZODIA_DETECTED: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    GETTING_FULLY_POWERED_SUIT_JINGLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    KRAID_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RIDLEY_BATTLE_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    MECHA_RIDLEY_BATTLE_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    RUINS_TEST_BATTLE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CATTERPILLARS_BATTLE_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CRATERIA: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    GAME_OVER: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    CHOZODIA_SURFACE: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    MAP_ROOM_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    SAVE_ELEVATOR_ROOM_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    BEFORE_RUINS_TEST_ROOM: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+    STEALTH_2: Validmusictracks
+    """Valid music tracks supported by the game."""
+
+
 class MarsschemazmTitleTextItem(typ.TypedDict, total=False):
     text: typ.Annotated[str, '/^[ -~]{0,30}$/']
     """The ASCII text for this line"""
@@ -481,6 +735,9 @@ class Marsschemazm(typ.TypedDict, total=False):
 
     palettes: MarsschemazmPalettes = None
     """Properties for randomized in-game palettes."""
+
+    MusicReplacement: MarsschemazmMusicreplacement
+    """Shuffles the in-game music."""
 
     intro_text: dict[ValidLanguages, str] = None
     """Specifies what text should appear during the new game intro."""

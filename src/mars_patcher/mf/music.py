@@ -1,7 +1,7 @@
 from enum import IntEnum
 
+from mars_patcher.constants.game_data import sound_data_entries
 from mars_patcher.mf.auto_generated_types import MarsschemamfMusicreplacement
-from mars_patcher.mf.constants.game_data import sound_entries
 from mars_patcher.rom import Rom
 
 
@@ -49,10 +49,10 @@ def set_sounds(rom: Rom, data: MarsschemamfMusicreplacement) -> None:
 
     # Read new data
     for New in data.values():
-        read_location = sound_entries(rom) + 8 * MusicLibrary[New].value
+        read_location = sound_data_entries(rom) + 8 * MusicLibrary[New].value
         read_SoundData.append(rom.read_bytes(read_location, 8))
 
     # Write to rom
     for Original, SoundDatum in zip(data.keys(), read_SoundData):
-        write_location = sound_entries(rom) + 8 * MusicLibrary[Original].value
+        write_location = sound_data_entries(rom) + 8 * MusicLibrary[Original].value
         rom.write_bytes(write_location, SoundDatum)
