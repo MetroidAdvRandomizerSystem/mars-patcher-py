@@ -2,8 +2,9 @@
 
 This is an open source randomizer patcher for Metroid Fusion. It is not intended for standalone use, but rather as a library to help implement plando- or randomizers.  
 
-Here is a list of tools that use this library:
+Here is a list of projets that use this library:
 - [Randovania](https://randovania.org/)
+- [An Archipelago APWorld](https://github.com/Rosalie-A/Archipelago/wiki/Metroid-Fusion-Setup-Guide)
 
 ## Developer Info
 Running from source:
