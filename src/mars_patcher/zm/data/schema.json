@@ -367,6 +367,198 @@
             ],
             "default": null
         },
+        "MusicReplacement": {
+            "description": "Shuffles the in-game music.",
+            "type": "object",
+            "properties": {
+                "BRINSTAR": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "TITLE_SCREEN": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "SAVE_ELEVATOR_ROOM": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "INTRO": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_STATUE_HINT": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "NORFAIR": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "KRAID": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ESCAPE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "FILE_SELECT": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "STATUE_ROOM": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "BOSS_KILLED": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "MAP_ROOM": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_RUINS_DEPTH": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_RUINS": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_RUINS_LIGHT": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RIDLEY_IN_SPACE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RIDLEY_LANDING": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_STATUE_HINT_DELAY": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "GETTING_FULLY_POWERED_SUIT_CUTSCENE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ESCAPING_ZEBES_CUTSCENE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_VOICE_1": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZO_VOICE_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "BEFORE_RUINS_TEST_UNUSED": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ELEVATOR_ROOM": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "BRINSTAR_REMIX": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ESCAPE_SUCCESFUL": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CREDITS": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "STATUE_ROOM_OPENED": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RIDLEY": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "KRAID_BATTLE_WITH_INTRO": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RIDLEY_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "LOADING_JINGLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "GETTING_ITEM_JINGLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "INTRO_MOTHER_BRAIN": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "GETTING_TANK_JINGLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "TOURIAN": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "WORMS_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "MOTHER_BRAIN_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CATTERPILLARS_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "IMAGO_COCOON_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "IMAGO_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "MECHA_RIDLEY_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "GETTING_UNKNOWN_ITEM_JINGLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RUINS_TEST_BATTLE_WITH_INTRO": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ENTERING_TOURIAN_CUTSCENE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ALARM_ACTIVATED": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "STEALTH": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "ENTERING_NORFAIR_CUTSCENE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZODIA_DETECTED": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "GETTING_FULLY_POWERED_SUIT_JINGLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "KRAID_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RIDLEY_BATTLE_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "MECHA_RIDLEY_BATTLE_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "RUINS_TEST_BATTLE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CATTERPILLARS_BATTLE_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CRATERIA": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "GAME_OVER": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "CHOZODIA_SURFACE": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "MAP_ROOM_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "SAVE_ELEVATOR_ROOM_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "BEFORE_RUINS_TEST_ROOM": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }, 
+                "STEALTH_2": {
+                    "$ref": "#/$defs/ValidMusicTracks"
+                }
+            }
+        },
         "intro_text": {
             "type": "object",
             "description": "Specifies what text should appear during the new game intro.",
@@ -783,6 +975,74 @@
                 "FRENCH",
                 "ITALIAN",
                 "SPANISH"
+            ]
+        },
+        "ValidMusicTracks": {
+            "type": "string",
+            "description": "Valid music tracks supported by the game.",
+            "enum": [
+                "BRINSTAR",
+                "TITLE_SCREEN",
+                "SAVE_ELEVATOR_ROOM",
+                "INTRO",
+                "CHOZO_STATUE_HINT",
+                "NORFAIR",
+                "KRAID",
+                "ESCAPE",
+                "FILE_SELECT",
+                "STATUE_ROOM",
+                "BOSS_KILLED",
+                "MAP_ROOM",
+                "CHOZO_RUINS_DEPTH",
+                "CHOZO_RUINS",
+                "CHOZO_RUINS_LIGHT",
+                "RIDLEY_IN_SPACE",
+                "RIDLEY_LANDING",
+                "CHOZO_STATUE_HINT_DELAY",
+                "GETTING_FULLY_POWERED_SUIT_CUTSCENE",
+                "ESCAPING_ZEBES_CUTSCENE",
+                "CHOZO_VOICE_1",
+                "CHOZO_VOICE_2",
+                "BEFORE_RUINS_TEST_UNUSED",
+                "ELEVATOR_ROOM",
+                "BRINSTAR_REMIX",
+                "ESCAPE_SUCCESFUL",
+                "CREDITS",
+                "STATUE_ROOM_OPENED",
+                "RIDLEY",
+                "KRAID_BATTLE_WITH_INTRO",
+                "RIDLEY_BATTLE",
+                "LOADING_JINGLE",
+                "GETTING_ITEM_JINGLE",
+                "INTRO_MOTHER_BRAIN",
+                "GETTING_TANK_JINGLE",
+                "TOURIAN",
+                "WORMS_BATTLE",
+                "MOTHER_BRAIN_BATTLE",
+                "CATTERPILLARS_BATTLE",
+                "IMAGO_COCOON_BATTLE",
+                "IMAGO_BATTLE",
+                "MECHA_RIDLEY_BATTLE",
+                "GETTING_UNKNOWN_ITEM_JINGLE",
+                "RUINS_TEST_BATTLE_WITH_INTRO",
+                "ENTERING_TOURIAN_CUTSCENE",
+                "ALARM_ACTIVATED",
+                "STEALTH",
+                "ENTERING_NORFAIR_CUTSCENE",
+                "CHOZODIA_DETECTED",
+                "GETTING_FULLY_POWERED_SUIT_JINGLE",
+                "KRAID_BATTLE",
+                "RIDLEY_BATTLE_2",
+                "MECHA_RIDLEY_BATTLE_2",
+                "RUINS_TEST_BATTLE",
+                "CATTERPILLARS_BATTLE_2",
+                "CRATERIA",
+                "GAME_OVER",
+                "CHOZODIA_SURFACE",
+                "MAP_ROOM_2",
+                "SAVE_ELEVATOR_ROOM_2",
+                "BEFORE_RUINS_TEST_ROOM",
+                "STEALTH_2"
             ]
         },
         "message_languages": {
