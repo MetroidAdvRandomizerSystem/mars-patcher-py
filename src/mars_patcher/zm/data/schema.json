@@ -370,193 +370,11 @@
         "MusicReplacement": {
             "description": "Shuffles the in-game music.",
             "type": "object",
-            "properties": {
-                "BRINSTAR": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "TITLE_SCREEN": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "SAVE_ELEVATOR_ROOM": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "INTRO": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_STATUE_HINT": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "NORFAIR": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "KRAID": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ESCAPE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "FILE_SELECT": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "STATUE_ROOM": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "BOSS_KILLED": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "MAP_ROOM": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_RUINS_DEPTH": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_RUINS": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_RUINS_LIGHT": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RIDLEY_IN_SPACE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RIDLEY_LANDING": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_STATUE_HINT_DELAY": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "GETTING_FULLY_POWERED_SUIT_CUTSCENE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ESCAPING_ZEBES_CUTSCENE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_VOICE_1": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZO_VOICE_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "BEFORE_RUINS_TEST_UNUSED": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ELEVATOR_ROOM": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "BRINSTAR_REMIX": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ESCAPE_SUCCESFUL": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CREDITS": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "STATUE_ROOM_OPENED": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RIDLEY": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "KRAID_BATTLE_WITH_INTRO": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RIDLEY_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "LOADING_JINGLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "GETTING_ITEM_JINGLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "INTRO_MOTHER_BRAIN": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "GETTING_TANK_JINGLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "TOURIAN": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "WORMS_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "MOTHER_BRAIN_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CATTERPILLARS_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "IMAGO_COCOON_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "IMAGO_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "MECHA_RIDLEY_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "GETTING_UNKNOWN_ITEM_JINGLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RUINS_TEST_BATTLE_WITH_INTRO": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ENTERING_TOURIAN_CUTSCENE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ALARM_ACTIVATED": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "STEALTH": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "ENTERING_NORFAIR_CUTSCENE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZODIA_DETECTED": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "GETTING_FULLY_POWERED_SUIT_JINGLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "KRAID_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RIDLEY_BATTLE_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "MECHA_RIDLEY_BATTLE_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "RUINS_TEST_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CATTERPILLARS_BATTLE_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CRATERIA": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "GAME_OVER": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "CHOZODIA_SURFACE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "MAP_ROOM_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "SAVE_ELEVATOR_ROOM_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "BEFORE_RUINS_TEST_ROOM": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }, 
-                "STEALTH_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }
+            "propertyNames": {
+                "$ref": "#/$defs/ValidMusicTracks"
+            },
+            "additionalProperties": {
+                "$ref": "#/$defs/ValidMusicTracks"
             }
         },
         "intro_text": {
@@ -764,7 +582,11 @@
                         "maxLength": 112
                     }
                 },
-                "required": ["area", "room", "name"]
+                "required": [
+                    "area",
+                    "room",
+                    "name"
+                ]
             }
         },
         "reveal_hidden_tiles": {
@@ -1050,7 +872,9 @@
             "propertyNames": {
                 "$ref": "#/$defs/valid_languages"
             },
-            "required": ["ENGLISH"],
+            "required": [
+                "ENGLISH"
+            ],
             "additionalProperties": {
                 "type": "string",
                 "description": "Specifies what text should appear for a 2 line message. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated. Use \n to force a line break. If not provided, a message based on the Item will be shown. If a language is not provided, it will use the provided English message."
@@ -1063,10 +887,14 @@
                     "$ref": "#/$defs/item_messages_kind"
                 }
             },
-            "required": ["kind"],
+            "required": [
+                "kind"
+            ],
             "if": {
                 "properties": {
-                    "kind": {"const": "CUSTOM_MESSAGE" }
+                    "kind": {
+                        "const": "CUSTOM_MESSAGE"
+                    }
                 }
             },
             "then": {
@@ -1082,7 +910,9 @@
                         "default": true
                     }
                 },
-                "required": ["languages"],
+                "required": [
+                    "languages"
+                ],
                 "additionalProperties": false
             },
             "else": {
@@ -1097,18 +927,29 @@
                         "description": "The Message ID, will display one of the predefined messages in the ROM"
                     }
                 },
-                "required": ["message_id"],
+                "required": [
+                    "message_id"
+                ],
                 "additionalProperties": false
             }
         },
         "item_messages_kind": {
             "type": "string",
-            "enum": ["CUSTOM_MESSAGE", "MESSAGE_ID"]
+            "enum": [
+                "CUSTOM_MESSAGE",
+                "MESSAGE_ID"
+            ]
         },
         "jingle": {
             "type": "string",
             "description": "The sound that plays when an item is collected",
-            "enum": ["DEFAULT", "MINOR", "MAJOR", "UNKNOWN", "FULLY_POWERED"]
+            "enum": [
+                "DEFAULT",
+                "MINOR",
+                "MAJOR",
+                "UNKNOWN",
+                "FULLY_POWERED"
+            ]
         },
         "hint_locations": {
             "type": "string",

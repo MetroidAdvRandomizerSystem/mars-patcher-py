@@ -258,88 +258,6 @@ Hintlocks = typ.Literal[
 
 # Schema entries
 
-class MarsschemamfMusicreplacement(typ.TypedDict, total=False):
-    """Shuffles the in-game music."""
-
-    SECTOR_1: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SECTOR_2: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SECTOR_3: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SECTOR_5: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SECTOR_4: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SECTOR_6: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    NAVIGATION_ROOM: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    ITEM_FANFARE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SA_X_CHASE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    BOSS_TENSION: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    ARACHNUS_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    ZAZABI_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    BOX_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    OPERATIONS_DECK_ELEVATOR_OFFLINE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    OPERATIONS_DECK_ELEVATOR_OFFLINE_AMBIENCE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    MAIN_BOILER_COOLDOWN_MISSION: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    ORBIT_CHANGE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    OBJECTIVE_COMPLETE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SERRIS_YAKUZA_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    VARIA_CORE_X_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    NIGHTMARE_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    NEO_RIDLEY_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    CHOZO_STATUE_CORE_X_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    NETTORI_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    TITLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-    SA_X_BATTLE: Validmusictracks
-    """Valid music tracks supported by the game."""
-
-
 class MarsschemamfLocationsMajorlocationsItem(typ.TypedDict):
     Source: Validsources
     """Valid major locations."""
@@ -682,7 +600,7 @@ class Marsschemamf(typ.TypedDict, total=False):
     SeedHash: typ.Required[typ.Annotated[str, '/^[0-9A-Z]{8}$/']]
     """A seed hash that will be displayed on the file select screen."""
 
-    MusicReplacement: MarsschemamfMusicreplacement
+    MusicReplacement: dict[Validmusictracks, Validmusictracks]
     """Shuffles the in-game music."""
 
     Locations: typ.Required[MarsschemamfLocations]

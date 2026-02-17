@@ -12,85 +12,11 @@
         "MusicReplacement": {
             "description": "Shuffles the in-game music.",
             "type": "object",
-            "properties": {
-                "SECTOR_1": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SECTOR_2": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SECTOR_3": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SECTOR_5": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SECTOR_4": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SECTOR_6": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "NAVIGATION_ROOM": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "ITEM_FANFARE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SA_X_CHASE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "BOSS_TENSION": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "ARACHNUS_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "ZAZABI_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "BOX_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "OPERATIONS_DECK_ELEVATOR_OFFLINE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "OPERATIONS_DECK_ELEVATOR_OFFLINE_AMBIENCE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "MAIN_BOILER_COOLDOWN_MISSION": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "ORBIT_CHANGE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "OBJECTIVE_COMPLETE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SERRIS_YAKUZA_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "VARIA_CORE_X_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "NIGHTMARE_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "NEO_RIDLEY_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "CHOZO_STATUE_CORE_X_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "NETTORI_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "TITLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                },
-                "SA_X_BATTLE": {
-                    "$ref": "#/$defs/ValidMusicTracks"
-                }
+            "propertyNames": {
+                "$ref": "#/$defs/ValidMusicTracks"
+            },
+            "additionalProperties": {
+                "$ref": "#/$defs/ValidMusicTracks"
             }
         },
         "Locations": {
