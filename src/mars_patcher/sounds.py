@@ -10,6 +10,7 @@ SOUND_SIZE = 8
 def set_sounds(rom: Rom, data: MusicMapping) -> None:
     read_data_entries = []
 
+    MusicLibrary: type[MusicLibraryMF] | type[MusicLibraryZM]
     if rom.game == Game.MF:
         MusicLibrary = MusicLibraryMF
     elif rom.game == Game.ZM:
