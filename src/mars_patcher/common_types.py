@@ -11,3 +11,5 @@ RoomId: TypeAlias = TypeU8
 AreaRoomPair = tuple[AreaId, RoomId]
 
 MinimapId: TypeAlias = Annotated[int, "0 <= value < 10"]
+
+MusicMapping: TypeAlias = types_mf.Musicmapping | types_zm.Musicmapping

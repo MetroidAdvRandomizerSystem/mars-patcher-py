@@ -2,11 +2,11 @@ from collections.abc import Callable
 from os import PathLike
 
 from mars_patcher.rom import Rom
+from mars_patcher.sounds import set_sounds
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
-from mars_patcher.zm.music import set_sounds
 
 
 def patch_zm(

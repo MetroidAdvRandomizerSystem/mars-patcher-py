@@ -369,13 +369,7 @@
         },
         "MusicReplacement": {
             "description": "Shuffles the in-game music.",
-            "type": "object",
-            "propertyNames": {
-                "$ref": "#/$defs/ValidMusicTracks"
-            },
-            "additionalProperties": {
-                "$ref": "#/$defs/ValidMusicTracks"
-            }
+            "$ref": "#/$defs/MusicMapping"
         },
         "intro_text": {
             "type": "object",
@@ -866,6 +860,16 @@
                 "BEFORE_RUINS_TEST_ROOM",
                 "STEALTH_2"
             ]
+        },
+        "MusicMapping": {
+            "description": "Maps music tracks to each other",
+            "type": "object",
+            "propertyNames": {
+                "$ref": "#/$defs/ValidMusicTracks"
+            },
+            "additionalProperties": {
+                "$ref": "#/$defs/ValidMusicTracks"
+            }
         },
         "message_languages": {
             "type": "object",

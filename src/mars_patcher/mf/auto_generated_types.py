@@ -217,6 +217,7 @@ Validmusictracks = typ.Literal[
     'TITLE',
     'SA_X_BATTLE'
 ]
+Musicmapping: typ.TypeAlias = dict[Validmusictracks, Validmusictracks]
 Messagelanguages: typ.TypeAlias = dict[Validlanguages, str]
 
 class Itemmessages(typ.TypedDict, total=False):
@@ -600,7 +601,7 @@ class Marsschemamf(typ.TypedDict, total=False):
     SeedHash: typ.Required[typ.Annotated[str, '/^[0-9A-Z]{8}$/']]
     """A seed hash that will be displayed on the file select screen."""
 
-    MusicReplacement: dict[Validmusictracks, Validmusictracks]
+    MusicReplacement: Musicmapping
     """Shuffles the in-game music."""
 
     Locations: typ.Required[MarsschemamfLocations]

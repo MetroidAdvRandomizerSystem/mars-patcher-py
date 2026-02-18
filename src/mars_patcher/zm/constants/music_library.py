@@ -1,9 +1,5 @@
 from enum import IntEnum
 
-from mars_patcher.constants.game_data import sound_data_entries
-from mars_patcher.rom import Rom
-from mars_patcher.zm.auto_generated_types import Validmusictracks
-
 
 # In-between spaces are null values
 class MusicLibrary(IntEnum):
@@ -75,17 +71,3 @@ class MusicLibrary(IntEnum):
     SAVE_ELEVATOR_ROOM_2 = 0x5C
     BEFORE_RUINS_TEST_ROOM = 0x5D
     STEALTH_2 = 0x5E
-
-
-def set_sounds(rom: Rom, data: dict[Validmusictracks, Validmusictracks]) -> None:
-    read_data_entries = []
-
-    # Read new data
-    for new in data.values():
-        read_location = sound_data_entries(rom) + 8 * MusicLibrary[new].value
-        read_data_entries.append(rom.read_bytes(read_location, 8))
-
-    # Write to rom
-    for original, sound_datum in zip(data.keys(), read_data_entries):
-        write_location = sound_data_entries(rom) + 8 * MusicLibrary[original].value
-        rom.write_bytes(write_location, sound_datum)

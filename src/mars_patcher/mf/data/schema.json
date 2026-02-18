@@ -11,13 +11,7 @@
         },
         "MusicReplacement": {
             "description": "Shuffles the in-game music.",
-            "type": "object",
-            "propertyNames": {
-                "$ref": "#/$defs/ValidMusicTracks"
-            },
-            "additionalProperties": {
-                "$ref": "#/$defs/ValidMusicTracks"
-            }
+            "$ref": "#/$defs/MusicMapping"
         },
         "Locations": {
             "type": "object",
@@ -1015,6 +1009,16 @@
                 "TITLE",
                 "SA_X_BATTLE"
             ]
+        },
+        "MusicMapping": {
+            "description": "Maps music tracks to each other",
+            "type": "object",
+            "propertyNames": {
+                "$ref": "#/$defs/ValidMusicTracks"
+            },
+            "additionalProperties": {
+                "$ref": "#/$defs/ValidMusicTracks"
+            }
         },
         "MessageLanguages": {
             "type": "object",

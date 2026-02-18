@@ -209,6 +209,7 @@ Validmusictracks = typ.Literal[
     'BEFORE_RUINS_TEST_ROOM',
     'STEALTH_2'
 ]
+Musicmapping: typ.TypeAlias = dict[Validmusictracks, Validmusictracks]
 MessageLanguages: typ.TypeAlias = dict[ValidLanguages, str]
 
 class ItemMessages(typ.TypedDict, total=False):
@@ -546,7 +547,7 @@ class Marsschemazm(typ.TypedDict, total=False):
     palettes: MarsschemazmPalettes = None
     """Properties for randomized in-game palettes."""
 
-    MusicReplacement: dict[Validmusictracks, Validmusictracks]
+    MusicReplacement: Musicmapping
     """Shuffles the in-game music."""
 
     intro_text: dict[ValidLanguages, str] = None
