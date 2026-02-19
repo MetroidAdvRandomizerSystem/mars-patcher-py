@@ -11,9 +11,9 @@ def set_sounds(rom: Rom, data: MusicMapping) -> None:
     read_data_entries = []
 
     MusicLibrary: type[MusicLibraryMF] | type[MusicLibraryZM]
-    if rom.game == Game.MF:
+    if rom.is_mf():
         MusicLibrary = MusicLibraryMF
-    elif rom.game == Game.ZM:
+    elif rom.is_zm():
         MusicLibrary = MusicLibraryZM
 
     # Read new data
