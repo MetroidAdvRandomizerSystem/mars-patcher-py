@@ -1,7 +1,7 @@
 from mars_patcher.common_types import MusicMapping
 from mars_patcher.constants.game_data import sound_data_entries
 from mars_patcher.mf.constants.music_library import MusicLibrary as MusicLibraryMF
-from mars_patcher.rom import Game, Rom
+from mars_patcher.rom import Rom
 from mars_patcher.zm.constants.music_library import MusicLibrary as MusicLibraryZM
 
 SOUND_SIZE = 8
