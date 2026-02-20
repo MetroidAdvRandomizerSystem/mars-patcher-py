@@ -1,65 +1,65 @@
-from enum import Enum
+from enum import IntEnum, auto
 from typing import Any, Final
 
 
-class MajorSource(Enum):
+class MajorSource(IntEnum):
     MAIN_DECK_DATA = 0
-    ARACHNUS = 1
-    CHARGE_CORE_X = 2
-    LEVEL_1 = 3
-    TRO_DATA = 4
-    ZAZABI = 5
-    SERRIS = 6
-    LEVEL_2 = 7
-    PYR_DATA = 8
-    MEGA_X = 9
-    LEVEL_3 = 10
-    ARC_DATA_1 = 11
-    WIDE_CORE_X = 12
-    ARC_DATA_2 = 13
-    YAKUZA = 14
-    NETTORI = 15
-    NIGHTMARE = 16
-    LEVEL_4 = 17
-    AQA_DATA = 18
-    WAVE_CORE_X = 19
-    RIDLEY = 20
-    BOILER = 21
-    ANIMALS = 22
-    AUXILIARYPOWER = 23
+    ARACHNUS = auto()
+    CHARGE_CORE_X = auto()
+    LEVEL_1 = auto()
+    TRO_DATA = auto()
+    ZAZABI = auto()
+    SERRIS = auto()
+    LEVEL_2 = auto()
+    PYR_DATA = auto()
+    MEGA_X = auto()
+    LEVEL_3 = auto()
+    ARC_DATA_1 = auto()
+    WIDE_CORE_X = auto()
+    ARC_DATA_2 = auto()
+    YAKUZA = auto()
+    NETTORI = auto()
+    NIGHTMARE = auto()
+    LEVEL_4 = auto()
+    AQA_DATA = auto()
+    WAVE_CORE_X = auto()
+    RIDLEY = auto()
+    BOILER = auto()
+    ANIMALS = auto()
+    AUXILIARYPOWER = auto()
 
 
-class ItemType(Enum):
+class ItemType(IntEnum):
     UNDEFINED = -1
     NONE = 0
-    LEVEL_0 = 1
-    MISSILES = 2
-    MORPH_BALL = 3
-    CHARGE_BEAM = 4
-    LEVEL_1 = 5
-    BOMBS = 6
-    HI_JUMP = 7
-    SPEED_BOOSTER = 8
-    LEVEL_2 = 9
-    SUPER_MISSILES = 10
-    VARIA_SUIT = 11
-    LEVEL_3 = 12
-    ICE_MISSILES = 13
-    WIDE_BEAM = 14
-    POWER_BOMBS = 15
-    SPACE_JUMP = 16
-    PLASMA_BEAM = 17
-    GRAVITY_SUIT = 18
-    LEVEL_4 = 19
-    DIFFUSION_MISSILES = 20
-    WAVE_BEAM = 21
-    SCREW_ATTACK = 22
-    ICE_BEAM = 23
-    MISSILE_TANK = 24
-    ENERGY_TANK = 25
-    POWER_BOMB_TANK = 26
-    ICE_TRAP = 27
-    INFANT_METROID = 28
+    LEVEL_0 = auto()
+    MISSILES = auto()
+    MORPH_BALL = auto()
+    CHARGE_BEAM = auto()
+    LEVEL_1 = auto()
+    BOMBS = auto()
+    HI_JUMP = auto()
+    SPEED_BOOSTER = auto()
+    LEVEL_2 = auto()
+    SUPER_MISSILES = auto()
+    VARIA_SUIT = auto()
+    LEVEL_3 = auto()
+    ICE_MISSILES = auto()
+    WIDE_BEAM = auto()
+    POWER_BOMBS = auto()
+    SPACE_JUMP = auto()
+    PLASMA_BEAM = auto()
+    GRAVITY_SUIT = auto()
+    LEVEL_4 = auto()
+    DIFFUSION_MISSILES = auto()
+    WAVE_BEAM = auto()
+    SCREW_ATTACK = auto()
+    ICE_BEAM = auto()
+    MISSILE_TANK = auto()
+    ENERGY_TANK = auto()
+    POWER_BOMB_TANK = auto()
+    ICE_TRAP = auto()
+    INFANT_METROID = auto()
 
     def __le__(self, other: Any) -> bool:
         if isinstance(other, ItemType):
@@ -67,44 +67,44 @@ class ItemType(Enum):
         return NotImplemented
 
 
-class ItemSprite(Enum):
+class ItemSprite(IntEnum):
     UNCHANGED = -1
     EMPTY = 0
-    LEVEL_0 = 1
-    MISSILES = 2
-    MORPH_BALL = 3
-    CHARGE_BEAM = 4
-    LEVEL_1 = 5
-    BOMBS = 6
-    HI_JUMP = 7
-    SPEED_BOOSTER = 8
-    LEVEL_2 = 9
-    SUPER_MISSILES = 10
-    VARIA_SUIT = 11
-    LEVEL_3 = 12
-    ICE_MISSILES = 13
-    WIDE_BEAM = 14
-    POWER_BOMBS = 15
-    SPACE_JUMP = 16
-    PLASMA_BEAM = 17
-    GRAVITY_SUIT = 18
-    LEVEL_4 = 19
-    DIFFUSION_MISSILES = 20
-    WAVE_BEAM = 21
-    SCREW_ATTACK = 22
-    ICE_BEAM = 23
-    MISSILE_TANK = 24
-    ENERGY_TANK = 25
-    POWER_BOMB_TANK = 26
-    ANONYMOUS = 27
-    SHINY_MISSILE_TANK = 28
-    SHINY_POWER_BOMB_TANK = 29
-    INFANT_METROID = 30
-    SAMUS_HEAD = 31
-    WALLJUMP_BOOTS = 32
-    RANDOVANIA = 33
-    ARCHIPELAGO_COLOR = 34
-    ARCHIPELAGO_MONOCHROME = 35
+    LEVEL_0 = auto()
+    MISSILES = auto()
+    MORPH_BALL = auto()
+    CHARGE_BEAM = auto()
+    LEVEL_1 = auto()
+    BOMBS = auto()
+    HI_JUMP = auto()
+    SPEED_BOOSTER = auto()
+    LEVEL_2 = auto()
+    SUPER_MISSILES = auto()
+    VARIA_SUIT = auto()
+    LEVEL_3 = auto()
+    ICE_MISSILES = auto()
+    WIDE_BEAM = auto()
+    POWER_BOMBS = auto()
+    SPACE_JUMP = auto()
+    PLASMA_BEAM = auto()
+    GRAVITY_SUIT = auto()
+    LEVEL_4 = auto()
+    DIFFUSION_MISSILES = auto()
+    WAVE_BEAM = auto()
+    SCREW_ATTACK = auto()
+    ICE_BEAM = auto()
+    MISSILE_TANK = auto()
+    ENERGY_TANK = auto()
+    POWER_BOMB_TANK = auto()
+    ANONYMOUS = auto()
+    SHINY_MISSILE_TANK = auto()
+    SHINY_POWER_BOMB_TANK = auto()
+    INFANT_METROID = auto()
+    SAMUS_HEAD = auto()
+    WALLJUMP_BOOTS = auto()
+    RANDOVANIA = auto()
+    ARCHIPELAGO_COLOR = auto()
+    ARCHIPELAGO_MONOCHROME = auto()
 
 
 KEY_MAJOR_LOCS: Final = "MajorLocations"
@@ -122,9 +122,9 @@ KEY_ITEM_MESSAGES: Final = "ItemMessages"
 KEY_ITEM_JINGLE: Final = "Jingle"
 
 
-class ItemJingle(Enum):
+class ItemJingle(IntEnum):
     MINOR = 0
-    MAJOR = 1
+    MAJOR = auto()
 
 
 JINGLE_ENUMS = {"Minor": ItemJingle.MINOR, "Major": ItemJingle.MAJOR}
