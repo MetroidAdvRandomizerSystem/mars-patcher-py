@@ -657,9 +657,6 @@ class Marsschemamf(typ.TypedDict, total=False):
     UnexploredMap: bool = False
     """When enabled, starts you with a map where all unexplored items and non-visited tiles have a gray background. This is different from the downloaded map stations where there, the full tile is gray."""
 
-    AccessibilityPatches: bool = False
-    """Whether to apply patches for better accessibility."""
-
     LevelEdits: dict[Areaidkey, dict[str, MarsschemamfLeveledits]]
     """Specifies room edits that should be done. These will be applied last."""
 

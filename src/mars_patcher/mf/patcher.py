@@ -15,7 +15,6 @@ from mars_patcher.mf.item_patcher import (
 )
 from mars_patcher.mf.locations import LocationSettings
 from mars_patcher.mf.misc_patches import (
-    apply_accessibility_patch,
     apply_alternative_health_layout,
     apply_base_patch,
     apply_environmental_damage,
@@ -131,9 +130,6 @@ def patch_mf(
         write_credits(rom, credits_text)
 
     # Misc patches
-    if patch_data.get("AccessibilityPatches"):
-        apply_accessibility_patch(rom)
-
     if patch_data.get("DisableDemos"):
         disable_demos(rom)
 
