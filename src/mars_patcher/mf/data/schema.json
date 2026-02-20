@@ -627,11 +627,6 @@
             "description": "When enabled, starts you with a map where all unexplored items and non-visited tiles have a gray background. This is different from the downloaded map stations where there, the full tile is gray.",
             "default": false
         },
-        "AccessibilityPatches": {
-            "type": "boolean",
-            "description": "Whether to apply patches for better accessibility.",
-            "default": false
-        },
         "LevelEdits": {
             "type": "object",
             "description": "Specifies room edits that should be done. These will be applied last.",
