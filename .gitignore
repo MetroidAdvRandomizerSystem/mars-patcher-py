@@ -4,9 +4,13 @@ venv/
 dist/
 *.egg-info/
 
+# emulator related stuff
 *.gba
-/*.sav
+*.sav
+*.ss[123456789]
 /*.bps
+/*.ips
+
 /*.json
 *.exe
 
