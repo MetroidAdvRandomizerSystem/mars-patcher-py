@@ -251,12 +251,12 @@ def create_tile(tile: MapTile) -> bytearray:
             draw_obtained_tank(gfx)
         case Content.BOSS_RIGHT_DOWNLOADED:
             draw_boss_room(gfx, COLOR_CONNECTION_BG, 2, 1)
-        case Content.BOSS_BOTTOM_LEFT_EXPLORED:
-            draw_boss_room(gfx, COLOR_WHITE_ITEM, 0, 2)
-        case Content.BOSS_TOP_LEFT_DOWNLOADED:
-            draw_boss_room(gfx, COLOR_CONNECTION_BG, 0, 0)
-        case Content.BOSS_LEFT_EXPLORED:
-            draw_boss_room(gfx, COLOR_WHITE_ITEM, 0, 1)
+        case Content.BOSS_BOTTOM_LEFT_BOTH:
+            draw_boss_room(gfx, COLOR_WHITE_OUTLINE, 0, 2)
+        case Content.BOSS_TOP_LEFT_BOTH:
+            draw_boss_room(gfx, COLOR_WHITE_OUTLINE, 0, 0)
+        case Content.BOSS_LEFT_BOTH:
+            draw_boss_room(gfx, COLOR_WHITE_OUTLINE, 0, 1)
         case Content.BOSS_TOP_RIGHT_BOTH:
             draw_boss_room(gfx, COLOR_WHITE_OUTLINE, 2, 0)
         case Content.BOSS_TOP_RIGHT_EXPLORED:

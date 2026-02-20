@@ -150,12 +150,12 @@ class Content(Enum):
     DATA = "D"
     ITEM = "I"
     OBTAINED_ITEM = "O"
-    BOSS_RIGHT_DOWNLOADED = "B-R-D"  # Serris skeleton
-    BOSS_BOTTOM_LEFT_EXPLORED = "B-BL-E"  # Serris
-    BOSS_TOP_LEFT_DOWNLOADED = "B-TL-D"  # BOX 1
-    BOSS_LEFT_EXPLORED = "B-L-E"  # Mega-X
+    BOSS_RIGHT_DOWNLOADED = "B-R-D"  # Serris skeleton, unused in rando
+    BOSS_BOTTOM_LEFT_BOTH = "B-BL-B"  # Serris, in vanilla its _EXPLORED
+    BOSS_TOP_LEFT_BOTH = "B-TL-B"  # BOX 1, in vanilla its _DOWNLOADED
+    BOSS_LEFT_BOTH = "B-L-B"  # Mega-X, in vanilla its _EXPLORED
     BOSS_TOP_RIGHT_BOTH = "B-TR-B"  # Nightmare
-    BOSS_TOP_RIGHT_EXPLORED = "B-TR-E"  # BOX 2
+    BOSS_TOP_RIGHT_EXPLORED = "B-TR-E"  # BOX 2, unused in rando in favour of _BOTH
     GUNSHIP = "G"
     GUNSHIP_EDGE = "P"
     SECURITY = "K"
@@ -188,9 +188,9 @@ class Content(Enum):
             Content.RECHARGE,
             Content.HIDDEN_RECHARGE,
             Content.BOSS_RIGHT_DOWNLOADED,
-            Content.BOSS_BOTTOM_LEFT_EXPLORED,
-            Content.BOSS_TOP_LEFT_DOWNLOADED,
-            Content.BOSS_LEFT_EXPLORED,
+            Content.BOSS_BOTTOM_LEFT_BOTH,
+            Content.BOSS_TOP_LEFT_BOTH,
+            Content.BOSS_LEFT_BOTH,
             Content.BOSS_TOP_RIGHT_BOTH,
             Content.BOSS_TOP_RIGHT_EXPLORED,
             Content.GUNSHIP,

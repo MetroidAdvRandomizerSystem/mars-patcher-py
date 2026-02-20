@@ -243,8 +243,8 @@ NORMAL_DOOR_TILES = {
     0x102: MapTile.from_str("DDxx_xxxC_x"),
     0x104: MapTile.from_str("WDxx_xxxC_x"),
     0x105: MapTile.from_str("xDxx_xCxx_x"),
-    0x109: MapTile.from_str("WDxW_xxxx_B-R-D"),
-    0x10D: MapTile.from_str("xxDx_xxxx_B-L-E"),
+    0x109: MapTile.from_str("WDxW_xxxx_x"),
+    0x10D: MapTile.from_str("xxDx_xxxx_B-L-B"),
     0x10F: MapTile.from_str("xDxW_xxxx_B-TR-B"),
     0x120: MapTile.from_str("DDWW_xxxx_x"),
     0x121: MapTile.from_str("DDDW_xxxx_x"),
@@ -314,9 +314,9 @@ NORMAL_DOOR_TILES = {
     0x1AB: MapTile.from_str("DDWW_xxxx_O"),
     # New Tiles
     0x0A4: MapTile.from_str("WDSW_xxxx_T"),
-    0x108: MapTile.from_str("xxDW_Cxxx_B-TL-D"),
-    0x10A: MapTile.from_str("WxDx_xxxx_B-BL-E"),
-    0x10C: MapTile.from_str("xDxW_xCxx_B-TR-E"),
+    0x108: MapTile.from_str("xxDW_Cxxx_B-TL-B"),
+    0x10A: MapTile.from_str("WxDx_xxxx_B-BL-B"),
+    0x10C: MapTile.from_str("xDxW_xCxx_B-TR-B"),
     0x170: MapTile.from_str("WWDx_xxxx_w"),
     0x172: MapTile.from_str("WDDW_xxxx_Y"),
 }
