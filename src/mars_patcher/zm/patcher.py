@@ -2,6 +2,7 @@ from collections.abc import Callable
 from os import PathLike
 
 from mars_patcher.rom import Rom
+from mars_patcher.sounds import set_sounds
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
@@ -54,6 +55,11 @@ def patch_zm(
     # if "StartingItems" in patch_data:
     #     status_update("Writing starting items...", -1)
     # set_starting_items(rom, patch_data["StartingItems"])
+
+    # Music
+    if "MusicReplacement" in patch_data:
+        status_update("Writing music...", -1)
+        set_sounds(rom, patch_data["MusicReplacement"])
 
     # Tank increments
     if "tank_increments" in patch_data:

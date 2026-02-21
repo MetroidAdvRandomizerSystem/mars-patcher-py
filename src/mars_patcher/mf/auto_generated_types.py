@@ -189,6 +189,68 @@ Validlanguages = typ.Literal[
     'Italian',
     'Spanish'
 ]
+Validmusictracks = typ.Literal[
+    'UNUSED_1',
+    'AFTER_EVENT',
+    'SECTOR_1',
+    'SECTOR_2',
+    'SECTOR_3',
+    'SECTOR_5',
+    'SECTOR_4',
+    'SECTOR_6',
+    'NAVIGATION_ROOM',
+    'SECURITY_DATA_ROOM',
+    'ITEM_JINGLE',
+    'LOADING_SAVE',
+    'MESSAGE_POPUP',
+    'SA_X_APPEARANCE',
+    'SA_X_CHASE',
+    'BOSS_TENSION',
+    'ARACHNUS_BATTLE',
+    'ZAZABI_BATTLE',
+    'BOX_BATTLE',
+    'MAIN_DECK_AMBIENCE',
+    'UNUSED_1F',
+    'UNUSED_20',
+    'SILENCE_1_SHIP',
+    'TENSION',
+    'MAIN_DECK_LIVELY',
+    'OMEGA_METROID_DEFEATED',
+    'OPERATIONS_DECK',
+    'OPERATIONS_DECK_ELEVATOR_OFFLINE_SOUND_AND_AMBIENCE',
+    'X_INVASION_DETECTION',
+    'SA_X_ELEVATOR',
+    'HEADING_TO_NIGHTMARE_RIDLEY',
+    'OPERATIONS_DECK_ELEVATOR_OFFLINE_SOUND',
+    'OPERATIONS_DECK_ELEVATOR_OFFLINE_AMBIENCE',
+    'MAIN_BOILER_COOLDOWN_MISSION',
+    'STATION_ESCAPE',
+    'OBJECTIVE_COMPLETE',
+    'SECTOR_4_UNDERWATER',
+    'SECTOR_4_UNDERWATER_UNUSED',
+    'SERRIS_YAKUZA_BATTLE',
+    'VARIA_CORE_X_BATTLE',
+    'NIGHTMARE_BATTLE',
+    'NEO_RIDLEY_BATTLE',
+    'CHOZO_STATUE_CORE_X_BATTLE',
+    'NETTORI_BATTLE',
+    'PRE_TITLE_END',
+    'TITLE',
+    'SA_X_BATTLE',
+    'EPILOGUE_END',
+    'ENDING',
+    'EPILOGUE',
+    'DISQUIETING',
+    'SHOCK',
+    'SILENCE_1',
+    'MAIN_BOILER_OVERHEATING',
+    'FINAL_ORDER',
+    'SILENCE_2',
+    'INTRIGUE',
+    'UNUSED_5E',
+    'UNEASE'
+]
+Musicmapping: typ.TypeAlias = dict[Validmusictracks, Validmusictracks]
 Messagelanguages: typ.TypeAlias = dict[Validlanguages, str]
 
 class Itemmessages(typ.TypedDict, total=False):
@@ -588,6 +650,9 @@ class Marsschemamf(typ.TypedDict, total=False):
 
     SeedHash: typ.Required[typ.Annotated[str, '/^[0-9A-Z]{8}$/']]
     """A seed hash that will be displayed on the file select screen."""
+
+    MusicReplacement: Musicmapping
+    """Shuffles the in-game music."""
 
     Locations: typ.Required[MarsschemamfLocations]
     """Specifies how the item locations in the game should be changed."""

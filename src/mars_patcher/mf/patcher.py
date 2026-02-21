@@ -36,6 +36,7 @@ from mars_patcher.mf.starting import set_starting_items, set_starting_location
 from mars_patcher.minimap import apply_minimap_edits
 from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
+from mars_patcher.sounds import set_sounds
 from mars_patcher.text import write_seed_hash
 from mars_patcher.titlescreen_text import write_title_text
 
@@ -79,6 +80,11 @@ def patch_mf(
 
     # Required metroid count
     set_required_metroid_count(rom, patch_data["RequiredMetroidCount"])
+
+    # Music
+    if "MusicReplacement" in patch_data:
+        status_update("Writing music...", -1)
+        set_sounds(rom, patch_data["MusicReplacement"])
 
     # Starting location
     if "StartingLocation" in patch_data:

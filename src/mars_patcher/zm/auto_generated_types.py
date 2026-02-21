@@ -145,6 +145,71 @@ ValidLanguages = typ.Literal[
     'ITALIAN',
     'SPANISH'
 ]
+Validmusictracks = typ.Literal[
+    'BRINSTAR',
+    'TITLE_SCREEN',
+    'SAVE_ELEVATOR_ROOM',
+    'INTRO',
+    'CHOZO_STATUE_HINT',
+    'NORFAIR',
+    'KRAID',
+    'ESCAPE',
+    'FILE_SELECT',
+    'STATUE_ROOM',
+    'BOSS_KILLED',
+    'MAP_ROOM',
+    'CHOZO_RUINS_DEPTH',
+    'CHOZO_RUINS',
+    'CHOZO_RUINS_LIGHT',
+    'RIDLEY_IN_SPACE',
+    'RIDLEY_LANDING',
+    'CHOZO_STATUE_HINT_DELAY',
+    'GETTING_FULLY_POWERED_SUIT_CUTSCENE',
+    'ESCAPING_ZEBES_CUTSCENE',
+    'CHOZO_VOICE_1',
+    'CHOZO_VOICE_2',
+    'BEFORE_RUINS_TEST_UNUSED',
+    'ELEVATOR_ROOM',
+    'BRINSTAR_REMIX',
+    'ESCAPE_SUCCESFUL',
+    'CREDITS',
+    'STATUE_ROOM_OPENED',
+    'RIDLEY',
+    'KRAID_BATTLE_WITH_INTRO',
+    'RIDLEY_BATTLE',
+    'LOADING_JINGLE',
+    'GETTING_ITEM_JINGLE',
+    'INTRO_MOTHER_BRAIN',
+    'GETTING_TANK_JINGLE',
+    'TOURIAN',
+    'WORMS_BATTLE',
+    'MOTHER_BRAIN_BATTLE',
+    'CATTERPILLARS_BATTLE',
+    'IMAGO_COCOON_BATTLE',
+    'IMAGO_BATTLE',
+    'MECHA_RIDLEY_BATTLE',
+    'GETTING_UNKNOWN_ITEM_JINGLE',
+    'RUINS_TEST_BATTLE_WITH_INTRO',
+    'ENTERING_TOURIAN_CUTSCENE',
+    'ALARM_ACTIVATED',
+    'STEALTH',
+    'ENTERING_NORFAIR_CUTSCENE',
+    'CHOZODIA_DETECTED',
+    'GETTING_FULLY_POWERED_SUIT_JINGLE',
+    'KRAID_BATTLE',
+    'RIDLEY_BATTLE_2',
+    'MECHA_RIDLEY_BATTLE_2',
+    'RUINS_TEST_BATTLE',
+    'CATTERPILLARS_BATTLE_2',
+    'CRATERIA',
+    'GAME_OVER',
+    'CHOZODIA_SURFACE',
+    'MAP_ROOM_2',
+    'SAVE_ELEVATOR_ROOM_2',
+    'BEFORE_RUINS_TEST_ROOM',
+    'STEALTH_2'
+]
+Musicmapping: typ.TypeAlias = dict[Validmusictracks, Validmusictracks]
 MessageLanguages: typ.TypeAlias = dict[ValidLanguages, str]
 
 class ItemMessages(typ.TypedDict, total=False):
@@ -481,6 +546,9 @@ class Marsschemazm(typ.TypedDict, total=False):
 
     palettes: MarsschemazmPalettes = None
     """Properties for randomized in-game palettes."""
+
+    MusicReplacement: Musicmapping
+    """Shuffles the in-game music."""
 
     intro_text: dict[ValidLanguages, str] = None
     """Specifies what text should appear during the new game intro."""
