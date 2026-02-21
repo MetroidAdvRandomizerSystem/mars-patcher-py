@@ -1,7 +1,7 @@
 from mars_patcher.common_types import MusicMapping
 from mars_patcher.constants.game_data import sound_data_entries
 from mars_patcher.mf.constants.music_library import MusicLibrary as MusicLibraryMF
-from mars_patcher.rom import Game, Rom
+from mars_patcher.rom import Rom
 from mars_patcher.zm.constants.music_library import MusicLibrary as MusicLibraryZM
 
 SOUND_SIZE = 8
@@ -11,9 +11,9 @@ def set_sounds(rom: Rom, data: MusicMapping) -> None:
     read_data_entries = []
 
     MusicLibrary: type[MusicLibraryMF] | type[MusicLibraryZM]
-    if rom.game == Game.MF:
+    if rom.is_mf():
         MusicLibrary = MusicLibraryMF
-    elif rom.game == Game.ZM:
+    elif rom.is_zm():
         MusicLibrary = MusicLibraryZM
 
     # Read new data
