@@ -128,8 +128,6 @@ Validitemsprites = typ.Literal[
     'ShinyMissileTank',
     'ShinyPowerBombTank',
     'InfantMetroid',
-    'ShinyPowerBombTank',
-    'InfantMetroid',
     'SamusHead',
     'WalljumpBoots',
     'Randovania',
