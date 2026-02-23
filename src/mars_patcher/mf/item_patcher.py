@@ -1,11 +1,8 @@
 from mars_patcher.item_messages import ItemMessages, ItemMessagesKind
 from mars_patcher.mf.auto_generated_types import MarsschemamfTankincrements
+from mars_patcher.mf.constants.items import ItemSprite, ItemType
 from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF, ReservedPointersMF
-from mars_patcher.mf.locations import (
-    ItemSprite,
-    ItemType,
-    LocationSettings,
-)
+from mars_patcher.mf.locations import LocationSettings
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
