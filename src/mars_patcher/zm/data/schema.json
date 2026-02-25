@@ -31,7 +31,7 @@
                             "item_sprite": {
                                 "$ref": "#/$defs/valid_item_sprites"
                             },
-                            "item_messages": {
+                            "ItemMessages": {
                                 "$ref": "#/$defs/item_messages"
                             },
                             "jingle": {
@@ -79,7 +79,7 @@
                             "item_sprite": {
                                 "$ref": "#/$defs/valid_item_sprites"
                             },
-                            "item_messages": {
+                            "ItemMessages": {
                                 "$ref": "#/$defs/item_messages"
                             },
                             "jingle": {
@@ -784,13 +784,13 @@
             "type": "string",
             "description": "Valid languages supported by the game.",
             "enum": [
-                "JAPANESE_KANJI",
-                "JAPANESE_HIRAGANA",
-                "ENGLISH",
-                "GERMAN",
-                "FRENCH",
-                "ITALIAN",
-                "SPANISH"
+                "JapaneseKanji",
+                "JapaneseHiragana",
+                "English",
+                "German",
+                "French",
+                "Italian",
+                "Spanish"
             ]
         },
         "ValidMusicTracks": {
@@ -877,7 +877,7 @@
                 "$ref": "#/$defs/valid_languages"
             },
             "required": [
-                "ENGLISH"
+                "English"
             ],
             "additionalProperties": {
                 "type": "string",
@@ -887,44 +887,44 @@
         "item_messages": {
             "type": "object",
             "properties": {
-                "kind": {
+                "Kind": {
                     "$ref": "#/$defs/item_messages_kind"
                 }
             },
             "required": [
-                "kind"
+                "Kind"
             ],
             "if": {
                 "properties": {
-                    "kind": {
-                        "const": "CUSTOM_MESSAGE"
+                    "Kind": {
+                        "const": "CustomMessage"
                     }
                 }
             },
             "then": {
                 "properties": {
-                    "kind": {
+                    "Kind": {
                         "$ref": "#/$defs/item_messages_kind"
                     },
-                    "languages": {
+                    "Languages": {
                         "$ref": "#/$defs/message_languages"
                     },
-                    "centered": {
+                    "Centered": {
                         "type": "boolean",
                         "default": true
                     }
                 },
                 "required": [
-                    "languages"
+                    "Languages"
                 ],
                 "additionalProperties": false
             },
             "else": {
                 "properties": {
-                    "kind": {
+                    "Kind": {
                         "$ref": "#/$defs/item_messages_kind"
                     },
-                    "message_id": {
+                    "MessageID": {
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 56,
@@ -932,7 +932,7 @@
                     }
                 },
                 "required": [
-                    "message_id"
+                    "MessageID"
                 ],
                 "additionalProperties": false
             }
@@ -940,8 +940,8 @@
         "item_messages_kind": {
             "type": "string",
             "enum": [
-                "CUSTOM_MESSAGE",
-                "MESSAGE_ID"
+                "CustomMessage",
+                "MessageID"
             ]
         },
         "jingle": {
