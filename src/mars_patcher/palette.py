@@ -2,6 +2,7 @@ import math
 import random
 
 from mars_patcher.color_spaces import HsvColor, OklabColor, RgbBitSize, RgbColor
+from mars_patcher.convert_array import u16_to_u8
 from mars_patcher.rom import Rom
 
 HUE_VARIATION_RANGE = 180.0
@@ -80,12 +81,8 @@ class Palette:
         return len(self.colors) // 16
 
     def byte_data(self) -> bytes:
-        arr = bytearray()
-        for color in self.colors:
-            val = color.rgb_15()
-            arr.append(val & 0xFF)
-            arr.append(val >> 8)
-        return bytes(arr)
+        values = [c.rgb_15() for c in self.colors]
+        return u16_to_u8(values)
 
     def write(self, rom: Rom, addr: int) -> None:
         data = self.byte_data()

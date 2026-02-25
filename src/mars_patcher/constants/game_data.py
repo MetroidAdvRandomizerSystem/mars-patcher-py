@@ -45,6 +45,25 @@ def tileset_count(rom: Rom) -> int:
     raise ValueError(rom.game)
 
 
+def anim_tileset_entries(rom: Rom) -> int:
+    """Returns the address of the animated tileset entries."""
+    if rom.game == Game.MF:
+        raise NotImplementedError()
+    elif rom.game == Game.ZM:
+        return rom.read_ptr(ReservedPointersZM.ANIM_TILESET_ENTRIES_PTR.value)
+
+    raise ValueError("Rom has unknown game loaded.")
+
+
+def anim_tileset_count(rom: Rom) -> int:
+    """Returns the number of animated tilesets in the game."""
+    if rom.game == Game.MF:
+        return 0xE
+    elif rom.game == Game.ZM:
+        return 0x8
+    raise ValueError(rom.game)
+
+
 def area_doors_ptrs(rom: Rom) -> int:
     """Returns the address of the area doors pointers."""
     if rom.game == Game.MF:
@@ -87,6 +106,15 @@ def area_connections_count(rom: Rom) -> int:
         return 0x19
 
     raise ValueError("Rom has unknown game loaded.")
+
+
+def anim_graphics_count(rom: Rom) -> int:
+    """Returns the number of animated graphics in the game."""
+    if rom.game == Game.MF:
+        return 0x47
+    elif rom.game == Game.ZM:
+        return 0x26
+    raise ValueError(rom.game, rom.region)
 
 
 def anim_palette_entries(rom: Rom) -> int:

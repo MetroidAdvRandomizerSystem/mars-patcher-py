@@ -11,8 +11,8 @@ class ReservedConstantsZM:
     """
 
     # Important addresses:
-    # 0x760D38 - End of data (U region)
-    # 0x7C0000 - Patcher data free space
+    # 0x760D38 - End of vanilla data (U region)
+    # 0x7B0000 - Patcher data free space
     # 0x7D0000 - Randomizer data pointers
     # 0x7D8000 - NES Metroid data
 
@@ -20,7 +20,7 @@ class ReservedConstantsZM:
     RANDO_POINTERS_ADDR = 0x7D0000
 
     # Address for any additional data that the patcher may need to write
-    PATCHER_FREE_SPACE_ADDR = 0x7C0000
+    PATCHER_FREE_SPACE_ADDR = 0x7B0000
     PATCHER_FREE_SPACE_END = RANDO_POINTERS_ADDR
 
 
@@ -35,6 +35,8 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the list of tileset entries."""
     TILESET_TILEMAP_SIZES_PTR = auto()
     """Pointer to an array containing the size of each tileset's tilemap."""
+    ANIM_TILESET_ENTRIES_PTR = auto()
+    """Pointer to the list of animated tileset entries."""
     MINIMAPS_PTR = auto()
     """Pointer to a list of pointers to the minimap data for each area."""
     AREA_DOORS_PTR = auto()

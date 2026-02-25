@@ -1,5 +1,7 @@
 from enum import IntEnum, auto
 
+from mars_patcher.zm.data import get_data_path
+
 
 class MajorSource(IntEnum):
     LONG_BEAM = 0
@@ -72,6 +74,67 @@ class ItemSprite(IntEnum):
     ANONYMOUS = auto()
     SHINY_MISSILE_TANK = auto()
     SHINY_POWER_BOMB_TANK = auto()
+
+
+ITEM_TO_SPRITE = {
+    ItemType.NONE: ItemSprite.EMPTY,
+    ItemType.ENERGY_TANK: ItemSprite.ENERGY_TANK,
+    ItemType.MISSILE_TANK: ItemSprite.MISSILE_TANK,
+    ItemType.SUPER_MISSILE_TANK: ItemSprite.SUPER_MISSILE_TANK,
+    ItemType.POWER_BOMB_TANK: ItemSprite.POWER_BOMB_TANK,
+    ItemType.LONG_BEAM: ItemSprite.LONG_BEAM,
+    ItemType.CHARGE_BEAM: ItemSprite.CHARGE_BEAM,
+    ItemType.ICE_BEAM: ItemSprite.ICE_BEAM,
+    ItemType.WAVE_BEAM: ItemSprite.WAVE_BEAM,
+    ItemType.PLASMA_BEAM: ItemSprite.PLASMA_BEAM,
+    ItemType.BOMBS: ItemSprite.BOMBS,
+    ItemType.VARIA_SUIT: ItemSprite.VARIA_SUIT,
+    ItemType.GRAVITY_SUIT: ItemSprite.GRAVITY_SUIT,
+    ItemType.MORPH_BALL: ItemSprite.MORPH_BALL,
+    ItemType.SPEED_BOOSTER: ItemSprite.SPEED_BOOSTER,
+    ItemType.HI_JUMP: ItemSprite.HI_JUMP,
+    ItemType.SCREW_ATTACK: ItemSprite.SCREW_ATTACK,
+    ItemType.SPACE_JUMP: ItemSprite.SPACE_JUMP,
+    ItemType.POWER_GRIP: ItemSprite.POWER_GRIP,
+    ItemType.FULLY_POWERED: ItemSprite.FULLY_POWERED,
+    ItemType.ZIPLINES: ItemSprite.ZIPLINES,
+}
+
+
+PALETTE_NAMES = {
+    ItemSprite.EMPTY: "tank",
+    ItemSprite.ENERGY_TANK: "tank",
+    ItemSprite.MISSILE_TANK: "tank",
+    ItemSprite.SUPER_MISSILE_TANK: "tank",
+    ItemSprite.POWER_BOMB_TANK: "tank",
+    ItemSprite.LONG_BEAM: "long_beam",
+    ItemSprite.CHARGE_BEAM: "charge_beam",
+    ItemSprite.ICE_BEAM: "ice_beam",
+    ItemSprite.WAVE_BEAM: "wave_beam",
+    ItemSprite.PLASMA_BEAM: "plasma_beam",
+    ItemSprite.BOMBS: "bombs",
+    ItemSprite.VARIA_SUIT: "varia_suit",
+    ItemSprite.GRAVITY_SUIT: "gravity_suit",
+    ItemSprite.MORPH_BALL: "morph_ball",
+    ItemSprite.SPEED_BOOSTER: "speed_booster",
+    ItemSprite.HI_JUMP: "hi_jump",
+    ItemSprite.SCREW_ATTACK: "screw_attack",
+    ItemSprite.SPACE_JUMP: "space_jump",
+    ItemSprite.POWER_GRIP: "power_grip",
+    ItemSprite.FULLY_POWERED: "morph_ball",  # TODO: Add palette for this
+    ItemSprite.ZIPLINES: "ziplines",
+    ItemSprite.ANONYMOUS: "tank",
+    # TODO: Add palettes for these
+    # ItemSprite.SHINY_MISSILE_TANK: "shiny_tank",
+    # ItemSprite.SHINY_POWER_BOMB_TANK: "shiny_tank",
+}
+
+
+def get_sprite_palette(sprite: ItemSprite) -> bytes:
+    name = PALETTE_NAMES[sprite] + ".pal"
+    path = get_data_path("item_palettes", name)
+    with open(path, "rb") as f:
+        return f.read()
 
 
 class ItemJingle(IntEnum):

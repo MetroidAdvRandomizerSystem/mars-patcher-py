@@ -3,6 +3,7 @@ from enum import Enum
 from functools import cache
 
 from mars_patcher.constants.game_data import character_widths
+from mars_patcher.convert_array import u16_to_u8
 from mars_patcher.mf.constants.game_data import file_screen_text_ptrs
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.rom import Region, Rom
@@ -237,11 +238,7 @@ def encode_text(
 
     text.append(END)
 
-    text_bytes = bytearray()
-    for val in text:
-        text_bytes.append(val & 0xFF)
-        text_bytes.append(val >> 8)
-    return bytes(text_bytes)
+    return u16_to_u8(text)
 
 
 def write_seed_hash(rom: Rom, seed_hash: str) -> None:
