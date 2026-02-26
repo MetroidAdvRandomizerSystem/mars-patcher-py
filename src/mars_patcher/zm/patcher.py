@@ -56,12 +56,12 @@ def patch_zm(
     # Starting location
     if "starting_location" in patch_data:
         status_update("Writing starting location...", -1)
-    set_starting_location(rom, patch_data["starting_location"])
+        set_starting_location(rom, patch_data["starting_location"])
 
     # Starting items
     if "starting_items" in patch_data:
         status_update("Writing starting items...", -1)
-    set_starting_items(rom, patch_data["starting_items"])
+        set_starting_items(rom, patch_data["starting_items"])
 
     # Tank increments
     if "tank_increments" in patch_data:
