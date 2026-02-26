@@ -224,7 +224,7 @@ def samus_palettes(rom: Rom) -> list[tuple[int, int]]:
         elif rom.region == Region.C:
             return [(0x2900C8, 0x5E), (0x290E48, 0x70), (0x56CC68, 3)]
     elif rom.game == Game.ZM:
-        addr = rom.read_ptr(ReservedPointersZM.AREA_DOORS_PTR.value)
+        addr = rom.read_ptr(ReservedPointersZM.SAMUS_PALETTES_PTR.value)
         return [(addr, 0xA3)]
     raise ValueError(rom.game, rom.region)
 

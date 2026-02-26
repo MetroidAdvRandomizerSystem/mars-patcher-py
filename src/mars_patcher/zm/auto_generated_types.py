@@ -403,42 +403,42 @@ class MarsschemazmDoorLocksItem(typ.TypedDict):
     """The type of cover on the hatch."""
 
 MarsschemazmPalettesRandomizeKey = typ.Literal[
-    'tilesets',
-    'enemies',
-    'samus',
-    'beams'
+    'Tilesets',
+    'Enemies',
+    'Samus',
+    'Beams'
 ]
 
 @typ.final
 class MarsschemazmPalettesRandomize(typ.TypedDict, total=False):
     """The range to use for rotating palette hues."""
 
-    hue_min: HueRotation = None
+    HueMin: HueRotation = None
     """The minimum value to use for rotating palette hues. If not specified, the patcher will randomly generate one."""
 
-    hue_max: HueRotation = None
+    HueMax: HueRotation = None
     """The maximum value to use for rotating palette hues. If not specified, the patcher will randomly generate one."""
 
 
-MarsschemazmPalettesColorSpace = typ.Literal[
+MarsschemazmPalettesColorspace = typ.Literal[
     'HSV',
-    'OKLAB'
+    'Oklab'
 ]
 
 @typ.final
 class MarsschemazmPalettes(typ.TypedDict, total=False):
     """Properties for randomized in-game palettes."""
 
-    seed: Seed = None
+    Seed: Seed = None
     """A number used to initialize the random number generator for palettes. If not specified, the patcher will randomly generate one."""
 
-    randomize: typ.Required[dict[MarsschemazmPalettesRandomizeKey, MarsschemazmPalettesRandomize]]
+    Randomize: typ.Required[dict[MarsschemazmPalettesRandomizeKey, MarsschemazmPalettesRandomize]]
     """What kind of palettes should be randomized."""
 
-    color_space: MarsschemazmPalettesColorSpace = 'OKLAB'
+    ColorSpace: MarsschemazmPalettesColorspace = 'Oklab'
     """The color space to use for rotating palette hues."""
 
-    symmetric: bool = True
+    Symmetric: bool = True
     """Randomly rotates hues in the positive or negative direction true."""
 
 
@@ -544,7 +544,7 @@ class Marsschemazm(typ.TypedDict, total=False):
     door_locks: list[MarsschemazmDoorLocksItem]
     """List of all lockable doors and their lock type."""
 
-    palettes: MarsschemazmPalettes = None
+    Palettes: MarsschemazmPalettes = None
     """Properties for randomized in-game palettes."""
 
     MusicReplacement: Musicmapping
