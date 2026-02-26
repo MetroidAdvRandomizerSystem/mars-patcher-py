@@ -176,3 +176,9 @@ SUIT_MISC_FLAGS = {
     "MORPH_BALL": 1 << 6,
     "POWER_GRIP": 1 << 7,
 }
+
+
+class SuitType(IntEnum):
+    NORMAL = 0
+    FULLY_POWERED = auto()
+    SUITLESS = auto()
