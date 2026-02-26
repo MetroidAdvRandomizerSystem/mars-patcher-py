@@ -8,6 +8,7 @@ from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
+from mars_patcher.zm.starting import set_starting_items, set_starting_location
 
 
 def patch_zm(
@@ -47,20 +48,20 @@ def patch_zm(
     item_patcher = ItemPatcher(rom, loc_settings)
     item_patcher.write_items()
 
-    # Starting location
-    # if "StartingLocation" in patch_data:
-    #     status_update("Writing starting location...", -1)
-    # set_starting_location(rom, patch_data["StartingLocation"])
-
-    # Starting items
-    # if "StartingItems" in patch_data:
-    #     status_update("Writing starting items...", -1)
-    # set_starting_items(rom, patch_data["StartingItems"])
-
     # Music
     if "MusicReplacement" in patch_data:
         status_update("Writing music...", -1)
         set_sounds(rom, patch_data["MusicReplacement"])
+
+    # Starting location
+    if "starting_location" in patch_data:
+        status_update("Writing starting location...", -1)
+    set_starting_location(rom, patch_data["starting_location"])
+
+    # Starting items
+    if "starting_items" in patch_data:
+        status_update("Writing starting items...", -1)
+    set_starting_items(rom, patch_data["starting_items"])
 
     # Tank increments
     if "tank_increments" in patch_data:
