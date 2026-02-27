@@ -33,8 +33,6 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the list of pointers to the room entries for each area."""
     TILESET_ENTRIES_PTR = auto()
     """Pointer to the list of tileset entries."""
-    TILESET_TILEMAP_SIZES_PTR = auto()
-    """Pointer to an array containing the size of each tileset's tilemap."""
     ANIM_TILESET_ENTRIES_PTR = auto()
     """Pointer to the list of animated tileset entries."""
     MINIMAPS_PTR = auto()

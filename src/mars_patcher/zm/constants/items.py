@@ -50,11 +50,14 @@ class ItemType(IntEnum):
 
 class ItemSprite(IntEnum):
     DEFAULT = auto()
-    EMPTY = auto()
+    # These are already part of every tileset
     ENERGY_TANK = auto()
     MISSILE_TANK = auto()
     SUPER_MISSILE_TANK = auto()
     POWER_BOMB_TANK = auto()
+    # These need to be added to tilesets. The order here should be kept in sync
+    # with AnimatedGfxId in constants/animated_graphics.h
+    EMPTY = auto()
     LONG_BEAM = auto()
     CHARGE_BEAM = auto()
     ICE_BEAM = auto()
@@ -102,11 +105,11 @@ ITEM_TO_SPRITE = {
 
 
 PALETTE_NAMES = {
-    ItemSprite.EMPTY: "tank",
     ItemSprite.ENERGY_TANK: "tank",
     ItemSprite.MISSILE_TANK: "tank",
     ItemSprite.SUPER_MISSILE_TANK: "tank",
     ItemSprite.POWER_BOMB_TANK: "tank",
+    ItemSprite.EMPTY: "tank",
     ItemSprite.LONG_BEAM: "long_beam",
     ItemSprite.CHARGE_BEAM: "charge_beam",
     ItemSprite.ICE_BEAM: "ice_beam",

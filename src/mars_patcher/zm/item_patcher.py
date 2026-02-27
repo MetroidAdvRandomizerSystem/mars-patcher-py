@@ -27,6 +27,8 @@ from mars_patcher.zm.locations import HintLocation, LocationSettings
 
 
 class TilesetData:
+    """Class for creating copies of tilesets with added item graphics."""
+
     def __init__(self, rom: Rom, id: int):
         self.rom = rom
         self.id = id
@@ -39,9 +41,15 @@ class TilesetData:
         ats_addr = self.meta.anim_tileset_addr()
         self.anim_tileset = rom.read_bytes(ats_addr, 0x30)
 
-    def add_major(self, sprite: ItemSprite) -> int:
-        # Long beam is the first major
-        major_num = sprite.value - ItemSprite.LONG_BEAM.value
+    def add_item_graphics(self, sprite: ItemSprite) -> int:
+        """Adds item graphics to the tileset and returns the block number. This function
+        should be called for anything that isn't one of the 4 original tank types."""
+        assert sprite not in {
+            ItemSprite.ENERGY_TANK,
+            ItemSprite.MISSILE_TANK,
+            ItemSprite.SUPER_MISSILE_TANK,
+            ItemSprite.POWER_BOMB_TANK,
+        }, "This function should not be called for tanks"
 
         # Find blank row in palette (a row is considered blank if all colors
         # except the first one are the same)
@@ -65,7 +73,8 @@ class TilesetData:
         anim_gfx_idx = -1
         for i in range(16):
             if self.anim_tileset[i * 3] == 0:
-                anim_gfx_num = anim_graphics_count(self.rom) + major_num
+                offset = sprite.value - ItemSprite.EMPTY.value
+                anim_gfx_num = anim_graphics_count(self.rom) + offset
                 self.anim_tileset[i * 3] = anim_gfx_num
                 anim_gfx_idx = i
                 break
@@ -89,6 +98,8 @@ class TilesetData:
         return block_num
 
     def write_copy(self, anim_tileset_id: int) -> bytes:
+        """Writes the palette and tilemap to a new location, and returns the
+        data for a new tileset entry."""
         data = bytearray()
         # Copy block BG graphics pointer
         data += self.rom.read_bytes(self.meta.block_bg_gfx_ptr(), 4)
@@ -155,7 +166,7 @@ class ItemPatcher:
                         rom.write_8(room.addr, ts_num)
                         new_tilesets.append(tileset)
                         room_tilesets[key] = tileset
-                    bg1_val = tileset.add_major(sprite)
+                    bg1_val = tileset.add_item_graphics(sprite)
 
             # Overwrite BG1 if not hidden
             if not min_loc.hidden:
