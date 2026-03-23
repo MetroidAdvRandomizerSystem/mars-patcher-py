@@ -202,7 +202,6 @@ def encode_text(
             if message_type == MessageType.ONE_LINE:
                 raise ValueError(f'String does not fit on one line:\n"{string}"')
             if width_since_break > max_width:
-                print(f"{char_widths_addr:X}")
                 raise ValueError(f'Word does not fit on one line:\n"{string}"')
             line_width = width_since_break
             line_number += 1
