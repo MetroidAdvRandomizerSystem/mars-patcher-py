@@ -82,7 +82,6 @@ class TilesetData:
             raise ValueError("No blank entry found in animated tileset")
 
         # Find blank tiles in tilemap
-        tile_val = -1
         block_num = -1
         for i in range(0x4C, 0x50):
             offset = i * 4
@@ -92,7 +91,7 @@ class TilesetData:
                     self.tilemap.data[offset + t] = tile_val + t
                 block_num = i
                 break
-        if tile_val == -1 or block_num == -1:
+        if block_num == -1:
             raise ValueError("No blank tiles found in tilemap")
 
         return block_num
