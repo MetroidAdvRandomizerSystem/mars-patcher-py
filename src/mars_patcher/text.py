@@ -3,9 +3,11 @@ from enum import Enum
 from functools import cache
 
 from mars_patcher.constants.game_data import character_widths
+from mars_patcher.convert_array import u16_to_u8
 from mars_patcher.mf.constants.game_data import file_screen_text_ptrs
-from mars_patcher.mf.data import get_data_path
-from mars_patcher.rom import Region, Rom
+from mars_patcher.mf.data import get_data_path as get_data_path_mf
+from mars_patcher.rom import Rom
+from mars_patcher.zm.data import get_data_path as get_data_path_zm
 
 SPACE_CHAR = 0x40
 SPACE_TAG = 0x8000
@@ -56,13 +58,18 @@ class MessageType(Enum):
 
 
 @cache
-def get_char_map(region: Region) -> dict[str, int]:
-    path = get_data_path("char_map_mf.json")
+def get_char_map(rom: Rom) -> dict[str, int]:
+    if rom.is_mf():
+        path = get_data_path_mf("char_map_mf.json")
+    elif rom.is_zm():
+        path = get_data_path_zm("char_map_zm.json")
+    else:
+        raise ValueError(rom.game)
     with open(path, encoding="utf-8") as f:
         sections = json.load(f)
     char_map: dict[str, int] = {}
     for section in sections:
-        if region.name in section["regions"]:
+        if rom.region.name in section["regions"]:
             char_map.update(section["chars"])
     char_map["\n"] = NEWLINE
     return char_map
@@ -118,7 +125,7 @@ def encode_text(
     max_width: int = MAX_LINE_WIDTH,
     centered: bool = False,
 ) -> bytes:
-    char_map = get_char_map(rom.region)
+    char_map = get_char_map(rom)
     char_widths_addr = character_widths(rom)
     text: list[int] = []
     line_width = 0
@@ -237,11 +244,7 @@ def encode_text(
 
     text.append(END)
 
-    text_bytes = bytearray()
-    for val in text:
-        text_bytes.append(val & 0xFF)
-        text_bytes.append(val >> 8)
-    return bytes(text_bytes)
+    return u16_to_u8(text)
 
 
 def write_seed_hash(rom: Rom, seed_hash: str) -> None:

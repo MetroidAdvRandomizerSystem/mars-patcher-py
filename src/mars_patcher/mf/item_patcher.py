@@ -84,7 +84,7 @@ class ItemPatcher:
             if not min_loc.hidden:
                 # Get tilemap
                 tileset = Tileset(rom, room.tileset())
-                addr = tileset.rle_tilemap_addr()
+                addr = tileset.tilemap_addr()
                 # Find tank in tilemap
                 addr += 2 + (TANK_BG1_START * 8)
                 tile = TANK_TILE[tank_slot]

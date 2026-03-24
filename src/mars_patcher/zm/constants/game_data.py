@@ -2,10 +2,6 @@ from mars_patcher.rom import Rom
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 
 
-def tileset_tilemap_sizes_addr(rom: Rom) -> int:
-    return rom.read_ptr(ReservedPointersZM.TILESET_TILEMAP_SIZES_PTR.value)
-
-
 def chozo_statue_targets_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.CHOZO_STATUE_TARGETS_PTR.value)
 

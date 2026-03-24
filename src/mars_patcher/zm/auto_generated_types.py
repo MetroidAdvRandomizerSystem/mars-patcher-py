@@ -137,13 +137,13 @@ ValidElevatorBottoms = typ.Literal[
     'TOURIAN_TO_CRATERIA'
 ]
 ValidLanguages = typ.Literal[
-    'JAPANESE_KANJI',
-    'JAPANESE_HIRAGANA',
-    'ENGLISH',
-    'GERMAN',
-    'FRENCH',
-    'ITALIAN',
-    'SPANISH'
+    'JapaneseKanji',
+    'JapaneseHiragana',
+    'English',
+    'German',
+    'French',
+    'Italian',
+    'Spanish'
 ]
 Validmusictracks = typ.Literal[
     'BRINSTAR',
@@ -213,15 +213,15 @@ Musicmapping: typ.TypeAlias = dict[Validmusictracks, Validmusictracks]
 MessageLanguages: typ.TypeAlias = dict[ValidLanguages, str]
 
 class ItemMessages(typ.TypedDict, total=False):
-    kind: typ.Required[ItemMessagesKind]
-    languages: MessageLanguages
-    centered: bool = True
-    message_id: typ.Annotated[int, '0 <= value <= 56']
+    Kind: typ.Required[ItemMessagesKind]
+    Languages: MessageLanguages
+    Centered: bool = True
+    MessageID: typ.Annotated[int, '0 <= value <= 56']
     """The Message ID, will display one of the predefined messages in the ROM"""
 
 ItemMessagesKind = typ.Literal[
-    'CUSTOM_MESSAGE',
-    'MESSAGE_ID'
+    'CustomMessage',
+    'MessageID'
 ]
 Jingle = typ.Literal[
     'DEFAULT',
@@ -266,7 +266,7 @@ class MarsschemazmLocationsMajorLocationsItem(typ.TypedDict, total=False):
     item_sprite: ValidItemSprites
     """Valid graphics for item tanks/sprites."""
 
-    item_messages: ItemMessages
+    ItemMessages: ItemMessages
     jingle: Jingle
     """The sound that plays when an item is collected"""
 
@@ -293,7 +293,7 @@ class MarsschemazmLocationsMinorLocationsItem(typ.TypedDict):
     item_sprite: typ.NotRequired[ValidItemSprites]
     """Valid graphics for item tanks/sprites."""
 
-    item_messages: typ.NotRequired[ItemMessages]
+    ItemMessages: typ.NotRequired[ItemMessages]
     jingle: typ.NotRequired[Jingle]
     """The sound that plays when an item is collected"""
 

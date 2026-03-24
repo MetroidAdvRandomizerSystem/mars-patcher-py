@@ -5,6 +5,7 @@ from mars_patcher.rom import Rom
 from mars_patcher.sounds import set_sounds
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
+from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
 
@@ -132,6 +133,13 @@ def patch_zm(
     # if title_screen_text := patch_data.get("TitleText"):
     #     status_update("Writing title screen text...", -1)
     # write_title_text(rom, title_screen_text)
+
+    free_space_size = (
+        ReservedConstantsZM.PATCHER_FREE_SPACE_END - ReservedConstantsZM.PATCHER_FREE_SPACE_ADDR
+    )
+    free_space_used = rom.free_space_addr - ReservedConstantsZM.PATCHER_FREE_SPACE_ADDR
+    percent = free_space_used / free_space_size
+    print(f"Free space used: {free_space_used:X}/{free_space_size:X} ({percent:.2%})")
 
     rom.save(output_path)
     status_update(f"Output written to {output_path}", -1)
