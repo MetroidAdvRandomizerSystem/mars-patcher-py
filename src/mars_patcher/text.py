@@ -248,7 +248,7 @@ def encode_text(
 
 
 def write_seed_hash(rom: Rom, seed_hash: str) -> None:
-    char_map = get_char_map(rom.region)
+    char_map = get_char_map(rom)
     lang_ptrs = file_screen_text_ptrs(rom)
     for lang in Language:
         # Get address of first text entry
