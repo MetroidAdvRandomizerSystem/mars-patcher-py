@@ -190,7 +190,7 @@
                         "NORMAL",
                         "FULLY_POWERED"
                     ],
-                    "default": "normal"
+                    "default": "NORMAL"
                 },
                 "ziplines_activated": {
                     "type": "boolean",

@@ -351,7 +351,7 @@ class MarsschemazmStartingItems(typ.TypedDict, total=False):
     downloaded_maps: typ.Annotated[list[AreaId], 'Unique items'] = []
     """Which area maps will be downloaded from the start."""
 
-    suit_type: MarsschemazmStartingItemsSuitType = 'normal'
+    suit_type: MarsschemazmStartingItemsSuitType = 'NORMAL'
     """Which suit type the player should start with."""
 
     ziplines_activated: bool = False
