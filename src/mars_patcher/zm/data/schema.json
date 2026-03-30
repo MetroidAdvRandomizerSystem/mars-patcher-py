@@ -307,37 +307,37 @@
                 ]
             }
         },
-        "palettes": {
+        "Palettes": {
             "type": "object",
             "description": "Properties for randomized in-game palettes.",
             "properties": {
-                "seed": {
+                "Seed": {
                     "$ref": "#/$defs/seed",
                     "description": "A number used to initialize the random number generator for palettes. If not specified, the patcher will randomly generate one.",
                     "default": null
                 },
-                "randomize": {
+                "Randomize": {
                     "type": "object",
                     "description": "What kind of palettes should be randomized.",
                     "propertyNames": {
                         "type": "string",
                         "enum": [
-                            "tilesets",
-                            "enemies",
-                            "samus",
-                            "beams"
+                            "Tilesets",
+                            "Enemies",
+                            "Samus",
+                            "Beams"
                         ]
                     },
                     "additionalProperties": {
                         "type": "object",
                         "description": "The range to use for rotating palette hues.",
                         "properties": {
-                            "hue_min": {
+                            "HueMin": {
                                 "$ref": "#/$defs/hue_rotation",
                                 "description": "The minimum value to use for rotating palette hues. If not specified, the patcher will randomly generate one.",
                                 "default": null
                             },
-                            "hue_max": {
+                            "HueMax": {
                                 "$ref": "#/$defs/hue_rotation",
                                 "description": "The maximum value to use for rotating palette hues. If not specified, the patcher will randomly generate one.",
                                 "default": null
@@ -346,16 +346,16 @@
                         "additionalProperties": false
                     }
                 },
-                "color_space": {
+                "ColorSpace": {
                     "type": "string",
                     "description": "The color space to use for rotating palette hues.",
                     "enum": [
                         "HSV",
-                        "OKLAB"
+                        "Oklab"
                     ],
-                    "default": "OKLAB"
+                    "default": "Oklab"
                 },
-                "symmetric": {
+                "Symmetric": {
                     "type": "boolean",
                     "description": "Randomly rotates hues in the positive or negative direction true.",
                     "default": true
@@ -363,7 +363,7 @@
             },
             "additionalProperties": false,
             "required": [
-                "randomize"
+                "Randomize"
             ],
             "default": null
         },

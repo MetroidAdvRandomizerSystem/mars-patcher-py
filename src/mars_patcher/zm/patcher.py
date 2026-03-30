@@ -1,6 +1,7 @@
 from collections.abc import Callable
 from os import PathLike
 
+from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
 from mars_patcher.sounds import set_sounds
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
@@ -35,11 +36,11 @@ def patch_zm(
 
     # Randomize palettes - palettes are randomized first since the item
     # patcher needs to copy tilesets
-    # if "Palettes" in patch_data:
-    #     status_update("Randomizing palettes...", -1)
-    #     pal_settings = PaletteSettings.from_json(patch_data["Palettes"])
-    #     pal_randomizer = PaletteRandomizer(rom, pal_settings)
-    #     pal_randomizer.randomize()
+    if "Palettes" in patch_data:
+        status_update("Randomizing palettes...", -1)
+        pal_settings = PaletteSettings.from_json(patch_data["Palettes"])
+        pal_randomizer = PaletteRandomizer(rom, pal_settings)
+        pal_randomizer.randomize()
 
     # Load locations and set assignments
     status_update("Writing item assignments...", -1)
