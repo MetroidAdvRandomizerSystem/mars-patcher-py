@@ -12,7 +12,7 @@ from mars_patcher.palette import Palette
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
-from mars_patcher.tilemap import Tilemap
+from mars_patcher.tilemap import Tilemap, TilemapType
 from mars_patcher.tileset import ANIM_TILESET_SIZE, TILESET_SIZE, Tileset
 from mars_patcher.zm.auto_generated_types import MarsschemazmTankIncrements
 from mars_patcher.zm.constants.game_data import (
@@ -34,7 +34,7 @@ class TilesetData:
         self.id = id
         self.meta = Tileset(rom, id)
         # Load tilemap
-        self.tilemap = Tilemap(rom, self.meta.tilemap_ptr(), False)
+        self.tilemap = Tilemap(rom, self.meta.tilemap_ptr(), TilemapType.TILESET)
         # Load palette
         self.palette = Palette(14, rom, self.meta.palette_addr())
         # Load animated tileset

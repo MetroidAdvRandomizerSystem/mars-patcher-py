@@ -15,10 +15,10 @@ from mars_patcher.mf.constants.minimap_tiles import (
     BLANK_TILE_IDS,
     BLANK_TRANSPARENT_TILE_IDS,
 )
-from mars_patcher.minimap import Minimap
 from mars_patcher.minimap_tile_creator import create_tile
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
+from mars_patcher.tilemap import Tilemap
 
 
 class HatchLock(Enum):
@@ -315,7 +315,7 @@ def change_minimap_tiles(
     remaining_blank_transparent_tile_ids = list(BLANK_TRANSPARENT_TILE_IDS)
 
     for area, area_map in minimap_changes.items():
-        with Minimap(rom, area) as minimap:
+        with Tilemap.from_minimap(rom, area) as minimap:
             for (x, y), tile_changes in area_map.items():
                 tile_id, palette, h_flip, v_flip = minimap.get_tile_value(x, y)
 

@@ -21,9 +21,9 @@ from mars_patcher.mf.constants.main_hub_numbers import (
     MAIN_HUB_TILEMAP_ADDR,
 )
 from mars_patcher.mf.data import get_data_path
-from mars_patcher.minimap import Minimap
 from mars_patcher.rom import Game, Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
+from mars_patcher.tilemap import Tilemap
 
 # Area ID, Room ID, Is area connection
 ELEVATOR_TOPS = {
@@ -235,7 +235,7 @@ class Connections:
             bg2.set_block_value(x + 1, y, block + 1)
 
     def remove_main_deck_minimap_area_nums(self) -> None:
-        with Minimap(self.rom, 0) as minimap:
+        with Tilemap.from_minimap(self.rom, 0) as minimap:
             minimap.set_tile_value(0x2, 0x11, 0xA0, 0)  # 5
             minimap.set_tile_value(0x3, 0x10, 0xA0, 0)  # 3
             minimap.set_tile_value(0x4, 0x0F, 0xA0, 0)  # 1
