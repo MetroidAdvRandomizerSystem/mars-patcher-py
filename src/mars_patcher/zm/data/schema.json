@@ -231,6 +231,27 @@
                     "minimum": -100,
                     "maximum": 100,
                     "default": 2
+                },
+                "main_missiles": {
+                    "type": "integer",
+                    "description": "How much ammo the main missiles item provides when collected.",
+                    "minimum": 0,
+                    "maximum": 1000,
+                    "default": 5
+                },
+                "main_super_missiles": {
+                    "type": "integer",
+                    "description": "How much ammo the main super missiles item provides when collected.",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "default": 2
+                },
+                "main_power_bombs": {
+                    "type": "integer",
+                    "description": "How much ammo the main power bombs item provides when collected.",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "default": 2
                 }
             },
             "required": [
@@ -688,6 +709,9 @@
                 "MISSILE_TANK",
                 "SUPER_MISSILE_TANK",
                 "POWER_BOMB_TANK",
+                "MAIN_MISSILES",
+                "MAIN_SUPER_MISSILES",
+                "MAIN_POWER_BOMBS",
                 "LONG_BEAM",
                 "CHARGE_BEAM",
                 "ICE_BEAM",
@@ -717,6 +741,9 @@
                 "MISSILE_TANK",
                 "SUPER_MISSILE_TANK",
                 "POWER_BOMB_TANK",
+                "MAIN_MISSILES",
+                "MAIN_SUPER_MISSILES",
+                "MAIN_POWER_BOMBS",
                 "LONG_BEAM",
                 "CHARGE_BEAM",
                 "ICE_BEAM",
@@ -742,6 +769,9 @@
             "type": "string",
             "description": "Valid abilities to start with.",
             "enum": [
+                "MAIN_MISSILES",
+                "MAIN_SUPER_MISSILES",
+                "MAIN_POWER_BOMBS",
                 "LONG_BEAM",
                 "CHARGE_BEAM",
                 "ICE_BEAM",

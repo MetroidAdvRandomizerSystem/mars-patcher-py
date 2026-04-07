@@ -67,7 +67,7 @@ class TilesetData:
                 pal_row = row + 2
                 break
         if pal_row == -1:
-            raise ValueError(f"No blank palette row found ({self.id:X})")
+            raise ValueError(f"No blank palette row found (tileset 0x{self.id:X})")
 
         # Find blank entry in animated tileset
         anim_gfx_idx = -1
@@ -287,3 +287,6 @@ def set_tank_increments(rom: Rom, data: MarsschemazmTankIncrements) -> None:
     rom.write_16(addr + 2, data["missile_tank"])
     rom.write_8(addr + 4, data["super_missile_tank"])
     rom.write_8(addr + 5, data["power_bomb_tank"])
+    rom.write_16(addr + 6, data["main_missiles"])
+    rom.write_8(addr + 8, data["main_super_missiles"])
+    rom.write_8(addr + 9, data["main_power_bombs"])
