@@ -61,6 +61,9 @@ ValidItems = typ.Literal[
     'MISSILE_TANK',
     'SUPER_MISSILE_TANK',
     'POWER_BOMB_TANK',
+    'MAIN_MISSILES',
+    'MAIN_SUPER_MISSILES',
+    'MAIN_POWER_BOMBS',
     'LONG_BEAM',
     'CHARGE_BEAM',
     'ICE_BEAM',
@@ -86,6 +89,9 @@ ValidItemSprites = typ.Literal[
     'MISSILE_TANK',
     'SUPER_MISSILE_TANK',
     'POWER_BOMB_TANK',
+    'MAIN_MISSILES',
+    'MAIN_SUPER_MISSILES',
+    'MAIN_POWER_BOMBS',
     'LONG_BEAM',
     'CHARGE_BEAM',
     'ICE_BEAM',
@@ -107,6 +113,9 @@ ValidItemSprites = typ.Literal[
     'SHINY_POWER_BOMB_TANK'
 ]
 ValidAbilities = typ.Literal[
+    'MAIN_MISSILES',
+    'MAIN_SUPER_MISSILES',
+    'MAIN_POWER_BOMBS',
     'LONG_BEAM',
     'CHARGE_BEAM',
     'ICE_BEAM',
@@ -372,6 +381,15 @@ class MarsschemazmTankIncrements(typ.TypedDict):
 
     power_bomb_tank: typ.Annotated[int, '-100 <= value <= 100'] = 2
     """How much ammo power bomb tanks provide when collected."""
+
+    main_missiles: typ.NotRequired[typ.Annotated[int, '0 <= value <= 1000']] = 5
+    """How much ammo the main missiles item provides when collected."""
+
+    main_super_missiles: typ.NotRequired[typ.Annotated[int, '0 <= value <= 100']] = 2
+    """How much ammo the main super missiles item provides when collected."""
+
+    main_power_bombs: typ.NotRequired[typ.Annotated[int, '0 <= value <= 100']] = 2
+    """How much ammo the main power bombs item provides when collected."""
 
 
 class MarsschemazmElevatorConnections(typ.TypedDict):

@@ -5,7 +5,12 @@ from mars_patcher.zm.auto_generated_types import (
     MarsschemazmStartingItems,
     MarsschemazmStartingLocation,
 )
-from mars_patcher.zm.constants.items import BEAM_BOMB_FLAGS, SUIT_MISC_FLAGS, SuitType
+from mars_patcher.zm.constants.items import (
+    BEAM_BOMB_FLAGS,
+    MAIN_ITEM_FLAGS,
+    SUIT_MISC_FLAGS,
+    SuitType,
+)
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 from mars_patcher.zm.constants.sprites import SpriteIdZM
 
@@ -101,6 +106,7 @@ def set_starting_items(rom: Rom, data: MarsschemazmStartingItems) -> None:
     abilities = data.get("abilities", [])
     beam_bomb_status = get_ability_flags(BEAM_BOMB_FLAGS)
     suit_misc_status = get_ability_flags(SUIT_MISC_FLAGS)
+    main_items_status = get_ability_flags(MAIN_ITEM_FLAGS)
     # Get downloaded map flags
     maps = data.get("downloaded_maps", range(7))
     map_status = 0
@@ -120,8 +126,9 @@ def set_starting_items(rom: Rom, data: MarsschemazmStartingItems) -> None:
     rom.write_8(addr + 0xB, power_bombs)
     rom.write_8(addr + 0xC, beam_bomb_status)
     rom.write_8(addr + 0xD, suit_misc_status)
-    rom.write_8(addr + 0xE, map_status)
-    rom.write_8(addr + 0xF, suit_type.value)
-    rom.write_8(addr + 0x10, ziplines)
+    rom.write_8(addr + 0xE, main_items_status)
+    rom.write_8(addr + 0xF, map_status)
+    rom.write_8(addr + 0x10, suit_type.value)
+    rom.write_8(addr + 0x11, ziplines)
     # TODO: Disabled hints
-    rom.write_8(addr + 0x11, 0)
+    rom.write_8(addr + 0x12, 0)
