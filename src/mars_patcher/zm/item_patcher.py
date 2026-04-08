@@ -1,14 +1,17 @@
 from mars_patcher.color_spaces import RgbBitSize, RgbColor
+from mars_patcher.compress import comp_lz77, decomp_lz77
 from mars_patcher.constants.game_data import (
     anim_graphics_count,
     anim_tileset_count,
     anim_tileset_entries,
+    sprite_graphics_ptrs,
+    sprite_palette_ptrs,
     tileset_count,
     tileset_entries,
 )
 from mars_patcher.convert_array import ptr_to_u8, u8_to_u16
 from mars_patcher.item_messages import ItemMessages, ItemMessagesKind
-from mars_patcher.palette import Palette
+from mars_patcher.palette import PAL_ROW_SIZE, Palette
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
@@ -21,9 +24,34 @@ from mars_patcher.zm.constants.game_data import (
     minor_locations_addr,
     tank_increase_amounts_addr,
 )
-from mars_patcher.zm.constants.items import ITEM_TO_SPRITE, ItemSprite, get_sprite_palette
+from mars_patcher.zm.constants.items import (
+    ITEM_TO_SPRITE,
+    ItemSprite,
+    MajorSource,
+    get_sprite_graphics,
+    get_sprite_palette,
+)
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
-from mars_patcher.zm.locations import HintLocation, LocationSettings
+from mars_patcher.zm.constants.sprites import SpriteIdZM
+from mars_patcher.zm.locations import HintLocation, LocationSettings, MajorLocation
+
+MAJOR_SOURCE_SPRITES = {
+    MajorSource.LONG_BEAM: SpriteIdZM.LONG_BEAM_CHOZO_STATUE,
+    MajorSource.CHARGE_BEAM: SpriteIdZM.CHARGE_BEAM,
+    MajorSource.ICE_BEAM: SpriteIdZM.ICE_BEAM_CHOZO_STATUE,
+    MajorSource.WAVE_BEAM: SpriteIdZM.WAVE_BEAM_CHOZO_STATUE,
+    MajorSource.PLASMA_BEAM: SpriteIdZM.PLASMA_BEAM_CHOZO_STATUE,
+    MajorSource.BOMBS: SpriteIdZM.BOMB_CHOZO_STATUE,
+    MajorSource.VARIA_SUIT: SpriteIdZM.VARIA_SUIT_CHOZO_STATUE,
+    MajorSource.GRAVITY_SUIT: SpriteIdZM.GRAVITY_SUIT_CHOZO_STATUE,
+    MajorSource.MORPH_BALL: SpriteIdZM.MORPH_BALL,
+    MajorSource.SPEED_BOOSTER: SpriteIdZM.SPEED_BOOSTER_CHOZO_STATUE,
+    MajorSource.HI_JUMP: SpriteIdZM.HI_JUMP_CHOZO_STATUE,
+    MajorSource.SCREW_ATTACK: SpriteIdZM.SCREW_ATTACK_CHOZO_STATUE,
+    MajorSource.SPACE_JUMP: SpriteIdZM.SPACE_JUMP_CHOZO_STATUE,
+    MajorSource.POWER_GRIP: SpriteIdZM.POWER_GRIP,
+    MajorSource.ZIPLINES: SpriteIdZM.ZIPLINE_GENERATOR,
+}
 
 
 class TilesetData:
@@ -195,6 +223,9 @@ class ItemPatcher:
         # Handle major locations
         major_locs_addr = major_locations_addr(rom)
         for maj_loc in self.settings.major_locs:
+            self.write_major_location_graphics(maj_loc)
+
+            # See struct MajorLocation in include/structs/randomizer.h
             addr = major_locs_addr + (maj_loc.major_src.value * 8)
             rom.write_8(addr, maj_loc.new_item.value)
             rom.write_8(addr + 1, maj_loc.item_jingle.value)
@@ -239,6 +270,82 @@ class ItemPatcher:
             anim_tileset_data,
             [ReservedPointersZM.ANIM_TILESET_ENTRIES_PTR.value],
         )
+
+    def write_major_location_graphics(self, major_loc: MajorLocation) -> None:
+        # Fully powered and ziplines don't have any item graphics
+        if major_loc.major_src in {MajorSource.FULLY_POWERED, MajorSource.ZIPLINES}:
+            return
+
+        # Get graphics for item sprite
+        sprite = major_loc.item_sprite
+        if sprite == ItemSprite.DEFAULT:
+            sprite = ITEM_TO_SPRITE[major_loc.new_item]
+        item_gfx = get_sprite_graphics(sprite)
+        item_pal = get_sprite_palette(sprite)
+
+        # Overwrite graphics of source sprite
+        gfx_sprite_id = MAJOR_SOURCE_SPRITES[major_loc.major_src] - 0x10
+        gfx_ptr = sprite_graphics_ptrs(self.rom) + gfx_sprite_id * 4
+        pal_ptr = sprite_palette_ptrs(self.rom) + gfx_sprite_id * 4
+        pal_addr = self.rom.read_ptr(pal_ptr)
+        match major_loc.major_src:
+            case (
+                MajorSource.LONG_BEAM
+                | MajorSource.ICE_BEAM
+                | MajorSource.WAVE_BEAM
+                | MajorSource.PLASMA_BEAM
+                | MajorSource.BOMBS
+                | MajorSource.VARIA_SUIT
+                | MajorSource.GRAVITY_SUIT
+                | MajorSource.SPEED_BOOSTER
+                | MajorSource.HI_JUMP
+                | MajorSource.SCREW_ATTACK
+                | MajorSource.SPACE_JUMP
+            ):
+                gfx_ptrs = [gfx_ptr]
+                # Hint statues use the same graphics
+                if major_loc.major_src in {
+                    MajorSource.LONG_BEAM,
+                    MajorSource.ICE_BEAM,
+                    MajorSource.WAVE_BEAM,
+                    MajorSource.BOMBS,
+                    MajorSource.SPEED_BOOSTER,
+                    MajorSource.HI_JUMP,
+                    MajorSource.SCREW_ATTACK,
+                    MajorSource.VARIA_SUIT,
+                }:
+                    # Hint statues appear 1 entry before
+                    gfx_ptrs.append(gfx_ptr - 4)
+                self.replace_sprite_graphics(gfx_ptrs, item_gfx, 4, 4)
+                self.replace_sprite_palette(pal_addr, item_pal, 0)
+            case MajorSource.CHARGE_BEAM | MajorSource.MORPH_BALL | MajorSource.POWER_GRIP:
+                self.replace_sprite_graphics([gfx_ptr], item_gfx, 0, 0)
+                self.replace_sprite_palette(pal_addr, item_pal, 0)
+            case _:
+                raise ValueError(major_loc.major_src)
+
+    def replace_sprite_graphics(
+        self, gfx_ptrs: list[int], item_gfx: bytes, tile_x: int, tile_y: int
+    ) -> None:
+        assert len(item_gfx) == 12 * 32, "Item graphics should be 12 tiles"
+        gfx_addr = self.rom.read_ptr(gfx_ptrs[0])
+        gfx_data, orig_size = decomp_lz77(self.rom.data, gfx_addr)
+
+        offset = (tile_y * 32 + tile_x) * 32
+        src = 0
+        for x in range(0, 6, 2):
+            for y in range(2):
+                dst = offset + (y * 32 + x) * 32
+                gfx_data[dst : dst + 64] = item_gfx[src : src + 64]
+                src += 64
+
+        comp_data = comp_lz77(gfx_data)
+        self.rom.write_repointable_data(gfx_addr, orig_size, comp_data, gfx_ptrs)
+
+    def replace_sprite_palette(self, pal_addr: int, item_pal: bytes, row: int) -> None:
+        assert len(item_pal) == PAL_ROW_SIZE, "Item palette should be one row"
+        addr = pal_addr + row * PAL_ROW_SIZE
+        self.rom.write_bytes(addr, item_pal)
 
     def write_item_messages(
         self,

@@ -222,10 +222,10 @@ def comp_lz77(input: bytes) -> bytearray:
 
         for i in range(8):
             # Find longest match at current position
-            _match = longest_matches.get(idx)
-            if _match is not None:
+            longest_match = longest_matches.get(idx)
+            if longest_match is not None:
                 # Compressed
-                match_idx, match_len = _match
+                match_idx, match_len = longest_match
                 match_offset = idx - match_idx - MIN_WINDOW_SIZE
                 output.append(((match_len - MIN_MATCH_SIZE) << 4) | (match_offset >> 8))
                 output.append(match_offset & 0xFF)
@@ -269,17 +269,19 @@ def _find_longest_matches(input: bytes) -> dict[int, tuple[int, int]]:
             j -= 1
 
         # Try each index to find the longest match
-        while j >= 0:
+        for j in range(j, -1, -1):
             idx = indexes[j]
             # Stop if past window
             if idx < window_start:
                 break
 
+            # Quick check if match would be longer
+            if longest_len > 0 and input[idx + longest_len] != input[i + longest_len]:
+                continue
+
             # Find length of match
             match_len = MIN_MATCH_SIZE
-            while match_len < max_size:
-                if input[idx + match_len] != input[i + match_len]:
-                    break
+            while match_len < max_size and input[idx + match_len] == input[i + match_len]:
                 match_len += 1
 
             # Update longest match
@@ -290,8 +292,6 @@ def _find_longest_matches(input: bytes) -> dict[int, tuple[int, int]]:
                 # Stop looking if max size
                 if longest_len == max_size:
                     break
-
-            j -= 1
 
         indexes.append(i)
         if longest_len >= MIN_MATCH_SIZE:
