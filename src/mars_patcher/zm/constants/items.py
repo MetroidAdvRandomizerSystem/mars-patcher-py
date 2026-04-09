@@ -115,6 +115,42 @@ ITEM_TO_SPRITE = {
 }
 
 
+GRAPHICS_NAMES = {
+    ItemSprite.ENERGY_TANK: "energy_tank",
+    ItemSprite.MISSILE_TANK: "missile_tank",
+    ItemSprite.SUPER_MISSILE_TANK: "super_missile_tank",
+    ItemSprite.POWER_BOMB_TANK: "power_bomb_tank",
+    ItemSprite.EMPTY: "empty",
+    ItemSprite.MAIN_MISSILES: "main_missiles",
+    ItemSprite.MAIN_SUPER_MISSILES: "main_super_missiles",
+    ItemSprite.MAIN_POWER_BOMBS: "main_power_bombs",
+    ItemSprite.LONG_BEAM: "long_beam",
+    ItemSprite.CHARGE_BEAM: "charge_beam",
+    ItemSprite.ICE_BEAM: "ice_beam",
+    ItemSprite.WAVE_BEAM: "wave_beam",
+    ItemSprite.PLASMA_BEAM: "plasma_beam",
+    ItemSprite.BOMBS: "bombs",
+    ItemSprite.VARIA_SUIT: "varia_suit",
+    ItemSprite.GRAVITY_SUIT: "gravity_suit",
+    ItemSprite.MORPH_BALL: "morph_ball",
+    ItemSprite.SPEED_BOOSTER: "speed_booster",
+    ItemSprite.HI_JUMP: "hi_jump",
+    ItemSprite.SCREW_ATTACK: "screw_attack",
+    ItemSprite.SPACE_JUMP: "space_jump",
+    ItemSprite.POWER_GRIP: "power_grip",
+    ItemSprite.FULLY_POWERED: "fully_powered",
+    ItemSprite.ZIPLINES: "ziplines",
+    ItemSprite.ANONYMOUS: "anonymous",
+}
+
+
+def get_sprite_graphics(sprite: ItemSprite) -> bytes:
+    name = GRAPHICS_NAMES[sprite] + ".gfx"
+    path = get_data_path("item_graphics", name)
+    with open(path, "rb") as f:
+        return f.read()
+
+
 PALETTE_NAMES = {
     ItemSprite.ENERGY_TANK: "tank",
     ItemSprite.MISSILE_TANK: "tank",
