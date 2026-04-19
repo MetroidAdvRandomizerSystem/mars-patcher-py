@@ -206,7 +206,7 @@ def comp_lz77(input: bytes) -> bytearray:
     """Compresses data using LZ77."""
     length = len(input)
     idx = 0
-    longest_matches = _find_longest_matches(input)
+    longest_matches = _find_longest_matches(input, 64)
 
     # Write start of data
     output = bytearray()
@@ -243,7 +243,9 @@ def comp_lz77(input: bytes) -> bytearray:
     raise RuntimeError("LZ77 compression error")
 
 
-def _find_longest_matches(input: bytes) -> dict[int, tuple[int, int]]:
+def _find_longest_matches(
+    input: bytes, max_checks_in_window: int = MAX_WINDOW_SIZE
+) -> dict[int, tuple[int, int]]:
     length = len(input)
     triplets: dict[int, list[int]] = {}
     longest_matches: dict[int, tuple[int, int]] = {}
@@ -268,8 +270,11 @@ def _find_longest_matches(input: bytes) -> dict[int, tuple[int, int]]:
         if indexes[j] >= i - 1:
             j -= 1
 
+        # Avoid checking too many matches (improves speed at the expense of compression size)
+        stop = max(j - max_checks_in_window, -1)
+
         # Try each index to find the longest match
-        for j in range(j, -1, -1):
+        for j in range(j, stop, -1):
             idx = indexes[j]
             # Stop if past window
             if idx < window_start:

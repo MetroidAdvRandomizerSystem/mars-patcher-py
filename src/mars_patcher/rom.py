@@ -163,7 +163,7 @@ class Rom:
 
     def read_ascii(self, addr: int, size: int) -> str:
         """
-        Reads a specified amount of bytes from a given addres, and returns
+        Reads a specified amount of bytes from a given address, and returns
         the read values interpreted as an ASCII string
         """
         return self.read_bytes(addr, size).decode("ascii")

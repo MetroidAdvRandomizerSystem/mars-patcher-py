@@ -12,7 +12,7 @@ class ReservedConstantsZM:
 
     # Important addresses:
     # 0x760D38 - End of vanilla data (U region)
-    # 0x790000 - Patcher data free space
+    # 0x7B0000 - Patcher data free space
     # 0x7D0000 - Randomizer data pointers
     # 0x7D8000 - NES Metroid data
 
@@ -20,7 +20,7 @@ class ReservedConstantsZM:
     RANDO_POINTERS_ADDR = 0x7D0000
 
     # Address for any additional data that the patcher may need to write
-    PATCHER_FREE_SPACE_ADDR = 0x790000
+    PATCHER_FREE_SPACE_ADDR = 0x7B0000
     PATCHER_FREE_SPACE_END = RANDO_POINTERS_ADDR
 
 
