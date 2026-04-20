@@ -27,7 +27,10 @@ from mars_patcher.zm.auto_generated_types import (
     MarsschemazmPalettesColorspace,
     MarsschemazmPalettesRandomize,
 )
-from mars_patcher.zm.constants.game_data import statues_cutscene_palette_addr
+from mars_patcher.zm.constants.game_data import (
+    gunship_flashing_palette_addr,
+    statues_cutscene_palette_addr,
+)
 from mars_patcher.zm.constants.palettes import ENEMY_GROUPS_ZM, EXCLUDED_ENEMIES_ZM
 from mars_patcher.zm.constants.sprites import SpriteIdZM
 
@@ -288,12 +291,17 @@ class PaletteRandomizer:
         self.change_func(pal, change)
         pal.write(rom, pal_addr)
         self.randomized_pals.add(pal_addr)
-        if rom.is_mf() and sprite_id in {
-            SpriteIdMF.SAMUS_EATER_BUD,
-            SpriteIdMF.SAMUS_EATER,
-            SpriteIdMF.NETTORI,
-        }:
-            self.fix_nettori(change)
+        # Handle sprites with extra palettes
+        if rom.is_mf():
+            if sprite_id in {
+                SpriteIdMF.SAMUS_EATER_BUD,
+                SpriteIdMF.SAMUS_EATER,
+                SpriteIdMF.NETTORI,
+            }:
+                self.fix_nettori(change)
+        elif rom.is_zm():
+            if sprite_id == SpriteIdZM.GUNSHIP:
+                self.fix_zm_gunship(change)
 
     def get_sprite_addr(self, sprite_id: int) -> int:
         addr = gd.sprite_palette_ptrs(self.rom) + (sprite_id - 0x10) * 4
@@ -309,6 +317,14 @@ class PaletteRandomizer:
             pal = Palette(rows, self.rom, addr)
             self.change_func(pal, change)
             pal.write(self.rom, addr)
+
+    def fix_zm_gunship(self, change: ColorChange) -> None:
+        """The gunship has an extra palette stored separately, so it requires
+        the same color change."""
+        addr = gunship_flashing_palette_addr(self.rom)
+        pal = Palette(8, self.rom, addr)
+        self.change_func(pal, change)
+        pal.write(self.rom, addr)
 
     def fix_zm_palettes(self) -> None:
         if (
