@@ -1,4 +1,5 @@
-from mars_patcher.color_spaces import RgbBitSize, RgbColor
+from collections import defaultdict
+
 from mars_patcher.compress import comp_lz77, decomp_lz77
 from mars_patcher.constants.game_data import (
     anim_graphics_count,
@@ -9,9 +10,9 @@ from mars_patcher.constants.game_data import (
     tileset_count,
     tileset_entries,
 )
-from mars_patcher.convert_array import ptr_to_u8, u8_to_u16
+from mars_patcher.convert_array import ptr_to_u8
 from mars_patcher.item_messages import ItemMessages, ItemMessagesKind
-from mars_patcher.palette import PAL_ROW_SIZE, Palette
+from mars_patcher.palette import PAL_ROW_SIZE
 from mars_patcher.rom import Rom
 from mars_patcher.room_entry import RoomEntry
 from mars_patcher.text import Language, MessageType, encode_text
@@ -33,7 +34,20 @@ from mars_patcher.zm.constants.items import (
 )
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 from mars_patcher.zm.constants.sprites import SpriteIdZM
-from mars_patcher.zm.locations import HintLocation, LocationSettings, MajorLocation
+from mars_patcher.zm.locations import HintLocation, LocationSettings, MajorLocation, MinorLocation
+
+MAX_ITEMS_PER_TILEMAP = 4
+"""The maximum number of item graphics that can be added to a tilemap."""
+
+NEW_ITEM_BG1_START = 0x4C
+"""The first BG1 value to use when adding item graphics to a tileset."""
+
+TANK_SPRITES = {
+    ItemSprite.ENERGY_TANK,
+    ItemSprite.MISSILE_TANK,
+    ItemSprite.SUPER_MISSILE_TANK,
+    ItemSprite.POWER_BOMB_TANK,
+}
 
 MAJOR_SOURCE_SPRITES = {
     MajorSource.LONG_BEAM: SpriteIdZM.LONG_BEAM_CHOZO_STATUE,
@@ -54,98 +68,45 @@ MAJOR_SOURCE_SPRITES = {
 }
 
 
-class TilesetData:
-    """Class for creating copies of tilesets with added item graphics."""
+class ItemPalette:
+    def __init__(self, rom: Rom, addr: int, blank_rows: list[int]):
+        self.data = rom.read_bytes(addr, PAL_ROW_SIZE * 14)
+        self.blank_rows = list(blank_rows)
+        self.new_addr: int | None = None
 
-    def __init__(self, rom: Rom, id: int):
-        self.rom = rom
-        self.id = id
-        self.meta = Tileset(rom, id)
-        # Load tilemap
-        self.tilemap = Tilemap(rom, self.meta.tilemap_ptr(), TilemapType.TILESET)
-        # Load palette
-        self.palette = Palette(14, rom, self.meta.palette_addr())
-        # Load animated tileset
-        ats_addr = self.meta.anim_tileset_addr()
-        self.anim_tileset = rom.read_bytes(ats_addr, 0x30)
+    def add_item_sprite(self, sprite: ItemSprite) -> int:
+        row = self.blank_rows.pop(0)
+        offset = row * PAL_ROW_SIZE
+        self.data[offset : offset + PAL_ROW_SIZE] = get_sprite_palette(sprite)
+        return row + 2
 
-    def add_item_graphics(self, sprite: ItemSprite) -> int:
-        """Adds item graphics to the tileset and returns the block number. This function
-        should be called for anything that isn't one of the 4 original tank types."""
-        assert sprite not in {
-            ItemSprite.ENERGY_TANK,
-            ItemSprite.MISSILE_TANK,
-            ItemSprite.SUPER_MISSILE_TANK,
-            ItemSprite.POWER_BOMB_TANK,
-        }, "This function should not be called for tanks"
 
-        # Find blank row in palette (a row is considered blank if all colors
-        # except the first one are the same)
-        pal_colors = self.palette.colors
-        pal_row = -1
-        for row in range(1, 14):
-            index = row * 16
-            color = pal_colors[index + 1]
-            if all(pal_colors[index + i] == color for i in range(2, 16)):
-                # Get sprite palette and convert to RgbColor
-                item_pal = get_sprite_palette(sprite)
-                colors = [RgbColor.from_rgb(rgb, RgbBitSize.Rgb5) for rgb in u8_to_u16(item_pal)]
-                assert len(colors) == 16, "Item palette should have 16 colors"
-                pal_colors[index : index + 16] = colors
-                pal_row = row + 2
-                break
-        if pal_row == -1:
-            raise ValueError(f"No blank palette row found (tileset 0x{self.id:X})")
+class ItemAnimatedTileset:
+    def __init__(self, rom: Rom, addr: int, blank_slots: list[int]):
+        self.data = rom.read_bytes(addr, ANIM_TILESET_SIZE)
+        self.blank_slots = list(blank_slots)
+        self.new_id: int | None = None
 
-        # Find blank entry in animated tileset
-        anim_gfx_idx = -1
-        for i in range(16):
-            if self.anim_tileset[i * 3] == 0:
-                offset = sprite.value - ItemSprite.EMPTY.value
-                anim_gfx_num = anim_graphics_count(self.rom) + offset
-                self.anim_tileset[i * 3] = anim_gfx_num
-                anim_gfx_idx = i
-                break
-        if anim_gfx_idx == -1:
-            raise ValueError("No blank entry found in animated tileset")
+    def add_item_sprite(self, id: int) -> int:
+        slot = self.blank_slots.pop(0)
+        self.data[slot * 3] = id
+        return slot
 
-        # Find blank tiles in tilemap
-        block_num = -1
-        for i in range(0x4C, 0x50):
-            offset = i * 4
-            if all(self.tilemap.data[offset + t] == 0x40 for t in range(4)):
-                tile_val = (pal_row << 12) | (anim_gfx_idx * 4)
-                for t in range(4):
-                    self.tilemap.data[offset + t] = tile_val + t
-                block_num = i
-                break
-        if block_num == -1:
-            raise ValueError("No blank tiles found in tilemap")
 
-        return block_num
+class ItemTilemap:
+    def __init__(self, rom: Rom, ptr: int):
+        self.tilemap = Tilemap(rom, ptr, TilemapType.TILESET)
+        self.items_added = 0
+        self.new_addr: int | None = None
 
-    def write_copy(self, anim_tileset_id: int) -> bytes:
-        """Writes the palette and tilemap to a new location, and returns the
-        data for a new tileset entry."""
-        data = bytearray()
-        # Copy block BG graphics pointer
-        data += self.rom.read_bytes(self.meta.block_bg_gfx_ptr(), 4)
-        # Write palette
-        pal_addr = self.rom.write_data_with_pointers(self.palette.byte_data(), [])
-        data += ptr_to_u8(pal_addr)
-        # Copy tiled BG graphics pointer
-        data += self.rom.read_bytes(self.meta.tiled_bg_gfx_ptr(), 4)
-        # Write tilemap
-        tm_addr = self.rom.write_data_with_pointers(self.tilemap.byte_data(), [])
-        data += ptr_to_u8(tm_addr)
-        # Write animated tileset number
-        data.append(anim_tileset_id)
-        # Copy animated palette number
-        data.append(self.meta.anim_palette())
-        # Padding
-        data.append(0)
-        data.append(0)
-        return data
+    def add_item_sprite(self, pal_row: int, anim_gfx_slot: int) -> int:
+        bg1 = NEW_ITEM_BG1_START + self.items_added
+        self.items_added += 1
+        offset = bg1 * 4
+        tile_val = (pal_row << 12) | (anim_gfx_slot * 4)
+        for t in range(4):
+            self.tilemap.data[offset + t] = tile_val + t
+        return bg1
 
 
 class ItemPatcher:
@@ -163,16 +124,12 @@ class ItemPatcher:
         # Handle minor locations
         # Locations need to be written in order so that binary search works
         minor_locs = sorted(self.settings.minor_locs, key=lambda x: x.key)
+        loc_bg1_values = self.create_graphics_for_minor_locations(minor_locs)
         minor_loc_addr = minor_locations_addr(rom)
-        new_tilesets: list[TilesetData] = []
-        room_tilesets: dict[tuple[int, int], TilesetData] = {}
-        orig_tileset_count = tileset_count(rom)
 
         for min_loc in minor_locs:
             # Get BG1 block value
-            sprite = min_loc.item_sprite
-            if sprite == ItemSprite.DEFAULT:
-                sprite = ITEM_TO_SPRITE[min_loc.new_item]
+            sprite = min_loc.actual_item_sprite
             match sprite:
                 case ItemSprite.ENERGY_TANK:
                     bg1_val = 0x49
@@ -183,17 +140,7 @@ class ItemPatcher:
                 case ItemSprite.POWER_BOMB_TANK:
                     bg1_val = 0x4A
                 case _:
-                    # Update tileset
-                    key = (min_loc.area, min_loc.room)
-                    tileset = room_tilesets.get(key)
-                    if tileset is None:
-                        room = RoomEntry(rom, min_loc.area, min_loc.room)
-                        tileset = TilesetData(rom, room.tileset())
-                        ts_num = orig_tileset_count + len(new_tilesets)
-                        rom.write_8(room.addr, ts_num)
-                        new_tilesets.append(tileset)
-                        room_tilesets[key] = tileset
-                    bg1_val = tileset.add_item_graphics(sprite)
+                    bg1_val = loc_bg1_values[min_loc]
 
             # Overwrite BG1 if not hidden
             if not min_loc.hidden:
@@ -218,9 +165,10 @@ class ItemPatcher:
                 rom.write_8(target_addr + 7, map_x)
                 rom.write_8(target_addr + 8, map_y)
 
-        self.write_new_tilesets(new_tilesets)
+        self.fix_caterpillar_room()
 
         # Handle major locations
+        print("Handling majors...")
         major_locs_addr = major_locations_addr(rom)
         for maj_loc in self.settings.major_locs:
             self.write_major_location_graphics(maj_loc)
@@ -237,8 +185,195 @@ class ItemPatcher:
                 rom.write_8(target_addr + 6, maj_loc.area)
                 rom.write_8(target_addr + 7, maj_loc.map_x)
                 rom.write_8(target_addr + 8, maj_loc.map_y)
+        print("Done with majors")
 
-    def write_new_tilesets(self, new_tilesets: list[TilesetData]) -> None:
+    def create_graphics_for_minor_locations(
+        self, minor_locs: list[MinorLocation]
+    ) -> dict[MinorLocation, int]:
+        """
+        Creates new palettes, animated tilesets, and tilemaps to contain non-tank minor location
+        graphics. Data is reused where possible to save space. Each room is given a new tileset
+        entry based on the items in the room.
+        """
+        rom = self.rom
+
+        # Find minor locations with non-tank sprites and group them by room.
+        # Also find empty slots in palettes and animated tilesets used in those rooms.
+        room_locs: defaultdict[tuple[int, int], list[MinorLocation]] = defaultdict(list)
+        empty_pal_rows: dict[int, list[int]] = {}
+        empty_anim_set_slots: dict[int, list[int]] = {}
+        for minor_loc in minor_locs:
+            if minor_loc.actual_item_sprite in TANK_SPRITES:
+                continue
+
+            key = (minor_loc.area, minor_loc.room)
+            room_locs[key].append(minor_loc)
+
+            entry = RoomEntry(rom, minor_loc.area, minor_loc.room)
+            tileset = Tileset(rom, entry.tileset())
+
+            pal_addr = tileset.palette_addr()
+            if pal_addr not in empty_pal_rows:
+                empty_pal_rows[pal_addr] = self.get_blank_rows_in_palette(pal_addr)
+
+            anim_set_id = tileset.anim_tileset()
+            if anim_set_id not in empty_anim_set_slots:
+                empty_anim_set_slots[anim_set_id] = self.get_blank_slots_in_animated_tileset(
+                    tileset.anim_tileset_addr()
+                )
+
+        # Create new palettes, animated tilesets, and tilemaps to store new item graphics
+        all_item_palettes: defaultdict[int, list[ItemPalette]] = defaultdict(list)
+        all_item_anim_sets: defaultdict[int, list[ItemAnimatedTileset]] = defaultdict(list)
+        all_item_tilemaps: defaultdict[int, list[ItemTilemap]] = defaultdict(list)
+        anim_gfx_count = anim_graphics_count(self.rom)
+        loc_bg1_values: dict[MinorLocation, int] = {}
+        room_data: list[tuple[int, int, ItemPalette, ItemAnimatedTileset, ItemTilemap]] = []
+        for (area, room), group in room_locs.items():
+            entry = RoomEntry(rom, area, room)
+            tileset = Tileset(rom, entry.tileset())
+
+            # Add items to existing palette or add a new one
+            pal_addr = tileset.palette_addr()
+            item_palettes = all_item_palettes[pal_addr]
+            for pal in item_palettes:
+                if len(pal.blank_rows) >= len(group):
+                    item_pal = pal
+                    break
+            else:
+                item_pal = ItemPalette(rom, pal_addr, empty_pal_rows[pal_addr])
+                item_palettes.append(item_pal)
+            rows = [item_pal.add_item_sprite(loc.actual_item_sprite) for loc in group]
+
+            # Add items to existing animated tileset or add a new one
+            anim_set_id = tileset.anim_tileset()
+            item_anim_sets = all_item_anim_sets[anim_set_id]
+            for anim_set in item_anim_sets:
+                if len(anim_set.blank_slots) >= len(group):
+                    item_anim_set = anim_set
+                    break
+            else:
+                item_anim_set = ItemAnimatedTileset(
+                    rom, tileset.anim_tileset_addr(), empty_anim_set_slots[anim_set_id]
+                )
+                item_anim_sets.append(item_anim_set)
+            slots = [
+                item_anim_set.add_item_sprite(
+                    anim_gfx_count + (loc.actual_item_sprite.value - ItemSprite.EMPTY.value)
+                )
+                for loc in group
+            ]
+
+            # Add items to existing tilemaps or add a new one
+            tm_addr = tileset.tilemap_addr()
+            item_tilemaps = all_item_tilemaps[tm_addr]
+            for tm in item_tilemaps:
+                if tm.items_added + len(group) <= MAX_ITEMS_PER_TILEMAP:
+                    item_tm = tm
+                    break
+            else:
+                item_tm = ItemTilemap(rom, tileset.tilemap_ptr())
+                item_tilemaps.append(item_tm)
+            bg1_vals = [item_tm.add_item_sprite(row, slot) for row, slot in zip(rows, slots)]
+
+            for loc, bg1 in zip(group, bg1_vals):
+                loc_bg1_values[loc] = bg1
+
+            room_data.append((area, room, item_pal, item_anim_set, item_tm))
+
+        # Write palette data
+        for addr, item_palettes in all_item_palettes.items():
+            # Overwrite the first entry
+            rom.write_bytes(addr, item_palettes[0].data)
+            item_palettes[0].new_addr = addr
+            # Create new data for remaining entries
+            for item_pal in item_palettes[1:]:
+                new_addr = rom.reserve_free_space(len(item_pal.data))
+                rom.write_bytes(new_addr, item_pal.data)
+                item_pal.new_addr = new_addr
+
+        # Write animated tileset data
+        new_anim_set_entries: list[bytes] = []
+        anim_set_count = anim_tileset_count(rom)
+        for id, item_anim_sets in all_item_anim_sets.items():
+            # Overwrite the first entry
+            addr = anim_tileset_entries(rom) + id * ANIM_TILESET_SIZE
+            rom.write_bytes(addr, item_anim_sets[0].data)
+            item_anim_sets[0].new_id = id
+            # Create new data for remaining entries
+            for item_anim_set in item_anim_sets[1:]:
+                new_anim_set_entries.append(item_anim_set.data)
+                item_anim_set.new_id = anim_set_count
+                anim_set_count += 1
+
+        # Write tilemap data
+        for addr, item_tilemaps in all_item_tilemaps.items():
+            # Overwrite the first entry
+            rom.write_bytes(addr, item_tilemaps[0].tilemap.byte_data())
+            item_tilemaps[0].new_addr = addr
+            # Create new data for remaining entries
+            for item_tm in item_tilemaps[1:]:
+                data = item_tm.tilemap.byte_data()
+                new_addr = rom.reserve_free_space(len(data))
+                rom.write_bytes(new_addr, data)
+                item_tm.new_addr = new_addr
+
+        # Create new tileset entries and update tileset ID in each room
+        ts_count = tileset_count(rom)
+        new_tileset_entries: list[bytes] = []
+        for area, room, item_pal, item_anim_set, item_tm in room_data:
+            entry = RoomEntry(rom, area, room)
+            # Create new tileset entry
+            assert item_pal.new_addr is not None
+            assert item_tm.new_addr is not None
+            assert item_anim_set.new_id is not None
+            ts_entry = self.create_tileset(
+                entry.tileset(), item_pal.new_addr, item_tm.new_addr, item_anim_set.new_id
+            )
+            new_tileset_entries.append(ts_entry)
+            # Write tileset ID in room entry
+            rom.write_8(entry.addr, ts_count)
+            ts_count += 1
+
+        # Write new tileset entries and animated tileset entries
+        self.write_new_tilesets(new_tileset_entries, new_anim_set_entries)
+
+        return loc_bg1_values
+
+    def get_blank_rows_in_palette(self, addr: int) -> list[int]:
+        blank_rows: list[int] = []
+        # Start at row 1 because row 0 is unused
+        for row in range(1, 14):
+            src = addr + row * PAL_ROW_SIZE
+            color = self.rom.read_16(src + 2)
+            if all(self.rom.read_16(src + i) == color for i in range(4, PAL_ROW_SIZE, 2)):
+                blank_rows.append(row)
+        return blank_rows
+
+    def get_blank_slots_in_animated_tileset(self, addr: int) -> list[int]:
+        return [i for i in range(16) if self.rom.read_8(addr + i * 3) == 0]
+
+    def create_tileset(
+        self, id: int, pal_addr: int, tilemap_addr: int, anim_tileset_id: int
+    ) -> bytes:
+        """Creates a copy of a tileset entry using the provided palette address, tilemap address,
+        and animated tileset ID."""
+        tileset = Tileset(self.rom, id)
+        data = bytearray()
+        data += self.rom.read_bytes(tileset.block_bg_gfx_ptr(), 4)
+        data += ptr_to_u8(pal_addr)
+        data += self.rom.read_bytes(tileset.tiled_bg_gfx_ptr(), 4)
+        data += ptr_to_u8(tilemap_addr)
+        data.append(anim_tileset_id)
+        data.append(tileset.anim_palette())
+        # Padding
+        data.append(0)
+        data.append(0)
+        return data
+
+    def write_new_tilesets(
+        self, new_tileset_entries: list[bytes], new_anim_tileset_entries: list[bytes]
+    ) -> None:
         rom = self.rom
 
         # Get existing tileset data
@@ -246,16 +381,19 @@ class ItemPatcher:
         orig_tileset_size = tileset_count(rom) * TILESET_SIZE
         tileset_data = rom.read_bytes(tileset_addr, orig_tileset_size)
 
+        # Append data for each new tileset entry
+        for entry in new_tileset_entries:
+            tileset_data += entry
+
         # Get existing animated tileset data
         anim_tileset_addr = anim_tileset_entries(rom)
         orig_anim_tileset_count = anim_tileset_count(rom)
         orig_anim_tileset_size = orig_anim_tileset_count * ANIM_TILESET_SIZE
         anim_tileset_data = rom.read_bytes(anim_tileset_addr, orig_anim_tileset_size)
 
-        # Append data for each new tileset and animated tileset
-        for i, tileset in enumerate(new_tilesets):
-            tileset_data += tileset.write_copy(orig_anim_tileset_count + i)
-            anim_tileset_data += tileset.anim_tileset
+        # Append data for each new animated tileset
+        for entry in new_anim_tileset_entries:
+            anim_tileset_data += entry
 
         # Write data to ROM and repoint
         rom.write_repointable_data(
@@ -270,6 +408,13 @@ class ItemPatcher:
             anim_tileset_data,
             [ReservedPointersZM.ANIM_TILESET_ENTRIES_PTR.value],
         )
+
+    def fix_caterpillar_room(self) -> None:
+        """Set both versions of the Norfair caterpillar room to use the same tileset"""
+        room = RoomEntry(self.rom, 2, 0x2A)
+        tileset = room.tileset()
+        room = RoomEntry(self.rom, 2, 0x2E)
+        self.rom.write_8(room.addr, tileset)
 
     def write_major_location_graphics(self, major_loc: MajorLocation) -> None:
         # Fully powered and ziplines don't have any item graphics

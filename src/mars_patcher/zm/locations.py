@@ -10,6 +10,7 @@ from mars_patcher.zm.auto_generated_types import (
     MarsschemazmLocationsMinorLocationsItem,
 )
 from mars_patcher.zm.constants.items import (
+    ITEM_TO_SPRITE,
     HintLocation,
     ItemJingle,
     ItemSprite,
@@ -50,6 +51,12 @@ class Location:
         item_str = self.orig_item.name
         item_str += "/" + self.new_item.name
         return f"{self.area},0x{self.room:02X}: {item_str}"
+
+    @property
+    def actual_item_sprite(self) -> ItemSprite:
+        if self.item_sprite == ItemSprite.DEFAULT:
+            return ITEM_TO_SPRITE[self.new_item]
+        return self.item_sprite
 
     @property
     def hint_value(self) -> int:
