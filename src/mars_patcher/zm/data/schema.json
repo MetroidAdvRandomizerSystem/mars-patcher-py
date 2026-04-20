@@ -404,6 +404,53 @@
             },
             "default": null
         },
+        "hint_text": {
+            "type": "object",
+            "description": "Specifies text to be displayed at the hint statues.",
+            "propertyNames": {
+                "$ref": "#/$defs/valid_languages"
+            },
+            "additionalProperties": {
+                "type": "object",
+                "description": "Assigns each hint statue a specific text.",
+                "properties": {
+                    "LONG_BEAM": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the long beam hint statue in Brinstar."
+                    },
+                    "ICE_BEAM": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the ice beam hint statue in Brinstar."
+                    },
+                    "WAVE_BEAM": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the wave beam hint statue in Brinstar."
+                    },
+                    "BOMBS": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the bombs hint statue in Brinstar."
+                    },
+                    "SPEED_BOOSTER": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the speed booster hint statue in Norfair."
+                    },
+                    "HI_JUMP": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the hi-jump hint statue in Brinstar."
+                    },
+                    "SCREW_ATTACK": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the screw attack hint statue in Norfair."
+                    },
+                    "VARIA_SUIT": {
+                        "type": "string",
+                        "description": "Specifies what text should appear at the varia suit hint statue in Norfair."
+                    }
+                },
+                "additionalProperties": false
+            },
+            "default": null
+        },
         "title_text": {
             "type": "array",
             "description": "Lines of ascii text to write to the title screen.",

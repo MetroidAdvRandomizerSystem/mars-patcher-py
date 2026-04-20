@@ -460,6 +460,36 @@ class MarsschemazmPalettes(typ.TypedDict, total=False):
     """Randomly rotates hues in the positive or negative direction true."""
 
 
+@typ.final
+class MarsschemazmHintText(typ.TypedDict, total=False):
+    """Assigns each hint statue a specific text."""
+
+    LONG_BEAM: str
+    """Specifies what text should appear at the long beam hint statue in Brinstar."""
+
+    ICE_BEAM: str
+    """Specifies what text should appear at the ice beam hint statue in Brinstar."""
+
+    WAVE_BEAM: str
+    """Specifies what text should appear at the wave beam hint statue in Brinstar."""
+
+    BOMBS: str
+    """Specifies what text should appear at the bombs hint statue in Brinstar."""
+
+    SPEED_BOOSTER: str
+    """Specifies what text should appear at the speed booster hint statue in Norfair."""
+
+    HI_JUMP: str
+    """Specifies what text should appear at the hi-jump hint statue in Brinstar."""
+
+    SCREW_ATTACK: str
+    """Specifies what text should appear at the screw attack hint statue in Norfair."""
+
+    VARIA_SUIT: str
+    """Specifies what text should appear at the varia suit hint statue in Norfair."""
+
+
+
 class MarsschemazmTitleTextItem(typ.TypedDict, total=False):
     text: typ.Annotated[str, '/^[ -~]{0,30}$/']
     """The ASCII text for this line"""
@@ -570,6 +600,9 @@ class Marsschemazm(typ.TypedDict, total=False):
 
     intro_text: dict[ValidLanguages, str] = None
     """Specifies what text should appear during the new game intro."""
+
+    hint_text: dict[ValidLanguages, MarsschemazmHintText] = None
+    """Specifies text to be displayed at the hint statues."""
 
     title_text: list[MarsschemazmTitleTextItem] = None
     """Lines of ascii text to write to the title screen."""

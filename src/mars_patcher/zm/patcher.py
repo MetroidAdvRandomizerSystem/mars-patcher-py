@@ -7,6 +7,7 @@ from mars_patcher.sounds import set_sounds
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
+from mars_patcher.zm.hint_text import write_hint_text
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
 from mars_patcher.zm.starting import set_starting_items, set_starting_location
@@ -80,6 +81,11 @@ def patch_zm(
     # if room_names := patch_data.get("RoomNames", []):
     #     status_update("Writing room names...", -1)
     #     write_room_names(rom, room_names)
+
+    # Hints
+    if hint_text := patch_data.get("hint_text", {}):
+        status_update("Writing hint text...", -1)
+        write_hint_text(rom, hint_text)
 
     # Credits
     # if credits_text := patch_data.get("CreditsText", []):

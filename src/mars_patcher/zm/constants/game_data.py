@@ -22,6 +22,10 @@ def minor_locations_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.MINOR_LOCATIONS_PTR.value)
 
 
+def message_text_addr(rom: Rom) -> int:
+    return rom.read_ptr(ReservedPointersZM.MESSAGE_TEXT_PTR.value)
+
+
 def difficulty_options_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.DIFFICULTY_OPTIONS_PTR.value)
 
