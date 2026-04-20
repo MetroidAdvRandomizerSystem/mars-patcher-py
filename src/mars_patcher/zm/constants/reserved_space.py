@@ -57,6 +57,8 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the start of the beam palettes."""
     STATUES_CUTSCENE_PALETTE_PTR = auto()
     """Pointer to the palette of the boss statues near Tourian used during the cutscene."""
+    MESSAGE_TEXT_PTR = auto()
+    """Pointer to a table of pointers for each language that point to message text."""
     CHARACTER_WIDTHS_PTR = auto()
     """Pointer to the character widths table."""
     SOUND_DATA_PTR = auto()
