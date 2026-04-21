@@ -47,6 +47,8 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the list of pointers to the graphics for each sprite."""
     SPRITE_PALETTES_PTR = auto()
     """Pointer to the list of pointers to the palette for each sprite."""
+    GUNSHIP_FLASHING_PALETTE_PTR = auto()
+    """Pointer to an extra palette used by the gunship sprite."""
     SPRITESET_PTR = auto()
     """Pointer to the list of pointers to spriteset entries."""
     SAMUS_PALETTES_PTR = auto()

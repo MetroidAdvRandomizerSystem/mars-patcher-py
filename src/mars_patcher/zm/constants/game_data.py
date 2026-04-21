@@ -70,5 +70,9 @@ def title_text_lines_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.TITLE_TEXT_LINES_PTR.value)
 
 
+def gunship_flashing_palette_addr(rom: Rom) -> int:
+    return rom.read_ptr(ReservedPointersZM.GUNSHIP_FLASHING_PALETTE_PTR.value)
+
+
 def statues_cutscene_palette_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.STATUES_CUTSCENE_PALETTE_PTR.value)

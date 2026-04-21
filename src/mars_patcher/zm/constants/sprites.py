@@ -32,6 +32,7 @@ class SpriteIdZM(IntEnum):
     GERUTA_GREEN = 0x37
     REO_GREEN_WINGS = 0x3F
     REO_PURPLE_WINGS = 0x40
+    GUNSHIP = 0x41
     CHARGE_BEAM = 0x44
     POWER_GRIP = 0x4C
     IMAGO_LARVA_RIGHT = 0x4D
