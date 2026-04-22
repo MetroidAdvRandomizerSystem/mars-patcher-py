@@ -623,31 +623,31 @@
             "description": "When enabled, hides doors on the minimap. This is automatically enabled when the 'DoorLocks' field is provided.",
             "default": false
         },
-        "room_names": {
+        "RoomNames": {
             "type": "array",
             "description": "Specifies a name to be displayed when the A Button is pressed on the pause menu.",
             "uniqueItems": true,
             "items": {
                 "type": "object",
                 "properties": {
-                    "area": {
+                    "Area": {
                         "$ref": "#/$defs/area_id",
                         "description": "The area ID where this room is located."
                     },
-                    "room": {
+                    "Room": {
                         "$ref": "#/$defs/type_u8",
                         "description": "The room ID."
                     },
-                    "name": {
+                    "Name": {
                         "type": "string",
-                        "description": "Specifies what text should appear for this room. Two lines are available, with an absolute maximum of 56 characters per line, if all characters used are small. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated.  Use \n to force a line break. If not provided, will display 'Unknown Room'.",
-                        "maxLength": 112
+                        "description": "Specifies what text should appear for this room. Two lines are available, with an absolute maximum of 112 characters per line, if all characters used are small. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated. Use \n to force a line break. If not provided, will display 'Room name not provided'.",
+                        "maxLength": 224
                     }
                 },
                 "required": [
-                    "area",
-                    "room",
-                    "name"
+                    "Area",
+                    "Room",
+                    "Name"
                 ]
             }
         },

@@ -1,3 +1,4 @@
+from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.rom import Game, Region, Rom
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 
@@ -344,3 +345,14 @@ def minimap_graphics(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x561FA8
     raise ValueError(rom.game, rom.region)
+
+
+def room_names_addr(rom: Rom) -> int:
+    """Returns the address of the room names table."""
+    if rom.game == Game.MF:
+        addr = ReservedPointersMF.ROOM_NAMES_TABLE_ADDR.value
+    elif rom.game == Game.ZM:
+        addr = ReservedPointersZM.ROOM_NAMES_PTR.value
+    else:
+        raise ValueError(rom.game)
+    return rom.read_ptr(addr)
