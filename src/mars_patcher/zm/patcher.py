@@ -3,6 +3,7 @@ from os import PathLike
 
 from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
+from mars_patcher.room_names import write_room_names
 from mars_patcher.sounds import set_sounds
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
@@ -78,9 +79,9 @@ def patch_zm(
     #     conns.set_elevator_connections(patch_data["ElevatorConnections"])
 
     # Room Names
-    # if room_names := patch_data.get("RoomNames", []):
-    #     status_update("Writing room names...", -1)
-    #     write_room_names(rom, room_names)
+    if room_names := patch_data.get("RoomNames", []):
+        status_update("Writing room names...", -1)
+        write_room_names(rom, room_names)
 
     # Hints
     if hint_text := patch_data.get("hint_text", {}):
