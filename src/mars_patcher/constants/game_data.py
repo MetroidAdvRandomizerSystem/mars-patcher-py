@@ -1,3 +1,4 @@
+from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.rom import Game, Region, Rom
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
 
@@ -344,3 +345,14 @@ def minimap_graphics(rom: Rom) -> int:
         elif rom.region == Region.C:
             return 0x561FA8
     raise ValueError(rom.game, rom.region)
+
+
+def title_text_addr(rom: Rom) -> int:
+    """Returns the address of the title screen text line pointers."""
+    if rom.game == Game.MF:
+        addr = ReservedPointersMF.TITLE_SCREEN_TEXT_POINTERS_POINTER_ADDR.value
+    elif rom.game == Game.ZM:
+        addr = ReservedPointersZM.TITLE_TEXT_LINES_PTR.value
+    else:
+        raise ValueError(rom.game)
+    return rom.read_ptr(addr)

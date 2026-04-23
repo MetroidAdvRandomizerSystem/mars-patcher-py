@@ -38,7 +38,7 @@ from mars_patcher.rom import Rom
 from mars_patcher.sounds import set_sounds
 from mars_patcher.text import write_seed_hash
 from mars_patcher.tilemap import apply_minimap_edits
-from mars_patcher.titlescreen_text import write_title_text
+from mars_patcher.title_screen_text import write_title_text
 
 
 def patch_mf(
@@ -194,7 +194,7 @@ def patch_mf(
 
     write_seed_hash(rom, patch_data["SeedHash"])
 
-    # Title-screen text
+    # Title screen text
     if title_screen_text := patch_data.get("TitleText"):
         status_update("Writing title screen text...", -1)
         write_title_text(rom, title_screen_text)

@@ -470,7 +470,7 @@
         },
         "TitleText": {
             "type": "array",
-            "description": "Lines of ascii text to write to the title screen.",
+            "description": "Lines of ASCII text to write to the title screen.",
             "items": {
                 "type": "object",
                 "properties": {
@@ -482,7 +482,7 @@
                     "LineNum": {
                         "type": "integer",
                         "minimum": 0,
-                        "maximum": 14
+                        "maximum": 20
                     }
                 }
             },

@@ -4,6 +4,7 @@ from os import PathLike
 from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
 from mars_patcher.sounds import set_sounds
+from mars_patcher.title_screen_text import write_title_text
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
@@ -137,10 +138,10 @@ def patch_zm(
 
     # write_seed_hash(rom, patch_data["SeedHash"])
 
-    # Title-screen text
-    # if title_screen_text := patch_data.get("TitleText"):
-    #     status_update("Writing title screen text...", -1)
-    # write_title_text(rom, title_screen_text)
+    # Title screen text
+    if title_screen_text := patch_data.get("title_text"):
+        status_update("Writing title screen text...", -1)
+        write_title_text(rom, title_screen_text)
 
     free_space_size = (
         ReservedConstantsZM.PATCHER_FREE_SPACE_END - ReservedConstantsZM.PATCHER_FREE_SPACE_ADDR
