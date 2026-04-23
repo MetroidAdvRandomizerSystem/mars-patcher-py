@@ -554,16 +554,16 @@ class MarsschemazmMinimapEditsItem(typ.TypedDict, total=False):
 
 
 
-class MarsschemazmRoomNamesItem(typ.TypedDict):
-    area: AreaId
+class MarsschemazmRoomnamesItem(typ.TypedDict):
+    Area: AreaId
     """The area ID where this room is located."""
 
-    room: TypeU8 = 0
+    Room: TypeU8 = 0
     """The room ID."""
 
-    name: typ.Annotated[str, 'len() <= 112']
-    """Specifies what text should appear for this room. Two lines are available, with an absolute maximum of 56 characters per line, if all characters used are small. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated.  Use 
- to force a line break. If not provided, will display 'Unknown Room'."""
+    Name: typ.Annotated[str, 'len() <= 224']
+    """Specifies what text should appear for this room. Two lines are available, with an absolute maximum of 112 characters per line, if all characters used are small. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated. Use 
+ to force a line break. If not provided, will display 'Room name not provided'."""
 
 
 class Marsschemazm(typ.TypedDict, total=False):
@@ -640,7 +640,7 @@ class Marsschemazm(typ.TypedDict, total=False):
     hide_doors_on_minimap: bool = False
     """When enabled, hides doors on the minimap. This is automatically enabled when the 'DoorLocks' field is provided."""
 
-    room_names: typ.Annotated[list[MarsschemazmRoomNamesItem], 'Unique items']
+    RoomNames: typ.Annotated[list[MarsschemazmRoomnamesItem], 'Unique items']
     """Specifies a name to be displayed when the A Button is pressed on the pause menu."""
 
     reveal_hidden_tiles: bool = False

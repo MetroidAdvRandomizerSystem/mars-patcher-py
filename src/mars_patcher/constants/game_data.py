@@ -347,6 +347,17 @@ def minimap_graphics(rom: Rom) -> int:
     raise ValueError(rom.game, rom.region)
 
 
+def room_names_addr(rom: Rom) -> int:
+    """Returns the address of the room names table."""
+    if rom.game == Game.MF:
+        addr = ReservedPointersMF.ROOM_NAMES_TABLE_ADDR.value
+    elif rom.game == Game.ZM:
+        addr = ReservedPointersZM.ROOM_NAMES_PTR.value
+    else:
+        raise ValueError(rom.game)
+    return rom.read_ptr(addr)
+
+
 def title_text_addr(rom: Rom) -> int:
     """Returns the address of the title screen text line pointers."""
     if rom.game == Game.MF:
