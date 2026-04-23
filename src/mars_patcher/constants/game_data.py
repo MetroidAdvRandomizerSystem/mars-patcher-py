@@ -356,3 +356,14 @@ def room_names_addr(rom: Rom) -> int:
     else:
         raise ValueError(rom.game)
     return rom.read_ptr(addr)
+
+
+def title_text_addr(rom: Rom) -> int:
+    """Returns the address of the title screen text line pointers."""
+    if rom.game == Game.MF:
+        addr = ReservedPointersMF.TITLE_SCREEN_TEXT_POINTERS_POINTER_ADDR.value
+    elif rom.game == Game.ZM:
+        addr = ReservedPointersZM.TITLE_TEXT_LINES_PTR.value
+    else:
+        raise ValueError(rom.game)
+    return rom.read_ptr(addr)

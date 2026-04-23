@@ -491,10 +491,10 @@ class MarsschemazmHintText(typ.TypedDict, total=False):
 
 
 class MarsschemazmTitleTextItem(typ.TypedDict, total=False):
-    text: typ.Annotated[str, '/^[ -~]{0,30}$/']
+    Text: typ.Annotated[str, '/^[ -~]{0,30}$/']
     """The ASCII text for this line"""
 
-    line_num: typ.Annotated[int, '0 <= value <= 14']
+    LineNum: typ.Annotated[int, '0 <= value <= 20']
 MarsschemazmCreditsTextItemLineType = typ.Literal[
     'BLANK',
     'BLUE',
@@ -605,7 +605,7 @@ class Marsschemazm(typ.TypedDict, total=False):
     """Specifies text to be displayed at the hint statues."""
 
     title_text: list[MarsschemazmTitleTextItem] = None
-    """Lines of ascii text to write to the title screen."""
+    """Lines of ASCII text to write to the title screen."""
 
     credits_text: list[MarsschemazmCreditsTextItem]
     """Lines of text to insert into the credits."""

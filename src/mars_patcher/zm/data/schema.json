@@ -453,19 +453,19 @@
         },
         "title_text": {
             "type": "array",
-            "description": "Lines of ascii text to write to the title screen.",
+            "description": "Lines of ASCII text to write to the title screen.",
             "items": {
                 "type": "object",
                 "properties": {
-                    "text": {
+                    "Text": {
                         "type": "string",
                         "description": "The ASCII text for this line",
                         "pattern": "^[ -~]{0,30}$"
                     },
-                    "line_num": {
+                    "LineNum": {
                         "type": "integer",
                         "minimum": 0,
-                        "maximum": 14
+                        "maximum": 20
                     }
                 }
             },

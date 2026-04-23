@@ -536,7 +536,7 @@ class MarsschemamfTitletextItem(typ.TypedDict, total=False):
     Text: typ.Annotated[str, '/^[ -~]{0,30}$/']
     """The ASCII text for this line"""
 
-    LineNum: typ.Annotated[int, '0 <= value <= 14']
+    LineNum: typ.Annotated[int, '0 <= value <= 20']
 MarsschemamfCreditstextItemLinetype = typ.Literal[
     'Blank',
     'Blue',
@@ -681,7 +681,7 @@ class Marsschemamf(typ.TypedDict, total=False):
     """Specifies text to be displayed at navigation rooms and the ship."""
 
     TitleText: list[MarsschemamfTitletextItem] = None
-    """Lines of ascii text to write to the title screen."""
+    """Lines of ASCII text to write to the title screen."""
 
     CreditsText: list[MarsschemamfCreditstextItem]
     """Lines of text to insert into the credits."""
