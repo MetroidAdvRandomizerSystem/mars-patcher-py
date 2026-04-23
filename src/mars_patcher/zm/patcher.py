@@ -7,11 +7,16 @@ from mars_patcher.room_names import write_room_names
 from mars_patcher.sounds import set_sounds
 from mars_patcher.title_screen_text import write_title_text
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
-from mars_patcher.zm.constants.game_data import skip_door_transitions_addr
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
 from mars_patcher.zm.hint_text import write_hint_text
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
+from mars_patcher.zm.misc_patches import (
+    disable_music,
+    disable_sound_effects,
+    skip_door_transitions,
+    stereo_default,
+)
 from mars_patcher.zm.starting import set_starting_items, set_starting_location
 
 
@@ -95,23 +100,17 @@ def patch_zm(
     #     write_credits(rom, credits_text)
 
     # Misc patches
-    # if patch_data.get("AccessibilityPatches"):
-    #     apply_accessibility_patch(rom)
-
-    # if patch_data.get("DisableDemos"):
-    #     disable_demos(rom)
-
     if patch_data.get("skip_door_transitions"):
-        rom.write_8(skip_door_transitions_addr(rom), 1)
+        skip_door_transitions(rom)
 
-    # if patch_data.get("StereoDefault", True):
-    #     stereo_default(rom)
+    if patch_data.get("stereo_default", True):
+        stereo_default(rom)
 
-    # if patch_data.get("DisableMusic"):
-    #     disable_music(rom)
+    if patch_data.get("disable_music"):
+        disable_music(rom)
 
-    # if patch_data.get("DisableSoundEffects"):
-    #     disable_sound_effects(rom)
+    if patch_data.get("disable_sound_effects"):
+        disable_sound_effects(rom)
 
     # if patch_data.get("UnexploredMap"):
     #     apply_unexplored_map(rom)

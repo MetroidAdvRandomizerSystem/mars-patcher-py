@@ -30,6 +30,10 @@ def difficulty_options_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.DIFFICULTY_OPTIONS_PTR.value)
 
 
+def default_stereo_addr(rom: Rom) -> int:
+    return rom.read_ptr(ReservedPointersZM.DEFAULT_STEREO_PTR.value)
+
+
 def metroid_sprite_stats_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.METROID_SPRITE_STATS_PTR.value)
 

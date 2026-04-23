@@ -83,6 +83,7 @@ class ReservedPointersZM(IntEnum):
 
     # Rando options
     DIFFICULTY_OPTIONS_PTR = auto()
+    DEFAULT_STEREO_PTR = auto()
     METROID_SPRITE_STATS_PTR = auto()
     BLACK_PIRATES_REQUIRE_PLASMA_PTR = auto()
     SKIP_DOOR_TRANSITIONS_PTR = auto()
