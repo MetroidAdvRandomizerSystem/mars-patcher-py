@@ -25,6 +25,7 @@ def write_title_text(rom: Rom, lines: list[TitleTextItem]) -> None:
         if len(text) > MAX_LENGTH:
             raise ValueError(f'Title screen text line exceeds {MAX_LENGTH} characters\n"{text}"')
 
-        text += "\0"
+        if rom.is_zm():
+            text += "\0"
         addr = rom.read_ptr(line_ptrs + (line_num * 4))
         rom.write_bytes(addr, text.encode("ascii"))
