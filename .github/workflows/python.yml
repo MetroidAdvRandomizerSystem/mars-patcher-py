@@ -96,7 +96,7 @@ jobs:
       #   run: python -m pytest --cov
 
       - name: codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
 
   mypy:
     runs-on: 'ubuntu-latest'
