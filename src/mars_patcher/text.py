@@ -6,7 +6,7 @@ from mars_patcher.constants.game_data import character_widths
 from mars_patcher.convert_array import u16_to_u8
 from mars_patcher.mf.constants.game_data import file_screen_text_ptrs
 from mars_patcher.mf.data import get_data_path as get_data_path_mf
-from mars_patcher.rom import Rom
+from mars_patcher.rom import Game, Rom
 from mars_patcher.zm.data import get_data_path as get_data_path_zm
 
 SPACE_CHAR = 0x40
@@ -14,6 +14,10 @@ SPACE_TAG = 0x8000
 NEXT = 0xFD00
 NEWLINE = 0xFE00
 END = 0xFF00
+
+BREAKING_CHARS = {SPACE_CHAR, NEXT, NEWLINE}
+NEWLINE_CHARS = {NEXT, NEWLINE}
+
 VALUE_MARKUP_TAG = {
     "SPACE": (SPACE_TAG, 8),
     "COLOR": (0x8100, 8),
@@ -23,16 +27,21 @@ VALUE_MARKUP_TAG = {
     "STOP_SOUND": (0xA000, 12),
     "WAIT": (0xE100, 8),
 }
-ADAM = 0xE200
-SAMUS = 0xE201
-FEDERATION = 0xE202
-BREAKING_CHARS = {SPACE_CHAR, NEXT, NEWLINE}
-NEWLINE_CHARS = {NEXT, NEWLINE}
-SPEAKER_CHARS = {ADAM, FEDERATION, SAMUS}
 
 KANJI_START = 0x4A0
 KANJI_WIDTH = 10
 MAX_LINE_WIDTH = 224
+
+MAX_CONTINUOUS_LINES = {
+    Game.MF: 2,  # Only used for navigation text
+    Game.ZM: 8,  # Only used for intro text
+}
+
+# Fusion specific
+ADAM = 0xE200
+SAMUS = 0xE201
+FEDERATION = 0xE202
+SPEAKER_CHARS = {ADAM, FEDERATION, SAMUS}
 
 
 class Language(Enum):
@@ -207,14 +216,14 @@ def encode_text(
             line_number += 1
             extra_char = NEWLINE
 
-        if line_number > 1:
-            match message_type:
-                case MessageType.CONTINUOUS:
-                    line_number = 0
-                    extra_char = NEXT
-                case MessageType.TWO_LINE:
-                    # Limited to 2 lines, trim any other characters
-                    break
+        if message_type == MessageType.CONTINUOUS:
+            if line_number == MAX_CONTINUOUS_LINES[rom.game]:
+                line_number = 0
+                extra_char = NEXT
+        elif message_type == MessageType.TWO_LINE:
+            if line_number == 2:
+                # Limited to 2 lines, trim any other characters
+                break
 
         if extra_char is not None:
             if prev_break is not None:
