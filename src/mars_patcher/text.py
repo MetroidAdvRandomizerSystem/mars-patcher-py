@@ -7,6 +7,7 @@ from mars_patcher.convert_array import u16_to_u8
 from mars_patcher.mf.constants.game_data import file_screen_text_ptrs
 from mars_patcher.mf.data import get_data_path as get_data_path_mf
 from mars_patcher.rom import Rom
+from mars_patcher.zm.constants.game_data import seed_hash_addr
 from mars_patcher.zm.data import get_data_path as get_data_path_zm
 
 SPACE_CHAR = 0x40
@@ -248,20 +249,27 @@ def encode_text(
 
 
 def write_seed_hash(rom: Rom, seed_hash: str) -> None:
-    char_map = get_char_map(rom)
-    lang_ptrs = file_screen_text_ptrs(rom)
-    for lang in Language:
-        # Get address of first text entry
-        text_ptrs = rom.read_ptr(lang_ptrs + lang.value * 4)
-        addr = rom.read_ptr(text_ptrs)
-        # Find newline after "SAMUS DATA"
-        try:
-            line_len = next(i for i in range(20) if rom.read_16(addr + i * 2) == NEWLINE)
-        except StopIteration:
-            raise ValueError("Invalid file screen text data")
-        pad_left = (line_len - 8) // 2
-        pad_right = line_len - 8 - pad_left
-        # Overwrite with seed hash
-        string = (" " * pad_left) + seed_hash + (" " * pad_right)
-        for i, c in enumerate(string):
-            rom.write_16(addr + i * 2, char_map[c])
+    if rom.is_mf():
+        char_map = get_char_map(rom)
+        lang_ptrs = file_screen_text_ptrs(rom)
+        for lang in Language:
+            # Get address of first text entry
+            text_ptrs = rom.read_ptr(lang_ptrs + lang.value * 4)
+            addr = rom.read_ptr(text_ptrs)
+            # Find newline after "SAMUS DATA"
+            try:
+                line_len = next(i for i in range(20) if rom.read_16(addr + i * 2) == NEWLINE)
+            except StopIteration:
+                raise ValueError("Invalid file screen text data")
+            pad_left = (line_len - 8) // 2
+            pad_right = line_len - 8 - pad_left
+            # Overwrite with seed hash
+            string = (" " * pad_left) + seed_hash + (" " * pad_right)
+            for i, c in enumerate(string):
+                rom.write_16(addr + i * 2, char_map[c])
+    elif rom.is_zm():
+        encoded_text = encode_text(rom, MessageType.ONE_LINE, seed_hash, 8 * 12, True)
+        addr = seed_hash_addr(rom)
+        rom.write_bytes(addr, encoded_text)
+    else:
+        raise ValueError(rom.game)
