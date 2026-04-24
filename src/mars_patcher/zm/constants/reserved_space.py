@@ -59,8 +59,6 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the start of the beam palettes."""
     STATUES_CUTSCENE_PALETTE_PTR = auto()
     """Pointer to the palette of the boss statues near Tourian used during the cutscene."""
-    ROOM_NAMES_PTR = auto()
-    """Pointer to a table of pointers for each area that point to room names."""
     MESSAGE_TEXT_PTR = auto()
     """Pointer to a table of pointers for each language that point to message text."""
     STORY_TEXT_PTR = auto()
@@ -82,6 +80,14 @@ class ReservedPointersZM(IntEnum):
     """Pointer to a list of major locations and the items they have."""
     MINOR_LOCATIONS_PTR = auto()
     """Pointer to a list of minor locations and the items they have."""
+    TANK_INCREASE_AMOUNTS_PTR = auto()
+    """Pointer to the amount of ammo each tank gives."""
+    TITLE_TEXT_LINES_PTR = auto()
+    """Pointer to the lines of text to display on the title screen."""
+    SEED_HASH_PTR = auto()
+    """Pointer to the seed hash text to display on the file select menu."""
+    ROOM_NAMES_PTR = auto()
+    """Pointer to a table of pointers for each area that point to room names."""
 
     # Rando options
     DIFFICULTY_OPTIONS_PTR = auto()
@@ -94,10 +100,6 @@ class ReservedPointersZM(IntEnum):
     DISABLE_WALLJUMP_PTR = auto()
     REMOVE_CUTSCENES_PTR = auto()
     SKIP_SUITLESS_SEQUENCE_PTR = auto()
-
-    TANK_INCREASE_AMOUNTS_PTR = auto()
-
-    TITLE_TEXT_LINES_PTR = auto()
 
     def __new__(cls, offset: int) -> Self:
         obj = int.__new__(cls)
