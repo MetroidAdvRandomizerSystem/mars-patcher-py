@@ -5,6 +5,7 @@ from mars_patcher.random_palettes import PaletteRandomizer, PaletteSettings
 from mars_patcher.rom import Rom
 from mars_patcher.room_names import write_room_names
 from mars_patcher.sounds import set_sounds
+from mars_patcher.text import write_seed_hash
 from mars_patcher.title_screen_text import write_title_text
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
@@ -136,7 +137,7 @@ def patch_zm(
     #     status_update("Writing door locks...", -1)
     #     set_door_locks(rom, door_locks)
 
-    # write_seed_hash(rom, patch_data["SeedHash"])
+    write_seed_hash(rom, patch_data["seed_hash"])
 
     # Title screen text
     if title_screen_text := patch_data.get("title_text"):
