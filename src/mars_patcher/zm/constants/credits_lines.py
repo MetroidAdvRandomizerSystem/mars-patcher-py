@@ -24,6 +24,7 @@ RDV_CREDITS = [
     (LineType.WHITE_BIG, 2, "Randovania"),
     (LineType.BLUE, 2, "INTEGRATION"),
     (LineType.WHITE_BIG, 1, "JeffGainsNGames"),
+    (LineType.WHITE_BIG, 3, "<person 2>"),
     (LineType.BLUE, 2, "LOGIC DATABASE"),
     (LineType.WHITE_BIG, 1, "<person 1>"),
     (LineType.WHITE_BIG, 3, "<person 2>"),

@@ -513,6 +513,9 @@ class MarsschemazmCreditsTextItem(typ.TypedDict, total=False):
     BlankLines: TypeU8 = 0
     """Inserts the provided number of blank lines after the text line."""
 
+    Centered: bool = True
+    """Centers the text horizontally when true."""
+
 
 @typ.final
 class MarsschemazmLevelEdits(typ.TypedDict, total=False):

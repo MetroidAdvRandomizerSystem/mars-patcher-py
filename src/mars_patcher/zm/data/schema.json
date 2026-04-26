@@ -497,6 +497,11 @@
                         "$ref": "#/$defs/type_u8",
                         "description": "Inserts the provided number of blank lines after the text line.",
                         "default": 0
+                    },
+                    "Centered": {
+                        "type": "boolean",
+                        "description": "Centers the text horizontally when true.",
+                        "default": true
                     }
                 },
                 "required": [
