@@ -477,35 +477,30 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "line_type": {
+                    "LineType": {
                         "type": "string",
                         "description": "The color and line height of the text (or blank).",
                         "enum": [
-                            "BLANK",
-                            "BLUE",
-                            "RED",
-                            "WHITE1",
-                            "WHITE2"
+                            "Blank",
+                            "Blue",
+                            "Red",
+                            "White1",
+                            "White2"
                         ]
                     },
-                    "text": {
+                    "Text": {
                         "type": "string",
                         "description": "The ASCII text for this line.",
                         "pattern": "^[ -~]{0,34}$"
                     },
-                    "blank_lines": {
+                    "BlankLines": {
                         "$ref": "#/$defs/type_u8",
                         "description": "Inserts the provided number of blank lines after the text line.",
                         "default": 0
-                    },
-                    "centered": {
-                        "type": "boolean",
-                        "description": "Centers the text horizontally when true.",
-                        "default": true
                     }
                 },
                 "required": [
-                    "line_type"
+                    "LineType"
                 ]
             }
         },

@@ -9,6 +9,7 @@ from mars_patcher.text import write_seed_hash
 from mars_patcher.title_screen_text import write_title_text
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
+from mars_patcher.zm.credits import write_credits
 from mars_patcher.zm.hint_text import write_hint_text
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
@@ -96,9 +97,9 @@ def patch_zm(
         write_hint_text(rom, hint_text)
 
     # Credits
-    # if credits_text := patch_data.get("CreditsText", []):
-    #     status_update("Writing credits text...", -1)
-    #     write_credits(rom, credits_text)
+    if credits_text := patch_data.get("credits_text", []):
+        status_update("Writing credits text...", -1)
+        write_credits(rom, credits_text)
 
     # Misc patches
     if patch_data.get("skip_door_transitions"):

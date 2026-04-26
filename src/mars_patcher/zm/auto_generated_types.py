@@ -495,26 +495,23 @@ class MarsschemazmTitleTextItem(typ.TypedDict, total=False):
     """The ASCII text for this line"""
 
     LineNum: typ.Annotated[int, '0 <= value <= 20']
-MarsschemazmCreditsTextItemLineType = typ.Literal[
-    'BLANK',
-    'BLUE',
-    'RED',
-    'WHITE1',
-    'WHITE2'
+MarsschemazmCreditsTextItemLinetype = typ.Literal[
+    'Blank',
+    'Blue',
+    'Red',
+    'White1',
+    'White2'
 ]
 
 class MarsschemazmCreditsTextItem(typ.TypedDict, total=False):
-    line_type: typ.Required[MarsschemazmCreditsTextItemLineType]
+    LineType: typ.Required[MarsschemazmCreditsTextItemLinetype]
     """The color and line height of the text (or blank)."""
 
-    text: typ.Annotated[str, '/^[ -~]{0,34}$/']
+    Text: typ.Annotated[str, '/^[ -~]{0,34}$/']
     """The ASCII text for this line."""
 
-    blank_lines: TypeU8 = 0
+    BlankLines: TypeU8 = 0
     """Inserts the provided number of blank lines after the text line."""
-
-    centered: bool = True
-    """Centers the text horizontally when true."""
 
 
 @typ.final

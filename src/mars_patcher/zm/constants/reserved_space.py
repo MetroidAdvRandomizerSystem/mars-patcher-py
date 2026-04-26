@@ -67,6 +67,8 @@ class ReservedPointersZM(IntEnum):
     """Pointer to the list of sound data entries."""
     CHOZO_STATUE_TARGETS_PTR = auto()
     """Pointer to the list of Chozo statue targets."""
+    CREDITS_PTR = auto()
+    """Pointer to the credits text."""
 
     # Rando data
     INTRO_CUTSCENE_DATA_PTR = auto()
