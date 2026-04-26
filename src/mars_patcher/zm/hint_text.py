@@ -2,7 +2,9 @@ from enum import IntEnum, auto
 
 from mars_patcher.rom import Rom
 from mars_patcher.text import Language, MessageType, encode_text
-from mars_patcher.zm.constants.game_data import message_text_addr
+from mars_patcher.zm.constants.game_data import message_text_addr, story_text_addr
+
+INTRO_TEXT_ID = 0
 
 # Keep this in sync with MessageId in constants/text.h
 HINT_MESSAGE_ID_START = 44
@@ -30,9 +32,13 @@ LANG_ENUMS = {
 }
 
 
-# TODO
-# def write_intro_text(data: dict) -> None:
-#     pass
+def write_intro_text(rom: Rom, data: dict) -> None:
+    for lang, text in data.items():
+        lang = LANG_ENUMS[lang]
+        base_text_addr = rom.read_ptr(story_text_addr(rom) + lang.value * 4)
+        text_ptr = base_text_addr + INTRO_TEXT_ID * 4
+        encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
+        rom.write_data_with_pointers(encoded_text, [text_ptr])
 
 
 def write_hint_text(rom: Rom, data: dict) -> None:

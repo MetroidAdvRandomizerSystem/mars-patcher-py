@@ -26,6 +26,10 @@ def message_text_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.MESSAGE_TEXT_PTR.value)
 
 
+def story_text_addr(rom: Rom) -> int:
+    return rom.read_ptr(ReservedPointersZM.STORY_TEXT_PTR.value)
+
+
 def difficulty_options_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.DIFFICULTY_OPTIONS_PTR.value)
 

@@ -400,7 +400,7 @@
             },
             "additionalProperties": {
                 "type": "string",
-                "description": "The language specific text used for the intro"
+                "description": "The language specific text used for the intro."
             },
             "default": null
         },

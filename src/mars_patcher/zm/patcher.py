@@ -9,7 +9,7 @@ from mars_patcher.text import write_seed_hash
 from mars_patcher.title_screen_text import write_title_text
 from mars_patcher.zm.auto_generated_types import MarsSchemaZM
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
-from mars_patcher.zm.hint_text import write_hint_text
+from mars_patcher.zm.hint_text import write_hint_text, write_intro_text
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
 from mars_patcher.zm.misc_patches import (
@@ -89,6 +89,11 @@ def patch_zm(
     if room_names := patch_data.get("RoomNames", []):
         status_update("Writing room names...", -1)
         write_room_names(rom, room_names)
+
+    # Intro text
+    if intro_text := patch_data.get("intro_text", {}):
+        status_update("Writing intro text...", -1)
+        write_intro_text(rom, intro_text)
 
     # Hints
     if hint_text := patch_data.get("hint_text", {}):
