@@ -1,4 +1,4 @@
-from mars_patcher.credits import CreditsLine, CreditsWriter, get_credits_size
+from mars_patcher.credits import CreditsLine, CreditsWriter
 from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
 from mars_patcher.mf.constants.credits_lines import (
     FUSION_STAFF_LINES,
@@ -8,6 +8,7 @@ from mars_patcher.mf.constants.credits_lines import (
 from mars_patcher.rom import Rom
 
 CREDITS_ADDR = 0x74B0B0
+CREDITS_LEN = 0x2B98
 
 
 def write_credits(rom: Rom, data: list[MarsschemamfCreditstextItem]) -> None:
@@ -31,8 +32,7 @@ def write_credits(rom: Rom, data: list[MarsschemamfCreditstextItem]) -> None:
 
     # Verify that credits don't exceed existing space
     # TODO: Allow repointing credits
-    credits_size = get_credits_size(rom, CREDITS_ADDR)
-    if len(writer.data) > credits_size:
+    if len(writer.data) > CREDITS_LEN:
         raise ValueError("Credits exceeded existing space")
 
     rom.write_bytes(CREDITS_ADDR, writer.data)
