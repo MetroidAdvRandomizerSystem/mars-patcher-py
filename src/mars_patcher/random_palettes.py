@@ -7,7 +7,7 @@ from typing_extensions import Self
 import mars_patcher.constants.game_data as gd
 from mars_patcher.mf.auto_generated_types import (
     MarsschemamfPalettes,
-    MarsschemamfPalettesColorspace,
+    MarsschemamfPalettesColorSpace,
     MarsschemamfPalettesRandomize,
 )
 from mars_patcher.mf.constants.game_data import sax_palettes, sprite_vram_sizes
@@ -24,7 +24,7 @@ from mars_patcher.rom import Rom
 from mars_patcher.tileset import Tileset
 from mars_patcher.zm.auto_generated_types import (
     MarsschemazmPalettes,
-    MarsschemazmPalettesColorspace,
+    MarsschemazmPalettesColorSpace,
     MarsschemazmPalettesRandomize,
 )
 from mars_patcher.zm.constants.game_data import (
@@ -35,7 +35,7 @@ from mars_patcher.zm.constants.palettes import ENEMY_GROUPS_ZM, EXCLUDED_ENEMIES
 from mars_patcher.zm.constants.sprites import SpriteIdZM
 
 SchemaPalettes = MarsschemamfPalettes | MarsschemazmPalettes
-SchemaPalettesColorspace = MarsschemamfPalettesColorspace | MarsschemazmPalettesColorspace
+SchemaPalettesColorSpace = MarsschemamfPalettesColorSpace | MarsschemazmPalettesColorSpace
 SchemaPalettesRandomize = MarsschemamfPalettesRandomize | MarsschemazmPalettesRandomize
 
 HueRange: TypeAlias = tuple[int, int]
@@ -49,45 +49,38 @@ class PaletteType(Enum):
 
 
 class PaletteSettings:
-    PAL_TYPE_ENUMS = {
-        "Tilesets": PaletteType.TILESETS,
-        "Enemies": PaletteType.ENEMIES,
-        "Samus": PaletteType.SAMUS,
-        "Beams": PaletteType.BEAMS,
-    }
-
     def __init__(
         self,
         seed: int,
         pal_types: dict[PaletteType, HueRange],
-        color_space: SchemaPalettesColorspace,
+        color_space: SchemaPalettesColorSpace,
         symmetric: bool,
         extra_variation: bool,
     ):
         self.seed = seed
         self.pal_types = pal_types
-        self.color_space: SchemaPalettesColorspace = color_space
+        self.color_space: SchemaPalettesColorSpace = color_space
         self.symmetric = symmetric
         self.extra_variation = extra_variation
 
     @classmethod
     def from_json(cls, data: SchemaPalettes) -> Self:
-        seed = data.get("Seed", random.randint(0, 2**31 - 1))
+        seed = data.get("seed", random.randint(0, 2**31 - 1))
         random.seed(seed)
         pal_types = {}
-        for type_name, hue_data in data["Randomize"].items():
-            pal_type = cls.PAL_TYPE_ENUMS[type_name]
+        for type_name, hue_data in data["randomize"].items():
+            pal_type = PaletteType[type_name]
             hue_range = cls.get_hue_range(hue_data)
             pal_types[pal_type] = hue_range
-        color_space = data.get("ColorSpace", "Oklab")
-        symmetric = data.get("Symmetric", True)
+        color_space = data.get("color_space", "OKLAB")
+        symmetric = data.get("symmetric", True)
         # Extra variation is always enabled. This could be passed via JSON instead.
         return cls(seed, pal_types, color_space, symmetric, True)
 
     @classmethod
     def get_hue_range(cls, data: SchemaPalettesRandomize) -> HueRange:
-        hue_min = data.get("HueMin")
-        hue_max = data.get("HueMax")
+        hue_min = data.get("hue_min")
+        hue_max = data.get("hue_max")
         if hue_min is None or hue_max is None:
             if hue_max is not None:
                 hue_min = random.randint(0, hue_max)
@@ -109,7 +102,7 @@ class PaletteRandomizer:
         self.settings = settings
         if settings.color_space == "HSV":
             self.change_func = self.change_palette_hsv
-        elif settings.color_space == "Oklab":
+        elif settings.color_space == "OKLAB":
             self.change_func = self.change_palette_oklab
         else:
             raise ValueError(f"Invalid color space '{settings.color_space}' for color space!")

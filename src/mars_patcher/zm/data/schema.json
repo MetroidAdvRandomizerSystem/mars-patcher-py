@@ -31,7 +31,7 @@
                             "item_sprite": {
                                 "$ref": "#/$defs/valid_item_sprites"
                             },
-                            "ItemMessages": {
+                            "item_messages": {
                                 "$ref": "#/$defs/item_messages"
                             },
                             "jingle": {
@@ -79,7 +79,7 @@
                             "item_sprite": {
                                 "$ref": "#/$defs/valid_item_sprites"
                             },
-                            "ItemMessages": {
+                            "item_messages": {
                                 "$ref": "#/$defs/item_messages"
                             },
                             "jingle": {
@@ -328,37 +328,37 @@
                 ]
             }
         },
-        "Palettes": {
+        "palettes": {
             "type": "object",
             "description": "Properties for randomized in-game palettes.",
             "properties": {
-                "Seed": {
+                "seed": {
                     "$ref": "#/$defs/seed",
                     "description": "A number used to initialize the random number generator for palettes. If not specified, the patcher will randomly generate one.",
                     "default": null
                 },
-                "Randomize": {
+                "randomize": {
                     "type": "object",
                     "description": "What kind of palettes should be randomized.",
                     "propertyNames": {
                         "type": "string",
                         "enum": [
-                            "Tilesets",
-                            "Enemies",
-                            "Samus",
-                            "Beams"
+                            "TILESETS",
+                            "ENEMIES",
+                            "SAMUS",
+                            "BEAMS"
                         ]
                     },
                     "additionalProperties": {
                         "type": "object",
                         "description": "The range to use for rotating palette hues.",
                         "properties": {
-                            "HueMin": {
+                            "hue_min": {
                                 "$ref": "#/$defs/hue_rotation",
                                 "description": "The minimum value to use for rotating palette hues. If not specified, the patcher will randomly generate one.",
                                 "default": null
                             },
-                            "HueMax": {
+                            "hue_max": {
                                 "$ref": "#/$defs/hue_rotation",
                                 "description": "The maximum value to use for rotating palette hues. If not specified, the patcher will randomly generate one.",
                                 "default": null
@@ -367,16 +367,16 @@
                         "additionalProperties": false
                     }
                 },
-                "ColorSpace": {
+                "color_space": {
                     "type": "string",
                     "description": "The color space to use for rotating palette hues.",
                     "enum": [
                         "HSV",
-                        "Oklab"
+                        "OKLAB"
                     ],
-                    "default": "Oklab"
+                    "default": "OKLAB"
                 },
-                "Symmetric": {
+                "symmetric": {
                     "type": "boolean",
                     "description": "Randomly rotates hues in the positive or negative direction true.",
                     "default": true
@@ -384,13 +384,13 @@
             },
             "additionalProperties": false,
             "required": [
-                "Randomize"
+                "randomize"
             ],
             "default": null
         },
-        "MusicReplacement": {
+        "music_replacement": {
             "description": "Shuffles the in-game music.",
-            "$ref": "#/$defs/MusicMapping"
+            "$ref": "#/$defs/music_mapping"
         },
         "intro_text": {
             "type": "object",
@@ -457,12 +457,12 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "Text": {
+                    "text": {
                         "type": "string",
                         "description": "The ASCII text for this line",
                         "pattern": "^[ -~]{0,30}$"
                     },
-                    "LineNum": {
+                    "line_num": {
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 20
@@ -477,35 +477,35 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "LineType": {
+                    "line_type": {
                         "type": "string",
                         "description": "The color and line height of the text (or blank).",
                         "enum": [
-                            "Blank",
-                            "Blue",
-                            "Red",
-                            "White1",
-                            "White2"
+                            "BLANK",
+                            "BLUE",
+                            "RED",
+                            "WHITE",
+                            "WHITE_BIG"
                         ]
                     },
-                    "Text": {
+                    "text": {
                         "type": "string",
                         "description": "The ASCII text for this line.",
                         "pattern": "^[ -~]{0,34}$"
                     },
-                    "BlankLines": {
+                    "blank_lines": {
                         "$ref": "#/$defs/type_u8",
                         "description": "Inserts the provided number of blank lines after the text line.",
                         "default": 0
                     },
-                    "Centered": {
+                    "centered": {
                         "type": "boolean",
                         "description": "Centers the text horizontally when true.",
                         "default": true
                     }
                 },
                 "required": [
-                    "LineType"
+                    "line_type"
                 ]
             }
         },
@@ -623,31 +623,31 @@
             "description": "When enabled, hides doors on the minimap. This is automatically enabled when the 'DoorLocks' field is provided.",
             "default": false
         },
-        "RoomNames": {
+        "room_names": {
             "type": "array",
             "description": "Specifies a name to be displayed when the A Button is pressed on the pause menu.",
             "uniqueItems": true,
             "items": {
                 "type": "object",
                 "properties": {
-                    "Area": {
+                    "area": {
                         "$ref": "#/$defs/area_id",
                         "description": "The area ID where this room is located."
                     },
-                    "Room": {
+                    "room": {
                         "$ref": "#/$defs/type_u8",
                         "description": "The room ID."
                     },
-                    "Name": {
+                    "name": {
                         "type": "string",
                         "description": "Specifies what text should appear for this room. Two lines are available, with an absolute maximum of 112 characters per line, if all characters used are small. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated. Use \n to force a line break. If not provided, will display 'Room name not provided'.",
                         "maxLength": 224
                     }
                 },
                 "required": [
-                    "Area",
-                    "Room",
-                    "Name"
+                    "area",
+                    "room",
+                    "name"
                 ]
             }
         },
@@ -861,16 +861,16 @@
             "type": "string",
             "description": "Valid languages supported by the game.",
             "enum": [
-                "JapaneseKanji",
-                "JapaneseHiragana",
-                "English",
-                "German",
-                "French",
-                "Italian",
-                "Spanish"
+                "JAPANESE_KANJI",
+                "JAPANESE_HIRAGANA",
+                "ENGLISH",
+                "GERMAN",
+                "FRENCH",
+                "ITALIAN",
+                "SPANISH"
             ]
         },
-        "ValidMusicTracks": {
+        "valid_music_tracks": {
             "type": "string",
             "description": "Valid music tracks supported by the game.",
             "enum": [
@@ -938,14 +938,14 @@
                 "STEALTH_2"
             ]
         },
-        "MusicMapping": {
+        "music_mapping": {
             "description": "Maps music tracks to each other",
             "type": "object",
             "propertyNames": {
-                "$ref": "#/$defs/ValidMusicTracks"
+                "$ref": "#/$defs/valid_music_tracks"
             },
             "additionalProperties": {
-                "$ref": "#/$defs/ValidMusicTracks"
+                "$ref": "#/$defs/valid_music_tracks"
             }
         },
         "message_languages": {
@@ -954,7 +954,7 @@
                 "$ref": "#/$defs/valid_languages"
             },
             "required": [
-                "English"
+                "ENGLISH"
             ],
             "additionalProperties": {
                 "type": "string",
@@ -964,44 +964,44 @@
         "item_messages": {
             "type": "object",
             "properties": {
-                "Kind": {
+                "kind": {
                     "$ref": "#/$defs/item_messages_kind"
                 }
             },
             "required": [
-                "Kind"
+                "kind"
             ],
             "if": {
                 "properties": {
-                    "Kind": {
-                        "const": "CustomMessage"
+                    "kind": {
+                        "const": "CUSTOM_MESSAGE"
                     }
                 }
             },
             "then": {
                 "properties": {
-                    "Kind": {
+                    "kind": {
                         "$ref": "#/$defs/item_messages_kind"
                     },
-                    "Languages": {
+                    "languages": {
                         "$ref": "#/$defs/message_languages"
                     },
-                    "Centered": {
+                    "centered": {
                         "type": "boolean",
                         "default": true
                     }
                 },
                 "required": [
-                    "Languages"
+                    "languages"
                 ],
                 "additionalProperties": false
             },
             "else": {
                 "properties": {
-                    "Kind": {
+                    "kind": {
                         "$ref": "#/$defs/item_messages_kind"
                     },
-                    "MessageID": {
+                    "message_id": {
                         "type": "integer",
                         "minimum": 0,
                         "maximum": 56,
@@ -1009,7 +1009,7 @@
                     }
                 },
                 "required": [
-                    "MessageID"
+                    "message_id"
                 ],
                 "additionalProperties": false
             }
@@ -1017,8 +1017,8 @@
         "item_messages_kind": {
             "type": "string",
             "enum": [
-                "CustomMessage",
-                "MessageID"
+                "CUSTOM_MESSAGE",
+                "MESSAGE_ID"
             ]
         },
         "jingle": {
