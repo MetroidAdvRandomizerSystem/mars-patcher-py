@@ -201,5 +201,5 @@ class LocationSettings:
         else:
             loc_obj.hinted_by = HintLocation.NONE
 
-        if "ItemMessages" in loc_entry:
-            loc_obj.item_messages = ItemMessages.from_json(loc_entry["ItemMessages"])
+        if "item_messages" in loc_entry:
+            loc_obj.item_messages = ItemMessages.from_json(loc_entry["item_messages"])
