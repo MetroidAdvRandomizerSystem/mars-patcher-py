@@ -49,8 +49,10 @@ def find_door_in_room(rom: Rom, area: int, room: int) -> int:
         if rom.read_8(door_addr) == 0:
             break
         if rom.read_8(door_addr + 1) == room:
-            door = d
-            break
+            # Don't use door 0 in Crateria
+            if not (area == 5 and d == 0):
+                door = d
+                break
         door_addr += 0xC
     if door is None:
         raise ValueError(f"No door found for area {area} room {room:X}")
