@@ -4,7 +4,7 @@ from mars_patcher.constants.game_data import title_text_addr
 from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.rom import Rom
 
-TitleTextItem = mf_types.MarsschemamfTitletextItem | zm_types.MarsschemazmTitleTextItem
+TitleTextItem = mf_types.MarsschemamfTitleTextItem | zm_types.MarsschemazmTitleTextItem
 
 TITLE_TEXT_POINTER_ADDR = ReservedPointersMF.TITLE_SCREEN_TEXT_POINTERS_POINTER_ADDR.value
 MAX_LENGTH = 30
@@ -16,12 +16,12 @@ def write_title_text(rom: Rom, lines: list[TitleTextItem]) -> None:
     line_ptrs = title_text_addr(rom)
 
     for line in lines:
-        line_num = line["LineNum"]
+        line_num = line["line_num"]
         if line_num in seen_lines:
             raise ValueError(f"Title screen text line {line_num} already provided")
         seen_lines.add(line_num)
 
-        text = line["Text"]
+        text = line["text"]
         if len(text) > MAX_LENGTH:
             raise ValueError(f'Title screen text line exceeds {MAX_LENGTH} characters\n"{text}"')
 

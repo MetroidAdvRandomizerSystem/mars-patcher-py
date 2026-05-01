@@ -3,26 +3,17 @@ from mars_patcher.constants.credits import (
     TEXT_LINE_TYPES,
     LineType,
 )
-from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
+from mars_patcher.mf.auto_generated_types import MarsschemamfCreditsTextItem
 from mars_patcher.rom import Rom
 from mars_patcher.zm.auto_generated_types import MarsschemazmCreditsTextItem
 
-CreditsTextItem = MarsschemamfCreditstextItem | MarsschemazmCreditsTextItem
+CreditsTextItem = MarsschemamfCreditsTextItem | MarsschemazmCreditsTextItem
 
 FULL_LINE_LEN = 36
 LINE_WIDTH = 30
 
 
 class CreditsLine:
-    # TODO: Use enum names in schema
-    LINE_TYPE_ENUMS = {
-        "Blank": LineType.BLANK,
-        "Blue": LineType.BLUE,
-        "Red": LineType.RED,
-        "White1": LineType.WHITE,
-        "White2": LineType.WHITE_BIG,
-    }
-
     def __init__(
         self,
         line_type: LineType,
@@ -37,10 +28,10 @@ class CreditsLine:
 
     @classmethod
     def from_json(cls, data: CreditsTextItem) -> "CreditsLine":
-        line_type = cls.LINE_TYPE_ENUMS[data["LineType"]]
-        blank_lines = data.get("BlankLines", 0)
-        text = data.get("Text")
-        centered = data.get("Centered", True)
+        line_type = LineType[data["line_type"]]
+        blank_lines = data.get("blank_lines", 0)
+        text = data.get("text")
+        centered = data.get("centered", True)
         return CreditsLine(line_type, blank_lines, text, centered)
 
 

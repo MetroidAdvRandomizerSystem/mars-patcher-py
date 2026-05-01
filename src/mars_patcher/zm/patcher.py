@@ -46,9 +46,9 @@ def patch_zm(
 
     # Randomize palettes - palettes are randomized first since the item
     # patcher needs to copy tilesets
-    if "Palettes" in patch_data:
+    if "palettes" in patch_data:
         status_update("Randomizing palettes...", -1)
-        pal_settings = PaletteSettings.from_json(patch_data["Palettes"])
+        pal_settings = PaletteSettings.from_json(patch_data["palettes"])
         pal_randomizer = PaletteRandomizer(rom, pal_settings)
         pal_randomizer.randomize()
 
@@ -60,9 +60,9 @@ def patch_zm(
     item_patcher.write_items()
 
     # Music
-    if "MusicReplacement" in patch_data:
+    if "music_replacement" in patch_data:
         status_update("Writing music...", -1)
-        set_sounds(rom, patch_data["MusicReplacement"])
+        set_sounds(rom, patch_data["music_replacement"])
 
     # Starting location
     if "starting_location" in patch_data:
@@ -81,13 +81,13 @@ def patch_zm(
 
     # Elevator connections
     # conns = None
-    # if "ElevatorConnections" in patch_data:
+    # if "elevator_connections" in patch_data:
     #     status_update("Writing elevator connections...", -1)
     #     conns = Connections(rom)
-    #     conns.set_elevator_connections(patch_data["ElevatorConnections"])
+    #     conns.set_elevator_connections(patch_data["elevator_connections"])
 
     # Room Names
-    if room_names := patch_data.get("RoomNames", []):
+    if room_names := patch_data.get("room_names", []):
         status_update("Writing room names...", -1)
         write_room_names(rom, room_names)
 
@@ -119,27 +119,27 @@ def patch_zm(
     if patch_data.get("disable_sound_effects"):
         disable_sound_effects(rom)
 
-    # if patch_data.get("UnexploredMap"):
+    # if patch_data.get("unexplored_map"):
     #     apply_unexplored_map(rom)
 
-    #     if not patch_data.get("HideDoorsOnMinimap", False):
+    #     if not patch_data.get("hide_doors_on_minimap", False):
     #         apply_reveal_unexplored_doors(rom)
 
-    # if patch_data.get("RevealHiddenTiles"):
+    # if patch_data.get("reveal_hidden_tiles"):
     #     apply_reveal_hidden_tiles(rom)
 
-    # if "LevelEdits" in patch_data:
-    #     apply_level_edits(rom, patch_data["LevelEdits"])
+    # if "level_edits" in patch_data:
+    #     apply_level_edits(rom, patch_data["level_edits"])
 
     # Apply base minimap edits
     # apply_base_minimap_edits(rom)
 
     # Apply JSON minimap edits
-    # if "MinimapEdits" in patch_data:
-    #     apply_minimap_edits(rom, patch_data["MinimapEdits"])
+    # if "minimap_edits" in patch_data:
+    #     apply_minimap_edits(rom, patch_data["minimap_edits"])
 
     # Door locks
-    # if door_locks := patch_data.get("DoorLocks", []):
+    # if door_locks := patch_data.get("door_locks", []):
     #     status_update("Writing door locks...", -1)
     #     set_door_locks(rom, door_locks)
 

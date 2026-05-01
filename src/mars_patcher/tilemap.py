@@ -114,10 +114,10 @@ def apply_minimap_edits(rom: Rom, edit_dict: dict) -> None:
         with Tilemap.from_minimap(rom, int(map_id)) as minimap:
             for change in changes:
                 minimap.set_tile_value(
-                    change["X"],
-                    change["Y"],
-                    change["Tile"],
-                    change["Palette"],
-                    change.get("HFlip", False),
-                    change.get("VFlip", False),
+                    change["x"],
+                    change["y"],
+                    change["tile"],
+                    change["palette"],
+                    change.get("h_flip", False),
+                    change.get("v_flip", False),
                 )

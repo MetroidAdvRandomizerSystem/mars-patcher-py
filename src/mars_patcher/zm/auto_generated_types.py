@@ -146,15 +146,15 @@ ValidElevatorBottoms = typ.Literal[
     'TOURIAN_TO_CRATERIA'
 ]
 ValidLanguages = typ.Literal[
-    'JapaneseKanji',
-    'JapaneseHiragana',
-    'English',
-    'German',
-    'French',
-    'Italian',
-    'Spanish'
+    'JAPANESE_KANJI',
+    'JAPANESE_HIRAGANA',
+    'ENGLISH',
+    'GERMAN',
+    'FRENCH',
+    'ITALIAN',
+    'SPANISH'
 ]
-Validmusictracks = typ.Literal[
+ValidMusicTracks = typ.Literal[
     'BRINSTAR',
     'TITLE_SCREEN',
     'SAVE_ELEVATOR_ROOM',
@@ -218,19 +218,19 @@ Validmusictracks = typ.Literal[
     'BEFORE_RUINS_TEST_ROOM',
     'STEALTH_2'
 ]
-Musicmapping: typ.TypeAlias = dict[Validmusictracks, Validmusictracks]
+MusicMapping: typ.TypeAlias = dict[ValidMusicTracks, ValidMusicTracks]
 MessageLanguages: typ.TypeAlias = dict[ValidLanguages, str]
 
 class ItemMessages(typ.TypedDict, total=False):
-    Kind: typ.Required[ItemMessagesKind]
-    Languages: MessageLanguages
-    Centered: bool = True
-    MessageID: typ.Annotated[int, '0 <= value <= 56']
+    kind: typ.Required[ItemMessagesKind]
+    languages: MessageLanguages
+    centered: bool = True
+    message_id: typ.Annotated[int, '0 <= value <= 56']
     """The Message ID, will display one of the predefined messages in the ROM"""
 
 ItemMessagesKind = typ.Literal[
-    'CustomMessage',
-    'MessageID'
+    'CUSTOM_MESSAGE',
+    'MESSAGE_ID'
 ]
 Jingle = typ.Literal[
     'DEFAULT',
@@ -275,7 +275,7 @@ class MarsschemazmLocationsMajorLocationsItem(typ.TypedDict, total=False):
     item_sprite: ValidItemSprites
     """Valid graphics for item tanks/sprites."""
 
-    ItemMessages: ItemMessages
+    item_messages: ItemMessages
     jingle: Jingle
     """The sound that plays when an item is collected"""
 
@@ -302,7 +302,7 @@ class MarsschemazmLocationsMinorLocationsItem(typ.TypedDict):
     item_sprite: typ.NotRequired[ValidItemSprites]
     """Valid graphics for item tanks/sprites."""
 
-    ItemMessages: typ.NotRequired[ItemMessages]
+    item_messages: typ.NotRequired[ItemMessages]
     jingle: typ.NotRequired[Jingle]
     """The sound that plays when an item is collected"""
 
@@ -421,42 +421,42 @@ class MarsschemazmDoorLocksItem(typ.TypedDict):
     """The type of cover on the hatch."""
 
 MarsschemazmPalettesRandomizeKey = typ.Literal[
-    'Tilesets',
-    'Enemies',
-    'Samus',
-    'Beams'
+    'TILESETS',
+    'ENEMIES',
+    'SAMUS',
+    'BEAMS'
 ]
 
 @typ.final
 class MarsschemazmPalettesRandomize(typ.TypedDict, total=False):
     """The range to use for rotating palette hues."""
 
-    HueMin: HueRotation = None
+    hue_min: HueRotation = None
     """The minimum value to use for rotating palette hues. If not specified, the patcher will randomly generate one."""
 
-    HueMax: HueRotation = None
+    hue_max: HueRotation = None
     """The maximum value to use for rotating palette hues. If not specified, the patcher will randomly generate one."""
 
 
-MarsschemazmPalettesColorspace = typ.Literal[
+MarsschemazmPalettesColorSpace = typ.Literal[
     'HSV',
-    'Oklab'
+    'OKLAB'
 ]
 
 @typ.final
 class MarsschemazmPalettes(typ.TypedDict, total=False):
     """Properties for randomized in-game palettes."""
 
-    Seed: Seed = None
+    seed: Seed = None
     """A number used to initialize the random number generator for palettes. If not specified, the patcher will randomly generate one."""
 
-    Randomize: typ.Required[dict[MarsschemazmPalettesRandomizeKey, MarsschemazmPalettesRandomize]]
+    randomize: typ.Required[dict[MarsschemazmPalettesRandomizeKey, MarsschemazmPalettesRandomize]]
     """What kind of palettes should be randomized."""
 
-    ColorSpace: MarsschemazmPalettesColorspace = 'Oklab'
+    color_space: MarsschemazmPalettesColorSpace = 'OKLAB'
     """The color space to use for rotating palette hues."""
 
-    Symmetric: bool = True
+    symmetric: bool = True
     """Randomly rotates hues in the positive or negative direction true."""
 
 
@@ -491,29 +491,29 @@ class MarsschemazmHintText(typ.TypedDict, total=False):
 
 
 class MarsschemazmTitleTextItem(typ.TypedDict, total=False):
-    Text: typ.Annotated[str, '/^[ -~]{0,30}$/']
+    text: typ.Annotated[str, '/^[ -~]{0,30}$/']
     """The ASCII text for this line"""
 
-    LineNum: typ.Annotated[int, '0 <= value <= 20']
-MarsschemazmCreditsTextItemLinetype = typ.Literal[
-    'Blank',
-    'Blue',
-    'Red',
-    'White1',
-    'White2'
+    line_num: typ.Annotated[int, '0 <= value <= 20']
+MarsschemazmCreditsTextItemLineType = typ.Literal[
+    'BLANK',
+    'BLUE',
+    'RED',
+    'WHITE',
+    'WHITE_BIG'
 ]
 
 class MarsschemazmCreditsTextItem(typ.TypedDict, total=False):
-    LineType: typ.Required[MarsschemazmCreditsTextItemLinetype]
+    line_type: typ.Required[MarsschemazmCreditsTextItemLineType]
     """The color and line height of the text (or blank)."""
 
-    Text: typ.Annotated[str, '/^[ -~]{0,34}$/']
+    text: typ.Annotated[str, '/^[ -~]{0,34}$/']
     """The ASCII text for this line."""
 
-    BlankLines: TypeU8 = 0
+    blank_lines: TypeU8 = 0
     """Inserts the provided number of blank lines after the text line."""
 
-    Centered: bool = True
+    centered: bool = True
     """Centers the text horizontally when true."""
 
 
@@ -554,14 +554,14 @@ class MarsschemazmMinimapEditsItem(typ.TypedDict, total=False):
 
 
 
-class MarsschemazmRoomnamesItem(typ.TypedDict):
-    Area: AreaId
+class MarsschemazmRoomNamesItem(typ.TypedDict):
+    area: AreaId
     """The area ID where this room is located."""
 
-    Room: TypeU8 = 0
+    room: TypeU8 = 0
     """The room ID."""
 
-    Name: typ.Annotated[str, 'len() <= 224']
+    name: typ.Annotated[str, 'len() <= 224']
     """Specifies what text should appear for this room. Two lines are available, with an absolute maximum of 112 characters per line, if all characters used are small. Text will auto-wrap if the next word doesn't fit on the line. If the text is too long, it will be truncated. Use 
  to force a line break. If not provided, will display 'Room name not provided'."""
 
@@ -592,10 +592,10 @@ class Marsschemazm(typ.TypedDict, total=False):
     door_locks: list[MarsschemazmDoorLocksItem]
     """List of all lockable doors and their lock type."""
 
-    Palettes: MarsschemazmPalettes = None
+    palettes: MarsschemazmPalettes = None
     """Properties for randomized in-game palettes."""
 
-    MusicReplacement: Musicmapping
+    music_replacement: MusicMapping
     """Shuffles the in-game music."""
 
     intro_text: dict[ValidLanguages, str] = None
@@ -640,7 +640,7 @@ class Marsschemazm(typ.TypedDict, total=False):
     hide_doors_on_minimap: bool = False
     """When enabled, hides doors on the minimap. This is automatically enabled when the 'DoorLocks' field is provided."""
 
-    RoomNames: typ.Annotated[list[MarsschemazmRoomnamesItem], 'Unique items']
+    room_names: typ.Annotated[list[MarsschemazmRoomNamesItem], 'Unique items']
     """Specifies a name to be displayed when the A Button is pressed on the pause menu."""
 
     reveal_hidden_tiles: bool = False

@@ -21,20 +21,9 @@ class HintStatue(IntEnum):
     VARIA_SUIT = auto()
 
 
-LANG_ENUMS = {
-    "JapaneseKanji": Language.JAPANESE_KANJI,
-    "JapaneseHiragana": Language.JAPANESE_HIRAGANA,
-    "English": Language.ENGLISH,
-    "German": Language.GERMAN,
-    "French": Language.FRENCH,
-    "Italian": Language.ITALIAN,
-    "Spanish": Language.SPANISH,
-}
-
-
 def write_intro_text(rom: Rom, data: dict) -> None:
     for lang, text in data.items():
-        lang = LANG_ENUMS[lang]
+        lang = Language[lang]
         base_text_addr = rom.read_ptr(story_text_addr(rom) + lang.value * 4)
         text_ptr = base_text_addr + INTRO_TEXT_ID * 4
         encoded_text = encode_text(rom, MessageType.CONTINUOUS, text)
@@ -43,7 +32,7 @@ def write_intro_text(rom: Rom, data: dict) -> None:
 
 def write_hint_text(rom: Rom, data: dict) -> None:
     for lang, hints in data.items():
-        lang = LANG_ENUMS[lang]
+        lang = Language[lang]
         base_text_addr = rom.read_ptr(message_text_addr(rom) + lang.value * 4)
         for hint, text in hints.items():
             hint = HintStatue[hint]

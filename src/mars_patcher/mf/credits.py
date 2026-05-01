@@ -1,5 +1,5 @@
 from mars_patcher.credits import CreditsLine, CreditsWriter
-from mars_patcher.mf.auto_generated_types import MarsschemamfCreditstextItem
+from mars_patcher.mf.auto_generated_types import MarsschemamfCreditsTextItem
 from mars_patcher.mf.constants.credits_lines import (
     FUSION_STAFF_LINES,
     MARS_CREDITS,
@@ -11,7 +11,7 @@ CREDITS_ADDR = 0x74B0B0
 CREDITS_LEN = 0x2B98
 
 
-def write_credits(rom: Rom, data: list[MarsschemamfCreditstextItem]) -> None:
+def write_credits(rom: Rom, data: list[MarsschemamfCreditsTextItem]) -> None:
     writer = CreditsWriter(rom)
 
     # Write MARS credits

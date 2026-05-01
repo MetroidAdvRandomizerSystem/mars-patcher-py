@@ -7,7 +7,7 @@ from mars_patcher.common_types import AreaId, AreaRoomPair
 from mars_patcher.constants.door_types import DoorType
 from mars_patcher.constants.game_data import area_doors_ptrs, minimap_graphics
 from mars_patcher.constants.minimap_tiles import ColoredDoor, Content, Edge
-from mars_patcher.mf.auto_generated_types import MarsschemamfDoorlocksItem
+from mars_patcher.mf.auto_generated_types import MarsschemamfDoorLocksItem
 from mars_patcher.mf.constants.game_data import hatch_lock_event_count, hatch_lock_events
 from mars_patcher.mf.constants.minimap_tiles import (
     ALL_DOOR_TILE_IDS,
@@ -30,16 +30,6 @@ class HatchLock(Enum):
     LEVEL_4 = 5
     LOCKED = 6
 
-
-HATCH_LOCK_ENUMS = {
-    "Open": HatchLock.OPEN,
-    "Level0": HatchLock.LEVEL_0,
-    "Level1": HatchLock.LEVEL_1,
-    "Level2": HatchLock.LEVEL_2,
-    "Level3": HatchLock.LEVEL_3,
-    "Level4": HatchLock.LEVEL_4,
-    "Locked": HatchLock.LOCKED,
-}
 
 BG1_VALUES = {
     HatchLock.OPEN: 0x4,
@@ -98,7 +88,7 @@ class MinimapLockChanges(TypedDict, total=False):
 # TODO:
 # - Optimize by only loading rooms that contain doors to modify
 # - Split into more than one function for readability
-def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
+def set_door_locks(rom: Rom, data: list[MarsschemamfDoorLocksItem]) -> None:
     door_locks = parse_door_lock_data(data)
 
     # Go through all doors in game in order
@@ -262,12 +252,12 @@ def set_door_locks(rom: Rom, data: list[MarsschemamfDoorlocksItem]) -> None:
     change_minimap_tiles(rom, minimap_changes)
 
 
-def parse_door_lock_data(data: list[MarsschemamfDoorlocksItem]) -> dict[AreaRoomPair, HatchLock]:
+def parse_door_lock_data(data: list[MarsschemamfDoorLocksItem]) -> dict[AreaRoomPair, HatchLock]:
     """Returns a dictionary of `(AreaID, RoomID): HatchLock` from the input data."""
     door_locks: dict[AreaRoomPair, HatchLock] = {}
     for entry in data:
-        area_door = (entry["Area"], entry["Door"])
-        lock = HATCH_LOCK_ENUMS[entry["LockType"]]
+        area_door = (entry["area"], entry["door"])
+        lock = HatchLock[entry["lock_type"]]
         door_locks[area_door] = lock
     return door_locks
 

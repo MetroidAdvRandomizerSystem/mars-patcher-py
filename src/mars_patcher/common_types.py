@@ -3,13 +3,17 @@ from typing import Annotated, TypeAlias
 import mars_patcher.mf.auto_generated_types as types_mf
 import mars_patcher.zm.auto_generated_types as types_zm
 
-TypeU8: TypeAlias = types_mf.Typeu8 | types_zm.TypeU8
+TypeU8: TypeAlias = types_mf.TypeU8 | types_zm.TypeU8
 
-AreaId: TypeAlias = types_mf.Areaid | types_zm.AreaId
+AreaId: TypeAlias = types_mf.AreaId | types_zm.AreaId
 RoomId: TypeAlias = TypeU8
 
 AreaRoomPair = tuple[AreaId, RoomId]
 
 MinimapId: TypeAlias = Annotated[int, "0 <= value < 10"]
 
-MusicMapping: TypeAlias = types_mf.Musicmapping | types_zm.Musicmapping
+RoomNamesItem: TypeAlias = types_mf.MarsschemamfRoomNamesItem | types_zm.MarsschemazmRoomNamesItem
+
+ItemMessagesType: TypeAlias = types_mf.ItemMessages | types_zm.ItemMessages
+
+MusicMapping: TypeAlias = types_mf.MusicMapping | types_zm.MusicMapping

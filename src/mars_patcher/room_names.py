@@ -1,12 +1,7 @@
-import mars_patcher.mf.auto_generated_types as mf_types
-import mars_patcher.zm.auto_generated_types as zm_types
+from mars_patcher.common_types import AreaId, RoomNamesItem, TypeU8
 from mars_patcher.constants.game_data import room_names_addr
 from mars_patcher.rom import Rom
 from mars_patcher.text import MAX_LINE_WIDTH, MessageType, encode_text
-
-AreaId = mf_types.Areaid | zm_types.AreaId
-RoomNamesItem = mf_types.MarsschemamfRoomnamesItem | zm_types.MarsschemazmRoomnamesItem
-TypeU8 = mf_types.Typeu8 | zm_types.TypeU8
 
 
 # ROM has:
@@ -22,9 +17,9 @@ def write_room_names(rom: Rom, data: list[RoomNamesItem]) -> None:
     seen_rooms: set[tuple[AreaId, TypeU8]] = set()
 
     for room_name_entry in data:
-        area_id = room_name_entry["Area"]
-        room_id = room_name_entry["Room"]
-        room_name = room_name_entry["Name"]
+        area_id = room_name_entry["area"]
+        room_id = room_name_entry["room"]
+        room_name = room_name_entry["name"]
 
         # Check that the room wasn't already set
         assert (area_id, room_id) not in seen_rooms, "Duplicate room name provided."
