@@ -157,9 +157,9 @@ PALETTE_NAMES = {
     ItemSprite.SUPER_MISSILE_TANK: "tank",
     ItemSprite.POWER_BOMB_TANK: "tank",
     ItemSprite.EMPTY: "tank",
-    ItemSprite.MAIN_MISSILES: "grayscale",  # TODO: Unique palette
-    ItemSprite.MAIN_SUPER_MISSILES: "grayscale",  # TODO: Unique palette
-    ItemSprite.MAIN_POWER_BOMBS: "grayscale",  # TODO: Unique palette
+    ItemSprite.MAIN_MISSILES: "tank",
+    ItemSprite.MAIN_SUPER_MISSILES: "tank",
+    ItemSprite.MAIN_POWER_BOMBS: "tank",
     ItemSprite.LONG_BEAM: "long_beam",
     ItemSprite.CHARGE_BEAM: "charge_beam",
     ItemSprite.ICE_BEAM: "ice_beam",
@@ -174,9 +174,9 @@ PALETTE_NAMES = {
     ItemSprite.SCREW_ATTACK: "screw_attack",
     ItemSprite.SPACE_JUMP: "space_jump",
     ItemSprite.POWER_GRIP: "power_grip",
-    ItemSprite.FULLY_POWERED: "grayscale",  # TODO: Unique palette
-    ItemSprite.ZIPLINES: "ziplines",
-    ItemSprite.ANONYMOUS: "grayscale",  # TODO: Unique palette
+    # ItemSprite.FULLY_POWERED: "grayscale",  # Unused
+    ItemSprite.ZIPLINES: "tank",
+    ItemSprite.ANONYMOUS: "tank",
     # TODO: Add shiny_tank palette
     # ItemSprite.SHINY_MISSILE_TANK: "shiny_tank",
     # ItemSprite.SHINY_POWER_BOMB_TANK: "shiny_tank",
