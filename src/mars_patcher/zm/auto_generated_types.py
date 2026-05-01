@@ -625,6 +625,12 @@ class Marsschemazm(typ.TypedDict, total=False):
     disable_sound_effects: bool = False
     """Disables all sound effects when true."""
 
+    remove_cutscenes: bool = False
+    """Removes most cutscenes from the game."""
+
+    fast_item_grab: bool = False
+    """Skips opening the status screen when an item is obtained."""
+
     unexplored_map: bool = False
     """When enabled, starts you with a map where all unexplored items and non-visited tiles have a gray background. This is different from the downloaded map stations where there, the full tile is gray."""
 

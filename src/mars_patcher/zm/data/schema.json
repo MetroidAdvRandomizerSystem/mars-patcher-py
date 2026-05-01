@@ -534,6 +534,16 @@
             "description": "Disables all sound effects when true.",
             "default": false
         },
+        "remove_cutscenes": {
+            "type": "boolean",
+            "description": "Removes most cutscenes from the game.",
+            "default": false
+        },
+        "fast_item_grab": {
+            "type": "boolean",
+            "description": "Skips opening the status screen when an item is obtained.",
+            "default": false
+        },
         "unexplored_map": {
             "type": "boolean",
             "description": "When enabled, starts you with a map where all unexplored items and non-visited tiles have a gray background. This is different from the downloaded map stations where there, the full tile is gray.",

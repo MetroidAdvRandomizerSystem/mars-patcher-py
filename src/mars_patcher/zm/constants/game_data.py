@@ -66,6 +66,10 @@ def remove_cutscenes_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.REMOVE_CUTSCENES_PTR.value)
 
 
+def fast_item_grab_addr(rom: Rom) -> int:
+    return rom.read_ptr(ReservedPointersZM.FAST_ITEM_GRAB_PTR.value)
+
+
 def skip_suitless_sequence_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.SKIP_SUITLESS_SEQUENCE_PTR.value)
 

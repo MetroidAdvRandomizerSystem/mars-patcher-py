@@ -101,6 +101,7 @@ class ReservedPointersZM(IntEnum):
     DISABLE_MIDAIR_BOMB_JUMP_PTR = auto()
     DISABLE_WALLJUMP_PTR = auto()
     REMOVE_CUTSCENES_PTR = auto()
+    FAST_ITEM_GRAB_PTR = auto()
     SKIP_SUITLESS_SEQUENCE_PTR = auto()
 
     def __new__(cls, offset: int) -> Self:

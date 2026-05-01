@@ -16,6 +16,8 @@ from mars_patcher.zm.locations import LocationSettings
 from mars_patcher.zm.misc_patches import (
     disable_music,
     disable_sound_effects,
+    fast_item_grab,
+    remove_cutscenes,
     skip_door_transitions,
     stereo_default,
 )
@@ -118,6 +120,12 @@ def patch_zm(
 
     if patch_data.get("disable_sound_effects"):
         disable_sound_effects(rom)
+
+    if patch_data.get("remove_cutscenes"):
+        remove_cutscenes(rom)
+
+    if patch_data.get("fast_item_grab"):
+        fast_item_grab(rom)
 
     # if patch_data.get("unexplored_map"):
     #     apply_unexplored_map(rom)

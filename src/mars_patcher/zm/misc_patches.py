@@ -1,6 +1,11 @@
 from mars_patcher.constants.game_data import sound_count, sound_data_entries
 from mars_patcher.rom import Rom
-from mars_patcher.zm.constants.game_data import default_stereo_addr, skip_door_transitions_addr
+from mars_patcher.zm.constants.game_data import (
+    default_stereo_addr,
+    fast_item_grab_addr,
+    remove_cutscenes_addr,
+    skip_door_transitions_addr,
+)
 
 # def _get_patch_path(rom: Rom, subfolder: str, filename: str) -> str:
 #     dir = f"{rom.game.name}_{rom.region.name}".lower()
@@ -44,6 +49,14 @@ def disable_music(rom: Rom) -> None:
 
 def disable_sound_effects(rom: Rom) -> None:
     disable_sounds(rom, 100, sound_count(rom))
+
+
+def remove_cutscenes(rom: Rom) -> None:
+    rom.write_8(remove_cutscenes_addr(rom), 1)
+
+
+def fast_item_grab(rom: Rom) -> None:
+    rom.write_8(fast_item_grab_addr(rom), 1)
 
 
 # def apply_unexplored_map(rom: Rom) -> None:
