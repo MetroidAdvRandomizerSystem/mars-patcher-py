@@ -166,9 +166,12 @@ class ItemPatcher:
                 rom.write_8(target_addr + 8, map_y)
 
         self.fix_caterpillar_room()
+        # Replace the graphics of the item the space pirate carries
+        pirate_loc = next((x for x in minor_locs if x.area == 6 and x.room == 0x2F), None)
+        if pirate_loc is not None:
+            self.replace_space_pirate_item(pirate_loc.actual_item_sprite)
 
         # Handle major locations
-        print("Handling majors...")
         major_locs_addr = major_locations_addr(rom)
         for maj_loc in self.settings.major_locs:
             self.write_major_location_graphics(maj_loc)
@@ -185,7 +188,6 @@ class ItemPatcher:
                 rom.write_8(target_addr + 6, maj_loc.area)
                 rom.write_8(target_addr + 7, maj_loc.map_x)
                 rom.write_8(target_addr + 8, maj_loc.map_y)
-        print("Done with majors")
 
     def create_graphics_for_minor_locations(
         self, minor_locs: list[MinorLocation]
@@ -491,6 +493,19 @@ class ItemPatcher:
         assert len(item_pal) == PAL_ROW_SIZE, "Item palette should be one row"
         addr = pal_addr + row * PAL_ROW_SIZE
         self.rom.write_bytes(addr, item_pal)
+
+    def replace_space_pirate_item(self, item_sprite: ItemSprite) -> None:
+        """Replaces the graphics of the power bomb sprite that the space pirate
+        carries in Chozodia."""
+        gfx_sprite_id = SpriteIdZM.FAKE_POWER_BOMB - 0x10
+        gfx_ptr = sprite_graphics_ptrs(self.rom) + gfx_sprite_id * 4
+        pal_ptr = sprite_palette_ptrs(self.rom) + gfx_sprite_id * 4
+        pal_addr = self.rom.read_ptr(pal_ptr)
+
+        item_gfx = get_sprite_graphics(item_sprite)
+        item_pal = get_sprite_palette(item_sprite)
+        self.replace_sprite_graphics([gfx_ptr], item_gfx, 0, 0)
+        self.replace_sprite_palette(pal_addr, item_pal, 0)
 
     def write_item_messages(
         self,
