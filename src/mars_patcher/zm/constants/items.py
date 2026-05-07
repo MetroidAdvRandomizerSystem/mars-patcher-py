@@ -84,6 +84,7 @@ class ItemSprite(IntEnum):
     ZIPLINES = auto()
     ANONYMOUS = auto()
     SHINY_MISSILE_TANK = auto()
+    SHINY_SUPER_MISSILE_TANK = auto()
     SHINY_POWER_BOMB_TANK = auto()
 
 
@@ -141,6 +142,9 @@ GRAPHICS_NAMES = {
     ItemSprite.FULLY_POWERED: "fully_powered",
     ItemSprite.ZIPLINES: "ziplines",
     ItemSprite.ANONYMOUS: "anonymous",
+    ItemSprite.SHINY_MISSILE_TANK: "missile_tank",
+    ItemSprite.SHINY_SUPER_MISSILE_TANK: "super_missile_tank",
+    ItemSprite.SHINY_POWER_BOMB_TANK: "power_bomb_tank",
 }
 
 
@@ -177,9 +181,9 @@ PALETTE_NAMES = {
     # ItemSprite.FULLY_POWERED: "grayscale",  # Unused
     ItemSprite.ZIPLINES: "tank",
     ItemSprite.ANONYMOUS: "tank",
-    # TODO: Add shiny_tank palette
-    # ItemSprite.SHINY_MISSILE_TANK: "shiny_tank",
-    # ItemSprite.SHINY_POWER_BOMB_TANK: "shiny_tank",
+    ItemSprite.SHINY_MISSILE_TANK: "shiny_tank",
+    ItemSprite.SHINY_SUPER_MISSILE_TANK: "shiny_tank",
+    ItemSprite.SHINY_POWER_BOMB_TANK: "shiny_tank",
 }
 
 

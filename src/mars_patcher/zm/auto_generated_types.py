@@ -110,6 +110,7 @@ ValidItemSprites = typ.Literal[
     'ZIPLINES',
     'ANONYMOUS',
     'SHINY_MISSILE_TANK',
+    'SHINY_SUPER_MISSILE_TANK',
     'SHINY_POWER_BOMB_TANK'
 ]
 ValidAbilities = typ.Literal[
