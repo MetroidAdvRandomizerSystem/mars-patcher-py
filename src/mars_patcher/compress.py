@@ -1,10 +1,12 @@
+from mars_patcher.common_types import BytesLike
+
 MIN_MATCH_SIZE = 3
 MIN_WINDOW_SIZE = 1
 MAX_MATCH_SIZE = (1 << 4) - 1 + MIN_MATCH_SIZE
 MAX_WINDOW_SIZE = (1 << 12) - 1 + MIN_WINDOW_SIZE
 
 
-def decomp_rle(input: bytes, idx: int) -> tuple[bytearray, int]:
+def decomp_rle(input: BytesLike, idx: int) -> tuple[bytearray, int]:
     """
     Decompresses RLE data and returns it with the size of the compressed data.
     """
@@ -64,7 +66,7 @@ def decomp_rle(input: bytes, idx: int) -> tuple[bytearray, int]:
     return output, comp_size
 
 
-def comp_rle(input: bytes) -> bytearray:
+def comp_rle(input: BytesLike) -> bytearray:
     """
     Compresses data using RLE.
     """
@@ -153,7 +155,7 @@ def comp_rle(input: bytes) -> bytearray:
     return output
 
 
-def decomp_lz77(input: bytes, idx: int) -> tuple[bytearray, int]:
+def decomp_lz77(input: BytesLike, idx: int) -> tuple[bytearray, int]:
     """Decompresses LZ77 data and returns it with the size of the compressed data."""
     # Check for 0x10 flag
     if input[idx] != 0x10:
@@ -202,7 +204,7 @@ def decomp_lz77(input: bytes, idx: int) -> tuple[bytearray, int]:
             cflag <<= 1
 
 
-def comp_lz77(input: bytes) -> bytearray:
+def comp_lz77(input: BytesLike) -> bytearray:
     """Compresses data using LZ77."""
     length = len(input)
     idx = 0
@@ -244,7 +246,7 @@ def comp_lz77(input: bytes) -> bytearray:
 
 
 def _find_longest_matches(
-    input: bytes, max_checks_in_window: int = MAX_WINDOW_SIZE
+    input: BytesLike, max_checks_in_window: int = MAX_WINDOW_SIZE
 ) -> dict[int, tuple[int, int]]:
     length = len(input)
     triplets: dict[int, list[int]] = {}

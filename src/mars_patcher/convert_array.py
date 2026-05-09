@@ -1,7 +1,8 @@
+from mars_patcher.common_types import BytesLike
 from mars_patcher.rom import ROM_OFFSET
 
 
-def u8_to_u16(data: bytes | list[int]) -> list[int]:
+def u8_to_u16(data: BytesLike | list[int]) -> list[int]:
     """Converts a bytes object or list of 8-bit integers to a list of 16-bit integers."""
     assert len(data) % 2 == 0, "Data length must be a multiple of 2"
     return [data[i] | (data[i + 1] << 8) for i in range(0, len(data), 2)]
@@ -13,7 +14,7 @@ def u16_to_u8(data: list[int]) -> bytes:
     for val in data:
         output.append(val & 0xFF)
         output.append(val >> 8)
-    return output
+    return bytes(output)
 
 
 def ptr_to_u8(val: int) -> bytes:
