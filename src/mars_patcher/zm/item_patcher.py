@@ -304,7 +304,7 @@ class ItemPatcher:
             item_anim_sets[0].new_id = id
             # Create new data for remaining entries
             for item_anim_set in item_anim_sets[1:]:
-                new_anim_set_entries.append(item_anim_set.data)
+                new_anim_set_entries.append(bytes(item_anim_set.data))
                 item_anim_set.new_id = anim_set_count
                 anim_set_count += 1
 
@@ -371,7 +371,7 @@ class ItemPatcher:
         # Padding
         data.append(0)
         data.append(0)
-        return data
+        return bytes(data)
 
     def write_new_tilesets(
         self, new_tileset_entries: list[bytes], new_anim_tileset_entries: list[bytes]

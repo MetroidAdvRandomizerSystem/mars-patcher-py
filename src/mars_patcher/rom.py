@@ -2,10 +2,9 @@ from collections.abc import Sequence
 from enum import Enum
 from os import PathLike
 
+from mars_patcher.common_types import BytesLike
 from mars_patcher.mf.constants.reserved_space import ReservedConstantsMF
 from mars_patcher.zm.constants.reserved_space import ReservedConstantsZM
-
-BytesLike = bytes | bytearray
 
 SIZE_8MB = 0x800000
 ROM_OFFSET = 0x8000000
