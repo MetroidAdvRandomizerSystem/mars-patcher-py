@@ -34,7 +34,7 @@
             "y": 10,
             "tile": 84,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 6 Arrow from Restricted Lab",
@@ -42,7 +42,7 @@
             "y": 23,
             "tile": 170,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 6 Marker from Restricted Lab",
@@ -57,7 +57,7 @@
             "y": 10,
             "tile": 117,
             "palette": 0,
-            "VFlip": "True"
+            "v_flip": "True"
         },
         {
             "description": "Sector 2 Marker from Central Reactor Core",
@@ -72,7 +72,7 @@
             "y": 16,
             "tile": 164,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Change Operations Deck Door from L4 to L0",
@@ -80,7 +80,7 @@
             "y": 0,
             "tile": 299,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Change Operations Deck Door from L4 to L0",
@@ -167,7 +167,7 @@
             "y": 10,
             "tile": 84,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 6 Arrow from Restricted Lab",
@@ -175,7 +175,7 @@
             "y": 23,
             "tile": 170,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 6 Marker from Restricted Lab",
@@ -190,7 +190,7 @@
             "y": 10,
             "tile": 117,
             "palette": 0,
-            "VFlip": "True"
+            "v_flip": "True"
         },
         {
             "description": "Sector 2 Marker from Central Reactor Core",
@@ -205,7 +205,7 @@
             "y": 16,
             "tile": 164,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Change Operations Deck Door from L4 to L0",
@@ -213,7 +213,7 @@
             "y": 0,
             "tile": 299,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Change Operations Deck Door from L4 to L0",
@@ -279,7 +279,7 @@
             "y": 2,
             "tile": 164,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Main Deck Elevator Lines to Restricted Lab",
@@ -315,7 +315,7 @@
             "y": 1,
             "tile": 390,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Fix Lower Charge Core Access Hall",
@@ -330,7 +330,7 @@
             "y": 6,
             "tile": 267,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         }
     ],
     "2": [
@@ -347,7 +347,7 @@
             "y": 3,
             "tile": 164,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Upper Level One Security Section",
@@ -383,7 +383,7 @@
             "y": 6,
             "tile": 267,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Fix Zazabi Boss Tile",
@@ -493,7 +493,7 @@
             "y": 8,
             "tile": 164,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Level Four Hatch To Security Access To Cheddar Bay",
@@ -501,7 +501,7 @@
             "y": 11,
             "tile": 114,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Level Four Hatch To Security Access to Level Four Security",
@@ -509,7 +509,7 @@
             "y": 14,
             "tile": 114,
             "palette": 0,
-            "VFlip": "True"
+            "v_flip": "True"
         },
         {
             "description": "Add Level Four Hatch To Cheddar Bay To Security Access",
@@ -545,7 +545,7 @@
             "y": 11,
             "tile": 164,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Level Four Hatch To Owtch Atrium To Powamp Playhouse",
@@ -553,7 +553,7 @@
             "y": 5,
             "tile": 240,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 6 Arrow",
@@ -584,7 +584,7 @@
             "y": 4,
             "tile": 164,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Level Three Hatch To Magic Box",
@@ -592,7 +592,7 @@
             "y": 4,
             "tile": 430,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Level Three Security Tile",
@@ -607,7 +607,7 @@
             "y": 4,
             "tile": 20,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Change Level 4 Door to Level 3 Door in Crows Nest",
@@ -615,7 +615,7 @@
             "y": 4,
             "tile": 245,
             "palette": 0,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 3 Arrow",
@@ -644,7 +644,7 @@
             "y": 5,
             "tile": 384,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Sector 4 Arrow",
@@ -682,7 +682,7 @@
             "y": 3,
             "tile": 164,
             "palette": 2,
-            "HFlip": "True"
+            "h_flip": "True"
         },
         {
             "description": "Add Xbox Boss Tile",
