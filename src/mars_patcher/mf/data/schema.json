@@ -453,11 +453,11 @@
                         "type": "object",
                         "description": "Assigns the ship specific text.",
                         "properties": {
-                            "initial_text": {
+                            "INITIAL_TEXT": {
                                 "type": "string",
                                 "description": "Specifies what text should appear at the initial ship communication."
                             },
-                            "confirm_text": {
+                            "CONFIRM_TEXT": {
                                 "type": "string",
                                 "description": "Specifies what text should appear at the ship after confirming 'No' on subsequent ship communications."
                             }

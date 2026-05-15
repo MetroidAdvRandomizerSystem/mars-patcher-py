@@ -513,10 +513,10 @@ class MarsschemamfNavigationTextNavigationTerminals(typ.TypedDict, total=False):
 class MarsschemamfNavigationTextShipText(typ.TypedDict, total=False):
     """Assigns the ship specific text."""
 
-    initial_text: str
+    INITIAL_TEXT: str
     """Specifies what text should appear at the initial ship communication."""
 
-    confirm_text: str
+    CONFIRM_TEXT: str
     """Specifies what text should appear at the ship after confirming 'No' on subsequent ship communications."""
 
 
