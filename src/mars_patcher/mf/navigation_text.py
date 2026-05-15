@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from enum import Enum, IntEnum, auto
+from enum import IntEnum, auto
 from typing import TYPE_CHECKING
 
 from mars_patcher.mf.constants.game_data import navigation_text_ptrs
@@ -29,12 +29,12 @@ class NavRoom(IntEnum):
 
 # Later down the line, when/if Nav terminals don't have their
 # confirm text patched out, combine these two.
-class ShipText(Enum):
-    INITIAL_TEXT = auto()
+class ShipText(IntEnum):
+    INITIAL_TEXT = 0
     CONFIRM_TEXT = auto()
 
 
-class NavStationLockType(Enum):
+class NavStationLockType(IntEnum):
     OPEN = 0xFF
     LOCKED = 0x05
     GREY = 0x00
@@ -49,12 +49,12 @@ class NavigationText:
     NAV_TERMINALS_KEY = "navigation_terminals"
     SHIP_TEXT_KEY = "ship_text"
 
-    def __init__(self, navigation_text: dict[Language, dict[str, dict[Enum, str]]]):
+    def __init__(self, navigation_text: dict[Language, dict[str, dict[IntEnum, str]]]):
         self.navigation_text = navigation_text
 
     @classmethod
     def from_json(cls, data: dict) -> NavigationText:
-        navigation_text: dict[Language, dict[str, dict[Enum, str]]] = {}
+        navigation_text: dict[Language, dict[str, dict[IntEnum, str]]] = {}
         for lang, lang_text in data.items():
             lang = Language[lang]
             navigation_text[lang] = {
