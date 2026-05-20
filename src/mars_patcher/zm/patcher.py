@@ -14,6 +14,7 @@ from mars_patcher.zm.hint_text import write_hint_text, write_intro_text
 from mars_patcher.zm.item_patcher import ItemPatcher, set_tank_increments
 from mars_patcher.zm.locations import LocationSettings
 from mars_patcher.zm.misc_patches import (
+    apply_reveal_hidden_tiles,
     disable_music,
     disable_sound_effects,
     fast_item_grab,
@@ -133,8 +134,8 @@ def patch_zm(
     #     if not patch_data.get("hide_doors_on_minimap", False):
     #         apply_reveal_unexplored_doors(rom)
 
-    # if patch_data.get("reveal_hidden_tiles"):
-    #     apply_reveal_hidden_tiles(rom)
+    if patch_data.get("reveal_hidden_tiles"):
+        apply_reveal_hidden_tiles(rom)
 
     # if "level_edits" in patch_data:
     #     apply_level_edits(rom, patch_data["level_edits"])

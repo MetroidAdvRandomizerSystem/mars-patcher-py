@@ -100,6 +100,7 @@ class ReservedPointersZM(IntEnum):
     BALL_LAUNCHER_WITHOUT_BOMBS_PTR = auto()
     DISABLE_MIDAIR_BOMB_JUMP_PTR = auto()
     DISABLE_WALLJUMP_PTR = auto()
+    REVEAL_HIDDEN_TILES = auto()
     REMOVE_CUTSCENES_PTR = auto()
     FAST_ITEM_GRAB_PTR = auto()
     SKIP_SUITLESS_SEQUENCE_PTR = auto()

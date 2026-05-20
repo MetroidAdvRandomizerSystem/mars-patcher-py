@@ -4,6 +4,7 @@ from mars_patcher.zm.constants.game_data import (
     default_stereo_addr,
     fast_item_grab_addr,
     remove_cutscenes_addr,
+    reveal_hidden_tiles_addr,
     skip_door_transitions_addr,
 )
 
@@ -63,8 +64,8 @@ def fast_item_grab(rom: Rom) -> None:
 #     pass
 
 
-# def apply_reveal_hidden_tiles(rom: Rom) -> None:
-#     pass
+def apply_reveal_hidden_tiles(rom: Rom) -> None:
+    rom.write_8(reveal_hidden_tiles_addr(rom), 1)
 
 
 # def apply_reveal_unexplored_doors(rom: Rom) -> None:
