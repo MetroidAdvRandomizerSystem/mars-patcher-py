@@ -78,6 +78,11 @@ ValidItems = typ.Literal[
     'SCREW_ATTACK',
     'SPACE_JUMP',
     'POWER_GRIP',
+    'SPRING_BALL',
+    'WALL_JUMP',
+    'INFINITE_BOMB_JUMP',
+    'PROGRESSIVE_JUMP',
+    'PROGRESSIVE_BOMB',
     'FULLY_POWERED',
     'ZIPLINES',
     'ICE_TRAP'
@@ -106,6 +111,9 @@ ValidItemSprites = typ.Literal[
     'SCREW_ATTACK',
     'SPACE_JUMP',
     'POWER_GRIP',
+    'SPRING_BALL',
+    'WALL_JUMP',
+    'INFINITE_BOMB_JUMP',
     'FULLY_POWERED',
     'ZIPLINES',
     'ANONYMOUS',
@@ -130,7 +138,10 @@ ValidAbilities = typ.Literal[
     'HI_JUMP',
     'SCREW_ATTACK',
     'SPACE_JUMP',
-    'POWER_GRIP'
+    'POWER_GRIP',
+    'SPRING_BALL',
+    'WALL_JUMP',
+    'INFINITE_BOMB_JUMP'
 ]
 ValidElevatorTops = typ.Literal[
     'BRINSTAR_TO_KRAID',

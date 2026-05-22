@@ -783,6 +783,11 @@
                 "SCREW_ATTACK",
                 "SPACE_JUMP",
                 "POWER_GRIP",
+                "SPRING_BALL",
+                "WALL_JUMP",
+                "INFINITE_BOMB_JUMP",
+                "PROGRESSIVE_JUMP",
+                "PROGRESSIVE_BOMB",
                 "FULLY_POWERED",
                 "ZIPLINES",
                 "ICE_TRAP"
@@ -815,6 +820,9 @@
                 "SCREW_ATTACK",
                 "SPACE_JUMP",
                 "POWER_GRIP",
+                "SPRING_BALL",
+                "WALL_JUMP",
+                "INFINITE_BOMB_JUMP",
                 "FULLY_POWERED",
                 "ZIPLINES",
                 "ANONYMOUS",
@@ -843,7 +851,10 @@
                 "HI_JUMP",
                 "SCREW_ATTACK",
                 "SPACE_JUMP",
-                "POWER_GRIP"
+                "POWER_GRIP",
+                "SPRING_BALL",
+                "WALL_JUMP",
+                "INFINITE_BOMB_JUMP"
             ]
         },
         "valid_elevator_tops": {
