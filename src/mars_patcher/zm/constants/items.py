@@ -48,6 +48,11 @@ class ItemType(IntEnum):
     SCREW_ATTACK = auto()
     SPACE_JUMP = auto()
     POWER_GRIP = auto()
+    SPRING_BALL = auto()
+    WALL_JUMP = auto()
+    INFINITE_BOMB_JUMP = auto()
+    PROGRESSIVE_JUMP = auto()
+    PROGRESSIVE_BOMB = auto()
     FULLY_POWERED = auto()
     ZIPLINES = auto()
     ICE_TRAP = auto()
@@ -80,6 +85,9 @@ class ItemSprite(IntEnum):
     SCREW_ATTACK = auto()
     SPACE_JUMP = auto()
     POWER_GRIP = auto()
+    SPRING_BALL = auto()
+    WALL_JUMP = auto()
+    INFINITE_BOMB_JUMP = auto()
     FULLY_POWERED = auto()
     ZIPLINES = auto()
     ANONYMOUS = auto()
@@ -111,6 +119,11 @@ ITEM_TO_SPRITE = {
     ItemType.SCREW_ATTACK: ItemSprite.SCREW_ATTACK,
     ItemType.SPACE_JUMP: ItemSprite.SPACE_JUMP,
     ItemType.POWER_GRIP: ItemSprite.POWER_GRIP,
+    ItemType.SPRING_BALL: ItemSprite.SPRING_BALL,
+    ItemType.WALL_JUMP: ItemSprite.WALL_JUMP,
+    ItemType.INFINITE_BOMB_JUMP: ItemSprite.INFINITE_BOMB_JUMP,
+    ItemType.PROGRESSIVE_JUMP: ItemSprite.HI_JUMP,
+    ItemType.PROGRESSIVE_BOMB: ItemSprite.BOMBS,
     ItemType.FULLY_POWERED: ItemSprite.FULLY_POWERED,
     ItemType.ZIPLINES: ItemSprite.ZIPLINES,
 }
@@ -139,6 +152,9 @@ GRAPHICS_NAMES = {
     ItemSprite.SCREW_ATTACK: "screw_attack",
     ItemSprite.SPACE_JUMP: "space_jump",
     ItemSprite.POWER_GRIP: "power_grip",
+    ItemSprite.SPRING_BALL: "spring_ball",
+    ItemSprite.WALL_JUMP: "hi_jump",  # TODO: Unique graphics
+    ItemSprite.INFINITE_BOMB_JUMP: "bombs",  # TODO: Unique graphics
     ItemSprite.FULLY_POWERED: "fully_powered",
     ItemSprite.ZIPLINES: "ziplines",
     ItemSprite.ANONYMOUS: "anonymous",
@@ -178,6 +194,9 @@ PALETTE_NAMES = {
     ItemSprite.SCREW_ATTACK: "screw_attack",
     ItemSprite.SPACE_JUMP: "space_jump",
     ItemSprite.POWER_GRIP: "power_grip",
+    ItemSprite.SPRING_BALL: "spring_ball",
+    ItemSprite.WALL_JUMP: "hi_jump",  # TODO: Unique graphics
+    ItemSprite.INFINITE_BOMB_JUMP: "bombs",  # TODO: Unique graphics
     # ItemSprite.FULLY_POWERED: "grayscale",  # Unused
     ItemSprite.ZIPLINES: "tank",
     ItemSprite.ANONYMOUS: "tank",
@@ -234,10 +253,13 @@ SUIT_MISC_FLAGS = {
     "POWER_GRIP": 1 << 7,
 }
 
-MAIN_ITEM_FLAGS = {
+EXTRA_ITEM_FLAGS = {
     "MAIN_MISSILES": 1 << 0,
     "MAIN_SUPER_MISSILES": 1 << 1,
     "MAIN_POWER_BOMBS": 1 << 2,
+    "SPRING_BALL": 1 << 3,
+    "WALL_JUMP": 1 << 4,
+    "INFINITE_BOMB_JUMP": 1 << 5,
 }
 
 

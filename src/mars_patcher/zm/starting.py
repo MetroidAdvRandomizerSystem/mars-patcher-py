@@ -7,7 +7,7 @@ from mars_patcher.zm.auto_generated_types import (
 )
 from mars_patcher.zm.constants.items import (
     BEAM_BOMB_FLAGS,
-    MAIN_ITEM_FLAGS,
+    EXTRA_ITEM_FLAGS,
     SUIT_MISC_FLAGS,
     SuitType,
 )
@@ -108,7 +108,7 @@ def set_starting_items(rom: Rom, data: MarsschemazmStartingItems) -> None:
     abilities = data.get("abilities", [])
     beam_bomb_status = get_ability_flags(BEAM_BOMB_FLAGS)
     suit_misc_status = get_ability_flags(SUIT_MISC_FLAGS)
-    main_items_status = get_ability_flags(MAIN_ITEM_FLAGS)
+    main_items_status = get_ability_flags(EXTRA_ITEM_FLAGS)
     # Get downloaded map flags
     maps = data.get("downloaded_maps", range(7))
     map_status = 0
