@@ -54,14 +54,6 @@ def ball_launcher_without_bombs_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.BALL_LAUNCHER_WITHOUT_BOMBS_PTR.value)
 
 
-def disable_midair_bomb_jump_addr(rom: Rom) -> int:
-    return rom.read_ptr(ReservedPointersZM.DISABLE_MIDAIR_BOMB_JUMP_PTR.value)
-
-
-def disable_walljump_addr(rom: Rom) -> int:
-    return rom.read_ptr(ReservedPointersZM.DISABLE_WALLJUMP_PTR.value)
-
-
 def remove_cutscenes_addr(rom: Rom) -> int:
     return rom.read_ptr(ReservedPointersZM.REMOVE_CUTSCENES_PTR.value)
 
