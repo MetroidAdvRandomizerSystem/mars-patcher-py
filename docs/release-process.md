@@ -13,5 +13,5 @@ There is no regular release schedule. New releases are allowed to be dropped at 
  
 
 ## TODO
-- actually have a consistent and following changelog. Unsure if the work for that should include having a proper changelog for all older versions, or just start doing it and mark the past stuff as as "todo"
+- actually have a consistent and continuous changelog. Unsure if the work for that should include having a proper changelog for all older versions, or just start doing it and mark the past stuff as as "todo"
 - instructions for getting new ZM decomp/patch. This is blocked by more work on the ZM rando.
