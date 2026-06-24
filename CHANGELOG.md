@@ -1,7 +1,15 @@
 # Changelog
 
 ## Unreleased - 2025-??-??
+
+## 0.8.0 - 2025-09-19
+### Fusion
 - Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
+- Fixed: Text now properly follows the currently speaking character. E.G. Adam, Federation, Samus
+- Added: Optional patch for Instant Morph by pressing Select button in-game.
+
+### Zero Mission
+- Begin implementation
 
 ## 0.7.3 - 2025-08-29
 - Updated ASM patches
