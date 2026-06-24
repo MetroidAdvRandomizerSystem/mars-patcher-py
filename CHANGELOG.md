@@ -7,6 +7,9 @@
 - Added: Ability to write text to the title screen.
 - Removed: Anti-Softlock option.
 
+## 0.6.2
+- Updated ASM patches
+
 ## 0.6.1
 - Changed: The minimap showing a connection in Sector 5 between Flooded Tower and Ruined Break Room has been changed to indicate an impassible wall.
 
