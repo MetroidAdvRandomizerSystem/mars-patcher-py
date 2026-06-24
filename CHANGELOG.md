@@ -3,7 +3,13 @@
 ## Unreleased - 2025-??-??
 - Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
 
-## 0.7.1
+## 0.7.3 - 2025-08-29
+- Updated ASM patches
+
+## 0.7.2 - 2025-08-26
+- Updated ASM patches
+
+## 0.7.1 - 2025-08-25
 - Changed: Patcher no longer hard-codes its version number to the first line.
 
 ## 0.7.0 - 2025-08-25
