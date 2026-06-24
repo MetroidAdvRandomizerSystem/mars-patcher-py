@@ -2,6 +2,10 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.10.0 - 2026-01-16
+### Fusion
+- Added: Additional Item types for potentially new items and multiworld items
+
 ## 0.9.0 - 2026-01-03
 ### General
 - Added: Minimap tile creator for use with the patcher
