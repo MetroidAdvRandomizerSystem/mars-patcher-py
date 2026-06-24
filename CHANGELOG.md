@@ -7,7 +7,12 @@
 - Added: Ability to write text to the title screen.
 - Removed: Anti-Softlock option.
 
-# TODO: retroactively fill this in <_<
+## 0.5.0
+- Changed: Palette randomization updated to use a random sine wave for additional color rotation.
+- Changed: MARS team credits and RDV team credits are now applied via the patcher.
+- Fixed: Quarntine Bay palettes now have the alternate tank palette properly applied.
+- Changed: Minimaps now show sector connections between sectors.
+- Added: Main Explosive weapons ammo increments.
 
 ## 0.4.1 - 2025-05-22
 
