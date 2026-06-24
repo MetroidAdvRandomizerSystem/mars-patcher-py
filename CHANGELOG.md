@@ -7,6 +7,9 @@
 - Added: Ability to write text to the title screen.
 - Removed: Anti-Softlock option.
 
+## 0.6.1
+- Changed: The minimap showing a connection in Sector 5 between Flooded Tower and Ruined Break Room has been changed to indicate an impassible wall.
+
 ## 0.6.0
 - Added: Optional accessibility patches can now be applied to aid users with gameplay.
 - Added: Major and Minor Item Jingles can now be applied to any collectable.
