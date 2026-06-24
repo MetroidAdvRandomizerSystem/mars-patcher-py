@@ -2,6 +2,37 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.14.0 - 2026-05-11
+### Zero Mission
+- Added: Support for writing hint text.
+- Fixed: Gunship palette
+- Added: Support for writing room names.
+- Added: Support for writing text on the title screen.
+- Added: Several optional patches
+  - Skip door transitions
+  - Default stereo audio
+  - Disable music
+  - Disable sounds
+  - Remove cutscenes
+  - Fast item grab
+- Added: Support for writing the Seed Hash.
+- Added: Support for writing the intro text.
+- Added: Support for writing custom credits.
+- Changed: Item graphics for unknown items.
+- Removed: Starting Location in Crateria at Door 0
+- Added: Support for changing the item that the Space Pirate in Chozodia is carrying.
+- Changed: Item graphics for the following
+  - "anonymous" item
+  - charge beam
+  - ice beam
+  - main missiles
+  - main power bombs
+  - main super missiles
+  - plasma beam
+  - wave beam
+  - ziplines
+
+
 ## 0.13.0 - 2026-04-17
 ### Fusion
 - Fixed: B.O.X. Minimap tile
