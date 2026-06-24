@@ -2,6 +2,22 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.12.0 - 2026-02-26
+### General
+- Added: Music shuffling
+
+### Fusion
+- Changed: Door transitions are no longer deleted in Door Lock Randomizer when a door is randomized as permanently locked.
+
+## 0.11.0 - 2026-02-20
+### General
+- Notable mention to Archipelago APworld
+
+### Fusion
+- Fixed: Minimap tiles no longer display incorrectly token when talking to the computer or in the intro cutscene.
+- Added: Customizable environmental damage.
+- Fixed: Boss icons on minimap are no longer inconsistent.
+
 ## 0.10.0 - 2026-01-16
 ### Fusion
 - Added: Additional Item types for potentially new items and multiworld items
