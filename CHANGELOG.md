@@ -7,6 +7,10 @@
 - Added: Ability to write text to the title screen.
 - Removed: Anti-Softlock option.
 
+## 0.6.0
+- Added: Optional accessibility patches can now be applied to aid users with gameplay.
+- Added: Major and Minor Item Jingles can now be applied to any collectable.
+
 ## 0.5.0
 - Changed: Palette randomization updated to use a random sine wave for additional color rotation.
 - Changed: MARS team credits and RDV team credits are now applied via the patcher.
