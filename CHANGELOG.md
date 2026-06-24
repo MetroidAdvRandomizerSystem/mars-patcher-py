@@ -148,3 +148,23 @@
 - Changelog Created
 - Added: 6 new Item Locations. 3 Major/Events: Boiler, Animals, Auxiliary Power. 3 Minor/Tanks: Subzero Containment, Quarantine Bay, Northeast Stabilizer
 - Added: Infrastructure to define base minimap edits that will always apply.
+
+## 0.3.2 - 2025-04-28
+- Update ASM patches
+
+## 0.3.1 - 2025-04-22
+- Update ASM patches
+
+## 0.3.0 - 2025-04-18
+- Changed: Navigation text encoding now automatically reserves free space instead of using hard-coded reserved values.
+
+## 0.2.0 - 2025-03-15
+- Fixed: Samus color palettes during navigation conversations are the same color as in-game randomized palettes when using palette randomizer.
+- Added: Support for editing minimap tiles.
+- Changed: Added the ability when revealing the hidden map with door lock randomization enabled to hide the colors of the doors on the minimap until they are revealed.
+
+## 0.1.0 - 2025-03-01
+- Update ASM patches
+
+## 0.0.1 - 2025-02-24
+- Initial release with support for Metroid Fusion
