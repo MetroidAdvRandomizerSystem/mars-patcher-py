@@ -2,6 +2,20 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.9.0 - 2026-01-03
+### General
+- Added: Minimap tile creator for use with the patcher
+- Changed: Free space is now better tracked and managed when patching games.
+
+### Fusion
+- Added: Support for shuffling Open Hatch type in Door Lock Randomizer
+- Changed: Excludes Doors in Cathedral to C. Save Access to prevent more than 6 total hatches.
+- Fixed: Doors deleted by MAGE or ASM changes no longer cause patching failure.
+- Fixed: Validation for changing door locks to prevent minimap from being changed in multiple ways.
+
+### Zero Mission
+- Added: Basic item randomization
+
 ## 0.8.3 - 2025-09-26
 ### Fusion
 - Updated ASM patches
