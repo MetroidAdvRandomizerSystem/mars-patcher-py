@@ -2,6 +2,19 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.13.0 - 2026-04-17
+### Fusion
+- Fixed: B.O.X. Minimap tile
+
+### Zero Mission
+- Added: Support for changing item graphics at minor locations.
+- Added: Support for custom messages on items.
+- Added: Support for starting locations.
+- Added: Support for starting items.
+- Added: Support for randomized palettes.
+- Added: Support for Main Missile, Main Super Missile, and Main Power Bomb items.
+- Added: Support for replacing major location graphics with any item sprite.
+
 ## 0.12.0 - 2026-02-26
 ### General
 - Added: Music shuffling
