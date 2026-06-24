@@ -16,7 +16,13 @@
   - Progressive Bomb
 - Removed: Options to disable mid-air bomb jumps and wall jumps.
 
-## Unreleased - 2025-??-??
+## 0.14.2 - 2026-05-15
+### Fusion
+- Fixed: Letter casing for Initial and Confirmation text definitions in schema.
+
+## 0.14.1 - 2026-05-11
+### Fusion
+- Fixed: Minimap no longer incorrectly displays horiziontally and/or vertically flipped tiles.
 
 ## 0.14.0 - 2026-05-11
 ### Zero Mission
