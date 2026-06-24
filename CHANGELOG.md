@@ -2,6 +2,18 @@
 
 ## Unreleased - 2025-??-??
 
+## 0.8.3 - 2025-09-26
+### Fusion
+- Updated ASM patches
+
+## 0.8.2 - 2025-09-23
+### Fusion
+- Changed: Instant morph removed as an optional patch, and instead changes an in-ROM byte to toggle enablement.
+
+## 0.8.1 - 2025-09-22
+### General
+- Split game data in project package setup configuration.
+
 ## 0.8.0 - 2025-09-19
 ### Fusion
 - Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
