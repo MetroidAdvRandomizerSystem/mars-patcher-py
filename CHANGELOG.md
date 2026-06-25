@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased - 2026-??-??
+
+## 0.15.0 - 2026-06-25
+### Fusion
+- Updated ASM patches to [0.12.3](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.3)
+
+### Zero Mission
+- Added: Optional patch to reveal hidden tiles.
+- Added: New item types
+  - Spring Ball
+  - Wall Jump
+  - Infinite Bomb Jump
+  - Progressive Jump
+  - Progressive Bomb
+- Removed: Options to disable mid-air bomb jumps and wall jumps.
+
 ## Unreleased - 2025-??-??
 - Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
 
