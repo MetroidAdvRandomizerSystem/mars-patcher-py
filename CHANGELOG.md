@@ -116,6 +116,7 @@
 
 ## 0.8.0 - 2025-09-19
 ### Fusion
+- Update ASM patches to [0.9.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.9.0)
 - Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
 - Fixed: Text now properly follows the currently speaking character. E.G. Adam, Federation, Samus
 - Added: Optional patch for Instant Morph by pressing Select button in-game.
@@ -123,62 +124,73 @@
 ### Zero Mission
 - Begin implementation
 
+> [!NOTE]
+> Prior to version 0.8.0, only Metroid Fusion existed as a supported game in the patcher. All updates below can be considered exclusively for Metroid Fusion. Future changelog entries will distinguish between the changes for each game or if the changes affect the patcher in general.
+
 ## 0.7.3 - 2025-08-29
-- Updated ASM patches
+- Update ASM patches to [0.8.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.8.2)
 
 ## 0.7.2 - 2025-08-26
-- Updated ASM patches
+- Update ASM patches to [0.8.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.8.1)
 
 ## 0.7.1 - 2025-08-25
-- Changed: Patcher no longer hard-codes its version number to the first line.
+- Removed: Patcher version number is no longer reserved as the first position on the title screen.
 
 ## 0.7.0 - 2025-08-25
+- Update ASM patches to [0.8.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.8.0)
 - Added: Ability to write text to the title screen.
+  - Default text written to the title screen includes the versions of Randovania and the patcher.
 - Removed: Anti-Softlock option.
+- Fixed: Exporting changes that involve Minimap tiles and tunnels no longer cause an error and export failure.
 
 ## 0.6.2 - 2025-07-15
-- Updated ASM patches
+- Update ASM patches to [0.7.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.7.2)
 
 ## 0.6.1 - 2025-07-15
+- Update ASM patches to [0.7.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.7.1)
 - Changed: The minimap showing a connection in Sector 5 between Flooded Tower and Ruined Break Room has been changed to indicate an impassible wall.
 
 ## 0.6.0 - 2025-07-11
+- Update ASM patches to [0.7.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.7.0)
 - Added: Optional accessibility patches can now be applied to aid users with gameplay.
 - Added: Major and Minor Item Jingles can now be applied to any collectable.
 
 ## 0.5.0 - 2025-06-20
+- Update ASM patches to [0.6.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.6.0)
 - Changed: Palette randomization updated to use a random sine wave for additional color rotation.
 - Changed: MARS team credits and RDV team credits are now applied via the patcher.
-- Fixed: Quarntine Bay palettes now have the alternate tank palette properly applied.
+- Fixed: All items now have the correct palette applied in Quarantine Bay.
 - Changed: Minimaps now show sector connections between sectors.
-- Added: Main Explosive weapons ammo increments.
+- Added: Ability to specify the increments of ammo for Missile Data and Power Bomb Data.
 
 ## 0.4.1 - 2025-05-22
 
 ### Visual
-- Changed: Base Minimap Edits has been updated to reflect new events, boss tiles, and security rooms.
+- Changed: Minimap has been updated to reflect new events, boss tiles, and security rooms.
 
 ## 0.4.0 - 2025-05-15
-- Changelog Created
+- Update ASM patches to [0.5.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.5.0)
 - Added: 6 new Item Locations. 3 Major/Events: Boiler, Animals, Auxiliary Power. 3 Minor/Tanks: Subzero Containment, Quarantine Bay, Northeast Stabilizer
 - Added: Infrastructure to define base minimap edits that will always apply.
 
 ## 0.3.2 - 2025-04-28
-- Update ASM patches
+- Update ASM patches to [0.4.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.4.2)
 
 ## 0.3.1 - 2025-04-22
-- Update ASM patches
+- Update ASM patches to [0.4.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.4.1)
 
 ## 0.3.0 - 2025-04-18
-- Changed: Navigation text encoding now automatically reserves free space instead of using hard-coded reserved values.
+- Changed: Navigation text can now be provided as an arbitrary length instead of being confined to a maximum length.
 
 ## 0.2.0 - 2025-03-15
+- Update ASM patches to [0.3.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.3.0)
 - Fixed: Samus color palettes during navigation conversations are the same color as in-game randomized palettes when using palette randomizer.
 - Added: Support for editing minimap tiles.
 - Changed: Added the ability when revealing the hidden map with door lock randomization enabled to hide the colors of the doors on the minimap until they are revealed.
 
 ## 0.1.0 - 2025-03-01
-- Update ASM patches
+- Update ASM patches to [0.2.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.2.0)
+- Changed: Description of Starting Location properties `BlockX` and `BlockY` updated for clarification.
 
 ## 0.0.1 - 2025-02-24
 - Initial release with support for Metroid Fusion
