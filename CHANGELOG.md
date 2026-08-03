@@ -86,7 +86,9 @@
 
 ## 0.10.0 - 2026-01-16
 ### Fusion
-- Added: Additional Item types for potentially new items and multiworld items
+- Update ASM patches to [0.11.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.11.0)
+- Added: Additional Item types for potentially new items and multiworld items.
+- Removed: Optional patch for enabling Power Bomb usage without normal bomb data. This behavior is now always enabled.
 
 ## 0.9.0 - 2026-01-03
 ### General
@@ -94,20 +96,25 @@
 - Changed: Free space is now better tracked and managed when patching games.
 
 ### Fusion
+- Update ASM patches to [0.10.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.10.0)
 - Added: Support for shuffling Open Hatch type in Door Lock Randomizer
-- Changed: Excludes Doors in Cathedral to C. Save Access to prevent more than 6 total hatches.
+- Changed: Excludes Doors in Sector 2 Cathedral to C. Save Access to prevent more than 6 total hatches.
 - Fixed: Doors deleted by MAGE or ASM changes no longer cause patching failure.
 - Fixed: Validation for changing door locks to prevent minimap from being changed in multiple ways.
+- Added: Optional patches
+  - Nerf Gerons: Makes Gerons weak to only their intended weapon and speed booster. E.G. Super Missile Gerons can no longer be defeated with Power Bombs or Screw attack
+  - Alternative HUD Layout: Changes the HUD to always display `Current HP` and `Maximum HP` as numerical digits instead of graphical E-Tanks.
 
 ### Zero Mission
 - Added: Basic item randomization
 
 ## 0.8.3 - 2025-09-26
 ### Fusion
-- Updated ASM patches
+- Update ASM patches to [0.9.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.9.2)
 
 ## 0.8.2 - 2025-09-23
 ### Fusion
+- Update ASM patches to [0.9.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.9.1)
 - Changed: Instant morph removed as an optional patch, and instead changes an in-ROM byte to toggle enablement.
 
 ## 0.8.1 - 2025-09-22
@@ -123,6 +130,8 @@
 
 ### Zero Mission
 - Begin implementation
+
+---
 
 > [!NOTE]
 > Prior to version 0.8.0, only Metroid Fusion existed as a supported game in the patcher. All updates below can be considered exclusively for Metroid Fusion. Future changelog entries will distinguish between the changes for each game or if the changes affect the patcher in general.
@@ -171,7 +180,7 @@
 ## 0.4.0 - 2025-05-15
 - Update ASM patches to [0.5.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.5.0)
 - Added: 6 new Item Locations. 3 Major/Events: Boiler, Animals, Auxiliary Power. 3 Minor/Tanks: Subzero Containment, Quarantine Bay, Northeast Stabilizer
-- Added: Infrastructure to define base minimap edits that will always apply.
+- Added: Items can now change the pre-defined messages for events or item collection. E.G. A missile tank can display the message for collecting ice beam.
 
 ## 0.3.2 - 2025-04-28
 - Update ASM patches to [0.4.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.4.2)
@@ -185,7 +194,6 @@
 ## 0.2.0 - 2025-03-15
 - Update ASM patches to [0.3.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.3.0)
 - Fixed: Samus color palettes during navigation conversations are the same color as in-game randomized palettes when using palette randomizer.
-- Added: Support for editing minimap tiles.
 - Changed: Added the ability when revealing the hidden map with door lock randomization enabled to hide the colors of the doors on the minimap until they are revealed.
 
 ## 0.1.0 - 2025-03-01
