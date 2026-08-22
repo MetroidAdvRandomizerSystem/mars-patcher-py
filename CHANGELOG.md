@@ -8,7 +8,7 @@
 
 ### Zero Mission
 - Added: Optional patch to reveal hidden tiles.
-- Added: New item types
+- Added: New item types:
   - Spring Ball
   - Wall Jump
   - Infinite Bomb Jump
@@ -33,7 +33,7 @@
 - Fixed: The palette for the Gunship in the intro while it is landing is now randomized.
 - Added: Support for writing room names. View the name of the current room on the Pause Screen by pressing the `A` button.
 - Added: Support for writing text on the title screen.
-- Added: Several options
+- Added: Several options:
   - Skip door transitions
   - Default stereo audio
   - Disable music
@@ -47,7 +47,7 @@
 - Removed: Starting Location in Crateria at Door 0.
 - Added: Support for changing the item that the Space Pirate in Chozodia is carrying.
 - Added: Shiny items palette.
-- Changed: Item graphics for the following
+- Changed: Item graphics for the following:
   - "anonymous" item
   - charge beam
   - ice beam
@@ -63,7 +63,7 @@
 ## 0.13.0 - 2026-04-17
 ### Fusion
 - Update ASM patches to [0.12.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.2)
-- Fixed: B.O.X. Minimap tile
+- Fixed: B.O.X. Minimap tile.
 
 ### Zero Mission
 - Added: Support for changing item graphics at minor locations.
@@ -72,14 +72,14 @@
 - Added: Support for starting items.
 - Added: Support for randomized palettes.
 - Added: Support for Main Missile, Main Super Missile, and Main Power Bomb items.
-- Added: Support for replacing major location graphics with any item sprite.
+- Added: Support for replacing major or minor location graphics with any item sprite.
 
 ## 0.12.0 - 2026-02-26
 ### General
-- Update ASM patches to [0.12.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.1)
-- Added: Music shuffling
+- Added: Music shuffling, this shuffles the tracks, not the assignment to a room.
 
 ### Fusion
+- Update ASM patches to [0.12.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.1)
 - Changed: Door transitions are no longer deleted in Door Lock Randomizer when a door is randomized as permanently locked.
 
 ## 0.11.0 - 2026-02-20
@@ -97,17 +97,14 @@
 ## 0.9.0 - 2026-01-03
 ### Fusion
 - Update ASM patches to [0.10.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.10.0)
-- Added: Support for shuffling Open Hatch type in Door Lock Randomizer
+- Added: Support for shuffling Open Hatch type in Door Lock Randomizer.
 - Changed: Door Lock Randomizer now excludes certain doors in rooms where more than 6 total hatches are available.
 - Changed: Door Lock Randomizer now appropriately changes the minimap.
-- Fixed: Doors deleted by MAGE or assembly changes no longer cause patching failure.
+- Fixed: Door Lock Randomizer no longer causes an export failure.
 - Fixed: An error will occur when changing door locks to prevent minimap from being changed in multiple ways.
-- Added: Optional patches
-  - Nerf Gerons: Makes Gerons weak to only their intended weapon and speed booster. E.G. Super Missile Gerons can no longer be defeated with Power Bombs or Screw attack
-  - Alternative HUD Layout: Changes the HUD to always display `Current HP` and `Maximum HP` as numerical digits instead of graphical E-Tanks.
 
 ### Zero Mission
-- Added: Basic item randomization
+- Added: Basic item randomization.
 
 ## 0.8.3 - 2025-09-26
 ### Fusion
@@ -130,7 +127,7 @@
 - Changed: Randovania credits header moved down to make it visually distinct from other credits groupings.
 
 ### Zero Mission
-- Begin implementation
+- Begin implementation.
 
 ---
 
@@ -180,8 +177,6 @@
 
 ## 0.4.0 - 2025-05-15
 - Update ASM patches to [0.5.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.5.0)
-- Added: 6 new Item Locations. 3 Major/Events: Boiler, Animals, Auxiliary Power. 3 Minor/Tanks: Subzero Containment, Quarantine Bay, Northeast Stabilizer
-- Added: Items can now change the pre-defined messages for events or item collection. E.G. A missile tank can display the message for collecting ice beam.
 
 ## 0.3.2 - 2025-04-28
 - Update ASM patches to [0.4.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.4.2)
@@ -202,4 +197,4 @@
 - Changed: Description of Starting Location properties `BlockX` and `BlockY` updated for clarification.
 
 ## 0.0.1 - 2025-02-24
-- Initial release with support for Metroid Fusion
+- Initial release with support for Metroid Fusion.
