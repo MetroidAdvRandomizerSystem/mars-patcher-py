@@ -25,24 +25,28 @@
 - Fixed: Minimap no longer incorrectly displays horiziontally and/or vertically flipped tiles.
 
 ## 0.14.0 - 2026-05-11
+### General
+- Changed: Field names in the schema have been standardized to lowercase `snake_case`.
+
 ### Zero Mission
-- Added: Support for writing hint text.
-- Fixed: Gunship palette
-- Added: Support for writing room names.
+- Added: Support for writing hint text at dedicated chozo statues.
+- Fixed: The palette for the Gunship in the intro while it is landing is now randomized.
+- Added: Support for writing room names. View the name of the current room on the Pause Screen by pressing the `A` button.
 - Added: Support for writing text on the title screen.
-- Added: Several optional patches
+- Added: Several options
   - Skip door transitions
   - Default stereo audio
   - Disable music
   - Disable sounds
   - Remove cutscenes
   - Fast item grab
-- Added: Support for writing the Seed Hash.
+- Added: Support for writing the Seed Hash on the file select screen.
 - Added: Support for writing the intro text.
 - Added: Support for writing custom credits.
-- Changed: Item graphics for unknown items.
-- Removed: Starting Location in Crateria at Door 0
+- Changed: Item graphics for unknown items have been replaced with custom graphics.
+- Removed: Starting Location in Crateria at Door 0.
 - Added: Support for changing the item that the Space Pirate in Chozodia is carrying.
+- Added: Shiny items palette.
 - Changed: Item graphics for the following
   - "anonymous" item
   - charge beam
@@ -53,10 +57,12 @@
   - plasma beam
   - wave beam
   - ziplines
+- Fixed: You can now peek the item in the caterpillar room in Norfair from the right side.
 
 
 ## 0.13.0 - 2026-04-17
 ### Fusion
+- Update ASM patches to [0.12.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.2)
 - Fixed: B.O.X. Minimap tile
 
 ### Zero Mission
@@ -70,37 +76,32 @@
 
 ## 0.12.0 - 2026-02-26
 ### General
+- Update ASM patches to [0.12.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.1)
 - Added: Music shuffling
 
 ### Fusion
 - Changed: Door transitions are no longer deleted in Door Lock Randomizer when a door is randomized as permanently locked.
 
 ## 0.11.0 - 2026-02-20
-### General
-- Notable mention to Archipelago APworld
-
 ### Fusion
-- Fixed: Minimap tiles no longer display incorrectly token when talking to the computer or in the intro cutscene.
+- Update ASM patches to [0.12.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.0)
+- Fixed: Minimap tiles no longer display incorrectly.
 - Added: Customizable environmental damage.
 - Fixed: Boss icons on minimap are no longer inconsistent.
 
 ## 0.10.0 - 2026-01-16
 ### Fusion
 - Update ASM patches to [0.11.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.11.0)
-- Added: Additional Item types for potentially new items and multiworld items.
-- Removed: Optional patch for enabling Power Bomb usage without normal bomb data. This behavior is now always enabled.
+- Added: Additional item sprites for potentially new items and multiworld items.
 
 ## 0.9.0 - 2026-01-03
-### General
-- Added: Minimap tile creator for use with the patcher
-- Changed: Free space is now better tracked and managed when patching games.
-
 ### Fusion
 - Update ASM patches to [0.10.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.10.0)
 - Added: Support for shuffling Open Hatch type in Door Lock Randomizer
-- Changed: Excludes Doors in Sector 2 Cathedral to C. Save Access to prevent more than 6 total hatches.
-- Fixed: Doors deleted by MAGE or ASM changes no longer cause patching failure.
-- Fixed: Validation for changing door locks to prevent minimap from being changed in multiple ways.
+- Changed: Door Lock Randomizer now excludes certain doors in rooms where more than 6 total hatches are available.
+- Changed: Door Lock Randomizer now appropriately changes the minimap.
+- Fixed: Doors deleted by MAGE or assembly changes no longer cause patching failure.
+- Fixed: An error will occur when changing door locks to prevent minimap from being changed in multiple ways.
 - Added: Optional patches
   - Nerf Gerons: Makes Gerons weak to only their intended weapon and speed booster. E.G. Super Missile Gerons can no longer be defeated with Power Bombs or Screw attack
   - Alternative HUD Layout: Changes the HUD to always display `Current HP` and `Maximum HP` as numerical digits instead of graphical E-Tanks.
@@ -115,18 +116,18 @@
 ## 0.8.2 - 2025-09-23
 ### Fusion
 - Update ASM patches to [0.9.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.9.1)
-- Changed: Instant morph removed as an optional patch, and instead changes an in-ROM byte to toggle enablement.
 
 ## 0.8.1 - 2025-09-22
 ### General
-- Split game data in project package setup configuration.
+- Fixed: Fusion no longer has export failures due to missing assembly patches and other missing data.
 
 ## 0.8.0 - 2025-09-19
 ### Fusion
 - Update ASM patches to [0.9.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.9.0)
-- Changed: Metroid Fusion Stereo default IPS patch has been ported into ASM. Instead a flag in ROM will set the default speaker setup to stereo.
 - Fixed: Text now properly follows the currently speaking character. E.G. Adam, Federation, Samus
-- Added: Optional patch for Instant Morph by pressing Select button in-game.
+- Fixed: Text wrapping behavior is now more consistent.
+- Added: Option for adding Instant Morph by pressing Select button in-game.
+- Changed: Randovania credits header moved down to make it visually distinct from other credits groupings.
 
 ### Zero Mission
 - Begin implementation
