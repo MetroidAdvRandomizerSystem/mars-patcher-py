@@ -484,7 +484,7 @@ class MarsschemamfRng(typ.TypedDict):
     """Specifies how many additional jumps Zazabi does in rounds 1 to 3, and how long it additionally crawls for in round 4. The final calculation the game uses is (CurrentRound-1)+ProvidedNumber for phrase 1-3, and 60+ProvidedNumber for phase 4."""
 
     Yakuza: TypeU8 = 255
-    """Specifies how many additional rounds of crawling around Yakuza does in Phase 1 of its fight before opening its mouth. The final calculation the game uses is 1+ProvidedNumber."""
+    """Specifies how many additional rounds of sweeping around Yakuza does in Phase 1 of its fight before opening its mouth. The final calculation the game uses is 1+ProvidedNumber."""
 
 
 class MarsschemamfNavigationTextNavigationTerminals(typ.TypedDict, total=False):

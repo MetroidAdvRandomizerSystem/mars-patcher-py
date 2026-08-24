@@ -419,7 +419,7 @@
                 },
                 "Yakuza": {
                     "$ref": "#/$defs/type_u8",
-                    "description": "Specifies how many additional rounds of crawling around Yakuza does in Phase 1 of its fight before opening its mouth. The final calculation the game uses is 1+ProvidedNumber.",
+                    "description": "Specifies how many additional rounds of sweeping around Yakuza does in Phase 1 of its fight before opening its mouth. The final calculation the game uses is 1+ProvidedNumber.",
                     "default": 255
                 }
             },
