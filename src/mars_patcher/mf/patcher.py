@@ -22,6 +22,7 @@ from mars_patcher.mf.misc_patches import (
     apply_nerf_gerons,
     apply_reveal_hidden_tiles,
     apply_reveal_unexplored_doors,
+    apply_rng_values,
     apply_unexplored_map,
     change_missile_limit,
     disable_demos,
@@ -165,6 +166,9 @@ def patch_mf(
 
     if patch_data.get("use_alternative_hud_health_layout"):
         apply_alternative_health_layout(rom)
+
+    if rng_dict := patch_data.get("rng"):
+        apply_rng_values(rom, rng_dict)
 
     if patch_data.get("unexplored_map"):
         apply_unexplored_map(rom)

@@ -44,6 +44,9 @@ class ReservedPointersMF(IntEnum):
     DEFAULT_STEREO_FLAG_POINTER_ADDR = auto()
     INSTANT_MORPH_FLAG_POINTER_ADDR = auto()
     USE_ALTERNATIVE_HUD_DISPLAY = auto()
+    GADORA_BEAMS_TABLE_POINTER = auto()
+    ZAZABI_ADDITIONAL_DELAY_POINTER = auto()
+    YAKUZA_ROUNDS_POINTER = auto()
 
     def __new__(cls, offset: int) -> Self:
         obj = int.__new__(cls)

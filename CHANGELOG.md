@@ -2,6 +2,8 @@
 
 ## Unreleased - 2026-??-??
 
+- Updated ASM patches to [0.13.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.13.0)
+
 ## 0.15.0 - 2026-06-25
 ### Fusion
 - Updated ASM patches to [0.12.3](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.3)
