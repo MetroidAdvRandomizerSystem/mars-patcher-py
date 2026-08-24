@@ -4,7 +4,7 @@ This is an open source randomizer patcher for Metroid Fusion and Metroid Zero Mi
 
 Here is a list of projects that use this library:
 - [Randovania](https://randovania.org/)
-- [An Archipelago APWorld](https://github.com/Rosalie-A/Archipelago/wiki/Metroid-Fusion-Setup-Guide)
+- [An Archipelago APWorld](https://github.com/StalledStorm/ArchipelagoMine/wiki/Metroid-Fusion-Setup-Guide)
 
 ## Developer Info
 Running from source:
