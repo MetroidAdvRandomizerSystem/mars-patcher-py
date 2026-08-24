@@ -473,6 +473,20 @@ class MarsschemamfPalettes(typ.TypedDict, total=False):
     """Randomly rotates hues in the positive or negative direction true."""
 
 
+@typ.final
+class MarsschemamfRng(typ.TypedDict):
+    """Properties for manipulating RNG-elements in the game. Specifying any value as 255 will cause that value to fallback to vanilla behaviour."""
+
+    Gadora: typ.Annotated[list[TypeU8], 'len() == 10'] = [255, 255, 255, 255, 255, 255, 255, 255, 255, 255]
+    """Specifies for each Gadora, how many Beams it will shoot before opening its vulnerable eye. The order is by their internal IDs: Arachnus, Charge Core, Zazabi, Serris, Varia Core, Wide Core, Nightmare, Ridley, Nettori, Yakuza."""
+
+    Zazabi: typ.Annotated[list[TypeU8], 'len() == 4'] = [255, 255, 255, 255]
+    """Specifies how many additional jumps Zazabi does in rounds 1 to 3, and how long it additionally crawls for in round 4. The final calculation the game uses is (CurrentRound-1)+ProvidedNumber for phrase 1-3, and 60+ProvidedNumber for phase 4."""
+
+    Yakuza: TypeU8 = 255
+    """Specifies how many additional rounds of crawling around Yakuza does in Phase 1 of its fight before opening its mouth. The final calculation the game uses is 1+ProvidedNumber."""
+
+
 class MarsschemamfNavigationTextNavigationTerminals(typ.TypedDict, total=False):
     """Assigns each navigation room a specific text."""
 
@@ -676,6 +690,9 @@ class Marsschemamf(typ.TypedDict, total=False):
 
     palettes: MarsschemamfPalettes = None
     """Properties for randomized in-game palettes."""
+
+    rng: MarsschemamfRng
+    """Properties for manipulating RNG-elements in the game. Specifying any value as 255 will cause that value to fallback to vanilla behaviour."""
 
     navigation_text: dict[ValidLanguages, MarsschemamfNavigationText] = None
     """Specifies text to be displayed at navigation rooms and the ship."""

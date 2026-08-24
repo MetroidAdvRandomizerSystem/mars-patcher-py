@@ -1,5 +1,5 @@
 import mars_patcher.constants.game_data as gd
-from mars_patcher.mf.auto_generated_types import MarsschemamfEnvironmentalDamage
+from mars_patcher.mf.auto_generated_types import MarsschemamfEnvironmentalDamage, MarsschemamfRng
 from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
 from mars_patcher.mf.data import get_data_path
 from mars_patcher.patching import BpsDecoder, IpsDecoder
@@ -98,6 +98,21 @@ def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentalD
     ]
     for offset, damage_amount in enumerate(damage):
         rom.write_8(base_address + offset, damage_amount)
+
+
+def apply_rng_values(rom: Rom, rng_dict: MarsschemamfRng) -> None:
+    def write_array(base_address: int, values: list[int]) -> None:
+        for index, value in enumerate(values):
+            rom.write_8(base_address + index, value)
+
+    gadora_address = rom.read_ptr(ReservedPointersMF.GADORA_BEAMS_TABLE_POINTER.value)
+    write_array(gadora_address, rng_dict["Gadora"])
+
+    zazabi_address = rom.read_ptr(ReservedPointersMF.ZAZABI_ADDITIONAL_DELAY_POINTER.value)
+    write_array(zazabi_address, rng_dict["Zazabi"])
+
+    yakuza_address = rom.read_ptr(ReservedPointersMF.YAKUZA_ROUNDS_POINTER.value)
+    rom.write_8(yakuza_address, rng_dict["Yakuza"])
 
 
 def apply_reveal_hidden_tiles(rom: Rom) -> None:
