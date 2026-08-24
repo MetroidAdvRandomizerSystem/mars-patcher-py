@@ -2,6 +2,7 @@
 
 ## Unreleased - 2026-??-??
 
+- Fixed: Typo in the description for changing the Zazabi RNG.
 - Fixed: Typo in the description for changing the Yakuza RNG.
 
 ## 0.16.0 - 2026-08-24

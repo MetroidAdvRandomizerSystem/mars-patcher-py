@@ -481,7 +481,7 @@ class MarsschemamfRng(typ.TypedDict):
     """Specifies for each Gadora, how many Beams it will shoot before opening its vulnerable eye. The order is by their internal IDs: Arachnus, Charge Core, Zazabi, Serris, Varia Core, Wide Core, Nightmare, Ridley, Nettori, Yakuza."""
 
     Zazabi: typ.Annotated[list[TypeU8], 'len() == 4'] = [255, 255, 255, 255]
-    """Specifies how many additional jumps Zazabi does in rounds 1 to 3, and how long it additionally crawls for in round 4. The final calculation the game uses is (CurrentRound-1)+ProvidedNumber for phrase 1-3, and 60+ProvidedNumber for phase 4."""
+    """Specifies how many additional jumps Zazabi does in rounds 1 to 3, and how long it additionally crawls for in round 4. The final calculation the game uses is (CurrentRound-1)+ProvidedNumber for phase 1-3, and 60+ProvidedNumber for phase 4."""
 
     Yakuza: TypeU8 = 255
     """Specifies how many additional rounds of sweeping around Yakuza does in Phase 1 of its fight before opening its mouth. The final calculation the game uses is 1+ProvidedNumber."""
