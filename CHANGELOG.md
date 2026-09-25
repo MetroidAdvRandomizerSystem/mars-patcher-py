@@ -2,6 +2,9 @@
 
 ## Unreleased - 2026-??-??
 
+## 0.16.1 - 2026-09-25
+
+- Updated ASM patches to [0.13.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.13.1)
 - Fixed: Typo in the description for changing the Zazabi RNG.
 - Fixed: Typo in the description for changing the Yakuza RNG.
 
