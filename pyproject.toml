@@ -12,7 +12,7 @@ authors = [
 ]
 description = "An open source randomizer patcher for Metroid Fusion."
 readme = "README.md"
-license = {file = "LICENSE"}
+license = "GPL-3.0-only"
 requires-python = ">=3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
