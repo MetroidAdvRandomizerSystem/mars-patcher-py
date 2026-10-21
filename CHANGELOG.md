@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.0 - 2026-10-21
+### Fusion
+- Added: The option to have the R-Button toggle between secondary and primary weapon selection.
+
 ## 0.17.0 - 2026-10-21
 ### Fusion
 - Updated ASM patches to [0.14.0](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.14.0)
@@ -88,7 +92,7 @@
 
 ## 0.12.0 - 2026-02-26
 ### General
-- Added: Music shuffling, this shuffles the tracks, not the assignment to a room.
+- Added: Music shuffling. This shuffles the tracks, not the assignment to a room.
 
 ### Fusion
 - Update ASM patches to [0.12.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.12.1)

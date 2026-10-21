@@ -611,6 +611,11 @@
             "description": "When true, changes the HUD health layout to display 'currentHP/totalHP'.",
             "default": false
         },
+        "use_toggle_for_secondary_weapon_selection": {
+            "type": "boolean",
+            "description": "When true, makes it so that pressing the R-Button toggles the secondary weapon selection instead of needing to hold it.",
+            "default": false
+        },
         "skip_door_transitions": {
             "type": "boolean",
             "description": "Makes all door transitions instant when true.",
