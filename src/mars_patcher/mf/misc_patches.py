@@ -86,6 +86,10 @@ def apply_alternative_health_layout(rom: Rom) -> None:
     rom.write_8(rom.read_ptr(ReservedPointersMF.USE_ALTERNATIVE_HUD_DISPLAY.value), 1)
 
 
+def apply_toggle_for_secondary_weapon_selection(rom: Rom) -> None:
+    rom.write_8(rom.read_ptr(ReservedPointersMF.USE_TOGGLE_FOR_SECONDARY_WEAPON_SELECTION.value), 1)
+
+
 def apply_environmental_damage(rom: Rom, damage_dict: MarsschemamfEnvironmentalDamage) -> None:
     base_address = rom.read_ptr(ReservedPointersMF.ENVIRONMENTAL_HAZARD_DAMAGE_ADDR.value)
     damage = [

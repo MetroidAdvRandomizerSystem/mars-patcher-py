@@ -718,6 +718,9 @@ class Marsschemamf(typ.TypedDict, total=False):
     use_alternative_hud_health_layout: bool = False
     """When true, changes the HUD health layout to display 'currentHP/totalHP'."""
 
+    use_toggle_for_secondary_weapon_selection: bool = False
+    """When true, makes it so that pressing the R-Button toggles the secondary weapon selection instead of needing to hold it."""
+
     skip_door_transitions: bool = False
     """Makes all door transitions instant when true."""
 

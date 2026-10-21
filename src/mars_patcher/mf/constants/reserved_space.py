@@ -47,6 +47,7 @@ class ReservedPointersMF(IntEnum):
     GADORA_BEAMS_TABLE_POINTER = auto()
     ZAZABI_ADDITIONAL_DELAY_POINTER = auto()
     YAKUZA_ROUNDS_POINTER = auto()
+    USE_TOGGLE_FOR_SECONDARY_WEAPON_SELECTION = auto()
 
     def __new__(cls, offset: int) -> Self:
         obj = int.__new__(cls)
