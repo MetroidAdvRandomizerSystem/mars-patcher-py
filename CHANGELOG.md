@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.1 - 2026-10-24
+### Fusion
+- Updated ASM patches to [0.14.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.14.1)
+
 ## 0.18.0 - 2026-10-21
 ### Fusion
 - Added: The option to have the R-Button toggle between secondary and primary weapon selection.
