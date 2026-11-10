@@ -23,25 +23,6 @@ MARS_CREDITS = [
     (LineType.WHITE_BIG, 4, "And contributions from others"),
 ]
 
-RDV_CREDITS = [
-    (LineType.WHITE_BIG, 2, "Randovania"),
-    (LineType.BLUE, 2, "INTEGRATION"),
-    (LineType.WHITE_BIG, 1, "JeffGainsNGames"),
-    (LineType.WHITE_BIG, 1, "Miepee"),
-    (LineType.WHITE_BIG, 1, "m4rkersm4sk"),
-    (LineType.WHITE_BIG, 3, "cluekitty"),
-    (LineType.BLUE, 2, "LOGIC DATABASE"),
-    (LineType.WHITE_BIG, 1, "cluekitty"),
-    (LineType.WHITE_BIG, 1, "HerculesBenchPress"),
-    (LineType.WHITE_BIG, 1, "HyperBola"),
-    (LineType.WHITE_BIG, 1, "JaggerG"),
-    (LineType.WHITE_BIG, 1, "JeffGainsNGames"),
-    (LineType.WHITE_BIG, 1, "Schwartz Ghandi"),
-    (LineType.WHITE_BIG, 1, "m4rkersm4sk"),
-    (LineType.WHITE_BIG, 1, "Miepee"),
-    (LineType.WHITE_BIG, 3, "Sharky"),
-]
-
 # Shortened from 462 lines to 308 lines
 FUSION_STAFF_LINES = [
     (LineType.WHITE_BIG, 4, "ORIGINAL FUSION STAFF"),

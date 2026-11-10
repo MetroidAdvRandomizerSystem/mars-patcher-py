@@ -3,7 +3,6 @@ from mars_patcher.rom import Rom
 from mars_patcher.zm.auto_generated_types import MarsschemazmCreditsTextItem
 from mars_patcher.zm.constants.credits_lines import (
     MARS_CREDITS,
-    RDV_CREDITS,
     ZM_STAFF_LINES,
 )
 from mars_patcher.zm.constants.reserved_space import ReservedPointersZM
@@ -14,10 +13,6 @@ def write_credits(rom: Rom, data: list[MarsschemazmCreditsTextItem]) -> None:
 
     # Write MARS credits
     lines = [CreditsLine(*line) for line in MARS_CREDITS]
-    writer.write_lines(lines)
-
-    # Write RDV credits
-    lines = [CreditsLine(*line) for line in RDV_CREDITS]
     writer.write_lines(lines)
 
     # Write custom credits

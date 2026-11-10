@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased - 2026-??-??
+### Fusion
+- Removed: Randovania Credits.
+
+### Zero Mission
+- Removed: Work-In-Progress Randovania Credits.
+
 ## 0.18.1 - 2026-10-24
 ### Fusion
 - Updated ASM patches to [0.14.1](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.14.1)

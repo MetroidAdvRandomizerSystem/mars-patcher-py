@@ -20,16 +20,6 @@ MARS_CREDITS = [
     (LineType.WHITE_BIG, 4, "And contributions from others"),
 ]
 
-RDV_CREDITS = [
-    (LineType.WHITE_BIG, 2, "Randovania"),
-    (LineType.BLUE, 2, "INTEGRATION"),
-    (LineType.WHITE_BIG, 1, "JeffGainsNGames"),
-    (LineType.WHITE_BIG, 3, "<person 2>"),
-    (LineType.BLUE, 2, "LOGIC DATABASE"),
-    (LineType.WHITE_BIG, 1, "<person 1>"),
-    (LineType.WHITE_BIG, 3, "<person 2>"),
-]
-
 # Shortened from 347 lines to 201 lines
 ZM_STAFF_LINES = [
     (LineType.WHITE_BIG, 4, "ORIGINAL ZERO MISSION STAFF"),
