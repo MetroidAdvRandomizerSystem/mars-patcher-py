@@ -196,11 +196,11 @@ def encode_text(
             escaped = False
 
         if char not in char_map:
+            placeholder = "?"
             logging.warning(
                 f"Game does not know how to draw character '{char}' from the text '{string}'. "
-                f"Using a placeholder instead."
+                f"Using '{placeholder}' as a placeholder instead."
             )
-            placeholder = "?"
             char_val = char_map[placeholder]
         else:
             char_val = char_map[char]
