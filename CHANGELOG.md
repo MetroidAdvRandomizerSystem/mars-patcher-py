@@ -2,6 +2,7 @@
 
 ## Unreleased - 2026-??-??
 
+- Fixed: The way resources necessary for the patcher are read, allowing it to work in environments where the whole package is not present as seperate files on disk.
 - Changed: When writing text with characters that the games don't support, it will now write a placeholder character instead while giving you a wanring.
 
 ### Fusion

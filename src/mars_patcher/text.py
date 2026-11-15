@@ -6,10 +6,10 @@ from functools import cache
 from mars_patcher.constants.game_data import character_widths
 from mars_patcher.convert_array import u16_to_u8
 from mars_patcher.mf.constants.game_data import file_screen_text_ptrs
-from mars_patcher.mf.data import get_data_path as get_data_path_mf
+from mars_patcher.mf.data_resources import get_data_resource as get_data_path_mf
 from mars_patcher.rom import Game, Rom
 from mars_patcher.zm.constants.game_data import seed_hash_addr
-from mars_patcher.zm.data import get_data_path as get_data_path_zm
+from mars_patcher.zm.data_resources import get_data_resource as get_data_path_zm
 
 SPACE_CHAR = 0x40
 SPACE_TAG = 0x8000
@@ -76,7 +76,7 @@ def get_char_map(rom: Rom) -> dict[str, int]:
         path = get_data_path_zm("char_map_zm.json")
     else:
         raise ValueError(rom.game)
-    with open(path, encoding="utf-8") as f:
+    with path.open(encoding="utf-8") as f:
         sections = json.load(f)
     char_map: dict[str, int] = {}
     for section in sections:

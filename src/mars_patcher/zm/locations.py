@@ -17,7 +17,7 @@ from mars_patcher.zm.constants.items import (
     ItemType,
     MajorSource,
 )
-from mars_patcher.zm.data import get_data_path
+from mars_patcher.zm.data_resources import get_data_resource
 
 MarsSchemaZmLocation: TypeAlias = (
     MarsschemazmLocationsMajorLocationsItem | MarsschemazmLocationsMinorLocationsItem
@@ -121,7 +121,7 @@ class LocationSettings:
 
     @classmethod
     def initialize(cls) -> Self:
-        with open(get_data_path("locations.json")) as f:
+        with get_data_resource("locations.json").open() as f:
             data = json.load(f)
 
         major_locs = []
