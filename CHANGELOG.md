@@ -1,6 +1,9 @@
 # Changelog
 
 ## Unreleased - 2026-??-??
+
+- Changed: When writing text with characters that the games don't support, it will now write a placeholder character instead while giving you a wanring.
+
 ### Fusion
 - Removed: Randovania Credits.
 
