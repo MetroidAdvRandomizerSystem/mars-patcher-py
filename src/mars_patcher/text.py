@@ -1,4 +1,5 @@
 import json
+import logging
 from enum import Enum
 from functools import cache
 
@@ -194,7 +195,15 @@ def encode_text(
         else:
             escaped = False
 
-        char_val = char_map[char]
+        if char not in char_map:
+            placeholder = "?"
+            logging.warning(
+                f"Game does not know how to draw character '{char}' from the text '{string}'. "
+                f"Using '{placeholder}' as a placeholder instead."
+            )
+            char_val = char_map[placeholder]
+        else:
+            char_val = char_map[char]
         char_width = get_char_width(rom, char_widths_addr, char_val)
         line_width += char_width
         width_since_break += char_width
@@ -275,6 +284,9 @@ def write_seed_hash(rom: Rom, seed_hash: str) -> None:
             # Overwrite with seed hash
             string = (" " * pad_left) + seed_hash + (" " * pad_right)
             for i, c in enumerate(string):
+                if c not in char_map:
+                    # Should only happen if the patcher data isn't validated / schema is wrong.
+                    raise ValueError(f"Invalid Character '{c}' for title screen seed hash!")
                 rom.write_16(addr + i * 2, char_map[c])
     elif rom.is_zm():
         encoded_text = encode_text(rom, MessageType.ONE_LINE, seed_hash, 8 * 12, True)
