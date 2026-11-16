@@ -1,7 +1,8 @@
 from importlib import resources
 from importlib.resources.abc import Traversable
 
+import mars_patcher.zm as zm_module
+
 
 def get_data_resource(*path: str) -> Traversable:
-    # Maybe use module instead of hardcoded package path?
-    return resources.files("mars_patcher.zm.data").joinpath(*path)
+    return resources.files(zm_module).joinpath("data", *path)
