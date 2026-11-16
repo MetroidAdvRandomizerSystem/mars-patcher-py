@@ -6,7 +6,7 @@ from mars_patcher.level_edits import apply_level_edits
 from mars_patcher.mf.auto_generated_types import MarsSchemaMF
 from mars_patcher.mf.connections import Connections
 from mars_patcher.mf.credits import write_credits
-from mars_patcher.mf.data import get_data_path
+from mars_patcher.mf.data_resources import get_data_resource
 from mars_patcher.mf.door_locks import set_door_locks
 from mars_patcher.mf.item_patcher import (
     ItemPatcher,
@@ -187,7 +187,7 @@ def patch_mf(
         apply_level_edits(rom, patch_data["level_edits"])
 
     # Apply base minimap edits
-    with open(get_data_path("base_minimap_edits.json")) as f:
+    with get_data_resource("base_minimap_edits.json").open() as f:
         edits_dict = json.load(f)
     apply_minimap_edits(rom, edits_dict)
 

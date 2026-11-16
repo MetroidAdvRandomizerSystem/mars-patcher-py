@@ -1,19 +1,21 @@
+from importlib.resources.abc import Traversable
+
 import mars_patcher.constants.game_data as gd
 from mars_patcher.mf.auto_generated_types import MarsschemamfEnvironmentalDamage, MarsschemamfRng
 from mars_patcher.mf.constants.reserved_space import ReservedPointersMF
-from mars_patcher.mf.data import get_data_path
+from mars_patcher.mf.data_resources import get_data_resource
 from mars_patcher.patching import BpsDecoder, IpsDecoder
 from mars_patcher.rom import Rom
 
 
-def _get_patch_path(rom: Rom, subfolder: str, filename: str) -> str:
+def _get_patch_path(rom: Rom, subfolder: str, filename: str) -> Traversable:
     dir = f"{rom.game.name}_{rom.region.name}".lower()
-    return get_data_path("patches", dir, subfolder, filename)
+    return get_data_resource("patches", dir, subfolder, filename)
 
 
 def _internal_apply_ips_patch(rom: Rom, patch_name: str, subfolder: str) -> None:
     path = _get_patch_path(rom, subfolder, patch_name)
-    with open(path, "rb") as f:
+    with path.open("rb") as f:
         patch = f.read()
     IpsDecoder().apply_patch(patch, rom.data)
 
@@ -28,7 +30,7 @@ def apply_patch_in_asm_path(rom: Rom, patch_name: str) -> None:
 
 def apply_base_patch(rom: Rom) -> None:
     path = _get_patch_path(rom, "asm", "m4rs.bps")
-    with open(path, "rb") as f:
+    with path.open("rb") as f:
         patch = f.read()
     rom.data = BpsDecoder().apply_patch(patch, rom.data)
 

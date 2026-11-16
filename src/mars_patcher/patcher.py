@@ -5,8 +5,8 @@ from os import PathLike
 
 from jsonschema import validate
 
-import mars_patcher.mf.data as data_mf
-import mars_patcher.zm.data as data_zm
+import mars_patcher.mf.data_resources as data_mf
+import mars_patcher.zm.data_resources as data_zm
 from mars_patcher.mf.auto_generated_types import MarsSchemaMF
 from mars_patcher.mf.patcher import patch_mf
 from mars_patcher.rom import Rom
@@ -21,7 +21,7 @@ def validate_patch_data_mf(patch_data: dict) -> MarsSchemaMF:
     Raises:
         ValidationError: If the patch data does not satisfy the schema.
     """
-    with open(data_mf.get_data_path("schema.json")) as f:
+    with data_mf.get_data_resource("schema.json").open() as f:
         schema = json.load(f)
     validate(patch_data, schema)
     return typing.cast("MarsSchemaMF", patch_data)
@@ -34,7 +34,7 @@ def validate_patch_data_zm(patch_data: dict) -> MarsSchemaZM:
     Raises:
         ValidationError: If the patch data does not satisfy the schema.
     """
-    with open(data_zm.get_data_path("schema.json")) as f:
+    with data_zm.get_data_resource("schema.json").open() as f:
         schema = json.load(f)
     validate(patch_data, schema)
     return typing.cast("MarsSchemaZM", patch_data)

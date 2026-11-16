@@ -1,6 +1,6 @@
 from enum import IntEnum, auto
 
-from mars_patcher.zm.data import get_data_path
+from mars_patcher.zm.data_resources import get_data_resource
 
 
 # The order here should be kept in sync with ItemSource in constants/randomizer.h
@@ -166,8 +166,8 @@ GRAPHICS_NAMES = {
 
 def get_sprite_graphics(sprite: ItemSprite) -> bytes:
     name = GRAPHICS_NAMES[sprite] + ".gfx"
-    path = get_data_path("item_graphics", name)
-    with open(path, "rb") as f:
+    path = get_data_resource("item_graphics", name)
+    with path.open("rb") as f:
         return f.read()
 
 
@@ -208,8 +208,8 @@ PALETTE_NAMES = {
 
 def get_sprite_palette(sprite: ItemSprite) -> bytes:
     name = PALETTE_NAMES[sprite] + ".pal"
-    path = get_data_path("item_palettes", name)
-    with open(path, "rb") as f:
+    path = get_data_resource("item_palettes", name)
+    with path.open("rb") as f:
         return f.read()
 
 

@@ -23,7 +23,7 @@ from mars_patcher.mf.constants.items import (
     ItemType,
     MajorSource,
 )
-from mars_patcher.mf.data import get_data_path
+from mars_patcher.mf.data_resources import get_data_resource
 
 
 class Location:
@@ -91,7 +91,7 @@ class LocationSettings:
 
     @classmethod
     def initialize(cls) -> Self:
-        with open(get_data_path("locations.json")) as f:
+        with get_data_resource("locations.json").open() as f:
             data = json.load(f)
 
         major_locs = []

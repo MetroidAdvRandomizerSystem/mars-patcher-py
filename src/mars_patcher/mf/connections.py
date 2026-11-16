@@ -20,7 +20,7 @@ from mars_patcher.mf.constants.main_hub_numbers import (
     MAIN_HUB_SMALL_NUM_BLOCK,
     MAIN_HUB_TILEMAP_ADDR,
 )
-from mars_patcher.mf.data import get_data_path
+from mars_patcher.mf.data_resources import get_data_resource
 from mars_patcher.rom import Game, Rom
 from mars_patcher.room_entry import BlockLayer, RoomEntry
 from mars_patcher.tilemap import Tilemap
@@ -195,12 +195,12 @@ class Connections:
                     break
 
         # Write new graphics and tilemap
-        path = get_data_path("main_hub.gfx.lz")
-        with open(path, "rb") as f:
+        path = get_data_resource("main_hub.gfx.lz")
+        with path.open("rb") as f:
             gfx = f.read()
         self.rom.write_bytes(MAIN_HUB_GFX_ADDR, gfx)
-        path = get_data_path("main_hub_tilemap.bin")
-        with open(path, "rb") as f:
+        path = get_data_resource("main_hub_tilemap.bin")
+        with path.open("rb") as f:
             tilemap = f.read()
         self.rom.write_bytes(MAIN_HUB_TILEMAP_ADDR + 2, tilemap)
 
