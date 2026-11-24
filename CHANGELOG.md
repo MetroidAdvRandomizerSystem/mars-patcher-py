@@ -1,11 +1,14 @@
 # Changelog
 
-## Unreleased - 2026-??-??
+## Unreleased - 2026-12-??
+
+## 0.19.0 - 2026-11-24
 
 - Fixed: The way resources necessary for the patcher are read, allowing it to work in environments where the whole package is not present as seperate files on disk.
 - Changed: When writing text with characters that the games don't support, it will now write a placeholder character instead while giving you a warning.
 
 ### Fusion
+- Updated ASM patches to [0.14.2](https://github.com/MetroidAdvRandomizerSystem/mars-fusion-asm/releases/tag/0.14.2)
 - Removed: Randovania Credits.
 
 ### Zero Mission
